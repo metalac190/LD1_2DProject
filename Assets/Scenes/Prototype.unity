@@ -511,7 +511,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 10
-  _jumpForce: 20
+  _jumpHeight: 10
+  _gravity: -9.86
   _rb: {fileID: 923647424}
   _feetLocation: {fileID: 1797657601}
   _groundLayers:
