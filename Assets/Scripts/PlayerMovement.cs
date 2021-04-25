@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     bool _isRunning = false;
     bool _isGrounded = false;
     float _moveX;
+    // recompile
 
     public bool IsRunning => _isRunning;
     public bool IsGrounded => _isGrounded;
