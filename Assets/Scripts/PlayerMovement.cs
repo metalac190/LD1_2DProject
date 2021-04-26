@@ -11,6 +11,7 @@ using System;
 
 public class PlayerMovement : MonoBehaviour
 {
+    /*
     [Header("Movement")]
     [SerializeField] float _moveSpeed = 10;
     [SerializeField] float _jumpHeight = 10f;
@@ -82,13 +83,15 @@ public class PlayerMovement : MonoBehaviour
         _rb.velocity = newMovement;
 
         
-        /*
-        _rb.velocity = new Vector3(_rb.velocity.x, 0, _rb.velocity.x);
-        _rb.AddForce(Vector3.up * Mathf.Sqrt(_doubleJumpForce * -2f
-            * Physics.gravity.y), ForceMode.VelocityChange);
-        */
-    }
 
+    }
+    */
+    /*
+_rb.velocity = new Vector3(_rb.velocity.x, 0, _rb.velocity.x);
+_rb.AddForce(Vector3.up * Mathf.Sqrt(_doubleJumpForce * -2f
+    * Physics.gravity.y), ForceMode.VelocityChange);
+*/
+    /*
     private void FixedUpdate()
     {
         Vector2 newMovement = new Vector2(_moveX, _rb.velocity.y);
@@ -118,4 +121,5 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(-1, 1, 1);
         }
     }
+    */
 }
