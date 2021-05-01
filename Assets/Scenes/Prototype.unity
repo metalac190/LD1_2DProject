@@ -25860,7 +25860,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 5
+  m_GravityScale: 6
   m_Material: {fileID: 6200000, guid: 04201f0cfd9fdb74684eee1c56002107, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -25909,14 +25909,23 @@ MonoBehaviour:
   _whatIsGround:
     serializedVersion: 2
     m_Bits: 256
-  _jumpForce: 16
+  _jumpForce: 25
   _amountOfJumps: 1
   _groundCheck: {fileID: 1797657601}
   _groundCheckRadius: 0.4
   _airMoveForce: 10
-  _wallCheckDistance: 0.6
+  _airDragMultiplier: 0.95
+  _variableJumpHeightMultiplier: 0.5
+  _jumpTimerSet: 0.15
+  _wallCheckDistance: 0.65
   _wallCheck: {fileID: 890458980}
-  _isWallSlideSpeed: 1
+  _wallSlideSpeed: 1
+  _turnTimerSet: 0.1
+  _wallJumpTimerSet: 0.5
+  _wallHopDirection: {x: 1, y: 0.5}
+  _wallJumpDirection: {x: 1, y: 1.5}
+  _wallHopForce: 10
+  _wallJumpForce: 30
 --- !u!95 &923647427
 Animator:
   serializedVersion: 3
