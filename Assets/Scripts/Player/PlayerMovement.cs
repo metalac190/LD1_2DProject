@@ -238,7 +238,7 @@ public class PlayerMovement : MonoBehaviour
             Flip();
         }
         // determine if we're walking
-        if(_rb.velocity.x != 0)
+        if(Mathf.Abs(_rb.velocity.x) >= 0.01f)
         {
             _isWalking = true;
         }
@@ -380,6 +380,16 @@ public class PlayerMovement : MonoBehaviour
                 _rb.velocity = new Vector2(_rb.velocity.x, -_wallSlideSpeed);
             }
         }
+    }
+
+    public void DisableFlip()
+    {
+        _canFlip = false;
+    }
+
+    public void EnableFlip()
+    {
+        _canFlip = true;
     }
 
     private void Flip()
