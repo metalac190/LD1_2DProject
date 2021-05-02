@@ -28,6 +28,7 @@ public class PlayerAfterImage : MonoBehaviour
         _playerSpriteRenderer = _player.SpriteRenderer;
         _playerSpriteTransform = _playerSpriteRenderer.transform;
         _playerColor = _playerSpriteRenderer.color;
+        transform.localScale = _playerSpriteTransform.localScale;
         // start new sprite sequence
         _alpha = _alphaSet;
         _spriteRenderer.sprite = _playerSpriteRenderer.sprite;

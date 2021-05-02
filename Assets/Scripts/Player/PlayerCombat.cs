@@ -5,22 +5,23 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
     [Header("Attack 01")]
+    [SerializeField]
+    private Animator _animator;
+    [SerializeField]
+    private Transform _attack01HitBoxLocation;
+    [SerializeField]
+    private GameObject _attack01Visual;
+
     [SerializeField] 
     private bool _combatEnabled = true;
     [SerializeField] 
     private float _inputTimer = .1f;  // how much buffer will we allow input
     [SerializeField]
-    private float _attack01Radius;
+    private float _attack01HitBoxScale = 2;
     [SerializeField]
-    private int _attack01Damage;
+    private int _attack01Damage = 5;
     [SerializeField]
-    private Animator _animator;
-    [SerializeField]
-    private Transform _attack01HitBox;
-    [SerializeField]
-    private float _attack01Duration;
-    [SerializeField]
-    private GameObject _attack01Visual;
+    private float _attack01Duration = .2f;
 
     private bool _canAttack = true;
     private bool _receivedInput;
@@ -66,7 +67,8 @@ public class PlayerCombat : MonoBehaviour
             if (!_isAttacking)
             {
                 Debug.Log("Attack!");
-
+                CheckAttackHitBox();
+                // set new state
                 _receivedInput = false;
                 _isAttacking = true;
                 // alternate attack visuals
@@ -90,11 +92,12 @@ public class PlayerCombat : MonoBehaviour
 
     private void CheckAttackHitBox()
     {
-        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll
-            (_attack01HitBox.position, _attack01Radius);
+        Collider2D[] detectedObjects = Physics2D.OverlapBoxAll
+            (_attack01HitBoxLocation.position, new Vector2(_attack01HitBoxScale, _attack01HitBoxScale), 0);
         foreach(Collider2D collider in detectedObjects)
         {
-            collider.GetComponent<Health>()?.TakeDamage(_attack01Damage);
+            collider.GetComponent<Health>()?.TakeDamage
+                (this.transform, _attack01Damage);
             // instantiate hit particle
         }
     }
@@ -111,6 +114,7 @@ public class PlayerCombat : MonoBehaviour
         
         //TODO just use player sprite if desired, this is optional
         _attack01Visual.SetActive(true);
+        
 
         yield return new WaitForSeconds(duration);
 
@@ -121,6 +125,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(_attack01HitBox.position, _attack01Radius);
+        Gizmos.DrawWireCube(_attack01HitBoxLocation.position, 
+            new Vector2(_attack01HitBoxScale, _attack01HitBoxScale));
     }
 }
