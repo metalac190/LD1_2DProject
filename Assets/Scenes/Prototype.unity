@@ -25907,6 +25907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementSpeed: 10
   _animator: {fileID: 923647427}
+  _spriteRenderer: {fileID: 142098362}
   _whatIsGround:
     serializedVersion: 2
     m_Bits: 256
@@ -25933,6 +25934,11 @@ MonoBehaviour:
   _ledgeClimbXOffset2: 0.5
   _ledgeClimbYOffset2: 1.2
   _ledgeClimbDuration: 0.2
+  _dashTime: 0.15
+  _dashSpeed: 50
+  _distanceBetweenImages: 0.1
+  _dashCooldown: 0.5
+  _dashFallAmount: 0
 --- !u!95 &923647427
 Animator:
   serializedVersion: 3
@@ -26148,6 +26154,51 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1636585655
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1636585657}
+  - component: {fileID: 1636585656}
+  m_Layer: 0
+  m_Name: PlayerAfterImagePool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1636585656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636585655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 269e5d837972bf8468c6cfb7dbd65adf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _afterImagePrefab: {fileID: 7316423373781554099, guid: 78615ce28f1a745419c5a845fdd624ca, type: 3}
+  _poolStartSize: 10
+--- !u!4 &1636585657
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636585655}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.0704308, y: 4.2591276, z: -1.1138066}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1797657600
 GameObject:
   m_ObjectHideFlags: 0

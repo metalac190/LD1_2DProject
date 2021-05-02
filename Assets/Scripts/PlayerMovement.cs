@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float _movementSpeed = 10f;
     [SerializeField] private Animator _animator;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private LayerMask _whatIsGround;
 
     [Header("Jumping")]
@@ -40,12 +41,20 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _wallJumpForce = 1;
 
     [Header("Ledge Grab")]
-    [SerializeField] Transform _ledgeCheck;
-    [SerializeField] float _ledgeClimbXOffset1 = 0.3f;
-    [SerializeField] float _ledgeClimbYOffset1 = 0;
-    [SerializeField] float _ledgeClimbXOffset2 = .5f;
-    [SerializeField] float _ledgeClimbYOffset2 = 2;
-    [SerializeField] float _ledgeClimbDuration = .5f;
+    [SerializeField] private Transform _ledgeCheck;
+    [SerializeField] private float _ledgeClimbXOffset1 = 0.3f;
+    [SerializeField] private float _ledgeClimbYOffset1 = 0;
+    [SerializeField] private float _ledgeClimbXOffset2 = .5f;
+    [SerializeField] private float _ledgeClimbYOffset2 = 2;
+    [SerializeField] private float _ledgeClimbDuration = .5f;
+
+    [Header("Dashing")]
+    [SerializeField] private float _dashTime = .2f;
+    [SerializeField] private float _dashSpeed = 50;
+    [SerializeField] private float _distanceBetweenImages = .1f;
+    [SerializeField] private float _dashCooldown = 2;
+    [Range(0,1)][Tooltip("1 is normal fall, 0 is NO falling")]
+    [SerializeField] private float _dashFallAmount = 1;
 
     private int _remainingJumps = 0;
     private int _facingDirection = 1;
@@ -55,6 +64,9 @@ public class PlayerMovement : MonoBehaviour
     private float _jumpTimer = 0;
     private float _turnTimer = 0;
     private float _wallJumpTimer = 0;
+    private float _dashTimeLeft;
+    private float _lastImageXPos;
+    private float _lastDash = -100;     // default allows us to dash when game starts
 
     private bool _isFacingRight = true;
     private bool _isWalking = false;
@@ -71,6 +83,7 @@ public class PlayerMovement : MonoBehaviour
     private bool _isTouchingLedge = false;
     private bool _canClimbLedge = false;
     private bool _ledgeDetected = false;
+    private bool _isDashing = false;
 
     private Vector2 _ledgePosBottom;
     private Vector2 _ledgePosStart;
@@ -79,6 +92,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rb;
     private Collider2D _collider;
     private Coroutine _ledgeClimbRoutine;
+
+    public SpriteRenderer SpriteRenderer => _spriteRenderer;
 
     private void Awake()
     {
@@ -99,6 +114,7 @@ public class PlayerMovement : MonoBehaviour
         CheckIfWallSliding();
         CheckJump();
         CheckLedgeClimb();
+        CheckDash();
     }
 
     private void FixedUpdate()
@@ -285,12 +301,65 @@ public class PlayerMovement : MonoBehaviour
             _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y 
                 * _variableJumpHeightMultiplier);
         }
+
+        // check dash
+        if (Input.GetButtonDown("Fire2"))
+        {
+            // if our cooldown has passed
+            if(Time.time >= (_lastDash + _dashCooldown))
+            {
+                AttemptToDash();
+            }
+        }
+    }
+
+    private void AttemptToDash()
+    {
+        // start a new dash
+        _isDashing = true;
+        _dashTimeLeft = _dashTime;
+        _lastDash = Time.time;
+        // start after images
+        PlayerAfterImagePool.Instance.GetFromPool();
+        _lastImageXPos = transform.position.x;
+    }
+
+    private void CheckDash()
+    {
+        if (_isDashing)
+        {
+            // if there's still dash time left
+            if(_dashTimeLeft > 0)
+            {
+                // adjust dashing movement
+                _canMove = false;
+                _canFlip = false;
+                _rb.velocity = new Vector2(_dashSpeed * _facingDirection, _rb.velocity.y * _dashFallAmount);
+                _dashTimeLeft -= Time.deltaTime;
+                // if enough time has passed, place another after image
+                if (Mathf.Abs(transform.position.x - _lastImageXPos) > _distanceBetweenImages)
+                {
+                    PlayerAfterImagePool.Instance.GetFromPool();
+                    _lastImageXPos = transform.position.x;
+                }
+            }
+            // if we're out of time, or we hit a wall, cancel dash
+            if(_dashTimeLeft <= 0 || _isTouchingWall)
+            {
+                // reset to normal max speed
+                _rb.velocity = new Vector2(_movementSpeed * _movementInputDirection, _rb.velocity.y);
+                // reset state
+                _isDashing = false;
+                _canMove = true;
+                _canFlip = true;
+            }
+        }
     }
 
     private void ApplyMovement()
     {
         // we're freefalling and there's not input
-        if (!_isGrounded && !_isWallSliding && _movementInputDirection == 0)
+        if (!_isGrounded && !_isWallSliding && _movementInputDirection == 0 && !_isDashing)
         {
             _rb.velocity = new Vector2
                 (_rb.velocity.x * _airDragMultiplier, _rb.velocity.y);
