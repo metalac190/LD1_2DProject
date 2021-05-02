@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _variableJumpHeightMultiplier = 0.5f;
     [SerializeField] private float _jumpTimerSet = 0.15f;
 
-    [Header("WallSlide")]
+    [Header("Wall Slide")]
     [Tooltip("Distance from wallCheck object to cast wall check ray")]
     [SerializeField] private float _wallCheckDistance = .65f;
     [Tooltip("Object to start casting wall check raycast")]
@@ -33,17 +33,25 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _wallSlideSpeed = 1;
     [Tooltip("Duration allowed for switching direction while wall jumping")]
     [SerializeField] private float _turnTimerSet = 0.2f;
-    
     [SerializeField] private float _wallJumpTimerSet = 0.5f;
     [SerializeField] private Vector2 _wallHopDirection = new Vector2(1,0.5f);
     [SerializeField] private Vector2 _wallJumpDirection = new Vector2(1,2);
     [SerializeField] private float _wallHopForce = 1;
     [SerializeField] private float _wallJumpForce = 1;
 
+    [Header("Ledge Grab")]
+    [SerializeField] Transform _ledgeCheck;
+    [SerializeField] float _ledgeClimbXOffset1 = 0.3f;
+    [SerializeField] float _ledgeClimbYOffset1 = 0;
+    [SerializeField] float _ledgeClimbXOffset2 = .5f;
+    [SerializeField] float _ledgeClimbYOffset2 = 2;
+    [SerializeField] float _ledgeClimbDuration = .5f;
+
     private int _remainingJumps = 0;
     private int _facingDirection = 1;
     private int _lastWallJumpDirection = 0;
 
+    private float _movementInputDirection;
     private float _jumpTimer = 0;
     private float _turnTimer = 0;
     private float _wallJumpTimer = 0;
@@ -60,13 +68,22 @@ public class PlayerMovement : MonoBehaviour
     private bool _canMove = false;
     private bool _canFlip = false;
     private bool _hasWallJumped = false;
+    private bool _isTouchingLedge = false;
+    private bool _canClimbLedge = false;
+    private bool _ledgeDetected = false;
 
-    private float _movementInputDirection;
+    private Vector2 _ledgePosBottom;
+    private Vector2 _ledgePosStart;
+    private Vector2 _ledgePosTarget;
+
     private Rigidbody2D _rb;
+    private Collider2D _collider;
+    private Coroutine _ledgeClimbRoutine;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _collider = GetComponent<Collider2D>();
         // initialize
         _remainingJumps = _amountOfJumps;
         _wallHopDirection.Normalize();
@@ -81,6 +98,7 @@ public class PlayerMovement : MonoBehaviour
         CheckIfCanJump();
         CheckIfWallSliding();
         CheckJump();
+        CheckLedgeClimb();
     }
 
     private void FixedUpdate()
@@ -91,13 +109,52 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckIfWallSliding()
     {
-        if(_isTouchingWall && _movementInputDirection == _facingDirection && _rb.velocity.y < 0)
+        // if we're touching a wall and not near a ledge, wall slide
+        if(_isTouchingWall && _movementInputDirection == _facingDirection && _rb.velocity.y < 0
+            && !_canClimbLedge)
         {
             _isWallSliding = true;
         }
         else
         {
             _isWallSliding = false;
+        }
+    }
+
+    private void CheckLedgeClimb()
+    {
+        // detect the first time we can climb a ledge and flag the climb state change
+        if(_ledgeDetected && !_canClimbLedge)
+        {
+            _canClimbLedge = true;
+            // calculate ledge positions
+            if (_isFacingRight)
+            {
+                _ledgePosStart = new Vector2(Mathf.Floor(_ledgePosBottom.x + _wallCheckDistance) - _ledgeClimbXOffset1,
+                    Mathf.Floor(_ledgePosBottom.y) + _ledgeClimbYOffset1);
+                _ledgePosTarget = new Vector2(Mathf.Floor(_ledgePosBottom.x + _wallCheckDistance) + _ledgeClimbXOffset2,
+                    Mathf.Floor(_ledgePosBottom.y) + _ledgeClimbYOffset2);
+            }
+            // if it's on the left, reverse the calculation
+            else
+            {
+                _ledgePosStart = new Vector2(Mathf.Ceil(_ledgePosBottom.x - _wallCheckDistance) + _ledgeClimbXOffset1,
+                    Mathf.Floor(_ledgePosBottom.y) + _ledgeClimbYOffset1);
+                _ledgePosTarget = new Vector2(Mathf.Ceil(_ledgePosBottom.x - _wallCheckDistance) - _ledgeClimbXOffset2,
+                    Mathf.Floor(_ledgePosBottom.y) + _ledgeClimbYOffset2);
+            }
+            // remove control of the character while we're climbing
+            _canMove = false;
+            _canFlip = false;
+            // tell animator
+            _animator.SetBool("CanClimbLedge", _canClimbLedge);
+            _ledgeClimbRoutine = StartCoroutine(LedgeClimbRoutine(_ledgeClimbDuration));
+        }
+
+        // if climbing, hold position
+        if (_canClimbLedge)
+        {
+            _rb.position = _ledgePosStart;
         }
     }
 
@@ -123,12 +180,34 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void FinishLedgeClimb()
+    {
+        _canClimbLedge = false;
+        _rb.position = _ledgePosTarget;
+        // return control to the player
+        _canMove = true;
+        _canFlip = true;
+        // allow new ledges to be detected
+        _ledgeDetected = false;
+        // tell animator
+        _animator.SetBool("CanClimbLedge", _canClimbLedge);
+    }
+
     private void CheckSurroundings()
     {
         _isGrounded = Physics2D.OverlapCircle(_groundCheck.position, 
             _groundCheckRadius, _whatIsGround);
         _isTouchingWall = Physics2D.Raycast
             (_wallCheck.position, transform.right, _wallCheckDistance, _whatIsGround);
+        _isTouchingLedge = Physics2D.Raycast
+            (_ledgeCheck.position, transform.right, _wallCheckDistance, _whatIsGround);
+
+        // only detect ledge once
+        if(_isTouchingWall && !_isTouchingLedge && !_ledgeDetected)
+        {
+            _ledgeDetected = true;
+            _ledgePosBottom = _wallCheck.position;
+        }
     }
 
     private void CheckMovementDirection()
@@ -189,8 +268,8 @@ public class PlayerMovement : MonoBehaviour
                 _turnTimer = _turnTimerSet;
             }
         }
-
-        if (!_canMove)
+        // lock movement until our turn timer expires
+        if (_turnTimer >= 0)
         {
             _turnTimer -= Time.deltaTime;
             if(_turnTimer <= 0)
@@ -330,5 +409,24 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawLine(_wallCheck.position, new Vector3
             (_wallCheck.position.x + _wallCheckDistance,
             _wallCheck.position.y, _wallCheck.position.z));
+        Gizmos.DrawLine(_ledgeCheck.position, new Vector3
+            (_ledgeCheck.position.x + _wallCheckDistance,
+            _ledgeCheck.position.y, _ledgeCheck.position.z));
+        Gizmos.DrawLine(_ledgePosStart, _ledgePosTarget);
+    }
+
+    IEnumerator LedgeClimbRoutine(float duration)
+    {
+        _collider.enabled = false;
+        // animate from start to end position
+        for (float elapsedTime = 0; elapsedTime < duration; elapsedTime += Time.deltaTime)
+        {
+            _rb.position = Vector2.Lerp(_ledgePosStart, _ledgePosTarget, elapsedTime / duration);
+            yield return null;
+        }
+        _rb.position = _ledgePosTarget;
+        _collider.enabled = true;
+
+        FinishLedgeClimb();
     }
 }
