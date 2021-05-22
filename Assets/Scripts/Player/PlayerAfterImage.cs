@@ -9,7 +9,8 @@ public class PlayerAfterImage : MonoBehaviour
 
     private float _timeActivated;
     private float _alpha;
-    private float _alphaMultiplier = 0.85f;
+    [SerializeField]
+    private float _alphaDecay = 10f;
 
     private PlayerMovement _player;
     private Transform _playerSpriteTransform;
@@ -44,7 +45,7 @@ public class PlayerAfterImage : MonoBehaviour
 
     private void ProgressAnimation()
     {
-        _alpha *= _alphaMultiplier;
+        _alpha -= _alphaDecay * Time.deltaTime;
         _newColor = new Color(_playerColor.r, _playerColor.g, _playerColor.b, _alpha);
         _spriteRenderer.color = _newColor;
 

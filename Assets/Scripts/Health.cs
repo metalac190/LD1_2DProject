@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Health : MonoBehaviour
 {
-    public event Action<int> Damaged;
+    public UnityEvent<int> Damaged;
+    public UnityEvent Died;
+
+    public event Action KnockbackStarted;
+    public event Action KnockbackEnded;
 
     [Header("Health")]
     [SerializeField]
@@ -32,6 +37,7 @@ public class Health : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+
         _currentHealth = _maxHealth;
     }
 
@@ -41,6 +47,7 @@ public class Health : MonoBehaviour
 
         Debug.Log("Damaged");
         _currentHealth -= amount;
+        //TODO Hit Particles
 
         if(_applyKnockback)
             ApplyKnockBack(sourceTransform);
@@ -73,8 +80,11 @@ public class Health : MonoBehaviour
 
     IEnumerator KnockbackRoutine(float duration)
     {
+        KnockbackStarted?.Invoke();
+
         yield return new WaitForSeconds(duration);
 
+        KnockbackEnded?.Invoke();
         _isBeingKnockedBack = false;
         _rb.velocity = new Vector2(0, _rb.velocity.y);
     }
