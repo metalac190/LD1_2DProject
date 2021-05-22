@@ -31,29 +31,31 @@ public class Crawler : MonoBehaviour
 
     private Rigidbody2D _rb;
     private Health _health;
+    private ReceiveKnockback _knockback;
     private Animator _animator;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _health = GetComponent<Health>();
         _animator = GetComponent<Animator>();
+        _health = GetComponent<Health>();
+        _knockback = GetComponent<ReceiveKnockback>();
     }
 
     private void OnEnable()
     {
         _health.Died.AddListener(OnDied);
 
-        _health.KnockbackStarted += OnKnockbackStarted;
-        _health.KnockbackEnded += OnKnockbackEnded;
+        _knockback.KnockbackStarted += OnKnockbackStarted;
+        _knockback.KnockbackEnded += OnKnockbackEnded;
     }
 
     private void OnDisable()
     {
         _health.Died.RemoveListener(OnDied);
 
-        _health.KnockbackStarted -= OnKnockbackStarted;
-        _health.KnockbackEnded -= OnKnockbackEnded;
+        _knockback.KnockbackStarted -= OnKnockbackStarted;
+        _knockback.KnockbackEnded -= OnKnockbackEnded;
     }
 
     void Update()

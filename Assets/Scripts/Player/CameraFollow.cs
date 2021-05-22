@@ -14,6 +14,13 @@ public class CameraFollow : MonoBehaviour
 
 	void LateUpdate()
 	{
+		if(_target != null)
+			transform.position = _target.position + _offset;
+	}
+
+	public void SetNewTarget(Transform newTarget)
+    {
+		_target = newTarget;
 		transform.position = _target.position + _offset;
 	}
 }

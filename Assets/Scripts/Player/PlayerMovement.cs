@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Dashing")]
     [SerializeField] private float _dashTime = .2f;
-    [SerializeField] private float _dashSpeed = 50;
+    [SerializeField] private float _dashSpeed = 60;
     [SerializeField] private float _distanceBetweenImages = .1f;
     [SerializeField] private float _dashCooldown = 2;
     [Range(0,1)][Tooltip("1 is normal fall, 0 is NO falling")]
@@ -92,13 +92,18 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rb;
     private Collider2D _collider;
     private Coroutine _ledgeClimbRoutine;
+    private ReceiveKnockback _receiveKnockback;
+    private Health _health;
 
+    public bool IsDashing => _isDashing;
     public SpriteRenderer SpriteRenderer => _spriteRenderer;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
+        _receiveKnockback = GetComponent<ReceiveKnockback>();
+        _health = GetComponent<Health>();
         // initialize
         _remainingJumps = _amountOfJumps;
         _wallHopDirection.Normalize();
@@ -334,6 +339,9 @@ public class PlayerMovement : MonoBehaviour
                 // adjust dashing movement
                 _canMove = false;
                 _canFlip = false;
+                // invincibility during dash
+                _health.IsDamageable = false;
+
                 _rb.velocity = new Vector2(_dashSpeed * _facingDirection, _rb.velocity.y * _dashFallAmount);
                 _dashTimeLeft -= Time.deltaTime;
                 // if enough time has passed, place another after image
@@ -352,6 +360,8 @@ public class PlayerMovement : MonoBehaviour
                 _isDashing = false;
                 _canMove = true;
                 _canFlip = true;
+                // damageable once again
+                _health.IsDamageable = true;
             }
         }
     }
@@ -359,13 +369,15 @@ public class PlayerMovement : MonoBehaviour
     private void ApplyMovement()
     {
         // we're freefalling and there's not input
-        if (!_isGrounded && !_isWallSliding && _movementInputDirection == 0 && !_isDashing)
+        if (!_isGrounded && !_isWallSliding 
+            && _movementInputDirection == 0 && !_isDashing
+            && _receiveKnockback.IsKnockbackHappening == false)
         {
             _rb.velocity = new Vector2
                 (_rb.velocity.x * _airDragMultiplier, _rb.velocity.y);
         }
         // if we're grounded apply normal velocity from input
-        else if(_canMove)
+        else if(_canMove && _receiveKnockback.IsKnockbackHappening == false)
         {
             _rb.velocity = new Vector2
                 (_movementSpeed * _movementInputDirection, _rb.velocity.y);
@@ -394,7 +406,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Flip()
     {
-        if (!_isWallSliding && _canFlip)
+        if (!_isWallSliding && _canFlip 
+            && _receiveKnockback.IsKnockbackHappening == false)
         {
             _facingDirection *= -1;
             _isFacingRight = !_isFacingRight;

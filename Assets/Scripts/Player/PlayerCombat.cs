@@ -22,6 +22,10 @@ public class PlayerCombat : MonoBehaviour
     private int _attack01Damage = 5;
     [SerializeField]
     private float _attack01Duration = .2f;
+    [SerializeField]
+    private float _knockbackAmount = 7.5f;
+    [SerializeField]
+    private float _knockbackDuration = .1f;
 
     private bool _canAttack = true;
     private bool _receivedInput;
@@ -66,7 +70,6 @@ public class PlayerCombat : MonoBehaviour
             // if we're not already attacking, attack!
             if (!_isAttacking)
             {
-                Debug.Log("Attack!");
                 CheckAttackHitBox();
                 // set new state
                 _receivedInput = false;
@@ -96,8 +99,8 @@ public class PlayerCombat : MonoBehaviour
             (_attack01HitBoxLocation.position, new Vector2(_attack01HitBoxScale, _attack01HitBoxScale), 0);
         foreach(Collider2D collider in detectedObjects)
         {
-            collider.GetComponent<Health>()?.TakeDamage
-                (this.transform, _attack01Damage);
+            collider.GetComponent<Health>()?.TakeDamage(_attack01Damage);
+            collider.GetComponent<ReceiveKnockback>()?.Knockback(_knockbackAmount, _knockbackDuration, transform);
             // instantiate hit particle
         }
     }
