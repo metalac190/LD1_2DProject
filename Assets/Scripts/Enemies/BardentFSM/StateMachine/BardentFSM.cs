@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FiniteStateMachine
+public class BardentFSM
 {
-    public State CurrentState { get; private set; }
+    public BardentState CurrentState { get; private set; }
 
-    public void Initialize(State startingState)
+    public void Initialize(BardentState startingState)
     {
         CurrentState = startingState;
         CurrentState.Enter();
     }
 
-    public void ChangeState(State newState)
+    public void ChangeState(BardentState newState)
     {
         CurrentState.Exit();
         CurrentState = newState;

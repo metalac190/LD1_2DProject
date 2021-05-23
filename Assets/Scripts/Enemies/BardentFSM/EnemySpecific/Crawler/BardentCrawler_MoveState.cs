@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crawler_IdleState : EnemyIdleState
+public class BardentCrawler_MoveState : EnemyMoveState
 {
-    private Crawler _crawler;
+    private BardentCrawler _crawler;
 
-    public Crawler_IdleState(Entity entity, FiniteStateMachine stateMachine, 
-        string animBoolName, EnemyIdleStateData stateData, Crawler crawler) 
+    public BardentCrawler_MoveState(Entity entity, BardentFSM stateMachine, 
+        string animBoolName, EnemyMoveStateData stateData, BardentCrawler crawler) 
         : base(entity, stateMachine, animBoolName, stateData)
     {
         this._crawler = crawler;
@@ -27,9 +27,10 @@ public class Crawler_IdleState : EnemyIdleState
     {
         base.LogicUpdate();
 
-        if (IsIdleTimeOver)
+        if(IsDetectingWall || !IsDetectingLedge)
         {
-            StateMachine.ChangeState(_crawler.MoveState);
+            _crawler.IdleState.SetFlipAfterIdle(true);
+            StateMachine.ChangeState(_crawler.IdleState);
         }
     }
 

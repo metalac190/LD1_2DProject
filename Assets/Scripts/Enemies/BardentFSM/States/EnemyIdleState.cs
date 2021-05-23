@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyIdleState : State
+public class EnemyIdleState : BardentState
 {
     protected EnemyIdleStateData StateData;
     protected bool FlipAfterIdle;
     protected bool IsIdleTimeOver;
     protected float IdleTime;
 
-    public EnemyIdleState(Entity entity, FiniteStateMachine stateMachine, 
+    public EnemyIdleState(Entity entity, BardentFSM stateMachine, 
         string animBoolName, EnemyIdleStateData stateData) 
         : base(entity, stateMachine, animBoolName)
     {

@@ -6,7 +6,7 @@ public class Entity : MonoBehaviour
 {
     public int FacingDirection { get; private set; } = 1;
 
-    public FiniteStateMachine StateMachine { get; private set; }
+    public BardentFSM StateMachine { get; private set; }
     public EntityData EntityData => _entityData;
     public Rigidbody2D RB { get; private set; }
     public Animator Anim { get; private set; }
@@ -25,7 +25,7 @@ public class Entity : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();
         Anim = GetComponent<Animator>();
 
-        StateMachine = new FiniteStateMachine();
+        StateMachine = new BardentFSM();
 
         FacingDirection = 1;
     }

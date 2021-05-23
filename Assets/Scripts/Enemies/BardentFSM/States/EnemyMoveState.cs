@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMoveState : State
+public class EnemyMoveState : BardentState
 {
     protected EnemyMoveStateData StateData;
     protected bool IsDetectingWall;
     protected bool IsDetectingLedge;
 
-    public EnemyMoveState(Entity entity, FiniteStateMachine stateMachine, string animBoolName,
+    public EnemyMoveState(Entity entity, BardentFSM stateMachine, string animBoolName,
         EnemyMoveStateData stateData)
         : base(entity, stateMachine, animBoolName)
     {

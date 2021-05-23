@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class State
+public class BardentState
 {
-    protected FiniteStateMachine StateMachine;
+    protected BardentFSM StateMachine;
     protected Entity Entity;
 
     protected float StartTime;
     protected string AnimBoolName;
 
-    public State(Entity entity, FiniteStateMachine stateMachine, string animBoolName)
+    public BardentState(Entity entity, BardentFSM stateMachine, string animBoolName)
     {
         this.Entity = entity;
         this.StateMachine = stateMachine;
