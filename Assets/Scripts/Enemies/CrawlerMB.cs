@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crawler : MonoBehaviour
+public class CrawlerMB : MonoBehaviour
 {
     private enum State
     {
