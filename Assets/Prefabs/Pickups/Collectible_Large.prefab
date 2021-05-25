@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pickupSFX: {fileID: 8300000, guid: b508a367677baae43a886291e3e371e3, type: 3}
-  _particlePrefab: {fileID: 0}
+  _particlePrefab: {fileID: 2010415367784037018, guid: 1bf67136a26c0da419c918f18c29d45b, type: 3}
 --- !u!1 &3164852501879126503
 GameObject:
   m_ObjectHideFlags: 0

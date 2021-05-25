@@ -190,4 +190,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pickupSFX: {fileID: 8300000, guid: 5b0b8477049f98f48bf043d43c03428f, type: 3}
-  _particlePrefab: {fileID: 0}
+  _particlePrefab: {fileID: 2010415367784037018, guid: 1bf67136a26c0da419c918f18c29d45b, type: 3}
