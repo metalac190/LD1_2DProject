@@ -13,6 +13,8 @@ public class Patroller : MonoBehaviour
     private PlayerDetector _playerDetector;
     [SerializeField]
     private EnvironmentDetector _environmentDetector;
+    [SerializeField]
+    private GameObject _detectedGraphic;
 
     [Header("Movement")]
     [SerializeField]
@@ -23,6 +25,20 @@ public class Patroller : MonoBehaviour
     private float _minIdleTime = 1;
     [SerializeField]
     private float _maxIdleTime = 2;
+
+    [Header("Charging")]
+    [SerializeField]
+    private float _chargeSpeed = 8;
+    [SerializeField]
+    private float _chargeTime = 1;
+
+    [Header("Searching")]
+    [SerializeField]
+    private float _detectedPauseTime = 0.35f;
+    [SerializeField]
+    private int _numberOfSearchTurns = 2;
+    [SerializeField]
+    private float _searchTurnDuration = .75f;
 
     public int FacingDirection { get; private set; } = 1;
 
@@ -35,6 +51,15 @@ public class Patroller : MonoBehaviour
     public float MinIdleTime => _minIdleTime;
     public float MaxIdleTime => _maxIdleTime;
     public bool IdleOnPathEnd => _idleOnPathEnd;
+
+    public float ChargeSpeed => _chargeSpeed;
+    public float ChargeTime => _chargeTime;
+
+    public float DetectedPauseTime => _detectedPauseTime;
+    public int NumberOfSearchTurns => _numberOfSearchTurns;
+    public float SearchTurnDuration => _searchTurnDuration;
+
+    public GameObject DetectedGraphic => _detectedGraphic;
 
     private Vector2 _tempVelocity;  // used for temp calculations to avoid creating new Vectors
 

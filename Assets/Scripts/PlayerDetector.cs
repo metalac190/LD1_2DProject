@@ -10,16 +10,19 @@ public class PlayerDetector : MonoBehaviour
     public UnityEvent PlayerDetected;
     public UnityEvent PlayerEscaped;
 
-    private bool _isPlayerInStartAggroRange = false;
-    private bool _isPlayerInDetectedAggroRange = false;
+    private bool _isPlayerInAggroRange = false;
+    private bool _isPlayerInEscapeRange = false;
 
+    public bool IsPlayerInCloseRange { get; private set; } = false;
     public bool IsPlayerDetected { get; private set; } = false;
 
     [Header("Player Detection")]
     [SerializeField]
-    private float _startAggroDistance = 2;
+    private float _closeRangeDistance = 3;
     [SerializeField]
-    private float _detectedAggroDistance = 4;
+    private float _aggroRangeDistance = 8;
+    [SerializeField]
+    private float _escapeRangeDistance = 12;
     [SerializeField]
     private LayerMask _whatIsPlayer;
     [SerializeField]
@@ -54,23 +57,31 @@ public class PlayerDetector : MonoBehaviour
 
     private IEnumerator CheckForPlayerRoutine(float frequency)
     {
+        Debug.Log("Checking for player");
         while (true)
         {
             // if player is already detected, check to see if they've escaped
             if (IsPlayerDetected)
             {
-                _isPlayerInDetectedAggroRange = CheckPlayerInDetectedAggroRange();
-                if (_isPlayerInDetectedAggroRange == false)
+                // make sure they haven't escaped
+                _isPlayerInEscapeRange = CheckPlayerInEscapeRange();
+                if (_isPlayerInEscapeRange == false)
                 {
                     IsPlayerDetected = false;
+                    IsPlayerInCloseRange = false;
                     PlayerEscaped?.Invoke();
+                }
+                // otherwise check player close range
+                else
+                {
+                    IsPlayerInCloseRange = CheckPlayerInCloseRange();
                 }
             }
             // otherwise look for them
             else
             {
-                _isPlayerInStartAggroRange = CheckPlayerInStartAggroRange();
-                if (_isPlayerInStartAggroRange)
+                _isPlayerInAggroRange = CheckPlayerInAggroRange();
+                if (_isPlayerInAggroRange)
                 {
                     IsPlayerDetected = true;
                     PlayerDetected?.Invoke();
@@ -82,21 +93,36 @@ public class PlayerDetector : MonoBehaviour
 
     }
 
-    public bool CheckPlayerInStartAggroRange()
+    public bool CheckPlayerInCloseRange()
     {
         return Physics2D.Raycast(_playerCheck.position, transform.right,
-            _startAggroDistance, _whatIsPlayer);
+            _closeRangeDistance, _whatIsPlayer);
     }
 
-    public bool CheckPlayerInDetectedAggroRange()
+    public bool CheckPlayerInAggroRange()
     {
         return Physics2D.Raycast(_playerCheck.position, transform.right,
-            _detectedAggroDistance, _whatIsPlayer);
+            _aggroRangeDistance, _whatIsPlayer);
+    }
+
+    public bool CheckPlayerInEscapeRange()
+    {
+        return Physics2D.Raycast(_playerCheck.position, transform.right,
+            _escapeRangeDistance, _whatIsPlayer);
     }
 
     public void OnDrawGizmos()
     {
-        Gizmos.DrawLine(_playerCheck.position, _playerCheck.position 
-            + (transform.right * _startAggroDistance));
+        Gizmos.color = Color.white;
+        Gizmos.DrawLine(_playerCheck.position, _playerCheck.position
+            + (transform.right * _escapeRangeDistance));
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(_playerCheck.position, _playerCheck.position
+            + (transform.right * _aggroRangeDistance));
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(_playerCheck.position, _playerCheck.position
+            + (transform.right * _closeRangeDistance));
     }
 }
