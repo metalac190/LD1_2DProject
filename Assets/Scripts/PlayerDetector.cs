@@ -24,29 +24,62 @@ public class PlayerDetector : MonoBehaviour
     private LayerMask _whatIsPlayer;
     [SerializeField]
     private Transform _playerCheck;
+    [SerializeField]
+    private float _checkFrequency = .2f;
+    [SerializeField]
+    private bool _startCheckingOnAwake = true;
 
-    private void FixedUpdate()
+    private Coroutine _playerCheckRoutine;
+
+    private void Start()
     {
-        // if player is detected, check to see if they've escaped
-        if (IsPlayerDetected)
+        if (_startCheckingOnAwake)
         {
-            _isPlayerInDetectedAggroRange = CheckPlayerInDetectedAggroRange();
-            if (_isPlayerInDetectedAggroRange == false)
-            {
-                IsPlayerDetected = false;
-                PlayerEscaped?.Invoke();
-            }
+            StartCheckingForPlayer();
         }
-        // otherwise look for them
-        else
+    }
+
+    public void StartCheckingForPlayer()
+    {
+        if (_playerCheckRoutine != null)
+            StopCoroutine(_playerCheckRoutine);
+        _playerCheckRoutine = StartCoroutine(CheckForPlayerRoutine(_checkFrequency));
+    }
+
+    public void StopCheckingForPlayer()
+    {
+        if (_playerCheckRoutine != null)
+            StopCoroutine(_playerCheckRoutine);
+    }
+
+    private IEnumerator CheckForPlayerRoutine(float frequency)
+    {
+        while (true)
         {
-            _isPlayerInStartAggroRange = CheckPlayerInStartAggroRange();
-            if(_isPlayerInStartAggroRange)
+            // if player is already detected, check to see if they've escaped
+            if (IsPlayerDetected)
             {
-                IsPlayerDetected = true;
-                PlayerDetected?.Invoke();
+                _isPlayerInDetectedAggroRange = CheckPlayerInDetectedAggroRange();
+                if (_isPlayerInDetectedAggroRange == false)
+                {
+                    IsPlayerDetected = false;
+                    PlayerEscaped?.Invoke();
+                }
             }
+            // otherwise look for them
+            else
+            {
+                _isPlayerInStartAggroRange = CheckPlayerInStartAggroRange();
+                if (_isPlayerInStartAggroRange)
+                {
+                    IsPlayerDetected = true;
+                    PlayerDetected?.Invoke();
+                }
+            }
+
+            yield return new WaitForSeconds(frequency);
         }
+
     }
 
     public bool CheckPlayerInStartAggroRange()
@@ -63,9 +96,7 @@ public class PlayerDetector : MonoBehaviour
 
     public void OnDrawGizmos()
     {
-        Gizmos.DrawLine(_playerCheck.position, _playerCheck.position +
-            (Vector3)(Vector2.right * _startAggroDistance));
-        Gizmos.DrawLine(_playerCheck.position, _playerCheck.position +
-            (Vector3)(Vector2.right * _detectedAggroDistance));
+        Gizmos.DrawLine(_playerCheck.position, _playerCheck.position 
+            + (transform.right * _startAggroDistance));
     }
 }
