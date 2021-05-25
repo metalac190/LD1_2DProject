@@ -10,8 +10,6 @@ public class Crawler : MonoBehaviour
     [SerializeField] 
     private Animator _animator;
     [SerializeField]
-    private PlayerDetector _playerDetector;
-    [SerializeField]
     private EnvironmentDetector _environmentChecker;
 
     [Header("Movement")]
@@ -22,7 +20,6 @@ public class Crawler : MonoBehaviour
 
     public Rigidbody2D RB => _rb;
     public Animator Animator => _animator;
-    public PlayerDetector PlayerDetector => _playerDetector;
     public EnvironmentDetector EnvironmentChecker => _environmentChecker;
 
     public float MovementSpeed => _movementSpeed;
