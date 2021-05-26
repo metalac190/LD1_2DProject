@@ -8,6 +8,8 @@ public class Patroller_IdleState : State
 
     PatrollerFSM _stateMachine;
     Patroller _patroller;
+    PatrollerData _data;
+
     PlayerDetector _playerDetector;
     EnvironmentDetector _environmentDetector;
 
@@ -15,6 +17,8 @@ public class Patroller_IdleState : State
     {
         _stateMachine = stateMachine;
         _patroller = patroller;
+        _data = patroller.Data;
+
         _playerDetector = patroller.PlayerDetector;
         _environmentDetector = patroller.EnvironmentDetector;
     }
@@ -23,7 +27,7 @@ public class Patroller_IdleState : State
     {
         base.Enter();
 
-        _patroller.SetVelocity(0);
+        _patroller.Move(0);
         SetRandomIdleTime();
 
         _playerDetector.StartCheckingForPlayer();
@@ -65,6 +69,6 @@ public class Patroller_IdleState : State
 
     private void SetRandomIdleTime()
     {
-        _idleTime = UnityEngine.Random.Range(_patroller.MinIdleTime, _patroller.MaxIdleTime);
+        _idleTime = UnityEngine.Random.Range(_data.MinIdleTime, _data.MaxIdleTime);
     }
 }

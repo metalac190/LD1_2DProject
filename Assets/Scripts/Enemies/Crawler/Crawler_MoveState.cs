@@ -6,20 +6,24 @@ public class Crawler_MoveState : State
 {
     private CrawlerFSM _stateMachine;
     private Crawler _crawler;
+    private CrawlerData _data;
+
     private EnvironmentDetector _environmentDetector;
 
     public Crawler_MoveState(CrawlerFSM stateMachine, Crawler crawler)
     {
         _stateMachine = stateMachine;
         _crawler = crawler;
-        _environmentDetector = crawler.EnvironmentChecker;
+        _data = crawler.Data;
+
+        _environmentDetector = crawler.EnvironmentDetector;
     }
 
     public override void Enter()
     {
         base.Enter();
 
-        _crawler.SetVelocity(_crawler.MovementSpeed);
+        _crawler.Move(_data.MovementSpeed);
 
         _environmentDetector.StartCheckingEnvironment();
     }
@@ -40,7 +44,7 @@ public class Crawler_MoveState : State
         {
             // turn around
             _crawler.Flip();
-            _crawler.SetVelocity(_crawler.MovementSpeed);
+            _crawler.Move(_data.MovementSpeed);
         }
     }
 

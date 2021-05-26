@@ -6,6 +6,8 @@ public class Patroller_MoveState : State
 {
     private PatrollerFSM _stateMachine;
     private Patroller _patroller;
+    private PatrollerData _data;
+
     private PlayerDetector _playerDetector;
     private EnvironmentDetector _environmentDetector;
 
@@ -13,13 +15,15 @@ public class Patroller_MoveState : State
     {
         _stateMachine = stateMachine;
         _patroller = patroller;
+        _data = patroller.Data;
+
         _playerDetector = patroller.PlayerDetector;
         _environmentDetector = patroller.EnvironmentDetector;
     }
 
     public override void Enter()
     {
-        _patroller.SetVelocity(_patroller.MovementSpeed);
+        _patroller.Move(_data.MovementSpeed);
 
         _environmentDetector.StartCheckingEnvironment();
         _playerDetector.StartCheckingForPlayer();
@@ -41,7 +45,7 @@ public class Patroller_MoveState : State
         if (_environmentDetector.IsWallDetected || _environmentDetector.IsLedgeDetected)
         {
             // idle if specified
-            if (_patroller.IdleOnPathEnd)
+            if (_data.IdleOnPathEnd)
             {
                 Debug.Log("Patroller: Moving and detected ledge or wall!");
                 _stateMachine.ChangeState(_stateMachine.IdleState);
@@ -50,7 +54,7 @@ public class Patroller_MoveState : State
             else
             {
                 _patroller.Flip();
-                _patroller.SetVelocity(_patroller.MovementSpeed);
+                _patroller.Move(_data.MovementSpeed);
             }
         }
         // if we've detected the player

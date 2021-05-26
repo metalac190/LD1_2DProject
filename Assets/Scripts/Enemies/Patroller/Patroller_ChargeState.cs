@@ -6,6 +6,8 @@ public class Patroller_ChargeState : State
 {
     PatrollerFSM _stateMachine;
     Patroller _patroller;
+    PatrollerData _data;
+
     EnvironmentDetector _environmentDetector;
     PlayerDetector _playerDetector;
 
@@ -13,6 +15,8 @@ public class Patroller_ChargeState : State
     {
         _stateMachine = stateMachine;
         _patroller = patroller;
+        _data = patroller.Data;
+
         _environmentDetector = patroller.EnvironmentDetector;
         _playerDetector = patroller.PlayerDetector;
     }
@@ -21,7 +25,7 @@ public class Patroller_ChargeState : State
     {
         base.Enter();
 
-        _patroller.SetVelocity(_patroller.ChargeSpeed);
+        _patroller.Move(_data.ChargeSpeed);
 
         _environmentDetector.StartCheckingEnvironment();
         _playerDetector.StartCheckingForPlayer();
@@ -41,10 +45,16 @@ public class Patroller_ChargeState : State
 
         if (_environmentDetector.IsWallDetected || _environmentDetector.IsLedgeDetected)
         {
-            _stateMachine.ChangeState(_stateMachine.IdleState);
+            _stateMachine.ChangeState(_stateMachine.SearchState);
+        }
+        else if (_playerDetector.IsPlayerInCloseRange)
+        {
+            _stateMachine.ChangeState(_stateMachine.AttackState);
         }
 
-        if (StateDuration >= _patroller.ChargeTime)
+        //TODO: if player is in melee range, do attack
+
+        if (StateDuration >= _data.ChargeDuration)
         {
             // if player still detected, do it again
             if (_playerDetector.IsPlayerDetected)

@@ -6,6 +6,8 @@ public class Patroller_SearchState : State
 {
     PatrollerFSM _stateMachine;
     Patroller _patroller;
+    PatrollerData _data;
+
     PlayerDetector _playerDetector;
 
     private float _lastTurnTime;
@@ -15,6 +17,8 @@ public class Patroller_SearchState : State
     {
         _stateMachine = stateMachine;
         _patroller = patroller;
+        _data = patroller.Data;
+
         _playerDetector = patroller.PlayerDetector;
     }
 
@@ -25,10 +29,10 @@ public class Patroller_SearchState : State
         _lastTurnTime = 0;
         _turnsCompleted = 0;
 
-        _patroller.SetVelocity(0);
+        _patroller.Move(0);
 
         // do the first turn immediately
-        if(_patroller.NumberOfSearchTurns >= 1)
+        if(_data.NumberOfSearchTurns >= 1)
         {
             Turn();
         }
@@ -59,9 +63,9 @@ public class Patroller_SearchState : State
 
         _lastTurnTime += Time.deltaTime;
         // if our time during this turn has been exceeded, turn again or go back to patrolling
-        if (_lastTurnTime >= _patroller.SearchTurnDuration)
+        if (_lastTurnTime >= _data.SearchTurnDuration)
         {
-            if(_turnsCompleted < _patroller.NumberOfSearchTurns)
+            if(_turnsCompleted < _data.NumberOfSearchTurns)
             {
                 Turn();
             }

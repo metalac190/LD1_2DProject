@@ -6,6 +6,8 @@ public class Patroller_PlayerDetectedState : State
 {
     private PatrollerFSM _stateMachine;
     private Patroller _patroller;
+    private PatrollerData _data;
+
     private PlayerDetector _playerDetector;
     GameObject _detectedGraphic;    // graphic icon that communicates detect state
 
@@ -13,6 +15,8 @@ public class Patroller_PlayerDetectedState : State
     {
         _stateMachine = stateMachine;
         _patroller = patroller;
+        _data = patroller.Data;
+
         _playerDetector = patroller.PlayerDetector;
         _detectedGraphic = patroller.DetectedGraphic;
     }
@@ -23,7 +27,7 @@ public class Patroller_PlayerDetectedState : State
 
         _detectedGraphic.SetActive(true);
 
-        _patroller.SetVelocity(0);
+        _patroller.Move(0);
 
         _playerDetector.StartCheckingForPlayer();
     }
@@ -40,12 +44,17 @@ public class Patroller_PlayerDetectedState : State
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        Debug.Log("StateDuration: " + StateDuration);
+
         // wait for alert pause
-        if(StateDuration >= _patroller.DetectedPauseTime)
+        if(StateDuration >= _data.DetectedPauseTime)
         {
-            // if player is still detected, charge
-            if (_playerDetector.IsPlayerDetected)
+            // if player is in close range, do an attack
+            if (_playerDetector.IsPlayerInCloseRange)
+            {
+                _stateMachine.ChangeState(_stateMachine.AttackState);
+            }
+            // otherwise if player is still detected, charge
+            else if (_playerDetector.IsPlayerDetected)
             {
                 _stateMachine.ChangeState(_stateMachine.ChargeState);
             }
