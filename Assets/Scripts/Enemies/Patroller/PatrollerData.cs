@@ -40,11 +40,14 @@ public class PatrollerData : ScriptableObject
     private float _attackActiveDuration = 0.5f;
     [SerializeField][Tooltip("Duration of wait after attack has happened before transitioning states")]
     private float _attackAfterDuration = .35f;
-
     [SerializeField][Tooltip("Size of melee attack")]
     private float _attackRadius = 0.5f;
     [SerializeField][Tooltip("Physics layers to detect colliders for attack")]
     private LayerMask _attackableLayers;
+
+    [Header("Death")]
+    [SerializeField]
+    private float _deathTimeDuration = 0.5f;
 
     // movement
     public float MovementSpeed => _movementSpeed;
@@ -69,4 +72,7 @@ public class PatrollerData : ScriptableObject
     public float AttackAfterDuration => _attackAfterDuration;
     public float AttackRadius => _attackRadius;
     public LayerMask AttackableLayers => _attackableLayers;
+
+    // death
+    public float DeathTimeDuration => _deathTimeDuration;
 }

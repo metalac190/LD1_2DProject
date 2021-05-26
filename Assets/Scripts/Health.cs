@@ -49,7 +49,5 @@ public class Health : MonoBehaviour
     public virtual void Kill()
     {
         Died?.Invoke();
-        Debug.Log("Killed " + gameObject.name);
-        Destroy(gameObject);
     }
 }

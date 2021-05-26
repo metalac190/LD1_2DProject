@@ -26054,6 +26054,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 703102820}
   _environmentDetector: {fileID: 703102822}
+  _health: {fileID: 703102814}
   _data: {fileID: 11400000, guid: 754df99a424a3254ab30eed5433aee41, type: 2}
   _patrollerAnimator: {fileID: 703102823}
   _playerDetector: {fileID: 703102815}
@@ -27256,6 +27257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 1705054040}
   _environmentDetector: {fileID: 1705054051}
+  _health: {fileID: 0}
   _data: {fileID: 11400000, guid: 13b02b0a0208a7045a622fa64a715464, type: 2}
 --- !u!114 &1705054051
 MonoBehaviour:
@@ -31921,6 +31923,10 @@ PrefabInstance:
     - target: {fileID: 5423503814152549644, guid: f1cddbf45c403444d9d4c9169d6c5c4f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5423503814152549645, guid: f1cddbf45c403444d9d4c9169d6c5c4f, type: 3}
+      propertyPath: _attack01Damage
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 5423503814152549646, guid: f1cddbf45c403444d9d4c9169d6c5c4f, type: 3}
       propertyPath: m_Name

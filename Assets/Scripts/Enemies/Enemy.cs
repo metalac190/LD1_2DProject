@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(EnvironmentDetector))]
+[RequireComponent(typeof(Health))]
 public class Enemy : MonoBehaviour
 {
     [Header("Enemy Settings")]
@@ -9,9 +12,12 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D _rb;
     [SerializeField]
     private EnvironmentDetector _environmentDetector;
+    [SerializeField]
+    private Health _health;
 
     public Rigidbody2D RB => _rb;
     public EnvironmentDetector EnvironmentDetector => _environmentDetector;
+    public Health Health => _health;
 
     public int FacingDirection { get; private set; } = 1;
 
@@ -34,5 +40,10 @@ public class Enemy : MonoBehaviour
     {
         FacingDirection *= -1;
         transform.Rotate(0, 180, 0);
+    }
+
+    public void Remove()
+    {
+        Destroy(gameObject);
     }
 }

@@ -19,6 +19,7 @@ MonoBehaviour:
   _chargeSpeed: 8
   _chargeDuratoin: 1
   _detectedPauseTime: 0.35
+  _turnImmediatelyOnSearch: 0
   _numberOfSearchTurns: 2
   _searchTurnDuration: 0.75
   _attackDamage: 20
@@ -29,3 +30,4 @@ MonoBehaviour:
   _attackableLayers:
     serializedVersion: 2
     m_Bits: 512
+  _deathTimeDuration: 0.2
