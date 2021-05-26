@@ -99,8 +99,10 @@ public class PlayerCombat : MonoBehaviour
             (_attack01HitBoxLocation.position, new Vector2(_attack01HitBoxScale, _attack01HitBoxScale), 0);
         foreach(Collider2D collider in detectedObjects)
         {
-            collider.GetComponent<Health>()?.TakeDamage(_attack01Damage);
-            collider.GetComponent<ReceiveKnockback>()?.Knockback(_knockbackAmount, _knockbackDuration, transform);
+            //TODO: Consider how to pass around Attack details for processing on the other end
+            AttackDetails attack = new AttackDetails(_attack01Damage, _knockbackAmount, gameObject);
+            collider.GetComponent<Health>()?.TakeDamage(attack.Damage);
+            collider.GetComponent<ReceiveKnockback>()?.Knockback(attack.Knockback, _knockbackDuration, transform);
             // instantiate hit particle
         }
     }

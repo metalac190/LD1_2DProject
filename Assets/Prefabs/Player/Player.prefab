@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5423503812485936630}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.6, y: 1, z: 0}
+  m_LocalPosition: {x: 1.56, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5423503814152549644}
@@ -46,7 +46,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5423503812867826209
 Transform:
   m_ObjectHideFlags: 0
@@ -55,7 +55,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5423503812867826210}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.6, y: 1, z: 0}
+  m_LocalPosition: {x: 1.56, y: 1, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 5423503814213722387}
@@ -509,9 +509,9 @@ MonoBehaviour:
   _inputTimer: 0.1
   _attack01HitBoxScale: 2
   _attack01Damage: 5
-  _attack01Duration: 0.2
-  _knockbackAmount: 7.5
-  _knockbackDuration: 0.1
+  _attack01Duration: 0.1
+  _knockbackAmount: 6
+  _knockbackDuration: 0.15
 --- !u!114 &5423503814152549751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,6 +545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _knockbackDampener: 1
+  _upAmount: 7
 --- !u!1 &5423503814186965968
 GameObject:
   m_ObjectHideFlags: 0

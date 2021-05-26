@@ -17,11 +17,17 @@ public class Enemy : MonoBehaviour
 
     private Vector2 _tempVelocity;  // used for temp calculations to avoid creating new Vectors
 
+    public virtual void Push(Vector2 direction, float amount)
+    {
+        direction.Normalize();
+        _tempVelocity.Set(direction.x * amount, direction.y * amount);
+        _rb.velocity = _tempVelocity;
+    }
+
     public virtual void Move(float velocity)
     {
         _tempVelocity.Set(FacingDirection * velocity, RB.velocity.y);
         RB.velocity = _tempVelocity;
-        Debug.Log("XVelocity: " + RB.velocity.x);
     }
 
     public void Flip()

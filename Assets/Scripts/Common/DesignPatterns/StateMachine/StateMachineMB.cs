@@ -67,15 +67,25 @@ public abstract class StateMachineMB : MonoBehaviour
         }
     }
 
+    protected virtual void OnEnable()
+    {
+
+    }
+
+    protected virtual void OnDisable()
+    {
+
+    }
+
     // pass down Update ticks to States, since they won't have a MonoBehaviour
-    public void Update()
+    protected virtual void Update()
     {
         // simulate update ticks in states
         if (CurrentState != null && !_inTransition)
             CurrentState.Update();
     }
 
-    public void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         // simulate update ticks in states
         if (CurrentState != null && !_inTransition)

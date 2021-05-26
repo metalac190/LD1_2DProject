@@ -48,6 +48,13 @@ public class Patroller_AttackState : State
 
         _isAttackActive = false;
         _isAttackSequenceComplete = false;
+        // stop routine if it's active and we're exiting early
+        if (_attackRoutine != null)
+        {
+            _stateMachine.StopCoroutine(_attackRoutine);
+            _patroller.AttackLocation.SetActive(false);
+        }
+            
     }
 
     public override void FixedUpdate()

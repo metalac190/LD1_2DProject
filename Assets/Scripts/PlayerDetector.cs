@@ -57,7 +57,6 @@ public class PlayerDetector : MonoBehaviour
 
     private IEnumerator CheckForPlayerRoutine(float frequency)
     {
-        Debug.Log("Checking for player");
         while (true)
         {
             // if player is already detected, check to see if they've escaped

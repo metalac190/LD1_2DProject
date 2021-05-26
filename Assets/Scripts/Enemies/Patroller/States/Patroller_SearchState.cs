@@ -32,7 +32,7 @@ public class Patroller_SearchState : State
         _patroller.Move(0);
 
         // do the first turn immediately
-        if(_data.NumberOfSearchTurns >= 1)
+        if(_data.TurnImmediatelyOnSearch && _data.NumberOfSearchTurns >= 1)
         {
             Turn();
         }

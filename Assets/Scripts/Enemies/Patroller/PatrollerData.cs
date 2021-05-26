@@ -24,6 +24,8 @@ public class PatrollerData : ScriptableObject
     [Header("Searching")]
     [SerializeField][Tooltip("Duration of brief pause when player is detected")]
     private float _detectedPauseTime = 0.35f;
+    [SerializeField][Tooltip("Should first turn happen instantly")]
+    private bool _turnImmediatelyOnSearch = false;
     [SerializeField][Tooltip("Number of times patroller will look back and forth while searching")]
     private int _numberOfSearchTurns = 2;
     [SerializeField][Tooltip("Duration of each turn before flipping the opposite direction")]
@@ -56,6 +58,7 @@ public class PatrollerData : ScriptableObject
 
     // searching
     public float DetectedPauseTime => _detectedPauseTime;
+    public bool TurnImmediatelyOnSearch => _turnImmediatelyOnSearch;
     public int NumberOfSearchTurns => _numberOfSearchTurns;
     public float SearchTurnDuration => _searchTurnDuration;
 

@@ -47,7 +47,6 @@ public class Patroller_MoveState : State
             // idle if specified
             if (_data.IdleOnPathEnd)
             {
-                Debug.Log("Patroller: Moving and detected ledge or wall!");
                 _stateMachine.ChangeState(_stateMachine.IdleState);
             }
             // otherwise turn and continue
