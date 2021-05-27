@@ -8,7 +8,7 @@ using System;
 /// https://youtu.be/bZVqz_3_NmQ?list=PLy78FINcVmjA0zDBhLuLNL1Jo6xNMMq-W
 /// </summary>
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement_Old : MonoBehaviour
 {
     [SerializeField] private float _movementSpeed = 10f;
     [SerializeField] private Animator _animator;

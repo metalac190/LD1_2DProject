@@ -12,7 +12,7 @@ public class PlayerAfterImage : MonoBehaviour
     [SerializeField]
     private float _alphaDecay = 10f;
 
-    private PlayerMovement _player;
+    private PlayerMovement_Old _player;
     private Transform _playerSpriteTransform;
 
     private SpriteRenderer _spriteRenderer;
@@ -24,7 +24,7 @@ public class PlayerAfterImage : MonoBehaviour
     private void OnEnable()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _player = FindObjectOfType<PlayerMovement>();
+        _player = FindObjectOfType<PlayerMovement_Old>();
 
         _playerSpriteRenderer = _player.SpriteRenderer;
         _playerSpriteTransform = _playerSpriteRenderer.transform;
