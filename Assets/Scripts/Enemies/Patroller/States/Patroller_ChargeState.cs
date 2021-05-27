@@ -10,6 +10,7 @@ public class Patroller_ChargeState : State
 
     EnvironmentDetector _environmentDetector;
     PlayerDetector _playerDetector;
+    GameObject _detectedGraphic;
 
     public Patroller_ChargeState(PatrollerFSM stateMachine, Patroller patroller)
     {
@@ -19,6 +20,7 @@ public class Patroller_ChargeState : State
 
         _environmentDetector = patroller.EnvironmentDetector;
         _playerDetector = patroller.PlayerDetector;
+        _detectedGraphic = patroller.DetectedGraphic;
     }
 
     public override void Enter()
@@ -29,6 +31,8 @@ public class Patroller_ChargeState : State
 
         _environmentDetector.StartCheckingEnvironment();
         _playerDetector.StartCheckingForPlayer();
+
+        _detectedGraphic.SetActive(true);
     }
 
     public override void Exit()
@@ -37,6 +41,8 @@ public class Patroller_ChargeState : State
 
         _environmentDetector.StopCheckingEnvironment();
         _playerDetector.StopCheckingForPlayer();
+
+        _detectedGraphic.SetActive(false);
     }
 
     public override void FixedUpdate()

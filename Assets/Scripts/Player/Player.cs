@@ -6,84 +6,36 @@ public class Player : MonoBehaviour
 {
     [SerializeField] 
     private InputManager _input;
+    [SerializeField]
+    private PlayerData _data;
+    [SerializeField]
+    private PlayerAnimator _playerAnimator;
+    [SerializeField]
+    private Rigidbody2D _rb;
 
     public InputManager Input => _input;
+    public PlayerData Data => _data;
+    public PlayerAnimator PlayerAnimator => _playerAnimator;
+    public Rigidbody2D Rb => _rb;
 
-    private void OnEnable()
-    {
-        Input.SpacebarPressed += OnSpacebarPressed;
-        Input.SpacebarReleased += OnSpacebarReleased;
-        Input.EscapePressed += OnEscapePressed;
-        Input.EscapeReleased += OnEscapeReleased;
-        Input.EnterPressed += OnEnterPressed;
-        Input.EnterReleased += OnEnterReleased;
-        Input.MouseLeftPressed += OnLMBPressed;
-        Input.MouseLeftReleased += OnLMBReleased;
-        Input.MouseRightPressed += OnRMBPressed;
-        Input.MouseRightReleased += OnRMBReleased;
-    }
-
-    private void OnDisable()
-    {
-        Input.SpacebarPressed -= OnSpacebarPressed;
-        Input.SpacebarReleased -= OnSpacebarReleased;
-        Input.EscapePressed -= OnEscapePressed;
-        Input.EscapeReleased -= OnEscapeReleased;
-        Input.EnterPressed -= OnEnterPressed;
-        Input.EnterReleased -= OnEnterReleased;
-        Input.MouseLeftPressed -= OnLMBPressed;
-        Input.MouseLeftReleased -= OnLMBReleased;
-        Input.MouseRightPressed -= OnRMBPressed;
-        Input.MouseRightReleased -= OnRMBReleased;
-    }
-
-    private void OnEnterPressed()
-    {
-        Debug.Log("Enter");
-    }
+    public int FacingDirection { get; private set; } = 1;
     
-    void OnEnterReleased()
+    public void SetVelocityX(float newXVelocity)
     {
-        Debug.Log("Enter release");
+        _rb.velocity = new Vector2(newXVelocity, _rb.velocity.y);
     }
 
-    private void OnEscapePressed()
+    public void CheckIfShouldFlip(int xInput)
     {
-        Debug.Log("Escape");
+        if(xInput != 0 && xInput != FacingDirection)
+        {
+            Flip();
+        }
     }
 
-    void OnEscapeReleased()
+    public void Flip()
     {
-        Debug.Log("Escape released");
-    }
-
-    private void OnLMBPressed()
-    {
-        Debug.Log("Left Mouse");
-    }
-
-    private void OnLMBReleased()
-    {
-        Debug.Log("LMB released");
-    }
-
-    private void OnRMBPressed()
-    {
-        Debug.Log("Right Mouse");
-    }
-
-    private void OnRMBReleased()
-    {
-        Debug.Log("RMB released");
-    }
-
-    private void OnSpacebarPressed()
-    {
-        Debug.Log("Space");
-    }
-
-    private void OnSpacebarReleased()
-    {
-        Debug.Log("Space released");
+        FacingDirection *= -1;
+        transform.Rotate(0, 180, 0);
     }
 }

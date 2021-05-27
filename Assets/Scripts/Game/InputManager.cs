@@ -24,12 +24,11 @@ public class InputManager : MonoBehaviour
     public event Action MouseRightPressed;
     public event Action MouseRightReleased;
 
-    public float Horizontal => Input.GetAxisRaw("Horizontal");
-    public float Vertical => Input.GetAxisRaw("Vertical");
+    private Vector2 _direction;
 
-    //TODO: access Vector2 as direction
-    private Vector2 _inputDirection;
-    public Vector2 InputDirection => _inputDirection;
+    public Vector2 Direction => _direction;
+    public float XRaw => Input.GetAxisRaw("Horizontal");
+    public float YRaw => Input.GetAxisRaw("Vertical");
 
     private void Update()
     {
@@ -66,7 +65,7 @@ public class InputManager : MonoBehaviour
 
     private void CalculateInputDirection()
     {
-        _inputDirection = new Vector2(Horizontal, Vertical);
-        _inputDirection.Normalize();
+        _direction = new Vector2(XRaw, YRaw);
+        _direction.Normalize();
     }
 }

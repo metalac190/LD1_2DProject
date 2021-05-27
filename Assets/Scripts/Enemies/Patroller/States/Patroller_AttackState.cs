@@ -14,6 +14,7 @@ public class Patroller_AttackState : State
     private bool _isAttackSequenceComplete;
 
     Coroutine _attackRoutine;
+    GameObject _detectedGraphic;
 
     public Patroller_AttackState(PatrollerFSM stateMachine, Patroller patroller)
     {
@@ -22,12 +23,14 @@ public class Patroller_AttackState : State
         _data = patroller.Data;
 
         _playerDetector = patroller.PlayerDetector;
+        _detectedGraphic = patroller.DetectedGraphic;
     }
 
     public override void Enter()
     {
         base.Enter();
 
+        _detectedGraphic.SetActive(true);
         _patroller.Move(0);
         // adjust visual graphic - multiply x2 to convert radius to scale units
         _patroller.AttackLocation.transform.localScale 
@@ -45,6 +48,8 @@ public class Patroller_AttackState : State
     public override void Exit()
     {
         base.Exit();
+
+        _detectedGraphic.SetActive(false);
 
         _isAttackActive = false;
         _isAttackSequenceComplete = false;
