@@ -24,11 +24,19 @@ public class InputManager : MonoBehaviour
     public event Action MouseRightPressed;
     public event Action MouseRightReleased;
 
+    public bool SpacebarHeld => Input.GetButton(SpacebarInputName);
+    public bool EscapeHeld => Input.GetButton(EscapeInputName);
+    public bool EnterHeld => Input.GetButton(EnterInputName);
+    public bool MouseLeftHeld => Input.GetButton(MouseLeftInputName);
+    public bool MouseRightHeld => Input.GetButton(MouseRightInputName);
+
     private Vector2 _direction;
 
     public Vector2 Direction => _direction;
     public float XRaw => Input.GetAxisRaw("Horizontal");
     public float YRaw => Input.GetAxisRaw("Vertical");
+
+    //TODO: add input buffers for better User Experience, if we need it, using time since last input
 
     private void Update()
     {

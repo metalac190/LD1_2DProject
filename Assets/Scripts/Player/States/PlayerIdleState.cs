@@ -6,7 +6,9 @@ public class PlayerIdleState : State
 {
     PlayerFSM _stateMachine;
     Player _player;
+
     InputManager _input;
+    GroundDetector _groundDetector;
 
     public PlayerIdleState(PlayerFSM stateMachine, Player player) 
     {
@@ -14,12 +16,15 @@ public class PlayerIdleState : State
         _player = player;
 
         _input = player.Input;
+        _groundDetector = player.GroundDetector;
     }
 
     public override void Enter()
     {
         base.Enter();
         Debug.Log("STATE: Idle");
+        _input.SpacebarPressed += OnSpacebarPressed;
+        _groundDetector.LeftGround += OnLeftGround;
 
         _player.SetVelocityX(0);
     }
@@ -27,6 +32,9 @@ public class PlayerIdleState : State
     public override void Exit()
     {
         base.Exit();
+
+        _input.SpacebarPressed -= OnSpacebarPressed;
+        _groundDetector.LeftGround -= OnLeftGround;
     }
 
     public override void FixedUpdate()
@@ -37,10 +45,22 @@ public class PlayerIdleState : State
     public override void Update()
     {
         base.Update();
-        Debug.Log("Input: " + _input.XRaw);
+
         if(_input.XRaw != 0)
         {
             _stateMachine.ChangeState(_stateMachine.MoveState);
         }
+    }
+
+    private void OnSpacebarPressed()
+    {
+        if (_player.JumpsRemaining <= 0) { return; }
+
+        _stateMachine.ChangeState(_stateMachine.JumpingState);
+    }
+
+    private void OnLeftGround()
+    {
+        _stateMachine.ChangeState(_stateMachine.FallingState);
     }
 }

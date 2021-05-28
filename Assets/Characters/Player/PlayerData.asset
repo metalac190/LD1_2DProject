@@ -12,3 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa4e24fadbe5d14a9b22be8e7e5a547, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
+  _moveSpeed: 10
+  _jumpForce: 25
+  _amountOfJumps: 2
+  _shortJumpHeightMultiplier: 0.5
+  _jumpAfterFallDuration: 0.1
+  _landDuration: 0.2

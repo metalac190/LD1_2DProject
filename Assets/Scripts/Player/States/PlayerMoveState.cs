@@ -6,8 +6,10 @@ public class PlayerMoveState : State
 {
     PlayerFSM _stateMachine;
     Player _player;
+
     PlayerData _data;
     InputManager _input;
+    GroundDetector _groundDetector;
 
     public PlayerMoveState(PlayerFSM stateMachine, Player player) 
     {
@@ -16,6 +18,7 @@ public class PlayerMoveState : State
 
         _data = player.Data;
         _input = player.Input;
+        _groundDetector = player.GroundDetector;
     }
 
     public override void Enter()
@@ -23,11 +26,16 @@ public class PlayerMoveState : State
         base.Enter();
 
         Debug.Log("STATE: Move");
+        _input.SpacebarPressed += OnSpacebarPressed;
+        _groundDetector.LeftGround += OnLeftGround;
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        _input.SpacebarPressed -= OnSpacebarPressed;
+        _groundDetector.LeftGround -= OnLeftGround;
     }
 
     public override void FixedUpdate()
@@ -41,11 +49,21 @@ public class PlayerMoveState : State
     {
         base.Update();
 
-        _player.CheckIfShouldFlip((int)_input.XRaw);
-
         if(_input.XRaw == 0)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
         }
+    }
+
+    private void OnSpacebarPressed()
+    {
+        if (_player.JumpsRemaining <= 0) { return; }
+
+        _stateMachine.ChangeState(_stateMachine.JumpingState);
+    }
+
+    private void OnLeftGround()
+    {
+        _stateMachine.ChangeState(_stateMachine.FallingState);
     }
 }
