@@ -15,12 +15,15 @@ public class Player : MonoBehaviour
     private Rigidbody2D _rb;
     [SerializeField]
     private GroundDetector _groundDetector;
+    [SerializeField]
+    private WallDetector _wallDetector;
 
     public InputManager Input => _input;
     public PlayerData Data => _data;
     public PlayerAnimator PlayerAnimator => _playerAnimator;
     public Rigidbody2D RB => _rb;
     public GroundDetector GroundDetector => _groundDetector;
+    public WallDetector WallDetector => _wallDetector;
 
     public int FacingDirection { get; private set; } = 1;
 

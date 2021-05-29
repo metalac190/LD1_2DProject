@@ -24,6 +24,20 @@ public class PlayerData : ScriptableObject
     [SerializeField]
     private float _landDuration = .2f;
 
+    [Header("Wall Grab")]
+    [SerializeField]
+    private bool _allowWallSlide = false;
+    [SerializeField]
+    private float _wallSlideVelocity = 0.2f;
+    [SerializeField][Tooltip("This value gets added every physics update to increase the slide velocity over time")]
+    private float _wallSlideAcceleration = 0.2f;
+    [SerializeField]
+    private bool _allowWallGrab = false;
+    [SerializeField]
+    private float _wallClimbVelocity = 3;
+    [SerializeField]
+    private bool _allowWallClimb = false;
+
     public float MoveSpeed => _moveSpeed;
 
     public float JumpForce => _jumpForce;
@@ -32,4 +46,11 @@ public class PlayerData : ScriptableObject
     public float JumpAfterFallDuration => _jumpAfterFallDuration;
 
     public float LandDuration => _landDuration;
+
+    public bool AllowWallSlide => _allowWallSlide;
+    public float WallSlideVelocity => _wallSlideVelocity;
+    public float WallSlideAcceleration => _wallSlideAcceleration;
+    public bool AllowWallGrab => _allowWallGrab;
+    public bool AllowWallClimb => _allowWallClimb;
+    public float WallClimbVelocity => _wallClimbVelocity;
 }

@@ -10,6 +10,7 @@ public class PlayerFallingState : State
     PlayerData _data;
     InputManager _input;
     GroundDetector _groundDetector;
+    WallDetector _wallDetector;
 
     bool _lateJumpAllowed = false;
 
@@ -21,6 +22,7 @@ public class PlayerFallingState : State
         _data = player.Data;
         _input = player.Input;
         _groundDetector = player.GroundDetector;
+        _wallDetector = player.WallDetector;
     }
 
     public override void Enter()
@@ -50,6 +52,29 @@ public class PlayerFallingState : State
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+
+        CheckForWallGrab();
+    }
+
+    private void CheckForWallGrab()
+    {
+        if (_wallDetector.IsAgainstWall
+            && _input.XRaw == _player.FacingDirection)
+        {
+            // determine if we can enter any of our wall states
+            if (_data.AllowWallClimb)
+            {
+                _stateMachine.ChangeState(_stateMachine.WallClimbState);
+            }
+            else if (_data.AllowWallGrab)
+            {
+                _stateMachine.ChangeState(_stateMachine.WallGrabState);
+            }
+            else if (_data.AllowWallSlide)
+            {
+                _stateMachine.ChangeState(_stateMachine.WallSlideState);
+            }
+        }
     }
 
     public override void Update()
