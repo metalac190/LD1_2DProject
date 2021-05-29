@@ -13,14 +13,19 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   _moveSpeed: 10
-  _jumpForce: 25
+  _jumpVelocity: 25
   _amountOfJumps: 2
   _shortJumpHeightMultiplier: 0.5
   _jumpAfterFallDuration: 0.1
+  _allowWallJump: 1
+  _wallJumpVelocity: 25
+  _wallJumpAngle: {x: 1, y: 2}
+  _wallJumpMovementDampener: 0.5
+  _moveInputLockDuration: 0.35
   _landDuration: 0.2
   _allowWallSlide: 1
   _wallSlideVelocity: 0.2
   _wallSlideAcceleration: 0.3
-  _allowWallGrab: 0
+  _allowWallGrab: 1
   _wallClimbVelocity: 3
-  _allowWallClimb: 0
+  _allowWallClimb: 1

@@ -25,6 +25,9 @@ public class PlayerWallSuperState : State
     {
         base.Enter();
         _wallDetector.LostWall += OnLostWall;
+        _input.SpacebarPressed += OnSpacebarPressed;
+
+        _player.ResetJumps();
     }
 
     public override void Exit()
@@ -32,6 +35,7 @@ public class PlayerWallSuperState : State
         base.Exit();
 
         _wallDetector.LostWall -= OnLostWall;
+        _input.SpacebarPressed -= OnSpacebarPressed;
     }
 
     public override void FixedUpdate()
@@ -47,6 +51,7 @@ public class PlayerWallSuperState : State
         {
             OnLostWall();
         }
+
     }
 
     private void OnLostWall()
@@ -60,5 +65,10 @@ public class PlayerWallSuperState : State
         {
             _stateMachine.ChangeState(_stateMachine.FallingState);
         }
+    }
+
+    private void OnSpacebarPressed()
+    {
+        _stateMachine.ChangeState(_stateMachine.WallJumpState);
     }
 }

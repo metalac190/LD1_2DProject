@@ -38,7 +38,6 @@ public class PlayerWallSlideState : PlayerWallSuperState
     {
         base.FixedUpdate();
         float newSlideVelocity = -(_data.WallSlideVelocity + _accelerationAmount);
-        Debug.Log("Slide Velocity: " + newSlideVelocity);
         _player.SetVelocityY(newSlideVelocity);
         _accelerationAmount += _data.WallSlideAcceleration;
     }

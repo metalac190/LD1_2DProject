@@ -34,6 +34,13 @@ public class Player : MonoBehaviour
         ResetJumps();
     }
 
+    public void SetVelocity(float velocity, Vector2 angle, int direction)
+    {
+        angle.Normalize();
+        _rb.velocity = new Vector2(angle.x * velocity * direction, angle.y * velocity);
+        CheckIfShouldFlip(direction);
+    }
+
     public void SetVelocityX(float newXVelocity)
     {
         CheckIfShouldFlip((int)_input.XRaw);

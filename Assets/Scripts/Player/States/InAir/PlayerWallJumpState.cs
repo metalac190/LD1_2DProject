@@ -2,37 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerJumpingState : State
+public class PlayerWallJumpState : State
 {
     PlayerFSM _stateMachine;
     Player _player;
 
-    InputManager _input;
     PlayerData _data;
+    InputManager _input;
     GroundDetector _groundDetector;
 
-    public PlayerJumpingState(PlayerFSM stateMachine, Player player)
+    // this prevents player from immediately moving back into wall while wall jumping
+    bool _isInputAllowed = false;
+
+    public PlayerWallJumpState(PlayerFSM stateMachine, Player player)
     {
         _stateMachine = stateMachine;
         _player = player;
 
-        _input = player.Input;
         _data = player.Data;
+        _input = player.Input;
         _groundDetector = player.GroundDetector;
     }
 
     public override void Enter()
     {
         base.Enter();
-
-        Debug.Log("STATE: Jump");
+        Debug.Log("STATE: Wall Jump");
 
         _input.SpacebarReleased += OnSpacebarReleased;
 
+        _isInputAllowed = false;
+
         _player.DecreaseJumpsRemaining();
         Debug.Log("Remaining Jumps: " + _player.JumpsRemaining);
-        _player.SetVelocityY(_data.JumpVelocity);
-
+        // reverse direction
+        _player.SetVelocity(_data.WallJumpVelocity, _data.WallJumpAngle, -_player.FacingDirection);
     }
 
     public override void Exit()
@@ -47,24 +51,32 @@ public class PlayerJumpingState : State
         base.FixedUpdate();
 
         // if we're not grounded, but began falling, go to fall state
-        if(!_groundDetector.IsGrounded && _player.RB.velocity.y <= 0)
+        if (!_groundDetector.IsGrounded && _player.RB.velocity.y <= 0)
         {
             _stateMachine.ChangeState(_stateMachine.FallingState);
         }
 
-        _player.SetVelocityX(_input.XRaw * _data.MoveSpeed);
+        if (_isInputAllowed)
+        {
+            _player.SetVelocityX(_input.XRaw * _data.MoveSpeed * _data.WallJumpMovementDampener);
+        }
+        
     }
 
     public override void Update()
     {
         base.Update();
-        
-        
+
+        // if we've waited the lock duration, unlock input
+        if(!_isInputAllowed && StateDuration > _data.MoveInputLockDuration)
+        {
+            _isInputAllowed = true;
+        }
     }
+
 
     private void OnSpacebarReleased()
     {
-        // cut the jump short on release
-        _player.SetVelocityY(_player.RB.velocity.y * _data.ShortJumpHeightMultiplier);
+        //_player.SetVelocityY(_player.RB.velocity.y * _data.ShortJumpHeightMultiplier);
     }
 }

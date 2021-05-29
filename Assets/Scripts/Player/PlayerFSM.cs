@@ -17,6 +17,7 @@ public class PlayerFSM : StateMachineMB
     public PlayerWallSlideState WallSlideState { get; private set; }
     public PlayerWallGrab WallGrabState { get; private set; }
     public PlayerWallClimbState WallClimbState { get; private set; }
+    public PlayerWallJumpState WallJumpState { get; private set; }
 
     private void Awake()
     {
@@ -31,6 +32,7 @@ public class PlayerFSM : StateMachineMB
         WallSlideState = new PlayerWallSlideState(this, _player);
         WallGrabState = new PlayerWallGrab(this, _player);
         WallClimbState = new PlayerWallClimbState(this, _player);
+        WallJumpState = new PlayerWallJumpState(this, _player);
     }
 
     private void Start()

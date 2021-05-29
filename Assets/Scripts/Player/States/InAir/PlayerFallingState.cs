@@ -13,6 +13,7 @@ public class PlayerFallingState : State
     WallDetector _wallDetector;
 
     bool _lateJumpAllowed = false;
+    bool _lateWallJumpAllowed = false;
 
     public PlayerFallingState(PlayerFSM stateMachine, Player player)
     {
@@ -37,6 +38,11 @@ public class PlayerFallingState : State
         {
             _lateJumpAllowed = true;
         }
+        if(_wallDetector.TimeOffWall <= _data.WallJumpAfterFallDuration)
+        {
+            Debug.Log("Late wall jump locked");
+            _lateWallJumpAllowed = true;
+        }
     }
 
     public override void Exit()
@@ -47,6 +53,7 @@ public class PlayerFallingState : State
         _input.SpacebarPressed -= OnSpacebarPressed;
 
         _lateJumpAllowed = false;
+        _lateWallJumpAllowed = false;
     }
 
     public override void FixedUpdate()
@@ -83,7 +90,7 @@ public class PlayerFallingState : State
 
         _player.SetVelocityX(_input.XRaw * _data.MoveSpeed);
 
-        // if lateJump is allow, and we've passed the window, close it off
+        // if lateJump is allowed, and we've passed the window, close it off
         // if we're past the allow late jump window, then close it off and remove our buffer jump
         if(_lateJumpAllowed 
             && _groundDetector.TimeInAir >= _data.JumpAfterFallDuration)
@@ -91,7 +98,13 @@ public class PlayerFallingState : State
             _lateJumpAllowed = false;
             _player.DecreaseJumpsRemaining();
         }
-
+        // if late wall jump is allowed, and we've passed the window, close it off
+        if(_lateWallJumpAllowed 
+            && _wallDetector.TimeOffWall >= _data.WallJumpAfterFallDuration)
+        {
+            _lateWallJumpAllowed = false;
+            _player.DecreaseJumpsRemaining();
+        }
     }
 
     private void OnFoundGround()
@@ -106,7 +119,20 @@ public class PlayerFallingState : State
     private void OnSpacebarPressed()
     {
         if(_player.JumpsRemaining <= 0) { return; }
-        // if we have remaining jumps, do a mid-air jump!
-        _stateMachine.ChangeState(_stateMachine.JumpingState);
+        // if we have remaining jumps, determine if it is a air jump or a wall jump
+        if (_lateWallJumpAllowed)
+        {
+            // if we're facing away from the wall, flip before wall jumping
+            if (!_wallDetector.IsAgainstWall)
+            {
+                _player.Flip();
+            }
+            _stateMachine.ChangeState(_stateMachine.WallJumpState);
+        }
+        // otherwise do a normal air jump
+        else
+        {
+            _stateMachine.ChangeState(_stateMachine.JumpingState);
+        }
     }
 }
