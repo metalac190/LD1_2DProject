@@ -13,6 +13,11 @@ public class InputManager : MonoBehaviour
     public const string MouseLeftInputName = "Fire1";
     public const string MouseRightInputName = "Fire2";
 
+    public event Action LeftPressed;
+    public event Action RightPressed;
+    public event Action UpPressed;
+    public event Action DownPressed;
+
     public event Action SpacebarPressed;
     public event Action SpacebarReleased;
     public event Action EscapePressed;
@@ -31,10 +36,42 @@ public class InputManager : MonoBehaviour
     public bool MouseRightHeld => Input.GetButton(MouseRightInputName);
 
     private Vector2 _direction;
-
     public Vector2 Direction => _direction;
-    public float XRaw => Input.GetAxisRaw("Horizontal");
-    public float YRaw => Input.GetAxisRaw("Vertical");
+
+    // communicate when new left/right directions are received
+    private float _xRaw;
+    public float XRaw
+    {
+        get => _xRaw;
+        private set
+        {
+            if(value != _xRaw)
+            {
+                if(value == 1)
+                    RightPressed?.Invoke();
+                else if(value == -1)
+                    LeftPressed?.Invoke();
+            }
+            _xRaw = value;
+        }
+    }
+    // communicate when new up/down directions are received
+    private float _yRaw;
+    public float YRaw
+    {
+        get => _yRaw;
+        private set
+        {
+            if (value != _yRaw)
+            {
+                if (value == 1)
+                    UpPressed?.Invoke();
+                else if (value == -1)
+                    DownPressed?.Invoke();
+            }
+            _yRaw = value;
+        }
+    }
 
     //TODO: add input buffers for better User Experience, if we need it, using time since last input
 
@@ -73,6 +110,9 @@ public class InputManager : MonoBehaviour
 
     private void CalculateInputDirection()
     {
+        XRaw = Input.GetAxisRaw("Horizontal");
+        YRaw = Input.GetAxisRaw("Vertical");
+
         _direction = new Vector2(XRaw, YRaw);
         _direction.Normalize();
     }

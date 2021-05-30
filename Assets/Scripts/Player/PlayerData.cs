@@ -61,6 +61,8 @@ public class PlayerData : ScriptableObject
     private bool _allowWallClimb = false;
 
     [Header("Ledge")]
+    [SerializeField][Tooltip("Turn this to true if you don't want to hang while waiting for input")]
+    private bool _shouldAutoClimb = false;
     [SerializeField]
     private float _ledgeClimbDuration = .5f;
     [SerializeField][Tooltip("Allow player to push downwards from ledge forcefully")]
@@ -99,6 +101,7 @@ public class PlayerData : ScriptableObject
     public bool AllowWallClimb => _allowWallClimb;
     public float WallClimbVelocity => _wallClimbVelocity;
     // ledge
+    public bool ShouldAutoClimb => _shouldAutoClimb;
     public float LedgeClimbDuration => _ledgeClimbDuration;
     public float LedgeDropPushVelocity => _ledgeDropPushVelocity;
     public Vector2 StartClimbOffset => _startClimbOffset;

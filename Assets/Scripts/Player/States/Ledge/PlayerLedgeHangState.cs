@@ -10,6 +10,7 @@ public class PlayerLedgeHangState : State
     PlayerData _data;
     InputManager _input;
     LedgeDetector _ledgeDetector;
+    PlayerAnimator _playerAnimator;
 
     Vector2 _cornerPos;
 
@@ -23,6 +24,7 @@ public class PlayerLedgeHangState : State
         _data = player.Data;
         _input = player.Input;
         _ledgeDetector = player.LedgeDetector;
+        _playerAnimator = player.PlayerAnimator;
     }
 
     public override void Enter()
@@ -31,6 +33,9 @@ public class PlayerLedgeHangState : State
         Debug.Log("STATE: Ledge Climb");
 
         _input.SpacebarPressed += OnSpacebarPressed;
+        _input.UpPressed += OnUpPressed;
+
+        _playerAnimator.LedgeHangVisual.SetActive(true);
 
         _cornerPos = _ledgeDetector.CalculateUpperLedgeCornerPosition(_player.FacingDirection);
 
@@ -47,6 +52,9 @@ public class PlayerLedgeHangState : State
         Debug.Log("Exit Ledge Climb");
 
         _input.SpacebarPressed -= OnSpacebarPressed;
+        _input.UpPressed -= OnUpPressed;
+
+        _playerAnimator.LedgeHangVisual.SetActive(false);
     }
 
     public override void FixedUpdate()
@@ -60,7 +68,12 @@ public class PlayerLedgeHangState : State
     {
         base.Update();
         // if we press down, drop 
-        if(_input.YRaw < 0)
+        if (_data.ShouldAutoClimb)
+        {
+            _stateMachine.ChangeState(_stateMachine.LedgeClimbState);
+        }
+        // otherwise wait for input
+        else if (_input.YRaw < 0)
         {
             if (_data.AllowWallSlide && _input.XRaw == _player.FacingDirection)
             {
@@ -75,11 +88,6 @@ public class PlayerLedgeHangState : State
                 _stateMachine.ChangeState(_stateMachine.FallingState);
             }
         }
-        // or if we press up, ledge climb
-        else if(_input.YRaw > 0)
-        {
-            _stateMachine.ChangeState(_stateMachine.LedgeClimbState);
-        }
     }
 
     private void CalculateClimbPositions()
@@ -87,6 +95,11 @@ public class PlayerLedgeHangState : State
         // calculate start climb from player offsets
         _hangPosition = new Vector2(_cornerPos.x - (_player.FacingDirection * _data.StartClimbOffset.x),
             _cornerPos.y - _data.StartClimbOffset.y);
+    }
+
+    private void OnUpPressed()
+    {
+        _stateMachine.ChangeState(_stateMachine.LedgeClimbState);
     }
 
     private void OnSpacebarPressed()

@@ -9,6 +9,7 @@ public class PlayerWallClimbState : PlayerWallSuperState
 
     PlayerData _data;
     InputManager _input;
+    LedgeDetector _ledgeDetector;
 
     public PlayerWallClimbState(PlayerFSM stateMachine, Player player) : base(stateMachine, player)
     {
@@ -17,6 +18,7 @@ public class PlayerWallClimbState : PlayerWallSuperState
 
         _data = player.Data;
         _input = player.Input;
+        _ledgeDetector = player.LedgeDetector;
     }
 
     public override void Enter()
@@ -36,12 +38,18 @@ public class PlayerWallClimbState : PlayerWallSuperState
         base.FixedUpdate();
 
         _player.SetVelocityY(_data.WallClimbVelocity);
+
+        if (_ledgeDetector.IsDetectingUpperLedge)
+        {
+            _stateMachine.ChangeState(_stateMachine.LedgeHangState);
+        }
     }
 
     public override void Update()
     {
         base.Update();
         // test for wall grab
+        
         if(_data.AllowWallGrab && _input.YRaw == 0)
         {
             _stateMachine.ChangeState(_stateMachine.WallGrabState);

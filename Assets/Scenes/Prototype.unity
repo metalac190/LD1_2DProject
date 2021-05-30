@@ -26643,7 +26643,7 @@ MonoBehaviour:
   _wallDetector: {fileID: 1019700328}
   _groundDetector: {fileID: 1019700329}
   _upperLedgeCheckLocation: {fileID: 1884541641310819271}
-  _upperLedgeCheckDistance: 0.25
+  _upperLedgeCheckDistance: 0.75
   _lowerLedgeCheckLocation: {fileID: 1655367729}
   _lowerLedgeCheckDistance: 0.5
   _whatIsWall:
@@ -26683,7 +26683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _wallCheckLocation: {fileID: 1884541640399623753}
-  _wallCheckDistance: 0.25
+  _wallCheckDistance: 0.35
   _whatIsWall:
     serializedVersion: 2
     m_Bits: 256
@@ -26745,7 +26745,7 @@ GameObject:
   - component: {fileID: 1094597772}
   - component: {fileID: 1094597773}
   m_Layer: 9
-  m_Name: ClimbIndicator
+  m_Name: HangIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33176,6 +33176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 5745185949174012041}
+  _ledgeHangVisual: {fileID: 1094597771}
 --- !u!114 &1061988416752541357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33367,7 +33368,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1884541640399623758}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.38, y: 1.444, z: 0}
+  m_LocalPosition: {x: 0.38, y: 1.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1019700327}

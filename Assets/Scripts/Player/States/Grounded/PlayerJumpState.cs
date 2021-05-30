@@ -29,8 +29,6 @@ public class PlayerJumpState : State
 
         _input.SpacebarReleased += OnSpacebarReleased;
 
-        //_player.DecreaseAirJumpsRemaining();
-        Debug.Log("Remaining Jumps: " + _player.AirJumpsRemaining);
         _player.SetVelocityY(_data.JumpVelocity);
 
     }

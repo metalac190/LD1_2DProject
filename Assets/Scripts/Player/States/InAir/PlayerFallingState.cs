@@ -31,7 +31,7 @@ public class PlayerFallingState : State
     public override void Enter()
     {
         base.Enter();
-
+        Debug.Log("STATE: Falling");
         _input.SpacebarPressed += OnSpacebarPressed;
         // alow the player a free jump if they've recently left ground (Coyote time)
         if(_groundDetector.TimeInAir <= _data.JumpAfterFallDuration)
