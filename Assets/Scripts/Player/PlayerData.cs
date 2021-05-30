@@ -11,13 +11,21 @@ public class PlayerData : ScriptableObject
 
     [Header("Jumping")]
     [SerializeField]
-    private float _jumpVelocity = 25;
+    private bool _allowJump = true;
     [SerializeField]
-    private int _amountOfJumps = 1;
+    private float _jumpVelocity = 25;
     [SerializeField][Range(0,1)][Tooltip("Short jump height compared to full jump")]
-    private float _shortJumpHeightMultiplier = 0.5f;
+    private float _shortJumpHeightScale = 0.5f;
     [SerializeField][Tooltip("Allow a brief buffer for jumping right after falling")]
     private float _jumpAfterFallDuration = 0.1f;
+
+    [Header("Air Jump")]
+    [SerializeField]
+    private int _amountOfAirJumps = 1;
+    [SerializeField]
+    private float _airJumpVelocity = 20;
+    [SerializeField][Range(0, 1)][Tooltip("Short jump height compared to full air jump")]
+    private float _shortAirJumpHeightScale = 0.5f;
 
     [Header("Wall Jump")]
     [SerializeField]
@@ -56,10 +64,14 @@ public class PlayerData : ScriptableObject
     // movement
     public float MoveSpeed => _moveSpeed;
     // jumping
+    public bool AllowJump => _allowJump;
     public float JumpVelocity => _jumpVelocity;
-    public int AmountOfJumps => _amountOfJumps;
-    public float ShortJumpHeightMultiplier => _shortJumpHeightMultiplier;
+    public float ShortJumpHeightScale => _shortJumpHeightScale;
     public float JumpAfterFallDuration => _jumpAfterFallDuration;
+    // air jump
+    public int AmountOfAirJumps => _amountOfAirJumps;
+    public float AirJumpVelocity => _airJumpVelocity;
+    public float ShortAirJumpHeightScale => _shortAirJumpHeightScale;
     // wall jump
     public bool AllowWallJump => _allowWallJump;
     public float WallJumpVelocity => _wallJumpVelocity;

@@ -64,6 +64,6 @@ public class PlayerLandState : State
     private void OnSpacebarPressed()
     {
         // jump
-        _stateMachine.ChangeState(_stateMachine.JumpingState);
+        _stateMachine.ChangeState(_stateMachine.JumpState);
     }
 }

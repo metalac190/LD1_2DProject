@@ -7,6 +7,7 @@ public class PlayerIdleState : State
     PlayerFSM _stateMachine;
     Player _player;
 
+    PlayerData _data;
     InputManager _input;
     GroundDetector _groundDetector;
 
@@ -15,6 +16,7 @@ public class PlayerIdleState : State
         _stateMachine = stateMachine;
         _player = player;
 
+        _data = player.Data;
         _input = player.Input;
         _groundDetector = player.GroundDetector;
     }
@@ -54,9 +56,12 @@ public class PlayerIdleState : State
 
     private void OnSpacebarPressed()
     {
-        if (_player.JumpsRemaining <= 0) { return; }
+        //if (_player.JumpsRemaining <= 0) { return; }
 
-        _stateMachine.ChangeState(_stateMachine.JumpingState);
+        if (_data.AllowJump)
+        {
+            _stateMachine.ChangeState(_stateMachine.JumpState);
+        }
     }
 
     private void OnLeftGround()

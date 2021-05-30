@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerJumpingState : State
+public class PlayerAirJumpState : State
 {
     PlayerFSM _stateMachine;
     Player _player;
@@ -11,7 +11,7 @@ public class PlayerJumpingState : State
     PlayerData _data;
     GroundDetector _groundDetector;
 
-    public PlayerJumpingState(PlayerFSM stateMachine, Player player)
+    public PlayerAirJumpState(PlayerFSM stateMachine, Player player)
     {
         _stateMachine = stateMachine;
         _player = player;
@@ -25,14 +25,11 @@ public class PlayerJumpingState : State
     {
         base.Enter();
 
-        Debug.Log("STATE: Jump");
-
         _input.SpacebarReleased += OnSpacebarReleased;
 
-        _player.DecreaseJumpsRemaining();
-        Debug.Log("Remaining Jumps: " + _player.JumpsRemaining);
-        _player.SetVelocityY(_data.JumpVelocity);
-
+        _player.DecreaseAirJumpsRemaining();
+        Debug.Log("Remaining Jumps: " + _player.AirJumpsRemaining);
+        _player.SetVelocityY(_data.AirJumpVelocity);
     }
 
     public override void Exit()
@@ -47,7 +44,7 @@ public class PlayerJumpingState : State
         base.FixedUpdate();
 
         // if we're not grounded, but began falling, go to fall state
-        if(!_groundDetector.IsGrounded && _player.RB.velocity.y <= 0)
+        if (!_groundDetector.IsGrounded && _player.RB.velocity.y <= 0)
         {
             _stateMachine.ChangeState(_stateMachine.FallingState);
         }
@@ -58,13 +55,11 @@ public class PlayerJumpingState : State
     public override void Update()
     {
         base.Update();
-        
-        
     }
 
     private void OnSpacebarReleased()
     {
         // cut the jump short on release
-        _player.SetVelocityY(_player.RB.velocity.y * _data.ShortJumpHeightMultiplier);
+        _player.SetVelocityY(_player.RB.velocity.y * _data.ShortAirJumpHeightScale);
     }
 }

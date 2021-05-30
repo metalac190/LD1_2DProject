@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
 
     public int FacingDirection { get; private set; } = 1;
 
-    public int JumpsRemaining { get; private set; }
+    public int AirJumpsRemaining { get; private set; }
 
     private void Awake()
     {
@@ -47,8 +47,8 @@ public class Player : MonoBehaviour
         _rb.velocity = new Vector2(newXVelocity, _rb.velocity.y);
     }
 
-    public void DecreaseJumpsRemaining() => JumpsRemaining--;
-    public void ResetJumps() => JumpsRemaining = _data.AmountOfJumps;
+    public void DecreaseAirJumpsRemaining() => AirJumpsRemaining--;
+    public void ResetJumps() => AirJumpsRemaining = _data.AmountOfAirJumps;
 
     public void SetVelocityY(float newYVelocity)
     {

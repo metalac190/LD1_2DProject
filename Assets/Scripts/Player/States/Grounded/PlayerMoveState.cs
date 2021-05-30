@@ -57,9 +57,12 @@ public class PlayerMoveState : State
 
     private void OnSpacebarPressed()
     {
-        if (_player.JumpsRemaining <= 0) { return; }
+        //if (_player.JumpsRemaining <= 0) { return; }
 
-        _stateMachine.ChangeState(_stateMachine.JumpingState);
+        if (_data.AllowJump)
+        {
+            _stateMachine.ChangeState(_stateMachine.JumpState);
+        }
     }
 
     private void OnLeftGround()

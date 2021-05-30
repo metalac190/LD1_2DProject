@@ -10,7 +10,8 @@ public class PlayerFSM : StateMachineMB
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
     // air
-    public PlayerJumpingState JumpingState { get; private set; }
+    public PlayerJumpState JumpState { get; private set; }
+    public PlayerAirJumpState AirJumpState { get; private set; }
     public PlayerFallingState FallingState { get; private set; }
     public PlayerLandState LandState { get; private set; }
     // wall
@@ -25,7 +26,8 @@ public class PlayerFSM : StateMachineMB
         IdleState = new PlayerIdleState(this, _player);
         MoveState = new PlayerMoveState(this, _player);
         // air
-        JumpingState = new PlayerJumpingState(this, _player);
+        JumpState = new PlayerJumpState(this, _player);
+        AirJumpState = new PlayerAirJumpState(this, _player);
         FallingState = new PlayerFallingState(this, _player);
         LandState = new PlayerLandState(this, _player);
         // wall

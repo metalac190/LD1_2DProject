@@ -31,7 +31,6 @@ public class PlayerFallingState : State
         base.Enter();
 
         Debug.Log("STATE: Falling");
-        _groundDetector.FoundGround += OnFoundGround;
         _input.SpacebarPressed += OnSpacebarPressed;
         // alow the player a free jump if they've recently left ground (Coyote time)
         if(_groundDetector.TimeInAir <= _data.JumpAfterFallDuration)
@@ -49,7 +48,6 @@ public class PlayerFallingState : State
     {
         base.Exit();
 
-        _groundDetector.FoundGround -= OnFoundGround;
         _input.SpacebarPressed -= OnSpacebarPressed;
 
         _lateJumpAllowed = false;
@@ -60,6 +58,7 @@ public class PlayerFallingState : State
     {
         base.FixedUpdate();
 
+        CheckIfGrounded();
         CheckForWallGrab();
     }
 
@@ -96,21 +95,21 @@ public class PlayerFallingState : State
             && _groundDetector.TimeInAir >= _data.JumpAfterFallDuration)
         {
             _lateJumpAllowed = false;
-            _player.DecreaseJumpsRemaining();
+            //_player.DecreaseAirJumpsRemaining();
         }
         // if late wall jump is allowed, and we've passed the window, close it off
         if(_lateWallJumpAllowed 
             && _wallDetector.TimeOffWall >= _data.WallJumpAfterFallDuration)
         {
             _lateWallJumpAllowed = false;
-            _player.DecreaseJumpsRemaining();
+            //_player.DecreaseAirJumpsRemaining();
         }
     }
 
-    private void OnFoundGround()
+    private void CheckIfGrounded()
     {
         // if we've just hit ground and our velocity is downwards, we've landed
-        if(_player.RB.velocity.y < 0.01f)
+        if(_groundDetector.IsGrounded && _player.RB.velocity.y < 0.01f)
         {
             _stateMachine.ChangeState(_stateMachine.LandState);
         }
@@ -118,7 +117,7 @@ public class PlayerFallingState : State
 
     private void OnSpacebarPressed()
     {
-        if(_player.JumpsRemaining <= 0) { return; }
+        if(_player.AirJumpsRemaining <= 0) { return; }
         // if we have remaining jumps, determine if it is a air jump or a wall jump
         if (_lateWallJumpAllowed)
         {
@@ -132,7 +131,7 @@ public class PlayerFallingState : State
         // otherwise do a normal air jump
         else
         {
-            _stateMachine.ChangeState(_stateMachine.JumpingState);
+            _stateMachine.ChangeState(_stateMachine.AirJumpState);
         }
     }
 }
