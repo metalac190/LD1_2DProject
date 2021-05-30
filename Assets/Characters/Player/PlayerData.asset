@@ -13,15 +13,19 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   _moveSpeed: 10
-  _jumpVelocity: 25
-  _amountOfJumps: 2
-  _shortJumpHeightMultiplier: 0.5
+  _allowJump: 1
+  _jumpVelocity: 28
+  _shortJumpHeightScale: 0.5
   _jumpAfterFallDuration: 0.1
+  _amountOfAirJumps: 1
+  _airJumpVelocity: 20
+  _shortAirJumpHeightScale: 0.5
   _allowWallJump: 1
-  _wallJumpVelocity: 25
-  _wallJumpAngle: {x: 1, y: 2}
+  _wallJumpVelocity: 28
+  _wallJumpAngle: {x: 1, y: 1.75}
   _wallJumpMovementDampener: 0.5
   _moveInputLockDuration: 0.35
+  _wallJumpAfterFallDuration: 0.1
   _landDuration: 0.2
   _allowWallSlide: 1
   _wallSlideVelocity: 0.2
@@ -29,3 +33,7 @@ MonoBehaviour:
   _allowWallGrab: 1
   _wallClimbVelocity: 3
   _allowWallClimb: 1
+  _ledgeClimbDuration: 0.1
+  _ledgeDropPushVelocity: 10
+  _startClimbOffset: {x: 0.3, y: 2}
+  _stopClimbOffset: {x: 0.75, y: 0.25}

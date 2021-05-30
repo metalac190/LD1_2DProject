@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     private GroundDetector _groundDetector;
     [SerializeField]
     private WallDetector _wallDetector;
+    [SerializeField]
+    private LedgeDetector _ledgeDetector;
 
     public InputManager Input => _input;
     public PlayerData Data => _data;
@@ -24,6 +26,7 @@ public class Player : MonoBehaviour
     public Rigidbody2D RB => _rb;
     public GroundDetector GroundDetector => _groundDetector;
     public WallDetector WallDetector => _wallDetector;
+    public LedgeDetector LedgeDetector => _ledgeDetector;
 
     public int FacingDirection { get; private set; } = 1;
 
@@ -32,6 +35,19 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         ResetJumps();
+    }
+
+    public void HoldPosition(Vector2 position)
+    {
+        SetVelocityZero();
+        // this seems redundant, but physics needs to explicitly be told that RB has stopped
+        // moving or some systems (like Cinemachine) don't follow properly
+        RB.MovePosition(position);
+    }
+
+    public void SetVelocityZero()
+    {
+        _rb.velocity = Vector2.zero;
     }
 
     public void SetVelocity(float velocity, Vector2 angle, int direction)

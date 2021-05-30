@@ -10,7 +10,7 @@ public class PlayerWallGrab : PlayerWallSuperState
     PlayerData _data;
     InputManager _input;
 
-    Vector2 _holdPosition;
+    Vector2 _startPosition;
 
     public PlayerWallGrab(PlayerFSM stateMachine, Player player) : base(stateMachine, player)
     {
@@ -28,7 +28,7 @@ public class PlayerWallGrab : PlayerWallSuperState
 
         Debug.Log("STATE: Wall Grab");
 
-        _holdPosition = _player.RB.position;
+        _startPosition = _player.RB.position;
     }
 
     public override void Exit()
@@ -39,7 +39,7 @@ public class PlayerWallGrab : PlayerWallSuperState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        HoldPosition();
+        _player.HoldPosition(_startPosition);
     }
 
     public override void Update()
@@ -55,11 +55,5 @@ public class PlayerWallGrab : PlayerWallSuperState
         {
             _stateMachine.ChangeState(_stateMachine.WallSlideState);
         }
-    }
-
-    private void HoldPosition()
-    {
-        _player.SetVelocityY(0);
-        _player.RB.MovePosition(_holdPosition);
     }
 }

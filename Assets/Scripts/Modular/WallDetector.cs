@@ -15,6 +15,8 @@ public class WallDetector : MonoBehaviour
     [SerializeField]
     private LayerMask _whatIsWall;
 
+    public Transform WallCheckLocation => _wallCheckLocation;
+
     public float TimeOnWall { get; private set; } = 0;
     public float TimeOffWall { get; private set; } = 0;
 

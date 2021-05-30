@@ -19,6 +19,9 @@ public class PlayerFSM : StateMachineMB
     public PlayerWallGrab WallGrabState { get; private set; }
     public PlayerWallClimbState WallClimbState { get; private set; }
     public PlayerWallJumpState WallJumpState { get; private set; }
+    // ledge
+    public PlayerLedgeHangState LedgeHangState { get; private set; }
+    public PlayerLedgeClimbState LedgeClimbState { get; private set; }
 
     private void Awake()
     {
@@ -35,6 +38,9 @@ public class PlayerFSM : StateMachineMB
         WallGrabState = new PlayerWallGrab(this, _player);
         WallClimbState = new PlayerWallClimbState(this, _player);
         WallJumpState = new PlayerWallJumpState(this, _player);
+        // ledge
+        LedgeHangState = new PlayerLedgeHangState(this, _player);
+        LedgeClimbState = new PlayerLedgeClimbState(this, _player);
     }
 
     private void Start()

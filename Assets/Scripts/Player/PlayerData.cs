@@ -60,6 +60,16 @@ public class PlayerData : ScriptableObject
     [SerializeField]
     private bool _allowWallClimb = false;
 
+    [Header("Ledge")]
+    [SerializeField]
+    private float _ledgeClimbDuration = .5f;
+    [SerializeField][Tooltip("Allow player to push downwards from ledge forcefully")]
+    private float _ledgeDropPushVelocity = 10;
+    [SerializeField]
+    private Vector2 _startClimbOffset;
+    [SerializeField]
+    private Vector2 _stopClimbOffset;
+
     #region Getters
     // movement
     public float MoveSpeed => _moveSpeed;
@@ -88,5 +98,10 @@ public class PlayerData : ScriptableObject
     public bool AllowWallGrab => _allowWallGrab;
     public bool AllowWallClimb => _allowWallClimb;
     public float WallClimbVelocity => _wallClimbVelocity;
+    // ledge
+    public float LedgeClimbDuration => _ledgeClimbDuration;
+    public float LedgeDropPushVelocity => _ledgeDropPushVelocity;
+    public Vector2 StartClimbOffset => _startClimbOffset;
+    public Vector2 StopClimbOffset => _stopClimbOffset;
     #endregion
 }
