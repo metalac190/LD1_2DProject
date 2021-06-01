@@ -36,5 +36,5 @@ MonoBehaviour:
   _shouldAutoClimb: 0
   _ledgeClimbDuration: 0.2
   _ledgeDropPushVelocity: 10
-  _startClimbOffset: {x: 0.3, y: 2.25}
-  _stopClimbOffset: {x: 0.75, y: 0.25}
+  _startClimbOffset: {x: 0.3, y: 2.5}
+  _stopClimbOffset: {x: 0.75, y: 0.4}
