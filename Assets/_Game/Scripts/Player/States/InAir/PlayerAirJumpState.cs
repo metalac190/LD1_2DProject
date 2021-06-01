@@ -28,7 +28,6 @@ public class PlayerAirJumpState : State
         _input.JumpReleased += OnJumpReleased;
 
         _player.DecreaseAirJumpsRemaining();
-        Debug.Log("Remaining Jumps: " + _player.AirJumpsRemaining);
         _player.SetVelocityY(_data.AirJumpVelocity);
     }
 
@@ -43,6 +42,7 @@ public class PlayerAirJumpState : State
     {
         base.FixedUpdate();
 
+        _groundDetector.DetectGround();
         // if we're not grounded, but began falling, go to fall state
         if (!_groundDetector.IsGrounded && _player.RB.velocity.y <= 0)
         {

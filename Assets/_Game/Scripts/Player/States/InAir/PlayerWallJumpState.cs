@@ -10,9 +10,10 @@ public class PlayerWallJumpState : State
     PlayerData _data;
     GameplayInput _input;
     GroundDetector _groundDetector;
+    WallDetector _wallDetector;
 
     // this prevents player from immediately moving back into wall while wall jumping
-    bool _isInputAllowed = false;
+    bool _isMoveInputAllowed = false;
 
     public PlayerWallJumpState(PlayerFSM stateMachine, Player player)
     {
@@ -22,6 +23,7 @@ public class PlayerWallJumpState : State
         _data = player.Data;
         _input = player.Input;
         _groundDetector = player.GroundDetector;
+        _wallDetector = player.WallDetector;
     }
 
     public override void Enter()
@@ -29,7 +31,9 @@ public class PlayerWallJumpState : State
         base.Enter();
         Debug.Log("STATE: Wall Jump");
 
-        _isInputAllowed = false;
+        _input.JumpPressed -= OnJumpPressed;
+
+        _isMoveInputAllowed = false;
 
         //_player.DecreaseAirJumpsRemaining();
         Debug.Log("Remaining Jumps: " + _player.AirJumpsRemaining);
@@ -41,19 +45,24 @@ public class PlayerWallJumpState : State
     {
         base.Exit();
 
+        _input.JumpPressed -= OnJumpPressed;
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
 
+        _groundDetector.DetectGround();
+        _wallDetector.DetectWall();
+
         // if we're not grounded, but began falling, go to fall state
         if (!_groundDetector.IsGrounded && _player.RB.velocity.y <= 0)
         {
             _stateMachine.ChangeState(_stateMachine.FallingState);
+            return;
         }
 
-        if (_isInputAllowed)
+        if (_isMoveInputAllowed)
         {
             _player.SetVelocityX(_input.XRaw * _data.MoveSpeed * _data.WallJumpMovementDampener);
         }
@@ -65,10 +74,24 @@ public class PlayerWallJumpState : State
         base.Update();
 
         // if we've waited the lock duration, unlock input
-        if(!_isInputAllowed && StateDuration > _data.MoveInputLockDuration)
+        if(!_isMoveInputAllowed && StateDuration > _data.MoveInputLockDuration)
         {
-            _isInputAllowed = true;
+            _isMoveInputAllowed = true;
         }
     }
 
+    private void OnJumpPressed()
+    {
+        Debug.Log("Jump pressed");
+        // if we're detecting another wall immediately do another wall jump
+        if(_wallDetector.IsWallDetected)
+        {
+            _stateMachine.ChangeState(_stateMachine.WallJumpState);
+        }
+        // otherwise, if we have remaining air jumps, use that
+        else if(_player.AirJumpsRemaining >= 0)
+        {
+            _stateMachine.ChangeState(_stateMachine.AirJumpState);
+        }
+    }
 }

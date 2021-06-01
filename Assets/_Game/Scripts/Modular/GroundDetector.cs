@@ -20,6 +20,8 @@ public class GroundDetector : MonoBehaviour
     private LayerMask _whatIsGround;
     [SerializeField]
     private Transform _groundCheckLocation;
+    [SerializeField]
+    private bool _autoCheck = false;
 
     public float TimeInAir { get; private set; } = 0;
     public float TimeOnGround { get; private set; } = 0;
@@ -51,7 +53,8 @@ public class GroundDetector : MonoBehaviour
 
     private void FixedUpdate()
     {
-        IsGrounded = CheckIfTouchingGround();
+        if(_autoCheck)
+            DetectGround();
     }
 
     private void Update()
@@ -63,11 +66,13 @@ public class GroundDetector : MonoBehaviour
             TimeInAir += Time.deltaTime;
     }
 
-    public bool CheckIfTouchingGround()
+    public bool DetectGround()
     {
         if(_groundCheckLocation != null)
         {
-            return Physics2D.OverlapCircle(_groundCheckLocation.position, _groundCheckRadius, _whatIsGround);
+            IsGrounded = Physics2D.OverlapCircle(_groundCheckLocation.position, 
+                _groundCheckRadius, _whatIsGround);
+            return IsGrounded;
         }
         else
         {

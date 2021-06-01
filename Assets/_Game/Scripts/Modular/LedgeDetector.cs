@@ -33,6 +33,8 @@ public class LedgeDetector : MonoBehaviour
     private LayerMask _whatIsWall;
     [SerializeField]
     private LayerMask _whatIsGround;
+    [SerializeField]
+    private bool _autoCheck = false;
 
     private bool _isDetectingUpperLedge = false;
     public bool IsDetectingUpperLedge
@@ -54,6 +56,7 @@ public class LedgeDetector : MonoBehaviour
                     LostUpperLedge?.Invoke();
                 }
             }
+
             _isDetectingUpperLedge = value;
         }
     }
@@ -92,30 +95,47 @@ public class LedgeDetector : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (IsDetectPaused)
+        if (_autoCheck && IsDetectPaused)
         {
-            Debug.Log("Paused");
             // ensure we're not detecting anything while paused
             IsDetectingUpperLedge = false;
             IsDetectingLowerLedge = false;
             return;
         }
 
-        IsDetectingUpperLedge = CheckUpperLedge();
-        IsDetectingLowerLedge = CheckLowerLedge();
+        if (_autoCheck)
+        {
+            IsDetectingUpperLedge = DetectUpperLedge();
+            IsDetectingLowerLedge = CheckLowerLedge();
+        }
     }
 
-    public bool CheckUpperLedge()
+    public bool DetectUpperLedge()
     {
+        // if we're paused, DONT detect
+        if(IsDetectPaused) 
+        {
+            IsDetectingUpperLedge = false;
+            return false; 
+        }
+
         if (_upperLedgeCheckLocation != null)
         {
             bool wallPresentNearTop = Physics2D.Raycast(_upperLedgeCheckLocation.position,
                 transform.right, _upperLedgeCheckDistance, _whatIsWall);
             // if we're against a wall, but there's nothing above it, we're beneath a ledge
-            if (_wallDetector.IsAgainstWall && !wallPresentNearTop)
-                return true;
+            if (_wallDetector.IsWallDetected && !wallPresentNearTop)
+            {
+                IsDetectingUpperLedge = true;
+                return IsDetectingUpperLedge;
+            }
+
             else
-                return false;
+            {
+                IsDetectingUpperLedge = false;
+                return IsDetectingUpperLedge;
+            }
+                
         }
         else
         {
@@ -126,15 +146,29 @@ public class LedgeDetector : MonoBehaviour
 
     public bool CheckLowerLedge()
     {
-        if (_lowerLedgeCheckLocation != null)
+        // if we're paused, DONT detect
+        if (IsDetectPaused) 
+        {
+            IsDetectPaused = false;
+            return false; 
+        }
+
+        if (_lowerLedgeCheckLocation != null && !IsDetectPaused)
         {
             bool groundPresentNearFront = Physics2D.Raycast(_lowerLedgeCheckLocation.position,
                 Vector2.down, _lowerLedgeCheckDistance, _whatIsWall);
             // if we're grounded but there's no ground shortly in front of us, it's a lower ledge
             if (_groundDetector.IsGrounded && !groundPresentNearFront)
-                return true;
+            {
+                IsDetectingLowerLedge = true;
+                return IsDetectingLowerLedge;
+            }
+                
             else
-                return false;
+            {
+                IsDetectingLowerLedge = false;
+                return IsDetectingLowerLedge;
+            }
         }
         else
         {

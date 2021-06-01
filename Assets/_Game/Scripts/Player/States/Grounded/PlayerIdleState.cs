@@ -43,6 +43,8 @@ public class PlayerIdleState : State
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+
+        _groundDetector.DetectGround();
     }
 
     public override void Update()

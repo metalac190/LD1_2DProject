@@ -26,6 +26,7 @@ public class PlayerMoveState : State
         base.Enter();
 
         Debug.Log("STATE: Move");
+        
         _input.JumpPressed += OnJumpPressed;
         _groundDetector.LeftGround += OnLeftGround;
     }
@@ -41,6 +42,8 @@ public class PlayerMoveState : State
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+
+        _groundDetector.DetectGround();
 
         _player.SetVelocityX(_data.MoveSpeed * _input.XRaw);
     }
@@ -58,7 +61,6 @@ public class PlayerMoveState : State
     private void OnJumpPressed()
     {
         //if (_player.JumpsRemaining <= 0) { return; }
-        Debug.Log("Jump pressed!");
         if (_data.AllowJump)
         {
             _stateMachine.ChangeState(_stateMachine.JumpState);

@@ -39,7 +39,10 @@ public class PlayerWallSuperState : State
     {
         base.FixedUpdate();
 
-        if (!_wallDetector.IsAgainstWall)
+        _groundDetector.DetectGround();
+        _wallDetector.DetectWall();
+
+        if (!_wallDetector.IsWallDetected)
         {
             OnLostWall();
         }
@@ -53,12 +56,10 @@ public class PlayerWallSuperState : State
         {
             OnLostWall();
         }
-
     }
 
     private void OnLostWall()
     {
-        Debug.Log("Lost the wall");
         if (_groundDetector.IsGrounded)
         {
             _stateMachine.ChangeState(_stateMachine.LandState);

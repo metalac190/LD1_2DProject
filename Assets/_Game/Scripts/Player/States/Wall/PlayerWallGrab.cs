@@ -49,11 +49,13 @@ public class PlayerWallGrab : PlayerWallSuperState
         if (_data.AllowWallClimb && _input.YRaw > 0)
         {
             _stateMachine.ChangeState(_stateMachine.WallClimbState);
+            return;
         }
         // if we're inputting down, slide
         if (_data.AllowWallSlide && _input.YRaw < 0)
         {
             _stateMachine.ChangeState(_stateMachine.WallSlideState);
+            return;
         }
     }
 }

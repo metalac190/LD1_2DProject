@@ -33,6 +33,10 @@ public class PlayerFallingState : State
         base.Enter();
         Debug.Log("STATE: Falling");
         _input.JumpPressed += OnJumpPressed;
+        // reset our physics checks just in case we haven't updated since last frame
+        _wallDetector.DetectWall();
+        _ledgeDetector.DetectUpperLedge();
+        _groundDetector.DetectGround();
         // alow the player a free jump if they've recently left ground (Coyote time)
         if(_groundDetector.TimeInAir <= _data.JumpAfterFallDuration)
         {
@@ -58,28 +62,36 @@ public class PlayerFallingState : State
     {
         base.FixedUpdate();
 
+        _groundDetector.DetectGround();
+        _wallDetector.DetectWall();
+        _ledgeDetector.DetectUpperLedge();
+        
+
         // check for ledge grab - prioritze over wall grab
         if (_ledgeDetector.IsDetectingUpperLedge)
         {
-            Debug.Log("Ledge: " + _ledgeDetector.IsDetectingUpperLedge);
             _stateMachine.ChangeState(_stateMachine.LedgeHangState);
+            return;
         }
         // otherwise, check for wall grab
-        else if (_wallDetector.IsAgainstWall
+        else if (_wallDetector.IsWallDetected
             && _input.XRaw == _player.FacingDirection)
         {
             // determine if we can enter any of our wall states
             if (_data.AllowWallClimb)
             {
                 _stateMachine.ChangeState(_stateMachine.WallClimbState);
+                return;
             }
             else if (_data.AllowWallGrab)
             {
                 _stateMachine.ChangeState(_stateMachine.WallGrabState);
+                return;
             }
             else if (_data.AllowWallSlide)
             {
                 _stateMachine.ChangeState(_stateMachine.WallSlideState);
+                return;
             }
         }
 
@@ -87,6 +99,7 @@ public class PlayerFallingState : State
         else if (_groundDetector.IsGrounded && _player.RB.velocity.y < 0.01f)
         {
             _stateMachine.ChangeState(_stateMachine.LandState);
+            return;
         }
     }
 
@@ -98,16 +111,26 @@ public class PlayerFallingState : State
 
         // if lateJump is allowed, and we've passed the window, close it off
         // if we're past the allow late jump window, then close it off and remove our buffer jump
-        if(_lateJumpAllowed 
-            && _groundDetector.TimeInAir >= _data.JumpAfterFallDuration)
-        {
-            _lateJumpAllowed = false;
-        }
+        CheckLateJump();
         // if late wall jump is allowed, and we've passed the window, close it off
-        if(_lateWallJumpAllowed 
-            && _wallDetector.TimeOffWall >= _data.WallJumpAfterFallDuration)
+        CheckLateWallJump();
+    }
+
+    private void CheckLateWallJump()
+    {
+        if (_lateWallJumpAllowed
+                    && _wallDetector.TimeOffWall >= _data.WallJumpAfterFallDuration)
         {
             _lateWallJumpAllowed = false;
+        }
+    }
+
+    private void CheckLateJump()
+    {
+        if (_lateJumpAllowed
+                    && _groundDetector.TimeInAir >= _data.JumpAfterFallDuration)
+        {
+            _lateJumpAllowed = false;
         }
     }
 
@@ -118,16 +141,18 @@ public class PlayerFallingState : State
         if (_lateWallJumpAllowed)
         {
             // if we're facing away from the wall, flip before wall jumping
-            if (!_wallDetector.IsAgainstWall)
+            if (!_wallDetector.IsWallDetected)
             {
                 _player.Flip();
             }
             _stateMachine.ChangeState(_stateMachine.WallJumpState);
+            return;
         }
         // otherwise do a normal air jump
         else
         {
             _stateMachine.ChangeState(_stateMachine.AirJumpState);
+            return;
         }
     }
 }

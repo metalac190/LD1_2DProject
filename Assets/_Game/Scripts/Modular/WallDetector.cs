@@ -14,6 +14,8 @@ public class WallDetector : MonoBehaviour
     private float _wallCheckDistance = 0.5f;
     [SerializeField]
     private LayerMask _whatIsWall;
+    [SerializeField]
+    private bool _autoCheck = false;
 
     public Transform WallCheckLocation => _wallCheckLocation;
 
@@ -21,7 +23,7 @@ public class WallDetector : MonoBehaviour
     public float TimeOffWall { get; private set; } = 0;
 
     private bool _isAgainstWall = false;
-    public bool IsAgainstWall
+    public bool IsWallDetected
     {
         get => _isAgainstWall;
         private set
@@ -49,23 +51,27 @@ public class WallDetector : MonoBehaviour
 
     private void FixedUpdate()
     {
-        IsAgainstWall = CheckIfAgainstWall();
+        if(_autoCheck)
+            DetectWall();
     }
 
     private void Update()
     {
         // track Time spent against wall
-        if (IsAgainstWall)
+        if (IsWallDetected)
             TimeOnWall += Time.deltaTime;
         else
             TimeOffWall += Time.deltaTime;
     }
 
-    public bool CheckIfAgainstWall()
+    // this performs a fresh check to see if we're against the wall
+    public bool DetectWall()
     {
         if (_wallCheckLocation != null)
         {
-            return Physics2D.Raycast(_wallCheckLocation.position, transform.right, _wallCheckDistance, _whatIsWall);
+            IsWallDetected = Physics2D.Raycast(_wallCheckLocation.position, 
+                transform.right, _wallCheckDistance, _whatIsWall);
+            return IsWallDetected;
         }
         else
         {

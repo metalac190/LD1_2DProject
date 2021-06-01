@@ -49,8 +49,6 @@ public class PlayerLedgeHangState : State
     {
         base.Exit();
 
-        Debug.Log("Exit Ledge Climb");
-
         _input.JumpPressed -= OnJumpPressed;
         _input.MovementPressed -= OnMovementPressed;
 
@@ -71,6 +69,7 @@ public class PlayerLedgeHangState : State
         if (_data.ShouldAutoClimb)
         {
             _stateMachine.ChangeState(_stateMachine.LedgeClimbState);
+            return;
         }
         // otherwise wait for input
         else if (_input.YRaw < 0)
@@ -78,14 +77,16 @@ public class PlayerLedgeHangState : State
             if (_data.AllowWallSlide && _input.XRaw == _player.FacingDirection)
             {
                 _stateMachine.ChangeState(_stateMachine.WallSlideState);
+                return;
             }
             else
             {
                 // pause briefly so we don't insta-regrab
-                _ledgeDetector.Pause(.2f);
+                _ledgeDetector.Pause(.15f);
                 _player.SetVelocityY(-_data.LedgeDropPushVelocity);
                 // start falling
                 _stateMachine.ChangeState(_stateMachine.FallingState);
+                return;
             }
         }
     }
