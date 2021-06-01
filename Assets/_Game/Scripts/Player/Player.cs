@@ -5,8 +5,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [Header("Player Settings")]
-    [SerializeField] 
-    private InputManager _input;
+    [SerializeField]
+    private GameplayInput _gameplayInput;
     [SerializeField]
     private PlayerData _data;
     [SerializeField]
@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private LedgeDetector _ledgeDetector;
 
-    public InputManager Input => _input;
+    public GameplayInput Input => _gameplayInput;
     public PlayerData Data => _data;
     public PlayerAnimator PlayerAnimator => _playerAnimator;
     public Rigidbody2D RB => _rb;
@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
 
     public void SetVelocityX(float newXVelocity)
     {
-        CheckIfShouldFlip((int)_input.XRaw);
+        CheckIfShouldFlip(_gameplayInput.XRaw);
         _rb.velocity = new Vector2(newXVelocity, _rb.velocity.y);
     }
 

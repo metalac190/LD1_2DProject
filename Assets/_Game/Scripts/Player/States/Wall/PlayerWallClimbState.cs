@@ -8,7 +8,7 @@ public class PlayerWallClimbState : PlayerWallSuperState
     Player _player;
 
     PlayerData _data;
-    InputManager _input;
+    GameplayInput _input;
     LedgeDetector _ledgeDetector;
 
     public PlayerWallClimbState(PlayerFSM stateMachine, Player player) : base(stateMachine, player)

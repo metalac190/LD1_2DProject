@@ -8,7 +8,7 @@ public class PlayerWallGrab : PlayerWallSuperState
     Player _player;
 
     PlayerData _data;
-    InputManager _input;
+    GameplayInput _input;
 
     Vector2 _startPosition;
 

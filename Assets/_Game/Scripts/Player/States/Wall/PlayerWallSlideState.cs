@@ -8,7 +8,7 @@ public class PlayerWallSlideState : PlayerWallSuperState
     Player _player;
 
     PlayerData _data;
-    InputManager _input;
+    GameplayInput _input;
 
     private float _accelerationAmount = 0;
 

@@ -8,7 +8,7 @@ public class PlayerMoveState : State
     Player _player;
 
     PlayerData _data;
-    InputManager _input;
+    GameplayInput _input;
     GroundDetector _groundDetector;
 
     public PlayerMoveState(PlayerFSM stateMachine, Player player) 
@@ -26,7 +26,7 @@ public class PlayerMoveState : State
         base.Enter();
 
         Debug.Log("STATE: Move");
-        _input.SpacebarPressed += OnSpacebarPressed;
+        _input.JumpPressed += OnJumpPressed;
         _groundDetector.LeftGround += OnLeftGround;
     }
 
@@ -34,7 +34,7 @@ public class PlayerMoveState : State
     {
         base.Exit();
 
-        _input.SpacebarPressed -= OnSpacebarPressed;
+        _input.JumpPressed -= OnJumpPressed;
         _groundDetector.LeftGround -= OnLeftGround;
     }
 
@@ -55,10 +55,10 @@ public class PlayerMoveState : State
         }
     }
 
-    private void OnSpacebarPressed()
+    private void OnJumpPressed()
     {
         //if (_player.JumpsRemaining <= 0) { return; }
-
+        Debug.Log("Jump pressed!");
         if (_data.AllowJump)
         {
             _stateMachine.ChangeState(_stateMachine.JumpState);

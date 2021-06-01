@@ -7,7 +7,7 @@ public class PlayerLandState : State
     PlayerFSM _stateMachine;
     Player _player;
 
-    InputManager _input;
+    GameplayInput _input;
     PlayerData _data;
 
     private float _landDuration = .2f ;
@@ -27,7 +27,7 @@ public class PlayerLandState : State
 
         Debug.Log("STATE: Land");
         
-        _input.SpacebarPressed += OnSpacebarPressed;
+        _input.JumpPressed += OnJumpPressed;
 
         _player.ResetJumps();
     }
@@ -36,7 +36,7 @@ public class PlayerLandState : State
     {
         base.Exit();
 
-        _input.SpacebarPressed -= OnSpacebarPressed;
+        _input.JumpPressed -= OnJumpPressed;
     }
 
     public override void FixedUpdate()
@@ -61,7 +61,7 @@ public class PlayerLandState : State
         }
     }
 
-    private void OnSpacebarPressed()
+    private void OnJumpPressed()
     {
         // jump
         _stateMachine.ChangeState(_stateMachine.JumpState);

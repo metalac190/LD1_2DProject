@@ -8,7 +8,7 @@ public class PlayerLedgeHangState : State
     Player _player;
 
     PlayerData _data;
-    InputManager _input;
+    GameplayInput _input;
     LedgeDetector _ledgeDetector;
     PlayerAnimator _playerAnimator;
 
@@ -32,8 +32,8 @@ public class PlayerLedgeHangState : State
         base.Enter();
         Debug.Log("STATE: Ledge Climb");
 
-        _input.SpacebarPressed += OnSpacebarPressed;
-        _input.UpPressed += OnUpPressed;
+        _input.JumpPressed += OnJumpPressed;
+        _input.MovementPressed += OnMovementPressed;
 
         _playerAnimator.LedgeHangVisual.SetActive(true);
 
@@ -51,8 +51,8 @@ public class PlayerLedgeHangState : State
 
         Debug.Log("Exit Ledge Climb");
 
-        _input.SpacebarPressed -= OnSpacebarPressed;
-        _input.UpPressed -= OnUpPressed;
+        _input.JumpPressed -= OnJumpPressed;
+        _input.MovementPressed -= OnMovementPressed;
 
         _playerAnimator.LedgeHangVisual.SetActive(false);
     }
@@ -97,14 +97,14 @@ public class PlayerLedgeHangState : State
             _cornerPos.y - _data.StartClimbOffset.y);
     }
 
-    private void OnUpPressed()
+    private void OnMovementPressed()
     {
-        _stateMachine.ChangeState(_stateMachine.LedgeClimbState);
+        if(_input.Movement.y > 0)
+            _stateMachine.ChangeState(_stateMachine.LedgeClimbState);
     }
 
-    private void OnSpacebarPressed()
+    private void OnJumpPressed()
     {
-        // climb
         _stateMachine.ChangeState(_stateMachine.WallJumpState);
     }
 }

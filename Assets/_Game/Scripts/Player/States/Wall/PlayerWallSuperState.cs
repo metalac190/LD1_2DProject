@@ -7,7 +7,7 @@ public class PlayerWallSuperState : State
     PlayerFSM _stateMachine;
     Player _player;
 
-    InputManager _input;
+    GameplayInput _input;
     GroundDetector _groundDetector;
     WallDetector _wallDetector;
 
@@ -24,7 +24,7 @@ public class PlayerWallSuperState : State
     public override void Enter()
     {
         base.Enter();
-        _input.SpacebarPressed += OnSpacebarPressed;
+        _input.JumpPressed += OnJumpPressed;
 
         _player.ResetJumps();
     }
@@ -32,7 +32,7 @@ public class PlayerWallSuperState : State
     public override void Exit()
     {
         base.Exit();
-        _input.SpacebarPressed -= OnSpacebarPressed;
+        _input.JumpPressed -= OnJumpPressed;
     }
 
     public override void FixedUpdate()
@@ -69,7 +69,7 @@ public class PlayerWallSuperState : State
         }
     }
 
-    private void OnSpacebarPressed()
+    private void OnJumpPressed()
     {
         _stateMachine.ChangeState(_stateMachine.WallJumpState);
     }

@@ -7,7 +7,7 @@ public class PlayerJumpState : State
     PlayerFSM _stateMachine;
     Player _player;
 
-    InputManager _input;
+    GameplayInput _input;
     PlayerData _data;
     GroundDetector _groundDetector;
 
@@ -27,7 +27,7 @@ public class PlayerJumpState : State
 
         Debug.Log("STATE: Jump");
 
-        _input.SpacebarReleased += OnSpacebarReleased;
+        _input.JumpReleased += OnJumpReleased;
 
         _player.SetVelocityY(_data.JumpVelocity);
 
@@ -37,7 +37,7 @@ public class PlayerJumpState : State
     {
         base.Exit();
 
-        _input.SpacebarReleased -= OnSpacebarReleased;
+        _input.JumpReleased -= OnJumpReleased;
     }
 
     public override void FixedUpdate()
@@ -60,7 +60,7 @@ public class PlayerJumpState : State
         
     }
 
-    private void OnSpacebarReleased()
+    private void OnJumpReleased()
     {
         // cut the jump short on release
         _player.SetVelocityY(_player.RB.velocity.y * _data.ShortJumpHeightScale);
