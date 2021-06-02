@@ -24,8 +24,11 @@ public class GameplayInput : MonoBehaviour
     public event Action MenuPressed;
     public event Action MenuReleased;
 
-    public event Action Action1Pressed;
-    public event Action Action1Released;
+    public event Action DashPressed;
+    public event Action DashReleased;
+
+    public event Action AttackPressed;
+    public event Action AttackReleased;
 
     public Vector2 Movement { get; private set; }
 
@@ -55,12 +58,20 @@ public class GameplayInput : MonoBehaviour
             JumpReleased?.Invoke();
     }
 
-    public void OnAction1(InputAction.CallbackContext context)
+    public void OnDash(InputAction.CallbackContext context)
     {
         if (context.started)
-            Action1Pressed?.Invoke();
+            DashPressed?.Invoke();
         else if (context.canceled)
-            Action1Released?.Invoke();
+            DashReleased?.Invoke();
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            AttackPressed?.Invoke();
+        else if (context.canceled)
+            AttackReleased?.Invoke();
     }
 
     public void OnMenu(InputAction.CallbackContext context)

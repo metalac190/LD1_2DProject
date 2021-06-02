@@ -241,7 +241,7 @@
             "id": "bb2e0502-3128-40fe-8d95-ea27ac12d868",
             "actions": [
                 {
-                    "name": "Action1",
+                    "name": "DashAction",
                     "type": "Button",
                     "id": "92330d26-1b6c-401f-8e61-c4cd5d65b45a",
                     "expectedControlType": "Button",
@@ -269,6 +269,14 @@
                     "type": "Value",
                     "id": "364fa642-68d5-461d-872a-607a00acfed1",
                     "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "AttackAction",
+                    "type": "Button",
+                    "id": "43cd1c0f-c61c-4666-9694-daa0f359c6a0",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -386,11 +394,33 @@
                 },
                 {
                     "name": "",
+                    "id": "a3bf7335-e5fb-48c5-8871-c604212a7eb9",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "fb9def72-6161-4749-b524-cf20f2e1a76b",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "MouseAndKeyboard",
+                    "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6bbda01c-1c67-4755-8981-1144ed8c6d6a",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
                     "action": "Menu",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -408,12 +438,56 @@
                 },
                 {
                     "name": "",
+                    "id": "b7b64519-269c-40ad-8fb4-7521e6e69bd3",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "af9e4bd8-74f4-41ba-8184-67f745449d47",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "MouseAndKeyboard",
+                    "action": "DashAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b38b6afe-ea83-4682-b64f-23cad7732a3f",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "DashAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2fca7795-5d0e-4ca5-92da-89736b70519b",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "MouseAndKeyboard",
-                    "action": "Action1",
+                    "action": "AttackAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d3511055-e171-4cc3-a051-c7751c543a69",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "AttackAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

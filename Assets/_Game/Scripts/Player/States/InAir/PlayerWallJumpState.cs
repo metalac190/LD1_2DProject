@@ -11,6 +11,7 @@ public class PlayerWallJumpState : State
     GameplayInput _input;
     GroundDetector _groundDetector;
     WallDetector _wallDetector;
+    DashSystem _dashSystem;
 
     // this prevents player from immediately moving back into wall while wall jumping
     bool _isMoveInputAllowed = false;
@@ -24,6 +25,7 @@ public class PlayerWallJumpState : State
         _input = player.Input;
         _groundDetector = player.GroundDetector;
         _wallDetector = player.WallDetector;
+        _dashSystem = player.DashSystem;
     }
 
     public override void Enter()
@@ -31,7 +33,8 @@ public class PlayerWallJumpState : State
         base.Enter();
         Debug.Log("STATE: Wall Jump");
 
-        _input.JumpPressed -= OnJumpPressed;
+        _input.JumpPressed += OnJumpPressed;
+        _input.DashPressed += OnDashPressed;
 
         _isMoveInputAllowed = false;
 
@@ -46,6 +49,7 @@ public class PlayerWallJumpState : State
         base.Exit();
 
         _input.JumpPressed -= OnJumpPressed;
+        _input.DashPressed -= OnDashPressed;
     }
 
     public override void FixedUpdate()
@@ -92,6 +96,14 @@ public class PlayerWallJumpState : State
         else if(_player.AirJumpsRemaining >= 0)
         {
             _stateMachine.ChangeState(_stateMachine.AirJumpState);
+        }
+    }
+
+    private void OnDashPressed()
+    {
+        if (_dashSystem.CanDash)
+        {
+            _stateMachine.ChangeState(_stateMachine.DashState);
         }
     }
 }

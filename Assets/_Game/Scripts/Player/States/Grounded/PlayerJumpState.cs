@@ -10,6 +10,7 @@ public class PlayerJumpState : State
     GameplayInput _input;
     PlayerData _data;
     GroundDetector _groundDetector;
+    DashSystem _dashSystem;
 
     public PlayerJumpState(PlayerFSM stateMachine, Player player)
     {
@@ -19,6 +20,7 @@ public class PlayerJumpState : State
         _input = player.Input;
         _data = player.Data;
         _groundDetector = player.GroundDetector;
+        _dashSystem = player.DashSystem;
     }
 
     public override void Enter()
@@ -29,6 +31,7 @@ public class PlayerJumpState : State
 
         _input.JumpPressed += OnJumpPressed;
         _input.JumpReleased += OnJumpReleased;
+        _input.DashPressed += OnDashPressed;
 
         _player.SetVelocityY(_data.JumpVelocity);
 
@@ -40,6 +43,7 @@ public class PlayerJumpState : State
 
         _input.JumpPressed -= OnJumpPressed;
         _input.JumpReleased -= OnJumpReleased;
+        _input.DashPressed -= OnDashPressed;
     }
 
     public override void FixedUpdate()
@@ -74,5 +78,13 @@ public class PlayerJumpState : State
     {
         // cut the jump short on release
         _player.SetVelocityY(_player.RB.velocity.y * _data.ShortJumpHeightScale);
+    }
+
+    private void OnDashPressed()
+    {
+        if (_dashSystem.CanDash)
+        {
+            _stateMachine.ChangeState(_stateMachine.DashState);
+        }
     }
 }

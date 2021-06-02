@@ -72,6 +72,17 @@ public class PlayerData : ScriptableObject
     [SerializeField]
     private Vector2 _stopClimbOffset;
 
+    [Header("Dash")]
+    [SerializeField]
+    private PlayerDashAbility _equippedDash;
+
+    [Header("Attack")]
+    [SerializeField]
+    private bool _allowAttack = true;
+    [SerializeField]
+    private float _attackCooldown = 0.5f;
+    private PlayerDashAbility _equippedAttack;
+
     #region Getters
     // movement
     public float MoveSpeed => _moveSpeed;
@@ -106,5 +117,14 @@ public class PlayerData : ScriptableObject
     public float LedgeDropPushVelocity => _ledgeDropPushVelocity;
     public Vector2 StartClimbOffset => _startClimbOffset;
     public Vector2 StopClimbOffset => _stopClimbOffset;
+    // dash
+    public PlayerDashAbility EquippedDash
+    {
+        get => _equippedDash;
+        set { _equippedDash = value; }
+    }
+    // attack
+    public bool AllowAttack => _allowAttack;
+    public float AttackCooldown => _attackCooldown;
     #endregion
 }

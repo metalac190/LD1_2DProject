@@ -13,6 +13,12 @@ public class Player : MonoBehaviour
     private PlayerAnimator _playerAnimator;
     [SerializeField]
     private Rigidbody2D _rb;
+
+    [Header("Ability Systems")]
+    [SerializeField]
+    private DashSystem _dashSystem;
+
+    [Header("Environment Checks")]
     [SerializeField]
     private GroundDetector _groundDetector;
     [SerializeField]
@@ -24,6 +30,9 @@ public class Player : MonoBehaviour
     public PlayerData Data => _data;
     public PlayerAnimator PlayerAnimator => _playerAnimator;
     public Rigidbody2D RB => _rb;
+
+    public DashSystem DashSystem => _dashSystem;
+
     public GroundDetector GroundDetector => _groundDetector;
     public WallDetector WallDetector => _wallDetector;
     public LedgeDetector LedgeDetector => _ledgeDetector;
@@ -31,6 +40,7 @@ public class Player : MonoBehaviour
     public int FacingDirection { get; private set; } = 1;
 
     public int AirJumpsRemaining { get; private set; }
+    public float DashCooldown { get; private set; }
 
     private void Awake()
     {
@@ -76,7 +86,6 @@ public class Player : MonoBehaviour
         FacingDirection *= -1;
         transform.Rotate(0, 180, 0);
     }
-
 
     private void CheckIfShouldFlip(int xInput)
     {

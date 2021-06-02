@@ -10,6 +10,7 @@ public class PlayerMoveState : State
     PlayerData _data;
     GameplayInput _input;
     GroundDetector _groundDetector;
+    DashSystem _dashSystem;
 
     public PlayerMoveState(PlayerFSM stateMachine, Player player) 
     {
@@ -19,6 +20,7 @@ public class PlayerMoveState : State
         _data = player.Data;
         _input = player.Input;
         _groundDetector = player.GroundDetector;
+        _dashSystem = player.DashSystem;
     }
 
     public override void Enter()
@@ -28,6 +30,7 @@ public class PlayerMoveState : State
         Debug.Log("STATE: Move");
         
         _input.JumpPressed += OnJumpPressed;
+        _input.DashPressed += OnDashPressed;
         _groundDetector.LeftGround += OnLeftGround;
     }
 
@@ -36,6 +39,7 @@ public class PlayerMoveState : State
         base.Exit();
 
         _input.JumpPressed -= OnJumpPressed;
+        _input.DashPressed -= OnDashPressed;
         _groundDetector.LeftGround -= OnLeftGround;
     }
 
@@ -64,6 +68,14 @@ public class PlayerMoveState : State
         if (_data.AllowJump)
         {
             _stateMachine.ChangeState(_stateMachine.JumpState);
+        }
+    }
+
+    private void OnDashPressed()
+    {
+        if (_dashSystem.CanDash)
+        {
+            _stateMachine.ChangeState(_stateMachine.DashState);
         }
     }
 

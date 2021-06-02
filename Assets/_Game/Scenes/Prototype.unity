@@ -25683,7 +25683,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 189383491}
         m_TargetAssemblyTypeName: GameplayInput, Assembly-CSharp
-        m_MethodName: OnAction1
+        m_MethodName: OnDash
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -25743,6 +25743,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 364fa642-68d5-461d-872a-607a00acfed1
     m_ActionName: Gameplay/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 189383491}
+        m_TargetAssemblyTypeName: GameplayInput, Assembly-CSharp
+        m_MethodName: OnAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 43cd1c0f-c61c-4666-9694-daa0f359c6a0
+    m_ActionName: Gameplay/AttackAction[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: MouseAndKeyboard
   m_DefaultActionMap: Gameplay
@@ -26222,6 +26238,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1705054041}
   m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &641447805
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 641447807}
+  - component: {fileID: 641447806}
+  m_Layer: 9
+  m_Name: AbilitySystems
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &641447806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641447805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9458f2cd31820674cb5e3f057c9c8f84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _data: {fileID: 11400000, guid: 76c1a438b57b2f048b909ced677a1027, type: 2}
+--- !u!4 &641447807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641447805}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1884541640432777362}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &693533466
 GameObject:
@@ -26928,6 +26988,7 @@ MonoBehaviour:
   _whatIsGround:
     serializedVersion: 2
     m_Bits: 256
+  _autoCheck: 0
 --- !u!4 &1019700327
 Transform:
   m_ObjectHideFlags: 0
@@ -26963,6 +27024,7 @@ MonoBehaviour:
   _whatIsWall:
     serializedVersion: 2
     m_Bits: 256
+  _autoCheck: 0
 --- !u!114 &1019700329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26980,6 +27042,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _groundCheckLocation: {fileID: 1884541641973748012}
+  _autoCheck: 0
 --- !u!1 &1022487295
 GameObject:
   m_ObjectHideFlags: 0
@@ -33557,6 +33620,7 @@ MonoBehaviour:
   _data: {fileID: 11400000, guid: 76c1a438b57b2f048b909ced677a1027, type: 2}
   _playerAnimator: {fileID: 146685476348474348}
   _rb: {fileID: 1884541640432777453}
+  _dashSystem: {fileID: 641447806}
   _groundDetector: {fileID: 1019700329}
   _wallDetector: {fileID: 1019700328}
   _ledgeDetector: {fileID: 1019700326}
@@ -33804,6 +33868,7 @@ Transform:
   - {fileID: 1884541640506076301}
   - {fileID: 1884541641194731627}
   - {fileID: 1019700327}
+  - {fileID: 641447807}
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -13,6 +13,8 @@ public class PlayerFallingState : State
     WallDetector _wallDetector;
     LedgeDetector _ledgeDetector;
 
+    DashSystem _dashSystem;
+
     bool _lateJumpAllowed = false;
     bool _lateWallJumpAllowed = false;
 
@@ -26,6 +28,8 @@ public class PlayerFallingState : State
         _groundDetector = player.GroundDetector;
         _wallDetector = player.WallDetector;
         _ledgeDetector = player.LedgeDetector;
+
+        _dashSystem = player.DashSystem;
     }
 
     public override void Enter()
@@ -33,6 +37,7 @@ public class PlayerFallingState : State
         base.Enter();
         Debug.Log("STATE: Falling");
         _input.JumpPressed += OnJumpPressed;
+        _input.DashPressed += OnDashPressed;
         // reset our physics checks just in case we haven't updated since last frame
         _wallDetector.DetectWall();
         _ledgeDetector.DetectUpperLedge();
@@ -53,6 +58,7 @@ public class PlayerFallingState : State
         base.Exit();
 
         _input.JumpPressed -= OnJumpPressed;
+        _input.DashPressed -= OnDashPressed;
 
         _lateJumpAllowed = false;
         _lateWallJumpAllowed = false;
@@ -153,6 +159,14 @@ public class PlayerFallingState : State
         {
             _stateMachine.ChangeState(_stateMachine.AirJumpState);
             return;
+        }
+    }
+
+    private void OnDashPressed()
+    {
+        if (_dashSystem.CanDash)
+        {
+            _stateMachine.ChangeState(_stateMachine.DashState);
         }
     }
 }

@@ -10,6 +10,7 @@ public class PlayerAirJumpState : State
     GameplayInput _input;
     PlayerData _data;
     GroundDetector _groundDetector;
+    DashSystem _dashSystem;
 
     public PlayerAirJumpState(PlayerFSM stateMachine, Player player)
     {
@@ -19,6 +20,7 @@ public class PlayerAirJumpState : State
         _input = player.Input;
         _data = player.Data;
         _groundDetector = player.GroundDetector;
+        _dashSystem = player.DashSystem;
     }
 
     public override void Enter()
@@ -26,6 +28,7 @@ public class PlayerAirJumpState : State
         base.Enter();
 
         _input.JumpReleased += OnJumpReleased;
+        _input.DashPressed += OnDashPressed;
 
         _player.DecreaseAirJumpsRemaining();
         _player.SetVelocityY(_data.AirJumpVelocity);
@@ -36,6 +39,7 @@ public class PlayerAirJumpState : State
         base.Exit();
 
         _input.JumpReleased -= OnJumpReleased;
+        _input.DashPressed -= OnDashPressed;
     }
 
     public override void FixedUpdate()
@@ -61,5 +65,13 @@ public class PlayerAirJumpState : State
     {
         // cut the jump short on release
         _player.SetVelocityY(_player.RB.velocity.y * _data.ShortAirJumpHeightScale);
+    }
+
+    private void OnDashPressed()
+    {
+        if (_dashSystem.CanDash)
+        {
+            _stateMachine.ChangeState(_stateMachine.DashState);
+        }
     }
 }

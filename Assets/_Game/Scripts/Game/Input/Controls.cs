@@ -254,7 +254,7 @@ public class @Controls : IInputActionCollection, IDisposable
             ""id"": ""bb2e0502-3128-40fe-8d95-ea27ac12d868"",
             ""actions"": [
                 {
-                    ""name"": ""Action1"",
+                    ""name"": ""DashAction"",
                     ""type"": ""Button"",
                     ""id"": ""92330d26-1b6c-401f-8e61-c4cd5d65b45a"",
                     ""expectedControlType"": ""Button"",
@@ -282,6 +282,14 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""364fa642-68d5-461d-872a-607a00acfed1"",
                     ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""AttackAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""43cd1c0f-c61c-4666-9694-daa0f359c6a0"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -399,11 +407,33 @@ public class @Controls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""a3bf7335-e5fb-48c5-8871-c604212a7eb9"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""fb9def72-6161-4749-b524-cf20f2e1a76b"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""MouseAndKeyboard"",
+                    ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6bbda01c-1c67-4755-8981-1144ed8c6d6a"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Menu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -421,12 +451,56 @@ public class @Controls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""b7b64519-269c-40ad-8fb4-7521e6e69bd3"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""af9e4bd8-74f4-41ba-8184-67f745449d47"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""MouseAndKeyboard"",
+                    ""action"": ""DashAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b38b6afe-ea83-4682-b64f-23cad7732a3f"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""DashAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2fca7795-5d0e-4ca5-92da-89736b70519b"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""MouseAndKeyboard"",
-                    ""action"": ""Action1"",
+                    ""action"": ""AttackAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3511055-e171-4cc3-a051-c7751c543a69"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""AttackAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -472,10 +546,11 @@ public class @Controls : IInputActionCollection, IDisposable
         m_Menu_Point = m_Menu.FindAction("Point", throwIfNotFound: true);
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
-        m_Gameplay_Action1 = m_Gameplay.FindAction("Action1", throwIfNotFound: true);
+        m_Gameplay_DashAction = m_Gameplay.FindAction("DashAction", throwIfNotFound: true);
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_Menu = m_Gameplay.FindAction("Menu", throwIfNotFound: true);
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
+        m_Gameplay_AttackAction = m_Gameplay.FindAction("AttackAction", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -590,18 +665,20 @@ public class @Controls : IInputActionCollection, IDisposable
     // Gameplay
     private readonly InputActionMap m_Gameplay;
     private IGameplayActions m_GameplayActionsCallbackInterface;
-    private readonly InputAction m_Gameplay_Action1;
+    private readonly InputAction m_Gameplay_DashAction;
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_Menu;
     private readonly InputAction m_Gameplay_Movement;
+    private readonly InputAction m_Gameplay_AttackAction;
     public struct GameplayActions
     {
         private @Controls m_Wrapper;
         public GameplayActions(@Controls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Action1 => m_Wrapper.m_Gameplay_Action1;
+        public InputAction @DashAction => m_Wrapper.m_Gameplay_DashAction;
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @Menu => m_Wrapper.m_Gameplay_Menu;
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
+        public InputAction @AttackAction => m_Wrapper.m_Gameplay_AttackAction;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -611,9 +688,9 @@ public class @Controls : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_GameplayActionsCallbackInterface != null)
             {
-                @Action1.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAction1;
-                @Action1.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAction1;
-                @Action1.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAction1;
+                @DashAction.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDashAction;
+                @DashAction.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDashAction;
+                @DashAction.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDashAction;
                 @Jump.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
@@ -623,13 +700,16 @@ public class @Controls : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
+                @AttackAction.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttackAction;
+                @AttackAction.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttackAction;
+                @AttackAction.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttackAction;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Action1.started += instance.OnAction1;
-                @Action1.performed += instance.OnAction1;
-                @Action1.canceled += instance.OnAction1;
+                @DashAction.started += instance.OnDashAction;
+                @DashAction.performed += instance.OnDashAction;
+                @DashAction.canceled += instance.OnDashAction;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
@@ -639,6 +719,9 @@ public class @Controls : IInputActionCollection, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @AttackAction.started += instance.OnAttackAction;
+                @AttackAction.performed += instance.OnAttackAction;
+                @AttackAction.canceled += instance.OnAttackAction;
             }
         }
     }
@@ -671,9 +754,10 @@ public class @Controls : IInputActionCollection, IDisposable
     }
     public interface IGameplayActions
     {
-        void OnAction1(InputAction.CallbackContext context);
+        void OnDashAction(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnMenu(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
+        void OnAttackAction(InputAction.CallbackContext context);
     }
 }

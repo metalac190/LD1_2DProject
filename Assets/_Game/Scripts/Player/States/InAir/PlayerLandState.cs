@@ -9,6 +9,7 @@ public class PlayerLandState : State
 
     GameplayInput _input;
     PlayerData _data;
+    DashSystem _dashSystem;
 
     private float _landDuration = .2f ;
 
@@ -19,6 +20,7 @@ public class PlayerLandState : State
 
         _input = player.Input;
         _data = player.Data;
+        _dashSystem = player.DashSystem;
     }
 
     public override void Enter()
@@ -28,6 +30,7 @@ public class PlayerLandState : State
         Debug.Log("STATE: Land");
         
         _input.JumpPressed += OnJumpPressed;
+        _input.DashPressed += OnDashPressed;
 
         _player.ResetJumps();
     }
@@ -37,6 +40,7 @@ public class PlayerLandState : State
         base.Exit();
 
         _input.JumpPressed -= OnJumpPressed;
+        _input.DashPressed -= OnDashPressed;
     }
 
     public override void FixedUpdate()
@@ -65,5 +69,13 @@ public class PlayerLandState : State
     {
         // jump
         _stateMachine.ChangeState(_stateMachine.JumpState);
+    }
+
+    private void OnDashPressed()
+    {
+        if (_dashSystem.CanDash)
+        {
+            _stateMachine.ChangeState(_stateMachine.DashState);
+        }
     }
 }

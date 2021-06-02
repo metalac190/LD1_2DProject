@@ -11,6 +11,7 @@ public class PlayerIdleState : State
     PlayerData _data;
     GameplayInput _input;
     GroundDetector _groundDetector;
+    DashSystem _dashSystem;
 
     public PlayerIdleState(PlayerFSM stateMachine, Player player) 
     {
@@ -20,6 +21,7 @@ public class PlayerIdleState : State
         _data = player.Data;
         _input = player.Input;
         _groundDetector = player.GroundDetector;
+        _dashSystem = player.DashSystem;
     }
 
     public override void Enter()
@@ -27,6 +29,7 @@ public class PlayerIdleState : State
         base.Enter();
         Debug.Log("STATE: Idle");
         _input.JumpPressed += OnJumpPressed;
+        _input.DashPressed += OnDashPressed;
         _groundDetector.LeftGround += OnLeftGround;
 
         _player.SetVelocityX(0);
@@ -37,6 +40,7 @@ public class PlayerIdleState : State
         base.Exit();
 
         _input.JumpPressed -= OnJumpPressed;
+        _input.DashPressed -= OnDashPressed;
         _groundDetector.LeftGround -= OnLeftGround;
     }
 
@@ -62,6 +66,14 @@ public class PlayerIdleState : State
         if (_data.AllowJump)
         {
             _stateMachine.ChangeState(_stateMachine.JumpState);
+        }
+    }
+
+    private void OnDashPressed()
+    {
+        if (_dashSystem.CanDash)
+        {
+            _stateMachine.ChangeState(_stateMachine.DashState);
         }
     }
 

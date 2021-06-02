@@ -22,6 +22,8 @@ public class PlayerFSM : StateMachineMB
     // ledge
     public PlayerLedgeHangState LedgeHangState { get; private set; }
     public PlayerLedgeClimbState LedgeClimbState { get; private set; }
+    // abilities
+    public PlayerDashState DashState { get; private set; }
 
     private void Awake()
     {
@@ -41,6 +43,8 @@ public class PlayerFSM : StateMachineMB
         // ledge
         LedgeHangState = new PlayerLedgeHangState(this, _player);
         LedgeClimbState = new PlayerLedgeClimbState(this, _player);
+        // abilities
+        DashState = new PlayerDashState(this, _player);
     }
 
     private void Start()
