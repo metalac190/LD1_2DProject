@@ -55,6 +55,7 @@ public class PlayerMovement_Old : MonoBehaviour
     [SerializeField] private float _dashCooldown = 2;
     [Range(0,1)][Tooltip("1 is normal fall, 0 is NO falling")]
     [SerializeField] private float _dashFallAmount = 1;
+    [SerializeField] private PlayerAfterImagePool _afterImagePool;
 
     private int _remainingJumps = 0;
     private int _facingDirection = 1;
@@ -325,7 +326,7 @@ public class PlayerMovement_Old : MonoBehaviour
         _dashTimeLeft = _dashTime;
         _lastDash = Time.time;
         // start after images
-        PlayerAfterImagePool.Instance.GetFromPool();
+        _afterImagePool.GetFromPool();
         _lastImageXPos = transform.position.x;
     }
 
@@ -347,7 +348,7 @@ public class PlayerMovement_Old : MonoBehaviour
                 // if enough time has passed, place another after image
                 if (Mathf.Abs(transform.position.x - _lastImageXPos) > _distanceBetweenImages)
                 {
-                    PlayerAfterImagePool.Instance.GetFromPool();
+                    _afterImagePool.GetFromPool();
                     _lastImageXPos = transform.position.x;
                 }
             }

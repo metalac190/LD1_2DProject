@@ -9,11 +9,13 @@ public class PlayerFSM : StateMachineMB
     // grounded
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
-    // air
+    public PlayerLandState LandState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
+    public PlayerCrouchState CrouchState { get; private set; }
+    public PlayerCrouchMoveState CrouchMoveState { get; private set; }
+    // air
     public PlayerAirJumpState AirJumpState { get; private set; }
     public PlayerFallingState FallingState { get; private set; }
-    public PlayerLandState LandState { get; private set; }
     // wall
     public PlayerWallSlideState WallSlideState { get; private set; }
     public PlayerWallGrab WallGrabState { get; private set; }
@@ -30,11 +32,13 @@ public class PlayerFSM : StateMachineMB
         // grounded
         IdleState = new PlayerIdleState(this, _player);
         MoveState = new PlayerMoveState(this, _player);
-        // air
         JumpState = new PlayerJumpState(this, _player);
+        LandState = new PlayerLandState(this, _player);
+        CrouchState = new PlayerCrouchState(this, _player);
+        CrouchMoveState = new PlayerCrouchMoveState(this, _player);
+        // air
         AirJumpState = new PlayerAirJumpState(this, _player);
         FallingState = new PlayerFallingState(this, _player);
-        LandState = new PlayerLandState(this, _player);
         // wall
         WallSlideState = new PlayerWallSlideState(this, _player);
         WallGrabState = new PlayerWallGrab(this, _player);

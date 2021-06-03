@@ -182,12 +182,14 @@ public class LedgeDetector : MonoBehaviour
     {
         // get distance from wall
         RaycastHit2D xHit = Physics2D.Raycast(_wallDetector.WallCheckLocation.position, transform.right);
-        float xDistanceFromWall = xHit.distance;
+        // add a tiny bit of tolerance to make sure we're far enough over ground
+        float tolerance = 0.015f;
+        float xDistanceFromWall = xHit.distance + tolerance;
         // cast downwards from top to get distance to ground
         RaycastHit2D yHit = Physics2D.Raycast(_upperLedgeCheckLocation.position
             + new Vector3(xDistanceFromWall * facingDirection, 0, 0),
             Vector2.down, 
-            _upperLedgeCheckLocation.position.y - _wallDetector.WallCheckLocation.position.y,
+            _upperLedgeCheckLocation.position.y - (_wallDetector.WallCheckLocation.position.y + tolerance),
             _whatIsGround);
         float yDistanceFromGround = yHit.distance;
         // combine distances to calculate the corner (wall + corner height)

@@ -10,9 +10,13 @@ using System;
 /// </summary>
 public class DashSystem : MonoBehaviour
 {
+    [SerializeField] PlayerAfterImagePool _afterImagePool;
+
     private Coroutine _cooldownRoutine;
 
     private bool _canDash = true;
+
+    public PlayerAfterImagePool AfterImagePool => _afterImagePool;
     public bool CanDash => _canDash;
 
     public void StartCooldown(float duration)

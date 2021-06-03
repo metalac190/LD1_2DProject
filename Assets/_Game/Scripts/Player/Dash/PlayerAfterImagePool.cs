@@ -8,18 +8,16 @@ public class PlayerAfterImagePool : MonoBehaviour
     [SerializeField] private int _poolStartSize = 10;
 
     private Queue<PlayerAfterImage> _availableObjects = new Queue<PlayerAfterImage>();
-    public static PlayerAfterImagePool Instance { get; private set; }
 
     private void Awake()
     {
-        Instance = this;
         GrowPool(_poolStartSize);
     }
 
     public PlayerAfterImage PlaceAfterImage(Player player)
     {
         PlayerAfterImage afterImage = GetFromPool();
-        afterImage.Initialize(player);
+        afterImage.Initialize(player, this);
 
         return afterImage;
     }

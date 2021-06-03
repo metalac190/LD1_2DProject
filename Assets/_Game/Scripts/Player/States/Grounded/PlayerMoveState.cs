@@ -2,25 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMoveState : State
+public class PlayerMoveState : PlayerGroundedSuperState
 {
     PlayerFSM _stateMachine;
     Player _player;
 
     PlayerData _data;
     GameplayInput _input;
-    GroundDetector _groundDetector;
-    DashSystem _dashSystem;
 
-    public PlayerMoveState(PlayerFSM stateMachine, Player player) 
+    public PlayerMoveState(PlayerFSM stateMachine, Player player) : base(stateMachine, player)
     {
         _stateMachine = stateMachine;
         _player = player;
 
         _data = player.Data;
         _input = player.Input;
-        _groundDetector = player.GroundDetector;
-        _dashSystem = player.DashSystem;
     }
 
     public override void Enter()
@@ -28,26 +24,18 @@ public class PlayerMoveState : State
         base.Enter();
 
         Debug.Log("STATE: Move");
-        
-        _input.JumpPressed += OnJumpPressed;
-        _input.DashPressed += OnDashPressed;
-        _groundDetector.LeftGround += OnLeftGround;
+
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        _input.JumpPressed -= OnJumpPressed;
-        _input.DashPressed -= OnDashPressed;
-        _groundDetector.LeftGround -= OnLeftGround;
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-
-        _groundDetector.DetectGround();
 
         _player.SetVelocityX(_data.MoveSpeed * _input.XRaw);
     }
@@ -56,31 +44,15 @@ public class PlayerMoveState : State
     {
         base.Update();
 
-        if(_input.XRaw == 0)
+        if(_input.YRaw < 0)
+        {
+            _stateMachine.ChangeState(_stateMachine.CrouchState);
+            return;
+        }
+        else if(_input.XRaw == 0)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
+            return;
         }
-    }
-
-    private void OnJumpPressed()
-    {
-        //if (_player.JumpsRemaining <= 0) { return; }
-        if (_data.AllowJump)
-        {
-            _stateMachine.ChangeState(_stateMachine.JumpState);
-        }
-    }
-
-    private void OnDashPressed()
-    {
-        if (_dashSystem.CanDash)
-        {
-            _stateMachine.ChangeState(_stateMachine.DashState);
-        }
-    }
-
-    private void OnLeftGround()
-    {
-        _stateMachine.ChangeState(_stateMachine.FallingState);
     }
 }

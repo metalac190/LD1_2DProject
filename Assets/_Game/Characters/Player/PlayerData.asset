@@ -37,7 +37,7 @@ MonoBehaviour:
   _ledgeClimbDuration: 0.2
   _ledgeDropPushVelocity: 10
   _startClimbOffset: {x: 0.3, y: 2.5}
-  _stopClimbOffset: {x: 0.75, y: 0.4}
+  _stopClimbOffset: {x: 1, y: 0.4}
   _dashCooldown: 0.5
   _maxHoldTime: 1
   _holdTimeScale: 0.2
@@ -46,5 +46,8 @@ MonoBehaviour:
   _dashDrag: 10
   _dashEndYMultiplier: 0.2
   _distanceBetweenAfterImages: 0.5
+  _crouchMoveVelocity: 3
+  _crouchColliderHeight: 0.8
+  _standColliderHeight: 1.8
   _allowAttack: 1
   _attackCooldown: 0.5

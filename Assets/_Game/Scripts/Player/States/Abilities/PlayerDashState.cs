@@ -21,6 +21,7 @@ public class PlayerDashState : State
     private float _initialDrag;
     private float _initialFixedDeltaTime;
 
+    private PlayerAfterImagePool _afterImagePool;
     private PlayerAfterImage _lastAfterImage;
 
     public PlayerDashState(PlayerFSM stateMachine, Player player)
@@ -33,6 +34,7 @@ public class PlayerDashState : State
         _dashSystem = player.DashSystem;
         _input = player.Input;
         _groundDetector = player.GroundDetector;
+        _afterImagePool = _dashSystem.AfterImagePool;
 
         _initialDrag = player.RB.drag;
         _initialFixedDeltaTime = Time.fixedDeltaTime;
@@ -69,10 +71,19 @@ public class PlayerDashState : State
         if (_isDashing)
         {
             _player.SetVelocity(_dashDirection.x * _data.DashVelocity, _dashDirection.y * _data.DashVelocity);
-            if(Vector2.Distance(_player.transform.position, _lastAfterImage.transform.position) 
-                >= _data.DistanceBetweenAfterImages)
+            CheckAfterImageSpawn();
+
+        }
+    }
+
+    private void CheckAfterImageSpawn()
+    {
+        if (_lastAfterImage != null)
+        {
+            float imageDistance = Vector2.Distance(_player.transform.position, _lastAfterImage.transform.position);
+            if (imageDistance >= _data.DistanceBetweenAfterImages)
             {
-                _lastAfterImage = PlayerAfterImagePool.Instance.PlaceAfterImage(_player);
+                _lastAfterImage = _afterImagePool.PlaceAfterImage(_player);
             }
         }
     }
@@ -131,7 +142,7 @@ public class PlayerDashState : State
 
         _rb.drag = _data.DashDrag;
 
-        _lastAfterImage = PlayerAfterImagePool.Instance.PlaceAfterImage(_player);
+        _lastAfterImage = _afterImagePool.PlaceAfterImage(_player);
     }
 
     private void CompleteDash()

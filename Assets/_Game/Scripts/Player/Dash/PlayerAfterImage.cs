@@ -17,14 +17,16 @@ public class PlayerAfterImage : MonoBehaviour
     private Transform _playerSpriteTransform;
 
     private SpriteRenderer _playerSpriteRenderer;
+    private PlayerAfterImagePool _pool;
 
     private Color _playerColor;
     private Color _newColor;
 
     bool _isInitialized = false;
 
-    public void Initialize(Player player)
+    public void Initialize(Player player, PlayerAfterImagePool pool)
     {
+        _pool = pool;
         _playerSpriteRenderer = player.PlayerAnimator.SpriteRenderer;
 
         _playerSpriteTransform = _playerSpriteRenderer.transform;
@@ -63,7 +65,7 @@ public class PlayerAfterImage : MonoBehaviour
 
         if (Time.time >= (_timeActivated + _activeTime))
         {
-            PlayerAfterImagePool.Instance.AddToPool(this);
+            _pool.AddToPool(this);
             
         }
     }

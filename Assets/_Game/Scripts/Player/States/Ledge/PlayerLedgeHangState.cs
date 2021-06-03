@@ -16,6 +16,7 @@ public class PlayerLedgeHangState : State
 
     private Vector2 _hangPosition;
 
+
     public PlayerLedgeHangState(PlayerFSM stateMachine, Player player)
     {
         _stateMachine = stateMachine;
@@ -30,7 +31,7 @@ public class PlayerLedgeHangState : State
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("STATE: Ledge Climb");
+        Debug.Log("STATE: Ledge Hang");
 
         _input.JumpPressed += OnJumpPressed;
         _input.MovementPressed += OnMovementPressed;

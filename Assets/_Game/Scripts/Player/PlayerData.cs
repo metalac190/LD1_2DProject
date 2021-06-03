@@ -93,6 +93,14 @@ public class PlayerData : ScriptableObject
     [SerializeField]
     private float _distanceBetweenAfterImages = 0.5f;
 
+    [Header("Crouching")]
+    [SerializeField]
+    private float _crouchMoveVelocity = 3;
+    [SerializeField]
+    private float _crouchColliderHeight = 0.8f;
+    [SerializeField]
+    private float _standColliderHeight = 1.8f;
+
     [Header("Attack")]
     [SerializeField]
     private bool _allowAttack = true;
@@ -142,6 +150,10 @@ public class PlayerData : ScriptableObject
     public float DashDrag => _dashDrag;
     public float DashEndYMultiplier => _dashEndYMultiplier;
     public float DistanceBetweenAfterImages => _distanceBetweenAfterImages;
+    // crouching
+    public float CrouchMoveVelocity => _crouchMoveVelocity;
+    public float CrouchColliderHeight => _crouchColliderHeight;
+    public float StandColliderHeight => _standColliderHeight;
     // attack
     public bool AllowAttack => _allowAttack;
     public float AttackCooldown => _attackCooldown;

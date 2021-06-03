@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     private PlayerAnimator _playerAnimator;
     [SerializeField]
     private Rigidbody2D _rb;
+    [SerializeField]
+    private BoxCollider2D _boxCollider;
 
     [Header("Ability Systems")]
     [SerializeField]
@@ -27,11 +29,14 @@ public class Player : MonoBehaviour
     private WallDetector _wallDetector;
     [SerializeField]
     private LedgeDetector _ledgeDetector;
+    [SerializeField]
+    private CeilingDetector _ceilingDetector;
 
     public GameplayInput Input => _gameplayInput;
     public PlayerData Data => _data;
     public PlayerAnimator PlayerAnimator => _playerAnimator;
     public Rigidbody2D RB => _rb;
+    public BoxCollider2D BoxCollider => _boxCollider;
 
     public DashSystem DashSystem => _dashSystem;
     public PlayerAiming PlayerAiming => _playerAiming;
@@ -39,6 +44,7 @@ public class Player : MonoBehaviour
     public GroundDetector GroundDetector => _groundDetector;
     public WallDetector WallDetector => _wallDetector;
     public LedgeDetector LedgeDetector => _ledgeDetector;
+    public CeilingDetector CeilingDetector => _ceilingDetector;
 
     public int FacingDirection { get; private set; } = 1;
     public Vector2 AimDirection { get; private set; }
@@ -98,6 +104,17 @@ public class Player : MonoBehaviour
         Debug.Log("Flip");
         FacingDirection *= -1;
         transform.Rotate(0, 180, 0);
+    }
+
+    public void SetColliderHeight(float height)
+    {
+        Vector2 center = BoxCollider.offset;
+        Vector2 newSize = new Vector2(BoxCollider.size.x, height);
+
+        center.y += (height - BoxCollider.size.y) / 2;
+
+        BoxCollider.size = newSize;
+        BoxCollider.offset = center;
     }
 
     private void CheckIfShouldFlip(int xInput)
