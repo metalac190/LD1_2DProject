@@ -74,14 +74,30 @@ public class PlayerData : ScriptableObject
 
     [Header("Dash")]
     [SerializeField]
-    private PlayerDashAbility _equippedDash;
+    private float _dashCooldown = .5f;
+    [SerializeField]
+    private float _maxHoldTime = 1;
+    [SerializeField][Range(0,1)]
+    private float _holdTimeScale = .2f;
+    [SerializeField]
+    private float _dashDuration = 0.1f;
+    [SerializeField]
+    private float _dashVelocity = 50;
+    [SerializeField]
+    [Tooltip("makes the dash punchier, slows down while in air")]
+    private float _dashDrag = 10;
+    [SerializeField]
+    [Range(0, 1)]
+    [Tooltip("clamps upward movement at end of jump")]
+    private float _dashEndYMultiplier = 0.2f;
+    [SerializeField]
+    private float _distanceBetweenAfterImages = 0.5f;
 
     [Header("Attack")]
     [SerializeField]
     private bool _allowAttack = true;
     [SerializeField]
     private float _attackCooldown = 0.5f;
-    private PlayerDashAbility _equippedAttack;
 
     #region Getters
     // movement
@@ -118,11 +134,14 @@ public class PlayerData : ScriptableObject
     public Vector2 StartClimbOffset => _startClimbOffset;
     public Vector2 StopClimbOffset => _stopClimbOffset;
     // dash
-    public PlayerDashAbility EquippedDash
-    {
-        get => _equippedDash;
-        set { _equippedDash = value; }
-    }
+    public float DashCooldown => _dashCooldown;
+    public float MaxHoldTime => _maxHoldTime;
+    public float HoldTimeScale => _holdTimeScale;
+    public float DashDuration => _dashDuration;
+    public float DashVelocity => _dashVelocity;
+    public float DashDrag => _dashDrag;
+    public float DashEndYMultiplier => _dashEndYMultiplier;
+    public float DistanceBetweenAfterImages => _distanceBetweenAfterImages;
     // attack
     public bool AllowAttack => _allowAttack;
     public float AttackCooldown => _attackCooldown;

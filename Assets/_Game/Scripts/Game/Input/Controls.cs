@@ -292,6 +292,14 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Aim"",
+                    ""type"": ""Value"",
+                    ""id"": ""fbb75885-1237-431e-a62e-1013ba0f241f"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -463,7 +471,7 @@ public class @Controls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""af9e4bd8-74f4-41ba-8184-67f745449d47"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""MouseAndKeyboard"",
@@ -501,6 +509,28 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""AttackAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c39aa36b-f4a8-4d7a-867a-24aec39d5a0d"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b33c9f52-d23c-4e78-a21c-cdb30588e650"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""MouseAndKeyboard"",
+                    ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -551,6 +581,7 @@ public class @Controls : IInputActionCollection, IDisposable
         m_Gameplay_Menu = m_Gameplay.FindAction("Menu", throwIfNotFound: true);
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_AttackAction = m_Gameplay.FindAction("AttackAction", throwIfNotFound: true);
+        m_Gameplay_Aim = m_Gameplay.FindAction("Aim", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -670,6 +701,7 @@ public class @Controls : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Menu;
     private readonly InputAction m_Gameplay_Movement;
     private readonly InputAction m_Gameplay_AttackAction;
+    private readonly InputAction m_Gameplay_Aim;
     public struct GameplayActions
     {
         private @Controls m_Wrapper;
@@ -679,6 +711,7 @@ public class @Controls : IInputActionCollection, IDisposable
         public InputAction @Menu => m_Wrapper.m_Gameplay_Menu;
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
         public InputAction @AttackAction => m_Wrapper.m_Gameplay_AttackAction;
+        public InputAction @Aim => m_Wrapper.m_Gameplay_Aim;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -703,6 +736,9 @@ public class @Controls : IInputActionCollection, IDisposable
                 @AttackAction.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttackAction;
                 @AttackAction.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttackAction;
                 @AttackAction.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttackAction;
+                @Aim.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAim;
+                @Aim.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAim;
+                @Aim.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAim;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -722,6 +758,9 @@ public class @Controls : IInputActionCollection, IDisposable
                 @AttackAction.started += instance.OnAttackAction;
                 @AttackAction.performed += instance.OnAttackAction;
                 @AttackAction.canceled += instance.OnAttackAction;
+                @Aim.started += instance.OnAim;
+                @Aim.performed += instance.OnAim;
+                @Aim.canceled += instance.OnAim;
             }
         }
     }
@@ -759,5 +798,6 @@ public class @Controls : IInputActionCollection, IDisposable
         void OnMenu(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
         void OnAttackAction(InputAction.CallbackContext context);
+        void OnAim(InputAction.CallbackContext context);
     }
 }

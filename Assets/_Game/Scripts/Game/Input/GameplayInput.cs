@@ -37,6 +37,8 @@ public class GameplayInput : MonoBehaviour
     public int XRaw { get; private set; }
     public int YRaw { get; private set; }
 
+    public Vector2 MousePosition { get; private set; }
+
     public void OnMovement(InputAction.CallbackContext context)
     {
         Movement = context.ReadValue<Vector2>();
@@ -80,6 +82,11 @@ public class GameplayInput : MonoBehaviour
             MenuPressed?.Invoke();
         else if (context.canceled)
             MenuReleased?.Invoke();
+    }
+
+    public void OnAim(InputAction.CallbackContext context)
+    {
+        MousePosition = context.ReadValue<Vector2>();
     }
 
     private void SetYRaw()

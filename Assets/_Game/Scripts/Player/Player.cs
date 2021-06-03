@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     [Header("Ability Systems")]
     [SerializeField]
     private DashSystem _dashSystem;
+    [SerializeField]
+    private PlayerAiming _playerAiming;
 
     [Header("Environment Checks")]
     [SerializeField]
@@ -32,12 +34,14 @@ public class Player : MonoBehaviour
     public Rigidbody2D RB => _rb;
 
     public DashSystem DashSystem => _dashSystem;
+    public PlayerAiming PlayerAiming => _playerAiming;
 
     public GroundDetector GroundDetector => _groundDetector;
     public WallDetector WallDetector => _wallDetector;
     public LedgeDetector LedgeDetector => _ledgeDetector;
 
     public int FacingDirection { get; private set; } = 1;
+    public Vector2 AimDirection { get; private set; }
 
     public int AirJumpsRemaining { get; private set; }
     public float DashCooldown { get; private set; }
@@ -67,22 +71,31 @@ public class Player : MonoBehaviour
         CheckIfShouldFlip(direction);
     }
 
-    public void SetVelocityX(float newXVelocity)
+    public void SetVelocity(float xVelocity, float yVelocity)
     {
         CheckIfShouldFlip(_gameplayInput.XRaw);
-        _rb.velocity = new Vector2(newXVelocity, _rb.velocity.y);
+        _rb.velocity = new Vector2(xVelocity, yVelocity);
+
+    }
+
+    public void SetVelocityX(float xVelocity)
+    {
+        CheckIfShouldFlip(_gameplayInput.XRaw);
+        _rb.velocity = new Vector2(xVelocity, _rb.velocity.y);
+
     }
 
     public void DecreaseAirJumpsRemaining() => AirJumpsRemaining--;
     public void ResetJumps() => AirJumpsRemaining = _data.AmountOfAirJumps;
 
-    public void SetVelocityY(float newYVelocity)
+    public void SetVelocityY(float yVelocity)
     {
-        _rb.velocity = new Vector2(_rb.velocity.x, newYVelocity);
+        _rb.velocity = new Vector2(_rb.velocity.x, yVelocity);
     }
 
     public void Flip()
     {
+        Debug.Log("Flip");
         FacingDirection *= -1;
         transform.Rotate(0, 180, 0);
     }

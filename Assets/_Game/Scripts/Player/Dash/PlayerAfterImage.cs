@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerAfterImage : MonoBehaviour
 {
+    [SerializeField] SpriteRenderer _renderer;
     [SerializeField] private float _activeTime = 0.1f;
     [SerializeField] private float _alphaSet = 0.8f;
 
@@ -15,43 +16,55 @@ public class PlayerAfterImage : MonoBehaviour
     private PlayerMovement_Old _player;
     private Transform _playerSpriteTransform;
 
-    private SpriteRenderer _spriteRenderer;
     private SpriteRenderer _playerSpriteRenderer;
 
     private Color _playerColor;
     private Color _newColor;
 
-    private void OnEnable()
-    {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _player = FindObjectOfType<PlayerMovement_Old>();
+    bool _isInitialized = false;
 
-        _playerSpriteRenderer = _player.SpriteRenderer;
+    public void Initialize(Player player)
+    {
+        _playerSpriteRenderer = player.PlayerAnimator.SpriteRenderer;
+
         _playerSpriteTransform = _playerSpriteRenderer.transform;
         _playerColor = _playerSpriteRenderer.color;
         transform.localScale = _playerSpriteTransform.localScale;
         // start new sprite sequence
         _alpha = _alphaSet;
-        _spriteRenderer.sprite = _playerSpriteRenderer.sprite;
+        _renderer.sprite = _playerSpriteRenderer.sprite;
         transform.position = _playerSpriteTransform.position;
         transform.rotation = _playerSpriteTransform.rotation;
         _timeActivated = Time.time;
+        // remove the parent, so it doesn't follow player
+        transform.SetParent(null);
+
+        _isInitialized = true;
+    }
+
+    private void OnDisable()
+    {
+        _isInitialized = false;
     }
 
     private void Update()
     {
-        ProgressAnimation();
+        if (_isInitialized)
+        {
+            ProgressAnimation();
+        }
     }
 
     private void ProgressAnimation()
     {
         _alpha -= _alphaDecay * Time.deltaTime;
         _newColor = new Color(_playerColor.r, _playerColor.g, _playerColor.b, _alpha);
-        _spriteRenderer.color = _newColor;
+        _renderer.color = _newColor;
 
         if (Time.time >= (_timeActivated + _activeTime))
         {
-            PlayerAfterImagePool.Instance.AddToPool(gameObject);
+            PlayerAfterImagePool.Instance.AddToPool(this);
+            
         }
     }
 }

@@ -7,21 +7,35 @@ public class PlayerDashState : State
     private PlayerFSM _stateMachine;
     private Player _player;
 
+    private PlayerData _data;
+    private Rigidbody2D _rb;
     private DashSystem _dashSystem;
-    private PlayerDashAbility _dashAbility;
     private GameplayInput _input;
     private GroundDetector _groundDetector;
 
-    private bool _dashUsed = false;
+    private bool _isDashing = false;
+    private float _holdTimer = 0;
+    private float _dashTimer = 0;
+    private Vector2 _dashDirection;
+
+    private float _initialDrag;
+    private float _initialFixedDeltaTime;
+
+    private PlayerAfterImage _lastAfterImage;
 
     public PlayerDashState(PlayerFSM stateMachine, Player player)
     {
         _stateMachine = stateMachine;
         _player = player;
 
+        _data = player.Data;
+        _rb = player.RB;
         _dashSystem = player.DashSystem;
         _input = player.Input;
         _groundDetector = player.GroundDetector;
+
+        _initialDrag = player.RB.drag;
+        _initialFixedDeltaTime = Time.fixedDeltaTime;
     }
 
     public override void Enter()
@@ -29,19 +43,20 @@ public class PlayerDashState : State
         Debug.Log("STATE: Dash");
         base.Enter();
 
-        _dashAbility = _dashSystem.EquippedDash;
-
-        _dashAbility.Completed += OnCompletedDash;
+        //
         _input.DashReleased += OnDashInputReleased;
 
-        _dashAbility.OnInputPress(_player);
+        _isDashing = false;
+        _holdTimer = 0;
+        _dashTimer = 0;
+
+        StartHold();
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        _dashAbility.Completed -= OnCompletedDash;
         _input.DashReleased -= OnDashInputReleased;
     }
 
@@ -51,21 +66,79 @@ public class PlayerDashState : State
         // using the dash in update so that we don't trigger a state change while we're still entering
         _groundDetector.DetectGround();
 
-        _dashAbility.OnFixedUpdate(_player);
-        _dashUsed = true;
+        if (_isDashing)
+        {
+            _player.SetVelocity(_dashDirection.x * _data.DashVelocity, _dashDirection.y * _data.DashVelocity);
+            if(Vector2.Distance(_player.transform.position, _lastAfterImage.transform.position) 
+                >= _data.DistanceBetweenAfterImages)
+            {
+                _lastAfterImage = PlayerAfterImagePool.Instance.PlaceAfterImage(_player);
+            }
+        }
     }
 
     public override void Update()
     {
         base.Update();
 
-        _dashAbility.OnUpdate(_player);
+        IncrementTimers();
+
+        if(!_isDashing && _holdTimer >= _data.MaxHoldTime)
+        {
+            UseDash();
+        }
+        else if(_isDashing && _dashTimer >= _data.DashDuration)
+        {
+            CompleteDash();
+        }
     }
 
-    private void OnCompletedDash()
+    private void IncrementTimers()
     {
-        _dashSystem.StartCooldown();
+        if (!_isDashing)
+        {
+            _holdTimer += Time.unscaledDeltaTime;
+        }
+        else if (_isDashing)
+        {
+            _dashTimer += Time.deltaTime;
+        }
+    }
 
+    private void StartHold()
+    {
+        Time.timeScale = _data.HoldTimeScale;
+        Time.fixedDeltaTime = _initialFixedDeltaTime * Time.timeScale;
+    }
+
+    private void OnDashInputReleased()
+    {
+        UseDash();
+    }
+
+    private void UseDash()
+    {
+        Time.timeScale = 1;
+        Time.fixedDeltaTime = _initialFixedDeltaTime;
+
+        _isDashing = true;
+        _dashDirection = _input.Movement;
+        // ensure we still dash, even without input
+        if(_dashDirection == Vector2.zero)
+        {
+            _dashDirection = new Vector2(_player.FacingDirection, 0);
+        }
+
+        _rb.drag = _data.DashDrag;
+
+        _lastAfterImage = PlayerAfterImagePool.Instance.PlaceAfterImage(_player);
+    }
+
+    private void CompleteDash()
+    {
+        _dashSystem.StartCooldown(_data.DashCooldown);
+        _rb.drag = _initialDrag;
+        _player.SetVelocityY(_data.DashEndYMultiplier * _rb.velocity.y);
 
         Debug.Log("Dash Completed");
         if (_groundDetector.IsGrounded && _input.XRaw != 0)
@@ -85,9 +158,4 @@ public class PlayerDashState : State
         }
     }
 
-    private void OnDashInputReleased()
-    {
-        Debug.Log("Dash Released");
-        _dashAbility.OnInputRelease(_player);
-    }
 }

@@ -38,8 +38,13 @@ MonoBehaviour:
   _ledgeDropPushVelocity: 10
   _startClimbOffset: {x: 0.3, y: 2.5}
   _stopClimbOffset: {x: 0.75, y: 0.4}
-  _allowDash: 1
-  _dashCooldown: 1
-  _equippedDash: {fileID: 11400000, guid: e98b97d9843b50e4a9079760b534a4cd, type: 2}
+  _dashCooldown: 0.5
+  _maxHoldTime: 1
+  _holdTimeScale: 0.2
+  _dashDuration: 0.15
+  _dashVelocity: 50
+  _dashDrag: 10
+  _dashEndYMultiplier: 0.2
+  _distanceBetweenAfterImages: 0.5
   _allowAttack: 1
   _attackCooldown: 0.5

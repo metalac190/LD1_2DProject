@@ -10,33 +10,17 @@ using System;
 /// </summary>
 public class DashSystem : MonoBehaviour
 {
-    [SerializeField]
-    private PlayerData _data;
-
-    public PlayerDashAbility EquippedDash { get; private set; }
-
-    private float _dashCooldown = 0;
     private Coroutine _cooldownRoutine;
 
     private bool _canDash = true;
-    public bool CanDash => (_canDash && EquippedDash != null);
+    public bool CanDash => _canDash;
 
-    private void Awake()
-    {
-        Initialize(_data);
-    }
-
-    private void Initialize(PlayerData data)
-    {
-        EquipDash(data.EquippedDash);
-    }
-
-    public void StartCooldown()
+    public void StartCooldown(float duration)
     {
         Debug.Log("Start Dash Cooldown");
         if (_cooldownRoutine != null)
             StopCoroutine(_cooldownRoutine);
-        _cooldownRoutine = StartCoroutine(CooldownRoutine(_dashCooldown));
+        _cooldownRoutine = StartCoroutine(CooldownRoutine(duration));
     }
 
     public void StopCooldown()
@@ -46,18 +30,13 @@ public class DashSystem : MonoBehaviour
         _canDash = true;
     }
 
-    public void EquipDash(PlayerDashAbility newDashAbility)
-    {
-        if(newDashAbility == null) { return; }
-
-        EquippedDash = newDashAbility;
-        _dashCooldown = newDashAbility.Cooldown;
-    }
-
     private IEnumerator CooldownRoutine(float duration)
     {
         _canDash = false;
+
         yield return new WaitForSeconds(duration);
+
         _canDash = true;
+        Debug.Log("Cooldown Complete");
     }
 }

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerAfterImagePool : MonoBehaviour
 {
-    [SerializeField] private GameObject _afterImagePrefab;
+    [SerializeField] private PlayerAfterImage _afterImagePrefab;
     [SerializeField] private int _poolStartSize = 10;
 
-    private Queue<GameObject> _availableObjects = new Queue<GameObject>();
+    private Queue<PlayerAfterImage> _availableObjects = new Queue<PlayerAfterImage>();
     public static PlayerAfterImagePool Instance { get; private set; }
 
     private void Awake()
@@ -16,23 +16,33 @@ public class PlayerAfterImagePool : MonoBehaviour
         GrowPool(_poolStartSize);
     }
 
+    public PlayerAfterImage PlaceAfterImage(Player player)
+    {
+        PlayerAfterImage afterImage = GetFromPool();
+        afterImage.Initialize(player);
+
+        return afterImage;
+    }
+
     private void GrowPool(int numberOfObjects)
     {
         for (int i = 0; i < numberOfObjects; i++)
         {
-            var instanceToAdd = Instantiate(_afterImagePrefab);
+            PlayerAfterImage instanceToAdd = Instantiate(_afterImagePrefab);
             instanceToAdd.transform.SetParent(transform);
             AddToPool(instanceToAdd);
         }
     }
 
-    public void AddToPool(GameObject instance)
+    public void AddToPool(PlayerAfterImage instance)
     {
-        instance.SetActive(false);
+        instance.gameObject.SetActive(false);
+        instance.transform.position = Vector3.zero;
+        instance.transform.SetParent(this.transform);
         _availableObjects.Enqueue(instance);
     }
 
-    public GameObject GetFromPool()
+    public PlayerAfterImage GetFromPool()
     {
         if(_availableObjects.Count == 0)
         {
@@ -40,7 +50,8 @@ public class PlayerAfterImagePool : MonoBehaviour
         }
 
         var instance = _availableObjects.Dequeue();
-        instance.SetActive(true);
+        instance.gameObject.SetActive(true);
+
         return instance;
     }
 }
