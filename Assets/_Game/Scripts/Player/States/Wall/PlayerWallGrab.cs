@@ -9,6 +9,7 @@ public class PlayerWallGrab : PlayerWallSuperState
 
     PlayerData _data;
     GameplayInput _input;
+    PlayerSFXData _sfx;
 
     Vector2 _startPosition;
 
@@ -19,6 +20,7 @@ public class PlayerWallGrab : PlayerWallSuperState
 
         _input = player.Input;
         _data = player.Data;
+        _sfx = player.SFX;
     }
 
     //
@@ -29,6 +31,8 @@ public class PlayerWallGrab : PlayerWallSuperState
         Debug.Log("STATE: Wall Grab");
 
         _startPosition = _player.RB.position;
+
+        _sfx.WallGrabSFX.PlayOneShot(_player.transform.position);
     }
 
     public override void Exit()

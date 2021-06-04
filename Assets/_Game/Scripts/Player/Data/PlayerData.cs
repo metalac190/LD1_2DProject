@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerData", menuName = "Data/Player")]
+[CreateAssetMenu(fileName = "PlayerMoveData", menuName = "Data/Player/Player Movement")]
 public class PlayerData : ScriptableObject
 {
     [Header("Movement")]
@@ -108,6 +108,7 @@ public class PlayerData : ScriptableObject
     private bool _allowAttack = true;
     [SerializeField]
     private float _attackCooldown = 0.5f;
+
 
     #region Getters
     // movement

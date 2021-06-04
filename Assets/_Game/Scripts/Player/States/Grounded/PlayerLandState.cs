@@ -10,6 +10,7 @@ public class PlayerLandState : State
     GameplayInput _input;
     PlayerData _data;
     DashSystem _dashSystem;
+    PlayerSFXData _sfx;
 
     private float _landDuration = .2f ;
 
@@ -21,6 +22,7 @@ public class PlayerLandState : State
         _input = player.Input;
         _data = player.Data;
         _dashSystem = player.DashSystem;
+        _sfx = player.SFX;
     }
 
     public override void Enter()
@@ -33,6 +35,8 @@ public class PlayerLandState : State
         _input.DashPressed += OnDashPressed;
 
         _player.ResetJumps();
+
+        _sfx.LandSFX.PlayOneShot(_player.transform.position);
     }
 
     public override void Exit()

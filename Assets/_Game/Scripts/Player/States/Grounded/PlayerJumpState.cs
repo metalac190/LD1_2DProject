@@ -11,6 +11,7 @@ public class PlayerJumpState : State
     PlayerData _data;
     GroundDetector _groundDetector;
     DashSystem _dashSystem;
+    PlayerSFXData _sfx;
 
     public PlayerJumpState(PlayerFSM stateMachine, Player player)
     {
@@ -21,6 +22,7 @@ public class PlayerJumpState : State
         _data = player.Data;
         _groundDetector = player.GroundDetector;
         _dashSystem = player.DashSystem;
+        _sfx = player.SFX;
     }
 
     public override void Enter()
@@ -35,6 +37,7 @@ public class PlayerJumpState : State
 
         _player.SetVelocityY(_data.JumpVelocity);
 
+        _sfx.JumpSFX.PlayOneShot(_player.transform.position);
     }
 
     public override void Exit()

@@ -12,6 +12,7 @@ public class PlayerWallJumpState : State
     GroundDetector _groundDetector;
     WallDetector _wallDetector;
     DashSystem _dashSystem;
+    PlayerSFXData _sfx;
 
     // this prevents player from immediately moving back into wall while wall jumping
     bool _isMoveInputAllowed = false;
@@ -26,6 +27,7 @@ public class PlayerWallJumpState : State
         _groundDetector = player.GroundDetector;
         _wallDetector = player.WallDetector;
         _dashSystem = player.DashSystem;
+        _sfx = player.SFX;
     }
 
     public override void Enter()
@@ -42,6 +44,8 @@ public class PlayerWallJumpState : State
         Debug.Log("Remaining Jumps: " + _player.AirJumpsRemaining);
         // reverse direction
         _player.SetVelocity(_data.WallJumpVelocity, _data.WallJumpAngle, -_player.FacingDirection);
+
+        _sfx.JumpSFX.PlayOneShot(_player.transform.position);
     }
 
     public override void Exit()

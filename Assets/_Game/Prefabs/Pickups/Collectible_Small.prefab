@@ -189,5 +189,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505a9397a32f0c34e92018a7902b87ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pickupSFX: {fileID: 8300000, guid: 5b0b8477049f98f48bf043d43c03428f, type: 3}
+  _pickupSFX: {fileID: 11400000, guid: ddc9ba3bde4001d44b7c5fca84b699dd, type: 2}
   _particlePrefab: {fileID: 2010415367784037018, guid: 1bf67136a26c0da419c918f18c29d45b, type: 3}

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1413f32195358794c8c1257fc86f2a61, type: 3}
+  m_Name: PlayerSFX
+  m_EditorClassIdentifier: 
+  _jumpSFX: {fileID: 11400000, guid: 53ca22c4885b50741a7fce1ef81a4de8, type: 2}
+  _airJumpSFX: {fileID: 11400000, guid: 0678e2634d674864490b5f6a64abce62, type: 2}
+  _wallJumpSFX: {fileID: 11400000, guid: 136be5ea9cffb534292dce49a87b2138, type: 2}
+  _dashHoldSFX: {fileID: 11400000, guid: 0c49837c43b5a534b88eb3d477865ca3, type: 2}
+  _dashReleaseSFX: {fileID: 11400000, guid: cbc27bb1affee244396d33d16964549e, type: 2}
+  _ledgeCatchSFX: {fileID: 11400000, guid: acc469abfb7fe814795e2ab3428e2138, type: 2}
+  _landSFX: {fileID: 11400000, guid: 550deb992f6eb034d9ec18c02a27a581, type: 2}
+  _wallGrabSFX: {fileID: 11400000, guid: c5799b36170724644a851d632520bd5f, type: 2}

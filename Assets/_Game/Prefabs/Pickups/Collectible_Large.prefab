@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff3d47aa46702e64c8ee4f1622ef78d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pickupSFX: {fileID: 8300000, guid: b508a367677baae43a886291e3e371e3, type: 3}
+  _pickupSFX: {fileID: 11400000, guid: 92cf261e72f53e14aa6d0e5aded08873, type: 2}
   _particlePrefab: {fileID: 2010415367784037018, guid: 1bf67136a26c0da419c918f18c29d45b, type: 3}
 --- !u!1 &3164852501879126503
 GameObject:

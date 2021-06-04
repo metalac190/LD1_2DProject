@@ -11,6 +11,7 @@ public class PlayerLedgeHangState : State
     GameplayInput _input;
     LedgeDetector _ledgeDetector;
     PlayerAnimator _playerAnimator;
+    PlayerSFXData _sfx;
 
     Vector2 _cornerPos;
 
@@ -26,6 +27,7 @@ public class PlayerLedgeHangState : State
         _input = player.Input;
         _ledgeDetector = player.LedgeDetector;
         _playerAnimator = player.PlayerAnimator;
+        _sfx = player.SFX;
     }
 
     public override void Enter()
@@ -44,6 +46,8 @@ public class PlayerLedgeHangState : State
         // set initial player position
         _player.RB.MovePosition(_hangPosition);
         _player.HoldPosition(_hangPosition);
+
+        _sfx.LedgeCatchSFX.PlayOneShot(_player.transform.position);
     }
 
     public override void Exit()

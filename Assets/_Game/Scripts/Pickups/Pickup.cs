@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SoundSystem;
 
 [RequireComponent(typeof(Collider2D))]
 public abstract class Pickup : MonoBehaviour
@@ -9,7 +10,7 @@ public abstract class Pickup : MonoBehaviour
     protected abstract void OnPickup(GameObject collector);
 
     [Header("Feedback")]
-    [SerializeField] AudioClip _pickupSFX = null;
+    [SerializeField] SFXOneShot _pickupSFX = null;
     [SerializeField] ParticleSystem _particlePrefab = null;
 
     // Reset gets called whenever you add a component to an object
@@ -30,7 +31,7 @@ public abstract class Pickup : MonoBehaviour
 
         if (_pickupSFX != null)
         {
-            SpawnAudio(_pickupSFX);
+            _pickupSFX.PlayOneShot(transform.position);
         }
 
         if (_particlePrefab != null)

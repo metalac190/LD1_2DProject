@@ -35067,6 +35067,7 @@ MonoBehaviour:
   _playerAnimator: {fileID: 1884541640506076339}
   _rb: {fileID: 1884541640432777453}
   _boxCollider: {fileID: 1884541640432777452}
+  _playerSFX: {fileID: 11400000, guid: 41a54594458593a43995bbb1788c91e5, type: 2}
   _dashSystem: {fileID: 641447806}
   _playerAiming: {fileID: 997562703}
   _groundDetector: {fileID: 1019700329}
@@ -35283,7 +35284,7 @@ GameObject:
   - component: {fileID: 1884541640432777449}
   - component: {fileID: 1884541640432777448}
   m_Layer: 9
-  m_Name: Player
+  m_Name: PlayerCharacter
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35636,10 +35637,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3164852501795749336, guid: 5e274ea6d29335847973ce2defd6d3cf, type: 3}
-      propertyPath: _particlePrefab
-      value: 
-      objectReference: {fileID: 2010415367784037018, guid: 1bf67136a26c0da419c918f18c29d45b, type: 3}
     - target: {fileID: 3164852501795749342, guid: 5e274ea6d29335847973ce2defd6d3cf, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -35697,10 +35694,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3517438245315449056, guid: 11c51143a522ce74893ca57a21184e74, type: 3}
-      propertyPath: _particlePrefab
-      value: 
-      objectReference: {fileID: 2010415367784037018, guid: 1bf67136a26c0da419c918f18c29d45b, type: 3}
     - target: {fileID: 3517438245315449058, guid: 11c51143a522ce74893ca57a21184e74, type: 3}
       propertyPath: m_RootOrder
       value: 8

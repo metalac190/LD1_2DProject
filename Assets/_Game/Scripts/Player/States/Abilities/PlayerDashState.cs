@@ -12,6 +12,7 @@ public class PlayerDashState : State
     private DashSystem _dashSystem;
     private GameplayInput _input;
     private GroundDetector _groundDetector;
+    private PlayerSFXData _sfx;
 
     private bool _isDashing = false;
     private float _holdTimer = 0;
@@ -34,6 +35,8 @@ public class PlayerDashState : State
         _dashSystem = player.DashSystem;
         _input = player.Input;
         _groundDetector = player.GroundDetector;
+        _sfx = player.SFX;
+
         _afterImagePool = _dashSystem.AfterImagePool;
 
         _initialDrag = player.RB.drag;
@@ -120,6 +123,8 @@ public class PlayerDashState : State
     {
         Time.timeScale = _data.HoldTimeScale;
         Time.fixedDeltaTime = _initialFixedDeltaTime * Time.timeScale;
+
+        _sfx.DashHoldSFX.PlayOneShot(_player.transform.position);
     }
 
     private void OnDashInputReleased()
@@ -143,6 +148,8 @@ public class PlayerDashState : State
         _rb.drag = _data.DashDrag;
 
         _lastAfterImage = _afterImagePool.PlaceAfterImage(_player);
+
+        _sfx.DashReleaseSFX.PlayOneShot(_player.transform.position);
     }
 
     private void CompleteDash()

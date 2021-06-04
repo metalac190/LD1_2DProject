@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttackState : AbilitySuperState
+public class PlayerAttackState : State
 {
     private PlayerFSM _stateMachine;
     private Player _player;
 
-    public PlayerAttackState(PlayerFSM stateMachine, Player player) : base(stateMachine, player)
+    public PlayerAttackState(PlayerFSM stateMachine, Player player)
     {
         _stateMachine = stateMachine;
         _player = player;
