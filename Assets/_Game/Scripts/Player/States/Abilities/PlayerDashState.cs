@@ -55,6 +55,7 @@ public class PlayerDashState : State
         _holdTimer = 0;
         _dashTimer = 0;
 
+        _dashSystem.ShowDashReadyVisual(false);
         StartHold();
     }
 

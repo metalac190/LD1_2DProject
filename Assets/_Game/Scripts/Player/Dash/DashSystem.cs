@@ -26,7 +26,7 @@ public class DashSystem : MonoBehaviour
 
     private void Awake()
     {
-        _dashCooldownVisual.SetActive(true);
+        ShowDashReadyVisual(true);
     }
 
     public void StartCooldown(float duration)
@@ -46,16 +46,16 @@ public class DashSystem : MonoBehaviour
     private IEnumerator CooldownRoutine(float duration)
     {
         _canDash = false;
-        _dashCooldownVisual.SetActive(false);
+        ShowDashReadyVisual(false);
 
         yield return new WaitForSeconds(duration);
 
         _canDash = true;
-        _dashCooldownVisual.SetActive(true);
+        ShowDashReadyVisual(true);
     }
 
 
-    public void ShowDashVisual(bool isActive)
+    public void ShowDashReadyVisual(bool isActive)
     {
         _dashCooldownVisual.SetActive(isActive);
     }

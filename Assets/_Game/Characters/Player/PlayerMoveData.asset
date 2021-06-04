@@ -41,7 +41,7 @@ MonoBehaviour:
   _allowDash: 1
   _dashCooldown: 0.5
   _maxHoldTime: 1
-  _holdTimeScale: 0.2
+  _holdTimeScale: 0.1
   _dashDuration: 0.15
   _dashVelocity: 50
   _dashDrag: 10
