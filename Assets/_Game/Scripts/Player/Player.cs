@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
 
     [Header("Ability Systems")]
     [SerializeField]
+    private WeaponSystem _weaponSystem;
+    [SerializeField]
     private DashSystem _dashSystem;
     [SerializeField]
     private PlayerAiming _playerAiming;
@@ -41,6 +43,7 @@ public class Player : MonoBehaviour
     public BoxCollider2D BoxCollider => _boxCollider;
     public PlayerSFXData SFX => _playerSFX;
 
+    public WeaponSystem WeaponSystem => _weaponSystem;
     public DashSystem DashSystem => _dashSystem;
     public PlayerAiming PlayerAiming => _playerAiming;
 
@@ -82,14 +85,14 @@ public class Player : MonoBehaviour
 
     public void SetVelocity(float xVelocity, float yVelocity)
     {
-        CheckIfShouldFlip(_gameplayInput.XRaw);
+        CheckIfShouldFlip(_gameplayInput.XInputRaw);
         _rb.velocity = new Vector2(xVelocity, yVelocity);
 
     }
 
     public void SetVelocityX(float xVelocity)
     {
-        CheckIfShouldFlip(_gameplayInput.XRaw);
+        CheckIfShouldFlip(_gameplayInput.XInputRaw);
         _rb.velocity = new Vector2(xVelocity, _rb.velocity.y);
     }
 

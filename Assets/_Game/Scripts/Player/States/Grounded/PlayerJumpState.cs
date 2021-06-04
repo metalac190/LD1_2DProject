@@ -34,10 +34,11 @@ public class PlayerJumpState : State
         _input.JumpPressed += OnJumpPressed;
         _input.JumpReleased += OnJumpReleased;
         _input.DashPressed += OnDashPressed;
+        _input.AttackPressed += OnAttackPressed;
 
         _player.SetVelocityY(_data.JumpVelocity);
 
-        _sfx.JumpSFX.PlayOneShot(_player.transform.position);
+        _sfx.JumpSFX?.PlayOneShot(_player.transform.position);
     }
 
     public override void Exit()
@@ -47,6 +48,7 @@ public class PlayerJumpState : State
         _input.JumpPressed -= OnJumpPressed;
         _input.JumpReleased -= OnJumpReleased;
         _input.DashPressed -= OnDashPressed;
+        _input.AttackPressed -= OnAttackPressed;
     }
 
     public override void FixedUpdate()
@@ -60,7 +62,7 @@ public class PlayerJumpState : State
             _stateMachine.ChangeState(_stateMachine.FallingState);
         }
 
-        _player.SetVelocityX(_input.XRaw * _data.MoveSpeed);
+        _player.SetVelocityX(_input.XInputRaw * _data.MoveSpeed);
     }
 
     public override void Update()
@@ -68,6 +70,11 @@ public class PlayerJumpState : State
         base.Update();
         
         
+    }
+
+    private void OnAttackPressed()
+    {
+        //_stateMachine.ChangeState(_stateMachine.AttackState);
     }
 
     private void OnJumpPressed()

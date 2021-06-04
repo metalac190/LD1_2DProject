@@ -29,19 +29,21 @@ public class PlayerAirJumpState : State
     {
         base.Enter();
 
+        _input.AttackPressed += OnAttackPressed;
         _input.JumpReleased += OnJumpReleased;
         _input.DashPressed += OnDashPressed;
 
         _player.DecreaseAirJumpsRemaining();
         _player.SetVelocityY(_data.AirJumpVelocity);
 
-        _sfx.AirJumpSFX.PlayOneShot(_player.transform.position);
+        _sfx.AirJumpSFX?.PlayOneShot(_player.transform.position);
     }
 
     public override void Exit()
     {
         base.Exit();
 
+        _input.AttackPressed -= OnAttackPressed;
         _input.JumpReleased -= OnJumpReleased;
         _input.DashPressed -= OnDashPressed;
     }
@@ -55,14 +57,20 @@ public class PlayerAirJumpState : State
         if (!_groundDetector.IsGrounded && _player.RB.velocity.y <= 0)
         {
             _stateMachine.ChangeState(_stateMachine.FallingState);
+            return;
         }
 
-        _player.SetVelocityX(_input.XRaw * _data.MoveSpeed);
+        _player.SetVelocityX(_input.XInputRaw * _data.MoveSpeed);
     }
 
     public override void Update()
     {
         base.Update();
+    }
+
+    private void OnAttackPressed()
+    {
+        //_stateMachine.ChangeState(_stateMachine.AttackState);
     }
 
     private void OnJumpReleased()

@@ -46,12 +46,12 @@ public class PlayerWallSlideState : PlayerWallSuperState
     {
         base.Update();
         // if player is allowed to climb the wall, test the input and climb
-        if (_data.AllowWallClimb && _input.YRaw > 0)
+        if (_data.AllowWallClimb && _input.YInputRaw > 0)
         {
             _stateMachine.ChangeState(_stateMachine.WallClimbState);
         }
         // if the player is allowed to grab the wall, test input and grab
-        else if(_data.AllowWallGrab && _input.YRaw == 0)
+        else if(_data.AllowWallGrab && _input.YInputRaw == 0)
         {
             _stateMachine.ChangeState(_stateMachine.WallGrabState);
         }

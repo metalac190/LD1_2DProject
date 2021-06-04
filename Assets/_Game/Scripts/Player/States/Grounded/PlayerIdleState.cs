@@ -38,17 +38,17 @@ public class PlayerIdleState : PlayerGroundedSuperState
 
     public override void Update()
     {
-        if (_input.XRaw != 0 && _input.YRaw >= 0)
+        if (_input.XInputRaw != 0 && _input.YInputRaw >= 0)
         {
             _stateMachine.ChangeState(_stateMachine.MoveState);
             return;
         }
 
-        else if (_input.XRaw != 0 && _input.YRaw < 0)
+        else if (_input.XInputRaw != 0 && _input.YInputRaw < 0)
         {
             
         }
-        else if (_input.XRaw == 0 && _input.YRaw < 0)
+        else if (_input.XInputRaw == 0 && _input.YInputRaw < 0)
         {
             _stateMachine.ChangeState(_stateMachine.CrouchState);
             return;

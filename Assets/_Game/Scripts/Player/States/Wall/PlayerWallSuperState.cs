@@ -52,7 +52,7 @@ public class PlayerWallSuperState : State
     {
         base.Update();
         // if we're not holding against the wall, lose it
-        if (_input.XRaw != _player.FacingDirection)
+        if (_input.XInputRaw != _player.FacingDirection)
         {
             OnLostWall();
         }

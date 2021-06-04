@@ -125,7 +125,7 @@ public class PlayerDashState : State
         Time.timeScale = _data.HoldTimeScale;
         Time.fixedDeltaTime = _initialFixedDeltaTime * Time.timeScale;
 
-        _sfx.DashHoldSFX.PlayOneShot(_player.transform.position);
+        _sfx.DashHoldSFX?.PlayOneShot(_player.transform.position);
     }
 
     private void OnDashInputReleased()
@@ -139,7 +139,7 @@ public class PlayerDashState : State
         Time.fixedDeltaTime = _initialFixedDeltaTime;
 
         _isDashing = true;
-        _dashDirection = _input.Movement;
+        _dashDirection = _input.MoveInput;
         // ensure we still dash, even without input
         if(_dashDirection == Vector2.zero)
         {
@@ -150,7 +150,7 @@ public class PlayerDashState : State
 
         _lastAfterImage = _afterImagePool.PlaceAfterImage(_player);
 
-        _sfx.DashReleaseSFX.PlayOneShot(_player.transform.position);
+        _sfx.DashReleaseSFX?.PlayOneShot(_player.transform.position);
     }
 
     private void CompleteDash()
@@ -159,13 +159,13 @@ public class PlayerDashState : State
         _rb.drag = _initialDrag;
         _player.SetVelocityY(_data.DashEndYMultiplier * _rb.velocity.y);
 
-        Debug.Log("Dash Completed");
-        if (_groundDetector.IsGrounded && _input.XRaw != 0)
+        // completed dash. Decide where to transition from here
+        if (_groundDetector.IsGrounded && _input.XInputRaw != 0)
         {
             _stateMachine.ChangeState(_stateMachine.MoveState);
             return;
         }
-        else if(_groundDetector.IsGrounded && _input.XRaw == 0)
+        else if(_groundDetector.IsGrounded && _input.XInputRaw == 0)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
             return;

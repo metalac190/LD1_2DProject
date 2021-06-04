@@ -37,6 +37,7 @@ public class PlayerWallJumpState : State
 
         _input.JumpPressed += OnJumpPressed;
         _input.DashPressed += OnDashPressed;
+        _input.AttackPressed += OnAttackPressed;
 
         _isMoveInputAllowed = false;
 
@@ -45,7 +46,7 @@ public class PlayerWallJumpState : State
         // reverse direction
         _player.SetVelocity(_data.WallJumpVelocity, _data.WallJumpAngle, -_player.FacingDirection);
 
-        _sfx.JumpSFX.PlayOneShot(_player.transform.position);
+        _sfx.JumpSFX?.PlayOneShot(_player.transform.position);
     }
 
     public override void Exit()
@@ -54,6 +55,7 @@ public class PlayerWallJumpState : State
 
         _input.JumpPressed -= OnJumpPressed;
         _input.DashPressed -= OnDashPressed;
+        _input.AttackPressed -= OnAttackPressed;
     }
 
     public override void FixedUpdate()
@@ -78,7 +80,7 @@ public class PlayerWallJumpState : State
         // if movement is now allowed, adjust player 
         if (_isMoveInputAllowed)
         {
-            _player.SetVelocityX(_input.XRaw * _data.MoveSpeed * _data.WallJumpMovementDampener);
+            _player.SetVelocityX(_input.XInputRaw * _data.MoveSpeed * _data.WallJumpMovementDampener);
         }
         
     }
@@ -92,6 +94,11 @@ public class PlayerWallJumpState : State
         {
             _isMoveInputAllowed = true;
         }
+    }
+
+    private void OnAttackPressed()
+    {
+        //_stateMachine.ChangeState(_stateMachine.AttackState);
     }
 
     private void OnJumpPressed()

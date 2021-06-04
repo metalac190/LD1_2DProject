@@ -77,9 +77,9 @@ public class PlayerLedgeHangState : State
             return;
         }
         // otherwise wait for input
-        else if (_input.YRaw < 0)
+        else if (_input.YInputRaw < 0)
         {
-            if (_data.AllowWallSlide && _input.XRaw == _player.FacingDirection)
+            if (_data.AllowWallSlide && _input.XInputRaw == _player.FacingDirection)
             {
                 _stateMachine.ChangeState(_stateMachine.WallSlideState);
                 return;
@@ -105,7 +105,7 @@ public class PlayerLedgeHangState : State
 
     private void OnMovementPressed()
     {
-        if(_input.Movement.y > 0)
+        if(_input.MoveInput.y > 0)
             _stateMachine.ChangeState(_stateMachine.LedgeClimbState);
     }
 

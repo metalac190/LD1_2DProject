@@ -30,21 +30,21 @@ public class GameplayInput : MonoBehaviour
     public event Action AttackPressed;
     public event Action AttackReleased;
 
-    public Vector2 Movement { get; private set; }
+    public Vector2 MoveInput { get; private set; }
 
-    public float X => Movement.x;
-    public float Y => Movement.y;
-    public int XRaw { get; private set; }
-    public int YRaw { get; private set; }
+    public float XInput => MoveInput.x;
+    public float YInput => MoveInput.y;
+    public int XInputRaw { get; private set; }
+    public int YInputRaw { get; private set; }
 
     public Vector2 MousePosition { get; private set; }
 
     public void OnMovement(InputAction.CallbackContext context)
     {
-        Movement = context.ReadValue<Vector2>();
+        MoveInput = context.ReadValue<Vector2>();
 
-        SetXRaw();
-        SetYRaw();
+        XInputRaw = Mathf.RoundToInt(MoveInput.x);
+        YInputRaw = Mathf.RoundToInt(MoveInput.y);
 
         if (context.started)
             MovementPressed?.Invoke();
@@ -87,25 +87,5 @@ public class GameplayInput : MonoBehaviour
     public void OnAim(InputAction.CallbackContext context)
     {
         MousePosition = context.ReadValue<Vector2>();
-    }
-
-    private void SetYRaw()
-    {
-        if (Movement.y > 0)
-            YRaw = 1;
-        else if (Movement.y == 0)
-            YRaw = 0;
-        else if (Movement.y < 0)
-            YRaw = -1;
-    }
-
-    private void SetXRaw()
-    {
-        if (Movement.x > 0)
-            XRaw = 1;
-        else if (Movement.x == 0)
-            XRaw = 0;
-        else if (Movement.x < 0)
-            XRaw = -1;
     }
 }

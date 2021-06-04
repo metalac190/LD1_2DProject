@@ -37,19 +37,19 @@ public class PlayerMoveState : PlayerGroundedSuperState
     {
         base.FixedUpdate();
 
-        _player.SetVelocityX(_data.MoveSpeed * _input.XRaw);
+        _player.SetVelocityX(_data.MoveSpeed * _input.XInputRaw);
     }
 
     public override void Update()
     {
         base.Update();
 
-        if(_input.YRaw < 0)
+        if(_input.YInputRaw < 0)
         {
             _stateMachine.ChangeState(_stateMachine.CrouchState);
             return;
         }
-        else if(_input.XRaw == 0)
+        else if(_input.XInputRaw == 0)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
             return;

@@ -38,6 +38,7 @@ public class PlayerFallingState : State
         Debug.Log("STATE: Falling");
         _input.JumpPressed += OnJumpPressed;
         _input.DashPressed += OnDashPressed;
+        _input.AttackPressed += OnAttackPressed;
         // reset our physics checks just in case we haven't updated since last frame
         _wallDetector.DetectWall();
         _ledgeDetector.DetectUpperLedge();
@@ -59,6 +60,7 @@ public class PlayerFallingState : State
 
         _input.JumpPressed -= OnJumpPressed;
         _input.DashPressed -= OnDashPressed;
+        _input.AttackPressed -= OnAttackPressed;
 
         _lateJumpAllowed = false;
         _lateWallJumpAllowed = false;
@@ -81,7 +83,7 @@ public class PlayerFallingState : State
         }
         // otherwise, check for wall grab
         else if (_wallDetector.IsWallDetected
-            && _input.XRaw == _player.FacingDirection)
+            && _input.XInputRaw == _player.FacingDirection)
         {
             // determine if we can enter any of our wall states
             if (_data.AllowWallClimb)
@@ -113,7 +115,7 @@ public class PlayerFallingState : State
     {
         base.Update();
 
-        _player.SetVelocityX(_input.XRaw * _data.MoveSpeed);
+        _player.SetVelocityX(_input.XInputRaw * _data.MoveSpeed);
 
         // if lateJump is allowed, and we've passed the window, close it off
         // if we're past the allow late jump window, then close it off and remove our buffer jump
@@ -138,6 +140,11 @@ public class PlayerFallingState : State
         {
             _lateJumpAllowed = false;
         }
+    }
+
+    private void OnAttackPressed()
+    {
+        //_stateMachine.ChangeState(_stateMachine.AttackState);
     }
 
     private void OnJumpPressed()

@@ -52,14 +52,14 @@ public class PlayerCrouchMoveState : PlayerGroundedSuperState
         _ceilingDetector.DetectCeiling();
         // if we're not holding down and holding either direction
         // AND we're not touching the ceiling
-        if (_input.YRaw != -1 && _input.XRaw != 0
+        if (_input.YInputRaw != -1 && _input.XInputRaw != 0
             && !_ceilingDetector.IsTouchingCeiling)
         {
             _stateMachine.ChangeState(_stateMachine.MoveState);
             return;
         }
         // if we're not holding down or side directions, and not touching the ceiling
-        else if (_input.YRaw >= 0 && _input.XRaw == 0
+        else if (_input.YInputRaw >= 0 && _input.XInputRaw == 0
             && !_ceilingDetector.IsTouchingCeiling)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
@@ -73,7 +73,7 @@ public class PlayerCrouchMoveState : PlayerGroundedSuperState
         base.Update();
 
         // if we're holding downwards
-        if (_input.YRaw <= 0 && _input.XRaw == 0)
+        if (_input.YInputRaw <= 0 && _input.XInputRaw == 0)
         {
             _stateMachine.ChangeState(_stateMachine.CrouchState);
             return;

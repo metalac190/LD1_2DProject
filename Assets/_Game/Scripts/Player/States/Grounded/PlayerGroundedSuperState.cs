@@ -31,6 +31,8 @@ public class PlayerGroundedSuperState : State
 
         _input.JumpPressed += OnJumpPressed;
         _input.DashPressed += OnDashPressed;
+        Debug.Log("Subscribed to attack input");
+        _input.AttackPressed += OnAttackPressed;
         _groundDetector.LeftGround += OnLeftGround;
     }
 
@@ -40,6 +42,8 @@ public class PlayerGroundedSuperState : State
 
         _input.JumpPressed -= OnJumpPressed;
         _input.DashPressed -= OnDashPressed;
+        Debug.Log("Unsubscribed to attack input");
+        _input.AttackPressed -= OnAttackPressed;
         _groundDetector.LeftGround -= OnLeftGround;
     }
 
@@ -55,6 +59,16 @@ public class PlayerGroundedSuperState : State
     {
         base.Update();
 
+    }
+
+    private void OnAttackPressed()
+    {
+        Debug.Log("Attack pressed");
+        _ceilingDetector.DetectCeiling();
+        if (!_ceilingDetector.IsTouchingCeiling)
+        {
+            _stateMachine.ChangeState(_stateMachine.GroundAttackState);
+        }
     }
 
     private void OnJumpPressed()
