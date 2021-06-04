@@ -88,7 +88,6 @@ public class Player : MonoBehaviour
     {
         CheckIfShouldFlip(_gameplayInput.XRaw);
         _rb.velocity = new Vector2(xVelocity, _rb.velocity.y);
-
     }
 
     public void DecreaseAirJumpsRemaining() => AirJumpsRemaining--;
@@ -101,7 +100,6 @@ public class Player : MonoBehaviour
 
     public void Flip()
     {
-        Debug.Log("Flip");
         FacingDirection *= -1;
         transform.Rotate(0, 180, 0);
     }

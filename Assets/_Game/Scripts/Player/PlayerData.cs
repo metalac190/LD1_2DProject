@@ -74,6 +74,8 @@ public class PlayerData : ScriptableObject
 
     [Header("Dash")]
     [SerializeField]
+    private bool _allowDash = true;
+    [SerializeField]
     private float _dashCooldown = .5f;
     [SerializeField]
     private float _maxHoldTime = 1;
@@ -142,6 +144,7 @@ public class PlayerData : ScriptableObject
     public Vector2 StartClimbOffset => _startClimbOffset;
     public Vector2 StopClimbOffset => _stopClimbOffset;
     // dash
+    public bool AllowDash => _allowDash;
     public float DashCooldown => _dashCooldown;
     public float MaxHoldTime => _maxHoldTime;
     public float HoldTimeScale => _holdTimeScale;

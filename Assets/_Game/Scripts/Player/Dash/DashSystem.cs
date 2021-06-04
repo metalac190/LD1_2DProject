@@ -10,7 +10,12 @@ using System;
 /// </summary>
 public class DashSystem : MonoBehaviour
 {
-    [SerializeField] PlayerAfterImagePool _afterImagePool;
+    [SerializeField]
+    private GameObject _dashCooldownVisual;
+    [SerializeField]
+    private PlayerData _data;
+    [SerializeField] 
+    private PlayerAfterImagePool _afterImagePool;
 
     private Coroutine _cooldownRoutine;
 
@@ -19,9 +24,13 @@ public class DashSystem : MonoBehaviour
     public PlayerAfterImagePool AfterImagePool => _afterImagePool;
     public bool CanDash => _canDash;
 
+    private void Awake()
+    {
+        _dashCooldownVisual.SetActive(true);
+    }
+
     public void StartCooldown(float duration)
     {
-        Debug.Log("Start Dash Cooldown");
         if (_cooldownRoutine != null)
             StopCoroutine(_cooldownRoutine);
         _cooldownRoutine = StartCoroutine(CooldownRoutine(duration));
@@ -37,10 +46,17 @@ public class DashSystem : MonoBehaviour
     private IEnumerator CooldownRoutine(float duration)
     {
         _canDash = false;
+        _dashCooldownVisual.SetActive(false);
 
         yield return new WaitForSeconds(duration);
 
         _canDash = true;
-        Debug.Log("Cooldown Complete");
+        _dashCooldownVisual.SetActive(true);
+    }
+
+
+    public void ShowDashVisual(bool isActive)
+    {
+        _dashCooldownVisual.SetActive(isActive);
     }
 }

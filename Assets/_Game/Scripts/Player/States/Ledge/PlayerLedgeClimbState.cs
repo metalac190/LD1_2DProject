@@ -79,8 +79,6 @@ public class PlayerLedgeClimbState : State
 
     private void FinishClimb()
     {
-        Debug.Log("Climb!");
-
         _rb.position = _stopClimbPos;
         _player.HoldPosition(_rb.position);
 
@@ -112,6 +110,5 @@ public class PlayerLedgeClimbState : State
         _isTouchingCeiling = Physics2D.Raycast(_cornerPos + (Vector2.up * 0.1f)
             + (Vector2.right * _player.FacingDirection * 0.15f), 
             Vector2.up, _data.StandColliderHeight, _ceilingDetector.WhatIsCeiling);
-        Debug.Log("Is touching ceiling: " + _isTouchingCeiling); 
     }
 }

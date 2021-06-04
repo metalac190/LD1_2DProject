@@ -65,7 +65,13 @@ public class PlayerWallJumpState : State
             _stateMachine.ChangeState(_stateMachine.FallingState);
             return;
         }
+        else if (_wallDetector.IsWallDetected)
+        {
+            _stateMachine.ChangeState(_stateMachine.FallingState);
+            return;
+        }
 
+        // if movement is now allowed, adjust player 
         if (_isMoveInputAllowed)
         {
             _player.SetVelocityX(_input.XRaw * _data.MoveSpeed * _data.WallJumpMovementDampener);

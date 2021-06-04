@@ -29,6 +29,7 @@ public class PlayerAnimator : MonoBehaviour
         //
     }
 
+
     public void ShowCrouchVisual(bool isActive)
     {
         if (isActive)
