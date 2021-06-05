@@ -112,7 +112,7 @@ public class Patroller_AttackState : State
         foreach(Collider2D collider in detectedObjects)
         {
             health = collider.GetComponent<Health>();
-            health?.TakeDamage(_data.AttackDamage);
+            health?.Damage(_data.AttackDamage);
         }
     }
 

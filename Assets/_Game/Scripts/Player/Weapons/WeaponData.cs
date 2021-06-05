@@ -11,6 +11,8 @@ public class WeaponData : ScriptableObject
 
     [Header("Ground Settings")]
     [SerializeField]
+    private int _damageAmount = 5;
+    [SerializeField]
     private float _startDelay = 0;
     [SerializeField]
     private float _activeDuration = .1f;
@@ -23,6 +25,7 @@ public class WeaponData : ScriptableObject
     [SerializeField]
     private float _airForwardAmount = 0;
 
+    public int DamageAmount => _damageAmount;
     public float StartDelay => _startDelay;
     public float ActiveDuration => _activeDuration;
     public float EndDelay => _endDelay;

@@ -26673,7 +26673,7 @@ MonoBehaviour:
   Died:
     m_PersistentCalls:
       m_Calls: []
-  _maxHealth: 50
+  _healthMax: 50
   _isDamageable: 1
 --- !u!114 &703102815
 MonoBehaviour:
@@ -27372,7 +27372,6 @@ MonoBehaviour:
   _whatIsWall:
     serializedVersion: 2
     m_Bits: 256
-  _autoCheck: 0
 --- !u!114 &1019700329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27390,7 +27389,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _groundCheckLocation: {fileID: 1884541641973748012}
-  _autoCheck: 0
 --- !u!114 &1019700330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27408,7 +27406,6 @@ MonoBehaviour:
   _whatIsCeiling:
     serializedVersion: 2
     m_Bits: 256
-  _autoCheck: 0
 --- !u!1 &1022487295
 GameObject:
   m_ObjectHideFlags: 0
@@ -27796,7 +27793,7 @@ GameObject:
   - component: {fileID: 1295505881}
   - component: {fileID: 1295505882}
   m_Layer: 0
-  m_Name: Combat Dummy
+  m_Name: CombatDummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27810,7 +27807,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1295505877}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 42.74, y: -1.86, z: 0}
+  m_LocalPosition: {x: 43.37, y: -1.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 509323173}
@@ -27894,7 +27891,7 @@ MonoBehaviour:
   Died:
     m_PersistentCalls:
       m_Calls: []
-  _maxHealth: 40
+  _healthMax: 50
   _isDamageable: 1
 --- !u!1 &1320372481
 GameObject:
@@ -28309,7 +28306,7 @@ MonoBehaviour:
   Died:
     m_PersistentCalls:
       m_Calls: []
-  _maxHealth: 50
+  _healthMax: 50
   _isDamageable: 1
 --- !u!114 &1705054045
 MonoBehaviour:
@@ -28421,13 +28418,15 @@ GameObject:
   m_Component:
   - component: {fileID: 1774031728}
   - component: {fileID: 1774031729}
+  - component: {fileID: 1774031731}
+  - component: {fileID: 1774031730}
   m_Layer: 9
-  m_Name: MeleeVisual
+  m_Name: MeleeWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1774031728
 Transform:
   m_ObjectHideFlags: 0
@@ -28493,6 +28492,45 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1774031730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774031727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7596005109c30c74a9d342c40cab7948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weaponSystem: {fileID: 703497168}
+--- !u!61 &1774031731
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774031727}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &1846061745
 GameObject:
   m_ObjectHideFlags: 0
@@ -35545,7 +35583,7 @@ MonoBehaviour:
   Died:
     m_PersistentCalls:
       m_Calls: []
-  _maxHealth: 50
+  _healthMax: 50
   _isDamageable: 1
 --- !u!61 &1884541640432777452
 BoxCollider2D:

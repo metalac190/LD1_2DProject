@@ -5,42 +5,59 @@ using System;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour, IDamageable
 {
     public UnityEvent<int> Damaged;
     public UnityEvent Died;
 
     [Header("Health")]
-    [SerializeField] private int _maxHealth = 50;
+    [SerializeField] private int _healthMax = 50;
     [SerializeField] private bool _isDamageable = true;
 
     public bool IsDamageable
     {
         get => _isDamageable;
+        set => _isDamageable = value;
+    }
+
+    private int _healthCurrent;
+    public int HealthCurrent 
+    {
+        get => _healthCurrent;
         set
         {
-            _isDamageable = value;
+            value = Mathf.Clamp(value, 0, _healthMax);
+            _healthCurrent = value;
         }
     }
 
-    private float _currentHealth;
+    public int HealthMax
+    {
+        get => _healthMax;
+        set
+        {
+            if (value < 1)
+                value = 1;
+            _healthMax = value;
+        }
+    }
 
     private void Awake()
     {
-        _currentHealth = _maxHealth;
+        HealthCurrent = _healthMax;
     }
 
-    public virtual void TakeDamage(int amount)
+    public virtual void Damage(int amount)
     {
         if (!_isDamageable) return;
 
-        Debug.Log("Damaged");
-        _currentHealth -= amount;
+        Debug.Log("Damage: " + gameObject.name + " " + amount);
+        HealthCurrent -= amount;
         Damaged?.Invoke(amount);
         //TODO Hit Particles
 
-        _currentHealth = Mathf.Clamp(_currentHealth, 0, _maxHealth);
-        if(_currentHealth == 0)
+        HealthCurrent = Mathf.Clamp(HealthCurrent, 0, _healthMax);
+        if(HealthCurrent == 0)
         {
             Kill();
         }

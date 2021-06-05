@@ -28,9 +28,7 @@ public class WeaponSystem : MonoBehaviour
 
     public virtual void StartAttack()
     {
-        Debug.Log("Attack Start");
-
-        ResetAttackBools();
+        ResetAttackStateBools();
 
         if (_attackRoutine != null)
             StopCoroutine(_attackRoutine);
@@ -40,15 +38,13 @@ public class WeaponSystem : MonoBehaviour
 
     public virtual void StopAttack()
     {
-        Debug.Log("Attack Stop");
-
         if (_attackRoutine != null)
             StopCoroutine(_attackRoutine);
         ShowVisual(false);
-        ResetAttackBools();
+        ResetAttackStateBools();
     }
 
-    private void ResetAttackBools()
+    private void ResetAttackStateBools()
     {
         IsPreAttack = false;
         IsAttackActive = false;
@@ -70,7 +66,7 @@ public class WeaponSystem : MonoBehaviour
 
     IEnumerator AttackRoutine(float beforeDelay, float activeDuration, float endDelay)
     {
-        ResetAttackBools();
+        ResetAttackStateBools();
 
         IsPreAttack = true;
         yield return new WaitForSeconds(beforeDelay);

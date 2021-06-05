@@ -41,7 +41,7 @@ public class DamageOtherOnTouch : MonoBehaviour
                 Health health = hit.GetComponent<Health>();
                 if(health != null)
                 {
-                    health.TakeDamage(_touchDamage);
+                    health.Damage(_touchDamage);
                 }
 
                 _lastTouchDamageTime = Time.time;
