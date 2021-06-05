@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DamageOtherOnTouch : MonoBehaviour
+public class DamageOnOverlap : MonoBehaviour
 {
-
-    [SerializeField] private float _touchDamageCooldown = .2f;
+    [SerializeField] private LayerMask _layerToDamage;
+    [SerializeField] private float _damageTouchFrequency = .2f;
     [SerializeField] private int _touchDamage = 5;
 
     [SerializeField] private Transform _touchDamageCheck;
@@ -25,7 +25,7 @@ public class DamageOtherOnTouch : MonoBehaviour
     private void CheckTouchDamage()
     {
         // if we've gone long enough without being damaged
-        if (Time.time >= _lastTouchDamageTime + _touchDamageCooldown)
+        if (Time.time >= _lastTouchDamageTime + _damageTouchFrequency)
         {
             // create bounds
             _touchDamageBotLeft.Set(_touchDamageCheck.position.x - (_touchDamageWidth / 2),
@@ -33,19 +33,15 @@ public class DamageOtherOnTouch : MonoBehaviour
             _touchDamageTopRight.Set(_touchDamageCheck.position.x + (_touchDamageWidth / 2),
                 _touchDamageCheck.position.y + (_touchDamageHeight / 2));
             // test with bounds
-            Collider2D hit = Physics2D.OverlapArea(_touchDamageBotLeft, _touchDamageTopRight);
-            // if it's the player, apply damage and knockback
-            if(hit.CompareTag("Player"))
+            Collider2D[] colliders = Physics2D.OverlapAreaAll(_touchDamageBotLeft, _touchDamageTopRight, _layerToDamage);
+            foreach(Collider2D collider in colliders)
             {
                 Debug.Log("Apply Damage to player");
-                Health health = hit.GetComponent<Health>();
-                if(health != null)
-                {
-                    health.Damage(_touchDamage);
-                }
-
-                _lastTouchDamageTime = Time.time;
+                IDamageable health = collider.GetComponent<IDamageable>();
+                health?.Damage(_touchDamage);
             }
+
+            _lastTouchDamageTime = Time.time;
         }
     }
 

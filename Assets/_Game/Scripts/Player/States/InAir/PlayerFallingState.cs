@@ -151,20 +151,21 @@ public class PlayerFallingState : State
 
     private void OnJumpPressed()
     {
-        if(_player.AirJumpsRemaining <= 0) { return; }
-        // if we have remaining jumps, determine if it is a air jump or a wall jump
-        if (_lateWallJumpAllowed)
+        if (_wallDetector.IsWallDetected)
         {
-            // if we're facing away from the wall, flip before wall jumping
-            if (!_wallDetector.IsWallDetected)
-            {
-                _movement.Flip();
-            }
             _stateMachine.ChangeState(_stateMachine.WallJumpState);
             return;
         }
-        // otherwise do a normal air jump
-        else
+        // test for wall jump
+        else if (!_wallDetector.IsWallDetected && _lateWallJumpAllowed)
+        {
+            // if we're facing away from the wall, flip before wall jumping
+            _movement.Flip();
+            _stateMachine.ChangeState(_stateMachine.WallJumpState);
+            return;
+        }
+        // otherwise do a normal air jump, if we have some remaining
+        else if (_player.AirJumpsRemaining > 0)
         {
             _stateMachine.ChangeState(_stateMachine.AirJumpState);
             return;
