@@ -20,12 +20,13 @@ public class GroundDetector : MonoBehaviour
     private LayerMask _whatIsGround;
     [SerializeField]
     private Transform _groundCheckLocation;
-    [SerializeField]
-    private bool _autoCheck = false;
 
     public float TimeInAir { get; private set; } = 0;
     public float TimeOnGround { get; private set; } = 0;
 
+    // note: this variable will only get updated based on last check. This doesn't happen automatically,
+    // you must call it using the Detect() methods. This is intended so we can save detect calls and use
+    // them specifically when we want them.
     private bool _isGrounded = false;
     public bool IsGrounded {
         get => _isGrounded;
@@ -49,12 +50,6 @@ public class GroundDetector : MonoBehaviour
             }
             _isGrounded = value;
         }
-    }
-
-    private void FixedUpdate()
-    {
-        if(_autoCheck)
-            DetectGround();
     }
 
     private void Update()

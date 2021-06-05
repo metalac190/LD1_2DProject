@@ -5,16 +5,16 @@ using UnityEngine;
 public class PlayerMoveState : PlayerGroundedSuperState
 {
     PlayerFSM _stateMachine;
-    Player _player;
 
+    Movement _movement;
     PlayerData _data;
     GameplayInput _input;
 
     public PlayerMoveState(PlayerFSM stateMachine, Player player) : base(stateMachine, player)
     {
         _stateMachine = stateMachine;
-        _player = player;
 
+        _movement = player.Actor.Movement;
         _data = player.Data;
         _input = player.Input;
     }
@@ -37,7 +37,7 @@ public class PlayerMoveState : PlayerGroundedSuperState
     {
         base.FixedUpdate();
 
-        _player.SetVelocityX(_data.MoveSpeed * _input.XInputRaw);
+        _movement.SetVelocityX(_data.MoveSpeed * _input.XInputRaw);
     }
 
     public override void Update()

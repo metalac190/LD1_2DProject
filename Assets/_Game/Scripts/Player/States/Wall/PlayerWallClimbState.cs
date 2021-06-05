@@ -7,6 +7,7 @@ public class PlayerWallClimbState : PlayerWallSuperState
     PlayerFSM _stateMachine;
     Player _player;
 
+    Movement _movement;
     PlayerData _data;
     GameplayInput _input;
     LedgeDetector _ledgeDetector;
@@ -16,9 +17,10 @@ public class PlayerWallClimbState : PlayerWallSuperState
         _stateMachine = stateMachine;
         _player = player;
 
+        _movement = player.Actor.Movement;
         _data = player.Data;
         _input = player.Input;
-        _ledgeDetector = player.LedgeDetector;
+        _ledgeDetector = player.Actor.CollisionDetector.LedgeDetector;
     }
 
     public override void Enter()
@@ -37,7 +39,7 @@ public class PlayerWallClimbState : PlayerWallSuperState
     {
         base.FixedUpdate();
 
-        _player.SetVelocityY(_data.WallClimbVelocity);
+        _movement.SetVelocityY(_data.WallClimbVelocity);
 
         if (_ledgeDetector.IsDetectingUpperLedge)
         {

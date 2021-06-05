@@ -7,6 +7,7 @@ public class PlayerJumpState : State
     PlayerFSM _stateMachine;
     Player _player;
 
+    Movement _movement;
     GameplayInput _input;
     PlayerData _data;
     GroundDetector _groundDetector;
@@ -18,9 +19,10 @@ public class PlayerJumpState : State
         _stateMachine = stateMachine;
         _player = player;
 
+        _movement = player.Actor.Movement;
         _input = player.Input;
         _data = player.Data;
-        _groundDetector = player.GroundDetector;
+        _groundDetector = player.Actor.CollisionDetector.GroundDetector;
         _dashSystem = player.DashSystem;
         _sfx = player.SFX;
     }
@@ -36,7 +38,7 @@ public class PlayerJumpState : State
         _input.DashPressed += OnDashPressed;
         _input.AttackPressed += OnAttackPressed;
 
-        _player.SetVelocityY(_data.JumpVelocity);
+        _movement.SetVelocityY(_data.JumpVelocity);
 
         _sfx.JumpSFX?.PlayOneShot(_player.transform.position);
     }
@@ -57,12 +59,12 @@ public class PlayerJumpState : State
 
         _groundDetector.DetectGround();
         // if we're not grounded, but began falling, go to fall state
-        if(!_groundDetector.IsGrounded && _player.RB.velocity.y <= 0)
+        if(!_groundDetector.IsGrounded && _movement.Velocity.y <= 0)
         {
             _stateMachine.ChangeState(_stateMachine.FallingState);
         }
 
-        _player.SetVelocityX(_input.XInputRaw * _data.MoveSpeed);
+        _movement.SetVelocityX(_input.XInputRaw * _data.MoveSpeed);
     }
 
     public override void Update()
@@ -87,7 +89,7 @@ public class PlayerJumpState : State
     private void OnJumpReleased()
     {
         // cut the jump short on release
-        _player.SetVelocityY(_player.RB.velocity.y * _data.ShortJumpHeightScale);
+        _movement.SetVelocityY(_movement.Velocity.y * _data.ShortJumpHeightScale);
     }
 
     private void OnDashPressed()

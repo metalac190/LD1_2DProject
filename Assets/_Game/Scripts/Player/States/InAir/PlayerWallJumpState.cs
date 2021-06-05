@@ -7,6 +7,7 @@ public class PlayerWallJumpState : State
     PlayerFSM _stateMachine;
     Player _player;
 
+    Movement _movement;
     PlayerData _data;
     GameplayInput _input;
     GroundDetector _groundDetector;
@@ -22,10 +23,11 @@ public class PlayerWallJumpState : State
         _stateMachine = stateMachine;
         _player = player;
 
+        _movement = player.Actor.Movement;
         _data = player.Data;
         _input = player.Input;
-        _groundDetector = player.GroundDetector;
-        _wallDetector = player.WallDetector;
+        _groundDetector = player.Actor.CollisionDetector.GroundDetector;
+        _wallDetector = player.Actor.CollisionDetector.WallDetector;
         _dashSystem = player.DashSystem;
         _sfx = player.SFX;
     }
@@ -44,7 +46,7 @@ public class PlayerWallJumpState : State
         //_player.DecreaseAirJumpsRemaining();
         Debug.Log("Remaining Jumps: " + _player.AirJumpsRemaining);
         // reverse direction
-        _player.SetVelocity(_data.WallJumpVelocity, _data.WallJumpAngle, -_player.FacingDirection);
+        _movement.SetVelocity(_data.WallJumpVelocity, _data.WallJumpAngle, -_movement.FacingDirection);
 
         _sfx.JumpSFX?.PlayOneShot(_player.transform.position);
     }
@@ -66,7 +68,7 @@ public class PlayerWallJumpState : State
         _wallDetector.DetectWall();
 
         // if we're not grounded, but began falling, go to fall state
-        if (!_groundDetector.IsGrounded && _player.RB.velocity.y <= 0)
+        if (!_groundDetector.IsGrounded && _movement.Velocity.y <= 0)
         {
             _stateMachine.ChangeState(_stateMachine.FallingState);
             return;
@@ -80,7 +82,7 @@ public class PlayerWallJumpState : State
         // if movement is now allowed, adjust player 
         if (_isMoveInputAllowed)
         {
-            _player.SetVelocityX(_input.XInputRaw * _data.MoveSpeed * _data.WallJumpMovementDampener);
+            _movement.SetVelocityX(_input.XInputRaw * _data.MoveSpeed * _data.WallJumpMovementDampener);
         }
         
     }

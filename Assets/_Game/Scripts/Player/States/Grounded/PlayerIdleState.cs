@@ -8,6 +8,7 @@ public class PlayerIdleState : PlayerGroundedSuperState
     PlayerFSM _stateMachine;
     Player _player;
 
+    Movement _movement;
     GameplayInput _input;
 
     public PlayerIdleState(PlayerFSM stateMachine, Player player) : base(stateMachine, player)
@@ -15,6 +16,7 @@ public class PlayerIdleState : PlayerGroundedSuperState
         _stateMachine = stateMachine;
         _player = player;
 
+        _movement = player.Actor.Movement;
         _input = player.Input;
     }
 
@@ -23,7 +25,7 @@ public class PlayerIdleState : PlayerGroundedSuperState
         base.Enter();
         Debug.Log("STATE: Idle");
 
-        _player.SetVelocityX(0);
+        _movement.SetVelocityX(0);
     }
 
     public override void Exit()

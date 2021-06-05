@@ -20,8 +20,8 @@ public class PlayerGroundedSuperState : State
 
         _input = player.Input;
         _data = player.Data;
-        _groundDetector = player.GroundDetector;
-        _ceilingDetector = player.CeilingDetector;
+        _groundDetector = player.Actor.CollisionDetector.GroundDetector;
+        _ceilingDetector = player.Actor.CollisionDetector.CeilingDetector;
         _dashSystem = player.DashSystem;
     }
 
@@ -31,7 +31,6 @@ public class PlayerGroundedSuperState : State
 
         _input.JumpPressed += OnJumpPressed;
         _input.DashPressed += OnDashPressed;
-        Debug.Log("Subscribed to attack input");
         _input.AttackPressed += OnAttackPressed;
         _groundDetector.LeftGround += OnLeftGround;
     }
@@ -42,7 +41,6 @@ public class PlayerGroundedSuperState : State
 
         _input.JumpPressed -= OnJumpPressed;
         _input.DashPressed -= OnDashPressed;
-        Debug.Log("Unsubscribed to attack input");
         _input.AttackPressed -= OnAttackPressed;
         _groundDetector.LeftGround -= OnLeftGround;
     }

@@ -39,7 +39,14 @@ public class LedgeDetector : MonoBehaviour
     private bool _isDetectingUpperLedge = false;
     public bool IsDetectingUpperLedge
     {
-        get => _isDetectingUpperLedge;
+        get 
+        {
+            // never return true if we're paused
+            if (IsDetectPaused)
+                return false;
+            else
+                return _isDetectingUpperLedge;
+        }
         private set
         {
             // if our wall state is about to change
@@ -64,7 +71,13 @@ public class LedgeDetector : MonoBehaviour
     private bool _isDetectingLowerLedge = false;
     public bool IsDetectingLowerLedge
     {
-        get => _isDetectingLowerLedge;
+        get
+        {
+            if (IsDetectPaused)
+                return false;
+            else
+                return _isDetectingLowerLedge;
+        }
         private set
         {
             // if our wall state is about to change
@@ -87,28 +100,6 @@ public class LedgeDetector : MonoBehaviour
 
     public bool IsDetectPaused { get; private set; } = false;
     Coroutine _pauseRoutine;
-
-    public void OnEnable()
-    {
-        IsDetectPaused = false;
-    }
-
-    private void FixedUpdate()
-    {
-        if (_autoCheck && IsDetectPaused)
-        {
-            // ensure we're not detecting anything while paused
-            IsDetectingUpperLedge = false;
-            IsDetectingLowerLedge = false;
-            return;
-        }
-
-        if (_autoCheck)
-        {
-            IsDetectingUpperLedge = DetectUpperLedge();
-            IsDetectingLowerLedge = CheckLowerLedge();
-        }
-    }
 
     public bool DetectUpperLedge()
     {

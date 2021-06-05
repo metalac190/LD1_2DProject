@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private Transform _respawnPoint;
     [SerializeField] private GameObject _playerPrefab;
-    [SerializeField] private CameraFollow _followCam;
     [SerializeField] private Health _playerHealth;
     [SerializeField] private float _respawnDelay = 1.5f;
 
@@ -17,12 +16,12 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerHealth.Died.AddListener(Respawn);
+        //_playerHealth.Died.AddListener(Respawn);
     }
 
     private void OnDisable()
     {
-        _playerHealth.Died.RemoveListener(Respawn);
+        //_playerHealth.Died.RemoveListener(Respawn);
     }
 
     public void Respawn()
@@ -48,6 +47,6 @@ public class GameManager : MonoBehaviour
     private void Spawn()
     {
         _currentPlayer = Instantiate(_playerPrefab, _respawnPoint);
-        _followCam.SetNewTarget(_currentPlayer.transform);
+        //_followCam.SetNewTarget(_currentPlayer.transform);
     }
 } 

@@ -7,6 +7,7 @@ public class PlayerCrouchState : PlayerGroundedSuperState
     private PlayerFSM _stateMachine;
     private Player _player;
 
+    private Movement _movement;
     private GameplayInput _input;
     private PlayerData _data;
     private PlayerAnimator _playerAnimator;
@@ -17,10 +18,11 @@ public class PlayerCrouchState : PlayerGroundedSuperState
         _stateMachine = stateMachine;
         _player = player;
 
+        _movement = player.Actor.Movement;
         _input = player.Input;
         _data = player.Data;
         _playerAnimator = player.PlayerAnimator;
-        _ceilingDetector = player.CeilingDetector;
+        _ceilingDetector = player.Actor.CollisionDetector.CeilingDetector;
     }
 
     public override void Enter()
@@ -33,7 +35,7 @@ public class PlayerCrouchState : PlayerGroundedSuperState
         _player.SetColliderHeight(_data.CrouchColliderHeight);
         _playerAnimator.ShowCrouchVisual(true);
 
-        _player.SetVelocityZero();
+        _movement.SetVelocityZero();
         _ceilingDetector.DetectCeiling(); 
         Debug.Log("Detect ceiling: " + _ceilingDetector.IsTouchingCeiling);
     }
@@ -50,7 +52,7 @@ public class PlayerCrouchState : PlayerGroundedSuperState
     {
         base.FixedUpdate();
 
-        _player.SetVelocityZero();
+        _movement.SetVelocityZero();
         _ceilingDetector.DetectCeiling();
 
         // if we're moving sideways, and not touching ceiling

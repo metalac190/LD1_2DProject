@@ -13,7 +13,6 @@ public class PlayerAfterImage : MonoBehaviour
     [SerializeField]
     private float _alphaDecay = 10f;
 
-    private PlayerMovement_Old _player;
     private Transform _playerSpriteTransform;
 
     private SpriteRenderer _playerSpriteRenderer;

@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerGroundAttackState : State
 {
     private PlayerFSM _stateMachine;
-    private Player _player;
 
+    private Movement _movement;
     private PlayerData _data;
     private GameplayInput _input;
     private WeaponSystem _weaponSystem;
@@ -14,20 +14,17 @@ public class PlayerGroundAttackState : State
     private WeaponData _weaponData;
     private GroundDetector _groundDetector;
 
-    private bool _savedJumpInput = false;
-    private bool _savedDashInput = false;
-
     public PlayerGroundAttackState(PlayerFSM stateMachine, Player player)
     {
         _stateMachine = stateMachine;
-        _player = player;
 
+        _movement = player.Actor.Movement;
         _data = player.Data;
         _input = player.Input;
         _weaponSystem = player.WeaponSystem;
         _dashSystem = player.DashSystem;
         _weaponData = player.WeaponSystem.EquippedWeapon;
-        _groundDetector = player.GroundDetector;
+        _groundDetector = player.Actor.CollisionDetector.GroundDetector;
     }
 
     public override void Enter()
@@ -40,9 +37,6 @@ public class PlayerGroundAttackState : State
         _input.JumpPressed += OnJumpPressed;
         _input.DashPressed += OnDashPressed;
         _groundDetector.LeftGround += OnLeftGround;
-
-        _savedJumpInput = false;
-        _savedDashInput = false;
 
         _weaponSystem.StartAttack();
     }
@@ -67,11 +61,11 @@ public class PlayerGroundAttackState : State
         // if attack is active propel forward, if it's in wepaon data
         if (_weaponSystem.IsAttackActive)
         {
-            _player.SetVelocityX(_weaponData.GroundForwardAmount * _player.FacingDirection);
+            _movement.SetVelocityX(_weaponData.GroundForwardAmount * _movement.FacingDirection);
         }
         else
         {
-            _player.SetVelocityX(0);
+            _movement.SetVelocityX(0);
         }
         // otherwise just move forward according to player controls
     }
@@ -81,12 +75,12 @@ public class PlayerGroundAttackState : State
         base.Update();
 
         // if we've changed directions
-        if(_input.XInputRaw == (_player.FacingDirection * -1))
+        if(_input.XInputRaw == (_movement.FacingDirection * -1))
         {
             // and we're still ramping up, switch directions
             if (_weaponSystem.IsPreAttack)
             {
-                _player.Flip();
+                _movement.Flip();
             }
             // or if our attack is active, cancel it
             else 

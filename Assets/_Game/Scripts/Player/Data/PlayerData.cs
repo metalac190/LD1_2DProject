@@ -79,8 +79,8 @@ public class PlayerData : ScriptableObject
     private float _dashCooldown = .5f;
     [SerializeField]
     private float _maxHoldTime = 1;
-    [SerializeField][Range(0,1)]
-    private float _holdTimeScale = .2f;
+    [SerializeField][Range(0,1)][Tooltip("ratio by which movement is slowed compared to original")]
+    private float _dashHoldMovementDampener = .2f;
     [SerializeField]
     private float _dashDuration = 0.1f;
     [SerializeField]
@@ -148,7 +148,7 @@ public class PlayerData : ScriptableObject
     public bool AllowDash => _allowDash;
     public float DashCooldown => _dashCooldown;
     public float MaxHoldTime => _maxHoldTime;
-    public float HoldTimeScale => _holdTimeScale;
+    public float DashHoldMovementDampener => _dashHoldMovementDampener;
     public float DashDuration => _dashDuration;
     public float DashVelocity => _dashVelocity;
     public float DashDrag => _dashDrag;

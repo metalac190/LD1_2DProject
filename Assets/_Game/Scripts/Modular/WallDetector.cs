@@ -14,8 +14,6 @@ public class WallDetector : MonoBehaviour
     private float _wallCheckDistance = 0.5f;
     [SerializeField]
     private LayerMask _whatIsWall;
-    [SerializeField]
-    private bool _autoCheck = false;
 
     public Transform WallCheckLocation => _wallCheckLocation;
 
@@ -46,13 +44,6 @@ public class WallDetector : MonoBehaviour
             }
             _isAgainstWall = value;
         }
-    }
-
-
-    private void FixedUpdate()
-    {
-        if(_autoCheck)
-            DetectWall();
     }
 
     private void Update()

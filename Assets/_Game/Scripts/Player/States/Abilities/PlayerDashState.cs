@@ -7,6 +7,7 @@ public class PlayerDashState : State
     private PlayerFSM _stateMachine;
     private Player _player;
 
+    private Movement _movement;
     private PlayerData _data;
     private Rigidbody2D _rb;
     private DashSystem _dashSystem;
@@ -20,7 +21,7 @@ public class PlayerDashState : State
     private Vector2 _dashDirection;
 
     private float _initialDrag;
-    private float _initialFixedDeltaTime;
+    private float _initialGravityScale;
 
     private PlayerAfterImagePool _afterImagePool;
     private PlayerAfterImage _lastAfterImage;
@@ -30,17 +31,17 @@ public class PlayerDashState : State
         _stateMachine = stateMachine;
         _player = player;
 
+        _movement = player.Actor.Movement;
         _data = player.Data;
-        _rb = player.RB;
+        _rb = player.Actor.Movement.RB;
         _dashSystem = player.DashSystem;
         _input = player.Input;
-        _groundDetector = player.GroundDetector;
+        _groundDetector = player.Actor.CollisionDetector.GroundDetector;
         _sfx = player.SFX;
 
         _afterImagePool = _dashSystem.AfterImagePool;
 
-        _initialDrag = player.RB.drag;
-        _initialFixedDeltaTime = Time.fixedDeltaTime;
+
     }
 
     public override void Enter()
@@ -54,6 +55,8 @@ public class PlayerDashState : State
         _isDashing = false;
         _holdTimer = 0;
         _dashTimer = 0;
+        _initialDrag = _rb.drag;
+        _initialGravityScale = _rb.gravityScale;
 
         _dashSystem.ShowDashReadyVisual(false);
         StartHold();
@@ -64,6 +67,10 @@ public class PlayerDashState : State
         base.Exit();
 
         _input.DashReleased -= OnDashInputReleased;
+
+        // ensure changed gravity values are returned
+        _rb.gravityScale = _initialGravityScale;
+        _rb.drag = _initialDrag;
     }
 
     public override void FixedUpdate()
@@ -71,10 +78,15 @@ public class PlayerDashState : State
         base.FixedUpdate();
         // using the dash in update so that we don't trigger a state change while we're still entering
         _groundDetector.DetectGround();
-
-        if (_isDashing)
+        // if we're prepping the dash, minimize movement with our hold dash dampener - y is still handled by gravity
+        if (!_isDashing)
         {
-            _player.SetVelocity(_dashDirection.x * _data.DashVelocity, _dashDirection.y * _data.DashVelocity);
+            _movement.SetVelocityX(_input.XInputRaw * _data.MoveSpeed * _data.DashHoldMovementDampener);
+        }
+        // otherwise use dash values
+        else if (_isDashing)
+        {
+            _movement.SetVelocity(_dashDirection.x * _data.DashVelocity, _dashDirection.y * _data.DashVelocity);
             CheckAfterImageSpawn();
 
         }
@@ -122,8 +134,9 @@ public class PlayerDashState : State
 
     private void StartHold()
     {
-        Time.timeScale = _data.HoldTimeScale;
-        Time.fixedDeltaTime = _initialFixedDeltaTime * Time.timeScale;
+        _rb.gravityScale = _rb.gravityScale * _data.DashHoldMovementDampener;
+        // kill current velocity
+        _movement.SetVelocityZero();
 
         _sfx.DashHoldSFX?.PlayOneShot(_player.transform.position);
     }
@@ -135,15 +148,16 @@ public class PlayerDashState : State
 
     private void UseDash()
     {
-        Time.timeScale = 1;
-        Time.fixedDeltaTime = _initialFixedDeltaTime;
+        //Time.timeScale = 1;
+        //Time.fixedDeltaTime = _initialFixedDeltaTime;
+        _rb.gravityScale = _initialGravityScale;
 
         _isDashing = true;
         _dashDirection = _input.MoveInput;
         // ensure we still dash, even without input
         if(_dashDirection == Vector2.zero)
         {
-            _dashDirection = new Vector2(_player.FacingDirection, 0);
+            _dashDirection = new Vector2(_movement.FacingDirection, 0);
         }
 
         _rb.drag = _data.DashDrag;
@@ -157,7 +171,7 @@ public class PlayerDashState : State
     {
         _dashSystem.StartCooldown(_data.DashCooldown);
         _rb.drag = _initialDrag;
-        _player.SetVelocityY(_data.DashEndYMultiplier * _rb.velocity.y);
+        _movement.SetVelocityY(_data.DashEndYMultiplier * _rb.velocity.y);
 
         // completed dash. Decide where to transition from here
         if (_groundDetector.IsGrounded && _input.XInputRaw != 0)

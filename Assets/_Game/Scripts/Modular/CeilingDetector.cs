@@ -14,8 +14,6 @@ public class CeilingDetector : MonoBehaviour
     private float _ceilingCheckRadius;
     [SerializeField]
     private LayerMask _whatIsCeiling;
-    [SerializeField]
-    private bool _autoCheck = false;
 
     public LayerMask WhatIsCeiling => _whatIsCeiling;
 
@@ -42,12 +40,6 @@ public class CeilingDetector : MonoBehaviour
 
             _isCeiling = value;
         }
-    }
-
-    private void FixedUpdate()
-    {
-        if (_autoCheck)
-            DetectCeiling();
     }
 
     public bool DetectCeiling()

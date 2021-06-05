@@ -7,6 +7,7 @@ public class PlayerLedgeHangState : State
     PlayerFSM _stateMachine;
     Player _player;
 
+    Movement _movement;
     PlayerData _data;
     GameplayInput _input;
     LedgeDetector _ledgeDetector;
@@ -23,9 +24,10 @@ public class PlayerLedgeHangState : State
         _stateMachine = stateMachine;
         _player = player;
 
+        _movement = player.Actor.Movement;
         _data = player.Data;
         _input = player.Input;
-        _ledgeDetector = player.LedgeDetector;
+        _ledgeDetector = player.Actor.CollisionDetector.LedgeDetector;
         _playerAnimator = player.PlayerAnimator;
         _sfx = player.SFX;
     }
@@ -40,12 +42,12 @@ public class PlayerLedgeHangState : State
 
         _playerAnimator.LedgeHangVisual.SetActive(true);
 
-        _cornerPos = _ledgeDetector.CalculateUpperLedgeCornerPosition(_player.FacingDirection);
+        _cornerPos = _ledgeDetector.CalculateUpperLedgeCornerPosition(_movement.FacingDirection);
 
         CalculateClimbPositions();
         // set initial player position
-        _player.RB.MovePosition(_hangPosition);
-        _player.HoldPosition(_hangPosition);
+        _movement.MovePositionInstant(_hangPosition);
+        _movement.HoldPosition(_hangPosition);
 
         _sfx.LedgeCatchSFX.PlayOneShot(_player.transform.position);
     }
@@ -64,7 +66,7 @@ public class PlayerLedgeHangState : State
     {
         base.FixedUpdate();
 
-        _player.HoldPosition(_hangPosition);
+        _movement.HoldPosition(_hangPosition);
     }
 
     public override void Update()
@@ -79,7 +81,7 @@ public class PlayerLedgeHangState : State
         // otherwise wait for input
         else if (_input.YInputRaw < 0)
         {
-            if (_data.AllowWallSlide && _input.XInputRaw == _player.FacingDirection)
+            if (_data.AllowWallSlide && _input.XInputRaw == _movement.FacingDirection)
             {
                 _stateMachine.ChangeState(_stateMachine.WallSlideState);
                 return;
@@ -88,7 +90,7 @@ public class PlayerLedgeHangState : State
             {
                 // pause briefly so we don't insta-regrab
                 _ledgeDetector.Pause(.15f);
-                _player.SetVelocityY(-_data.LedgeDropPushVelocity);
+                _movement.SetVelocityY(-_data.LedgeDropPushVelocity);
                 // start falling
                 _stateMachine.ChangeState(_stateMachine.FallingState);
                 return;
@@ -99,7 +101,7 @@ public class PlayerLedgeHangState : State
     private void CalculateClimbPositions()
     {
         // calculate start climb from player offsets
-        _hangPosition = new Vector2(_cornerPos.x - (_player.FacingDirection * _data.StartClimbOffset.x),
+        _hangPosition = new Vector2(_cornerPos.x - (_movement.FacingDirection * _data.StartClimbOffset.x),
             _cornerPos.y - _data.StartClimbOffset.y);
     }
 

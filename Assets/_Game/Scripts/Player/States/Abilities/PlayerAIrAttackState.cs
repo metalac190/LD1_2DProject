@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAIrAttackState : MonoBehaviour
+public class PlayerAIrAttackState : State
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private PlayerFSM _stateMachine;
+    private Player _player;
 
-    // Update is called once per frame
-    void Update()
+    public PlayerAIrAttackState(PlayerFSM stateMachine, Player player)
     {
-        
+        _stateMachine = stateMachine;
+        _player = player;
     }
 }

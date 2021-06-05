@@ -7,6 +7,7 @@ public class PlayerWallSlideState : PlayerWallSuperState
     PlayerFSM _stateMachine;
     Player _player;
 
+    Movement _movement;
     PlayerData _data;
     GameplayInput _input;
 
@@ -17,6 +18,7 @@ public class PlayerWallSlideState : PlayerWallSuperState
         _stateMachine = stateMachine;
         _player = player;
 
+        _movement = player.Actor.Movement;
         _data = player.Data;
         _input = player.Input;
     }
@@ -38,7 +40,7 @@ public class PlayerWallSlideState : PlayerWallSuperState
     {
         base.FixedUpdate();
         float newSlideVelocity = -(_data.WallSlideVelocity + _accelerationAmount);
-        _player.SetVelocityY(newSlideVelocity);
+        _movement.SetVelocityY(newSlideVelocity);
         _accelerationAmount += _data.WallSlideAcceleration;
     }
 

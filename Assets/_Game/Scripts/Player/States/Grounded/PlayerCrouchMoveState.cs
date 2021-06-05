@@ -7,6 +7,7 @@ public class PlayerCrouchMoveState : PlayerGroundedSuperState
     private PlayerFSM _stateMachine;
     private Player _player;
 
+    private Movement _movement;
     private GameplayInput _input;
     private PlayerData _data;
     private PlayerAnimator _playerAnimator;
@@ -18,10 +19,11 @@ public class PlayerCrouchMoveState : PlayerGroundedSuperState
         _stateMachine = stateMachine;
         _player = player;
 
+        _movement = player.Actor.Movement;
         _input = player.Input;
         _data = player.Data;
         _playerAnimator = player.PlayerAnimator;
-        _ceilingDetector = player.CeilingDetector;
+        _ceilingDetector = player.Actor.CollisionDetector.CeilingDetector;
     }
 
     public override void Enter()
@@ -48,7 +50,7 @@ public class PlayerCrouchMoveState : PlayerGroundedSuperState
 
         base.FixedUpdate();
 
-        _player.SetVelocityX(_data.CrouchMoveVelocity * _player.FacingDirection);
+        _movement.SetVelocityX(_data.CrouchMoveVelocity * _input.XInputRaw);
         _ceilingDetector.DetectCeiling();
         // if we're not holding down and holding either direction
         // AND we're not touching the ceiling

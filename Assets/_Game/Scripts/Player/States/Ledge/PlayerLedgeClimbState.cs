@@ -7,10 +7,10 @@ public class PlayerLedgeClimbState : State
     PlayerFSM _stateMachine;
     Player _player;
 
+    Movement _movement;
     PlayerData _data;
     LedgeDetector _ledgeDetector;
     CeilingDetector _ceilingDetector;
-    Rigidbody2D _rb;
 
     private Vector2 _cornerPos;
     private Vector2 _hangPosition;
@@ -26,10 +26,10 @@ public class PlayerLedgeClimbState : State
         _stateMachine = stateMachine;
         _player = player;
 
+        _movement = player.Actor.Movement;
         _data = player.Data;
-        _ledgeDetector = player.LedgeDetector;
-        _rb = player.RB;
-        _ceilingDetector = player.CeilingDetector;
+        _ledgeDetector = player.Actor.CollisionDetector.LedgeDetector;
+        _ceilingDetector = player.Actor.CollisionDetector.CeilingDetector;
     }
 
     public override void Enter()
@@ -40,13 +40,13 @@ public class PlayerLedgeClimbState : State
         _isTouchingCeiling = false;
         _finishClimb = false;
 
-        _cornerPos = _ledgeDetector.CalculateUpperLedgeCornerPosition(_player.FacingDirection);
+        _cornerPos = _ledgeDetector.CalculateUpperLedgeCornerPosition(_movement.FacingDirection);
 
         CalculateClimbPositions();
         CheckForCeiling();
         // set initial player position
-        _rb.MovePosition(_hangPosition);
-        _player.HoldPosition(_hangPosition);
+        _movement.MovePositionInstant(_hangPosition);
+        _movement.HoldPosition(_hangPosition);
 
     }
 
@@ -59,7 +59,7 @@ public class PlayerLedgeClimbState : State
     {
         base.FixedUpdate();
 
-        _player.HoldPosition(_hangPosition);
+        _movement.HoldPosition(_hangPosition);
         if (_finishClimb)
         {
             FinishClimb();
@@ -79,8 +79,9 @@ public class PlayerLedgeClimbState : State
 
     private void FinishClimb()
     {
-        _rb.position = _stopClimbPos;
-        _player.HoldPosition(_rb.position);
+        _movement.MovePositionInstant(_stopClimbPos);
+
+        _movement.HoldPosition(_stopClimbPos);
 
         if (_isTouchingCeiling)
         {
@@ -97,10 +98,10 @@ public class PlayerLedgeClimbState : State
     private void CalculateClimbPositions()
     {
         // calculate start climb from player offsets
-        _hangPosition = new Vector2(_cornerPos.x - (_player.FacingDirection * _data.StartClimbOffset.x),
+        _hangPosition = new Vector2(_cornerPos.x - (_movement.FacingDirection * _data.StartClimbOffset.x),
             _cornerPos.y - _data.StartClimbOffset.y);
         // calculate stop climb from player offsets
-        _stopClimbPos = new Vector2(_cornerPos.x + (_player.FacingDirection * _data.StopClimbOffset.x),
+        _stopClimbPos = new Vector2(_cornerPos.x + (_movement.FacingDirection * _data.StopClimbOffset.x),
             _cornerPos.y + _data.StopClimbOffset.y);
     }
 
@@ -108,7 +109,7 @@ public class PlayerLedgeClimbState : State
     {
         // check above the corner position
         _isTouchingCeiling = Physics2D.Raycast(_cornerPos + (Vector2.up * 0.1f)
-            + (Vector2.right * _player.FacingDirection * 0.15f), 
+            + (Vector2.right * _movement.FacingDirection * 0.15f), 
             Vector2.up, _data.StandColliderHeight, _ceilingDetector.WhatIsCeiling);
     }
 }

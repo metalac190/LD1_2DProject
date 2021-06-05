@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
+    private Actor _actor;
+
     [Header("Player Settings")]
     [SerializeField]
     private GameplayInput _gameplayInput;
@@ -11,8 +14,6 @@ public class Player : MonoBehaviour
     private PlayerData _data;
     [SerializeField]
     private PlayerAnimator _playerAnimator;
-    [SerializeField]
-    private Rigidbody2D _rb;
     [SerializeField]
     private BoxCollider2D _boxCollider;
     [SerializeField]
@@ -26,20 +27,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private PlayerAiming _playerAiming;
 
-    [Header("Environment Checks")]
-    [SerializeField]
-    private GroundDetector _groundDetector;
-    [SerializeField]
-    private WallDetector _wallDetector;
-    [SerializeField]
-    private LedgeDetector _ledgeDetector;
-    [SerializeField]
-    private CeilingDetector _ceilingDetector;
+    public Actor Actor => _actor;
 
     public GameplayInput Input => _gameplayInput;
     public PlayerData Data => _data;
     public PlayerAnimator PlayerAnimator => _playerAnimator;
-    public Rigidbody2D RB => _rb;
     public BoxCollider2D BoxCollider => _boxCollider;
     public PlayerSFXData SFX => _playerSFX;
 
@@ -47,12 +39,6 @@ public class Player : MonoBehaviour
     public DashSystem DashSystem => _dashSystem;
     public PlayerAiming PlayerAiming => _playerAiming;
 
-    public GroundDetector GroundDetector => _groundDetector;
-    public WallDetector WallDetector => _wallDetector;
-    public LedgeDetector LedgeDetector => _ledgeDetector;
-    public CeilingDetector CeilingDetector => _ceilingDetector;
-
-    public int FacingDirection { get; private set; } = 1;
     public Vector2 AimDirection { get; private set; }
 
     public int AirJumpsRemaining { get; private set; }
@@ -63,52 +49,8 @@ public class Player : MonoBehaviour
         ResetJumps();
     }
 
-    public void HoldPosition(Vector2 position)
-    {
-        SetVelocityZero();
-        // this seems redundant, but physics needs to explicitly be told that RB has stopped
-        // moving or some systems (like Cinemachine) don't follow properly
-        RB.MovePosition(position);
-    }
-
-    public void SetVelocityZero()
-    {
-        _rb.velocity = Vector2.zero;
-    }
-
-    public void SetVelocity(float velocity, Vector2 angle, int direction)
-    {
-        angle.Normalize();
-        _rb.velocity = new Vector2(angle.x * velocity * direction, angle.y * velocity);
-        CheckIfShouldFlip(direction);
-    }
-
-    public void SetVelocity(float xVelocity, float yVelocity)
-    {
-        CheckIfShouldFlip(_gameplayInput.XInputRaw);
-        _rb.velocity = new Vector2(xVelocity, yVelocity);
-
-    }
-
-    public void SetVelocityX(float xVelocity)
-    {
-        CheckIfShouldFlip(_gameplayInput.XInputRaw);
-        _rb.velocity = new Vector2(xVelocity, _rb.velocity.y);
-    }
-
     public void DecreaseAirJumpsRemaining() => AirJumpsRemaining--;
     public void ResetJumps() => AirJumpsRemaining = _data.AmountOfAirJumps;
-
-    public void SetVelocityY(float yVelocity)
-    {
-        _rb.velocity = new Vector2(_rb.velocity.x, yVelocity);
-    }
-
-    public void Flip()
-    {
-        FacingDirection *= -1;
-        transform.Rotate(0, 180, 0);
-    }
 
     public void SetColliderHeight(float height)
     {
@@ -121,11 +63,4 @@ public class Player : MonoBehaviour
         BoxCollider.offset = center;
     }
 
-    private void CheckIfShouldFlip(int xInput)
-    {
-        if (xInput != 0 && xInput != FacingDirection)
-        {
-            Flip();
-        }
-    }
 }

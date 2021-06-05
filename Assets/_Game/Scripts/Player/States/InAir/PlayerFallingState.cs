@@ -7,6 +7,7 @@ public class PlayerFallingState : State
     PlayerFSM _stateMachine;
     Player _player;
 
+    Movement _movement;
     PlayerData _data;
     GameplayInput _input;
     GroundDetector _groundDetector;
@@ -23,11 +24,12 @@ public class PlayerFallingState : State
         _stateMachine = stateMachine;
         _player = player;
 
+        _movement = player.Actor.Movement;
         _data = player.Data;
         _input = player.Input;
-        _groundDetector = player.GroundDetector;
-        _wallDetector = player.WallDetector;
-        _ledgeDetector = player.LedgeDetector;
+        _groundDetector = player.Actor.CollisionDetector.GroundDetector;
+        _wallDetector = player.Actor.CollisionDetector.WallDetector;
+        _ledgeDetector = player.Actor.CollisionDetector.LedgeDetector;
 
         _dashSystem = player.DashSystem;
     }
@@ -83,7 +85,7 @@ public class PlayerFallingState : State
         }
         // otherwise, check for wall grab
         else if (_wallDetector.IsWallDetected
-            && _input.XInputRaw == _player.FacingDirection)
+            && _input.XInputRaw == _movement.FacingDirection)
         {
             // determine if we can enter any of our wall states
             if (_data.AllowWallClimb)
@@ -104,7 +106,7 @@ public class PlayerFallingState : State
         }
 
         // check for grounded
-        else if (_groundDetector.IsGrounded && _player.RB.velocity.y < 0.01f)
+        else if (_groundDetector.IsGrounded && _movement.Velocity.y < 0.01f)
         {
             _stateMachine.ChangeState(_stateMachine.LandState);
             return;
@@ -115,7 +117,7 @@ public class PlayerFallingState : State
     {
         base.Update();
 
-        _player.SetVelocityX(_input.XInputRaw * _data.MoveSpeed);
+        _movement.SetVelocityX(_input.XInputRaw * _data.MoveSpeed);
 
         // if lateJump is allowed, and we've passed the window, close it off
         // if we're past the allow late jump window, then close it off and remove our buffer jump
@@ -156,7 +158,7 @@ public class PlayerFallingState : State
             // if we're facing away from the wall, flip before wall jumping
             if (!_wallDetector.IsWallDetected)
             {
-                _player.Flip();
+                _movement.Flip();
             }
             _stateMachine.ChangeState(_stateMachine.WallJumpState);
             return;

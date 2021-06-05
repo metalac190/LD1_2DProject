@@ -7,6 +7,7 @@ public class PlayerWallSuperState : State
     PlayerFSM _stateMachine;
     Player _player;
 
+    Movement _movement;
     GameplayInput _input;
     GroundDetector _groundDetector;
     WallDetector _wallDetector;
@@ -16,9 +17,10 @@ public class PlayerWallSuperState : State
         _stateMachine = stateMachine;
         _player = player;
 
+        _movement = player.Actor.Movement;
         _input = player.Input;
-        _groundDetector = player.GroundDetector;
-        _wallDetector = player.WallDetector;
+        _groundDetector = player.Actor.CollisionDetector.GroundDetector;
+        _wallDetector = player.Actor.CollisionDetector.WallDetector;
     }
 
     public override void Enter()
@@ -52,7 +54,7 @@ public class PlayerWallSuperState : State
     {
         base.Update();
         // if we're not holding against the wall, lose it
-        if (_input.XInputRaw != _player.FacingDirection)
+        if (_input.XInputRaw != _movement.FacingDirection)
         {
             OnLostWall();
         }
