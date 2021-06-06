@@ -12,9 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f482f7f01b827a2468687e0e8fa2d3d5, type: 3}
   m_Name: SO_WeaponData_BasicMelee
   m_EditorClassIdentifier: 
-  _attackSFX: {fileID: 11400000, guid: f1c0da0bfde8ce74084288abf56448fc, type: 2}
-  _startDelay: 0.15
-  _activeDuration: 0.1
-  _endDelay: 0
-  _groundForwardAmount: 8
+  _groundDamageAmount: 5
+  _groundStartDelay: 0.15
+  _groundActiveDuration: 0.2
+  _groundEndDelay: 0.15
+  _movementReductionRatio: 0.2
+  _groundForwardAmount: 2
+  _groundAttackSFX: {fileID: 11400000, guid: f1c0da0bfde8ce74084288abf56448fc, type: 2}
+  _airDamageAmount: 3
+  _airStartDelay: 0.05
+  _airActiveDuration: 0.2
+  _airEndDelay: 0.15
   _airForwardAmount: 0
+  _airAttackSFX: {fileID: 11400000, guid: f1c0da0bfde8ce74084288abf56448fc, type: 2}

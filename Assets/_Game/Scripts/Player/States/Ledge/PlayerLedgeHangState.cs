@@ -13,6 +13,7 @@ public class PlayerLedgeHangState : State
     LedgeDetector _ledgeDetector;
     PlayerAnimator _playerAnimator;
     PlayerSFXData _sfx;
+    PlayerVisuals _visuals;
 
     Vector2 _cornerPos;
 
@@ -30,6 +31,7 @@ public class PlayerLedgeHangState : State
         _ledgeDetector = player.Actor.CollisionDetector.LedgeDetector;
         _playerAnimator = player.PlayerAnimator;
         _sfx = player.SFX;
+        _visuals = player.Visuals;
     }
 
     public override void Enter()
@@ -40,7 +42,7 @@ public class PlayerLedgeHangState : State
         _input.JumpPressed += OnJumpPressed;
         _input.MovementPressed += OnMovementPressed;
 
-        _playerAnimator.LedgeHangVisual.SetActive(true);
+        _visuals.LedgeHangVisual.SetActive(true);
 
         _cornerPos = _ledgeDetector.CalculateUpperLedgeCornerPosition(_movement.FacingDirection);
 
@@ -59,7 +61,7 @@ public class PlayerLedgeHangState : State
         _input.JumpPressed -= OnJumpPressed;
         _input.MovementPressed -= OnMovementPressed;
 
-        _playerAnimator.LedgeHangVisual.SetActive(false);
+        _visuals.LedgeHangVisual.SetActive(false);
     }
 
     public override void FixedUpdate()

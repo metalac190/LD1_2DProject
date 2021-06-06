@@ -14,6 +14,8 @@ public class PlayerGroundAttackState : State
     private WeaponData _weaponData;
     private GroundDetector _groundDetector;
 
+    bool _attackInputBuffer = false;
+
     public PlayerGroundAttackState(PlayerFSM stateMachine, Player player)
     {
         _stateMachine = stateMachine;
@@ -36,9 +38,11 @@ public class PlayerGroundAttackState : State
         _weaponSystem.AttackCompleted += OnAttackCompleted;
         _input.JumpPressed += OnJumpPressed;
         _input.DashPressed += OnDashPressed;
+        _input.AttackPressed += OnAttackPressed;
         _groundDetector.LeftGround += OnLeftGround;
 
-        _weaponSystem.StartAttack();
+        _attackInputBuffer = false;
+        _weaponSystem.StartGroundAttack();
     }
 
     public override void Exit()
@@ -48,6 +52,7 @@ public class PlayerGroundAttackState : State
         _weaponSystem.AttackCompleted -= OnAttackCompleted;
         _input.JumpPressed -= OnJumpPressed;
         _input.DashPressed -= OnDashPressed;
+        _input.AttackPressed -= OnAttackPressed;
         _groundDetector.LeftGround -= OnLeftGround;
 
         _weaponSystem.StopAttack();
@@ -58,16 +63,32 @@ public class PlayerGroundAttackState : State
         base.FixedUpdate();
         _groundDetector.DetectGround();
 
-        // if attack is active propel forward, if it's in wepaon data
-        if (_weaponSystem.IsAttackActive)
+        // if attack is active, propel forward based on weapon data forward amount
+        if (_weaponSystem.MeleeAttackState == MeleeAttackState.DuringAttack)
         {
-            _movement.SetVelocityX(_weaponData.GroundForwardAmount * _movement.FacingDirection);
+            // if we're holding forward, add additional movement
+            if(_input.XInputRaw == _movement.FacingDirection)
+            {
+                _movement.SetVelocityX((_weaponData.GroundForwardAmount * _movement.FacingDirection)
+                    + (_movement.FacingDirection * _data.MoveSpeed * _weaponData.MovementReductionRatio));
+            }
+            // otherwise just use forward amount
+            else
+            {
+                _movement.SetVelocityX((_weaponData.GroundForwardAmount * _movement.FacingDirection));
+            }
         }
+        // otherwise move forward with normal movement speed cut by weapon reduction speed
+        else if(_input.XInputRaw == _movement.FacingDirection)
+        {
+            _movement.SetVelocityX(_input.XInputRaw * _data.MoveSpeed 
+                * _weaponData.MovementReductionRatio);
+        }
+        // otherwise no xinput, so don't move in x
         else
         {
             _movement.SetVelocityX(0);
         }
-        // otherwise just move forward according to player controls
     }
 
     public override void Update()
@@ -75,19 +96,19 @@ public class PlayerGroundAttackState : State
         base.Update();
 
         // if we've changed directions
-        if(_input.XInputRaw == (_movement.FacingDirection * -1))
+        if(_input.XInputRaw == (_movement.FacingDirection * -1)
+            && _weaponSystem.MeleeAttackState == MeleeAttackState.BeforeAttack)
         {
             // and we're still ramping up, switch directions
-            if (_weaponSystem.IsPreAttack)
-            {
-                _movement.Flip();
-            }
-            // or if our attack is active, cancel it
-            else 
-            {
-                _weaponSystem.StopAttack();
-                _stateMachine.ChangeState(_stateMachine.IdleState);
-            }
+            _movement.Flip();
+        }
+
+        // if we've received new attack input during the post attack period
+        if(_attackInputBuffer && _weaponSystem.MeleeAttackState == MeleeAttackState.AfterAttack)
+        {
+            // start new attack and reset input
+            _weaponSystem.StartGroundAttack();
+            _attackInputBuffer = false;
         }
     }
 
@@ -105,6 +126,17 @@ public class PlayerGroundAttackState : State
         }
     }
 
+    private void OnAttackPressed()
+    {
+        // allow new attack input during/after attack, briefly
+        if(_weaponSystem.MeleeAttackState == MeleeAttackState.DuringAttack
+            || _weaponSystem.MeleeAttackState == MeleeAttackState.AfterAttack)
+        {
+            _attackInputBuffer = true;
+        }
+        
+    }
+
     private void OnJumpPressed()
     {
         if (_data.AllowJump)
@@ -116,7 +148,7 @@ public class PlayerGroundAttackState : State
 
     private void OnDashPressed()
     {
-        if (_dashSystem.CanDash)
+        if (_data.AllowDash && _dashSystem.CanDash)
         {
             _stateMachine.ChangeState(_stateMachine.DashState);
             return;

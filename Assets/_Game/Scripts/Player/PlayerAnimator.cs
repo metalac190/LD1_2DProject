@@ -11,14 +11,11 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField]
     private GameObject _mainVisual;
     [SerializeField]
-    private GameObject _ledgeHangVisual;
-    [SerializeField]
     private GameObject _crouchVisual;
 
     public SpriteRenderer SpriteRenderer => _spriteRenderer;
 
     public GameObject MainVisual => _mainVisual;
-    public GameObject LedgeHangVisual => _ledgeHangVisual;
     public GameObject CrouchVisual => _crouchVisual;
 
     public const string IdleName = "Idle";

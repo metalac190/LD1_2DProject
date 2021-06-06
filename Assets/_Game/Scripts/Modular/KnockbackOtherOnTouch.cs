@@ -77,11 +77,11 @@ public class KnockbackOtherOnTouch : MonoBehaviour
             // if it's the player, apply damage and knockback
             if (hit.CompareTag("Player"))
             {
-                ReceiveKnockback knockback = hit.GetComponent<ReceiveKnockback>();
+                ReceiveHitStun knockback = hit.GetComponent<ReceiveHitStun>();
                 if (knockback != null)
                 {
                     Debug.Log("Apply Knockback to player");
-                    knockback.Knockback(_knockbackAmount, _knockbackDuration, transform);
+                    knockback.Hit(_knockbackAmount, _knockbackDuration, transform);
                 }
 
                 _timeAtLastTouch = Time.time;

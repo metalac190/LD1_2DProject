@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class ReceiveKnockback : MonoBehaviour
+public class ReceiveHitStun : MonoBehaviour
 {
     [Range(0,1)][Tooltip("0 = no knockback, 1 = full knockback")]
     [SerializeField] float _knockbackDampener = 1;
@@ -12,9 +12,9 @@ public class ReceiveKnockback : MonoBehaviour
     public event Action KnockbackStarted;
     public event Action KnockbackEnded;
 
-    private bool _isKnockbackHappening = false;
+    private bool _isStunned = false;
 
-    public bool IsKnockbackHappening => _isKnockbackHappening;
+    public bool IsStunned => _isStunned;
 
     private Coroutine _knockbackRoutine;
     private Rigidbody2D _rb;
@@ -24,7 +24,7 @@ public class ReceiveKnockback : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
-    public void Knockback(float knockbackAmount, float knockbackDuration, Transform sourceTransform)
+    public void Hit(float knockbackAmount, float knockbackDuration, Transform sourceTransform)
     {
         // dampener scales value from 0 to full, using 0-1 input
         float dampenedAmount = knockbackAmount * _knockbackDampener;
@@ -41,13 +41,13 @@ public class ReceiveKnockback : MonoBehaviour
 
     IEnumerator KnockbackRoutine(float duration)
     {
-        _isKnockbackHappening = true;
+        _isStunned = true;
         KnockbackStarted?.Invoke();
 
         yield return new WaitForSeconds(duration);
 
         _rb.velocity = new Vector2(0, _rb.velocity.y);
-        _isKnockbackHappening = false;
+        _isStunned = false;
         KnockbackEnded?.Invoke();
     }
 }

@@ -104,10 +104,10 @@ public class PlayerData : ScriptableObject
     private float _standColliderHeight = 1.8f;
 
     [Header("Attack")]
-    [SerializeField]
     private bool _allowAttack = true;
-    [SerializeField]
-    private float _attackCooldown = 0.5f;
+    [SerializeField][Range(0, 1)]
+    [Tooltip("Cuts velocity by this ratio whenever an air attack occurs")]
+    private float _airAttackVelocityYDampen = .5f;
 
 
     #region Getters
@@ -160,6 +160,6 @@ public class PlayerData : ScriptableObject
     public float StandColliderHeight => _standColliderHeight;
     // attack
     public bool AllowAttack => _allowAttack;
-    public float AttackCooldown => _attackCooldown;
+    public float AirAttackVelocityYDampen => _airAttackVelocityYDampen;
     #endregion
 }

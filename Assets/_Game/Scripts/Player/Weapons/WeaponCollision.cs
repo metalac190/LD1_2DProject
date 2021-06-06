@@ -25,7 +25,7 @@ public class WeaponCollision : MonoBehaviour
         if(damageable != null)
         {
 
-            damageable?.Damage(_weaponSystem.EquippedWeapon.DamageAmount);
+            damageable?.Damage(_weaponSystem.EquippedWeapon.GroundDamageAmount);
         }
     }
 
@@ -34,7 +34,7 @@ public class WeaponCollision : MonoBehaviour
         foreach(IDamageable item in _detectedDamageables)
         {
             Debug.Log("Damage: " + item.ToString());
-            item.Damage(_weaponSystem.EquippedWeapon.DamageAmount);
+            item.Damage(_weaponSystem.EquippedWeapon.GroundDamageAmount);
         }
     }
 

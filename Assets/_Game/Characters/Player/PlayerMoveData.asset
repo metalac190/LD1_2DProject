@@ -43,12 +43,11 @@ MonoBehaviour:
   _maxHoldTime: 1
   _dashHoldMovementDampener: 0.05
   _dashDuration: 0.15
-  _dashVelocity: 50
+  _dashVelocity: 60
   _dashDrag: 10
   _dashEndYMultiplier: 0.2
   _distanceBetweenAfterImages: 0.5
   _crouchMoveVelocity: 3
   _crouchColliderHeight: 0.8
   _standColliderHeight: 1.8
-  _allowAttack: 1
-  _attackCooldown: 0.5
+  _airAttackVelocityYDampen: 0.5

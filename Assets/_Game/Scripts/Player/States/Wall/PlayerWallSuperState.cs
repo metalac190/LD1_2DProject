@@ -7,26 +7,32 @@ public class PlayerWallSuperState : State
     PlayerFSM _stateMachine;
     Player _player;
 
+    PlayerData _data;
     Movement _movement;
     GameplayInput _input;
     GroundDetector _groundDetector;
     WallDetector _wallDetector;
+    DashSystem _dashSystem;
 
     public PlayerWallSuperState(PlayerFSM stateMachine, Player player)
     {
         _stateMachine = stateMachine;
         _player = player;
 
+        _data = player.Data;
         _movement = player.Actor.Movement;
         _input = player.Input;
         _groundDetector = player.Actor.CollisionDetector.GroundDetector;
         _wallDetector = player.Actor.CollisionDetector.WallDetector;
+        _dashSystem = player.DashSystem;
     }
 
     public override void Enter()
     {
         base.Enter();
         _input.JumpPressed += OnJumpPressed;
+        _input.DashPressed += OnDashPressed;
+        _input.AttackPressed += OnAttackPressed;
 
         _player.ResetJumps();
     }
@@ -35,6 +41,8 @@ public class PlayerWallSuperState : State
     {
         base.Exit();
         _input.JumpPressed -= OnJumpPressed;
+        _input.DashPressed -= OnDashPressed;
+        _input.AttackPressed -= OnAttackPressed;
     }
 
     public override void FixedUpdate()
@@ -60,6 +68,14 @@ public class PlayerWallSuperState : State
         }
     }
 
+    private void OnAttackPressed()
+    {
+        if (_data.AllowAttack)
+        {
+            _stateMachine.ChangeState(_stateMachine.WallAttackState);
+        }
+    }
+
     private void OnLostWall()
     {
         if (_groundDetector.IsGrounded)
@@ -75,5 +91,13 @@ public class PlayerWallSuperState : State
     private void OnJumpPressed()
     {
         _stateMachine.ChangeState(_stateMachine.WallJumpState);
+    }
+
+    private void OnDashPressed()
+    {
+        if (_dashSystem.CanDash && _data.AllowDash)
+        {
+            _stateMachine.ChangeState(_stateMachine.DashState);
+        }
     }
 }

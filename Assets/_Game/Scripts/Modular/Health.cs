@@ -3,16 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Events;
+using SoundSystem;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public class Health : MonoBehaviour, IDamageable
 {
     public UnityEvent<int> Damaged;
     public UnityEvent Died;
 
     [Header("Health")]
-    [SerializeField] private int _healthMax = 50;
-    [SerializeField] private bool _isDamageable = true;
+    [SerializeField] 
+    private int _healthMax = 50;
+    [SerializeField] 
+    private bool _isDamageable = true;
+    [SerializeField] 
+    private SpriteRenderer _renderer;
+    [SerializeField]
+    private SFXOneShot _damagedSFX;
+
+    private DamageFlash _damageFlash;
 
     public bool IsDamageable
     {
@@ -44,7 +52,16 @@ public class Health : MonoBehaviour, IDamageable
 
     private void Awake()
     {
+        if (_renderer != null)
+            _damageFlash = new DamageFlash(this, _renderer);
+        else
+            Debug.LogError("No renderer assigned to Health component");
         HealthCurrent = _healthMax;
+    }
+
+    void OnDisable()
+    {
+        _damageFlash.StopFlash();
     }
 
     public virtual void Damage(int amount)
@@ -54,6 +71,8 @@ public class Health : MonoBehaviour, IDamageable
         Debug.Log("Damage: " + gameObject.name + " " + amount);
         HealthCurrent -= amount;
         Damaged?.Invoke(amount);
+        _damagedSFX?.PlayOneShot(transform.position);
+        _damageFlash?.Flash();
         //TODO Hit Particles
 
         HealthCurrent = Mathf.Clamp(HealthCurrent, 0, _healthMax);

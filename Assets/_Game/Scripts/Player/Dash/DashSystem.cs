@@ -54,7 +54,6 @@ public class DashSystem : MonoBehaviour
         ShowDashReadyVisual(true);
     }
 
-
     public void ShowDashReadyVisual(bool isActive)
     {
         _dashCooldownVisual.SetActive(isActive);

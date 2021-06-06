@@ -2,53 +2,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using SoundSystem;
 
 public class WeaponSystem : MonoBehaviour
 {
     public event Action<WeaponData> AttackActivated;
+    public event Action AttackDeactivated;
     public event Action AttackCompleted;
 
     [SerializeField]
-    private GameObject _weaponVisual;
+    private GameObject _weaponCollision;
     [SerializeField]
     private WeaponData _equippedWeapon;
 
     public WeaponData EquippedWeapon => _equippedWeapon;
     // this specifically returns true while attack is active, and false during wind up and wind down periods
-    public bool IsPreAttack { get; private set; } = false;
-    public bool IsAttackActive { get; private set; } = false;
-    public bool IsPostAttack { get; private set; } = false;
+
+    public MeleeAttackState MeleeAttackState { get; private set; } = MeleeAttackState.NotAttacking;
 
     private Coroutine _attackRoutine;
 
     private void Awake()
     {
-        ShowVisual(false);
+        ActivateCollision(false);
+
+        MeleeAttackState = MeleeAttackState.NotAttacking;
     }
 
-    public virtual void StartAttack()
+    public virtual void StartGroundAttack()
     {
-        ResetAttackStateBools();
-
         if (_attackRoutine != null)
             StopCoroutine(_attackRoutine);
-        _attackRoutine = StartCoroutine(AttackRoutine(_equippedWeapon.StartDelay, 
-            _equippedWeapon.ActiveDuration, _equippedWeapon.EndDelay));
+        _attackRoutine = StartCoroutine(AttackRoutine(_equippedWeapon.GroundStartDelay, 
+            _equippedWeapon.GroundActiveDuration, _equippedWeapon.GroundEndDelay, 
+            _equippedWeapon.GroundAttackSFX));
+    }
+
+    public virtual void StartAirAttack()
+    {
+        if (_attackRoutine != null)
+            StopCoroutine(_attackRoutine);
+        _attackRoutine = StartCoroutine(AttackRoutine(_equippedWeapon.AirStartDelay,
+            _equippedWeapon.AirActiveDuration, _equippedWeapon.AirEndDelay, 
+            _equippedWeapon.AirAttackSFX));
     }
 
     public virtual void StopAttack()
     {
         if (_attackRoutine != null)
             StopCoroutine(_attackRoutine);
-        ShowVisual(false);
-        ResetAttackStateBools();
-    }
-
-    private void ResetAttackStateBools()
-    {
-        IsPreAttack = false;
-        IsAttackActive = false;
-        IsPostAttack = false;
+        ActivateCollision(false);
+        MeleeAttackState = MeleeAttackState.NotAttacking;
     }
 
     public void EquipWeapon(WeaponData newWeapon)
@@ -56,34 +60,34 @@ public class WeaponSystem : MonoBehaviour
         if(newWeapon != null)
         {
             _equippedWeapon = newWeapon;
+            //TODO: Resize weapon
         }
     }
 
-    public void ShowVisual(bool isActive)
+    public void ActivateCollision(bool isActive)
     {
-        _weaponVisual.SetActive(isActive);
+        _weaponCollision.SetActive(isActive);
     }
 
-    IEnumerator AttackRoutine(float beforeDelay, float activeDuration, float endDelay)
+    IEnumerator AttackRoutine(float beforeDelay, float activeDuration, float endDelay, SFXOneShot sfx)
     {
-        ResetAttackStateBools();
-
-        IsPreAttack = true;
+        MeleeAttackState = MeleeAttackState.BeforeAttack;
         yield return new WaitForSeconds(beforeDelay);
-        IsPreAttack = false;
 
-        IsAttackActive = true;
+        MeleeAttackState = MeleeAttackState.DuringAttack;
+        AttackActivated?.Invoke(EquippedWeapon);
         //TODO: check/deal damage here
-        ShowVisual(true);
-        _equippedWeapon.AttackSFX?.PlayOneShot(transform.position);
+        ActivateCollision(true);
+        sfx.PlayOneShot(transform.position);
         yield return new WaitForSeconds(activeDuration);
-        IsAttackActive = false;
+        ActivateCollision(false);
+        AttackDeactivated?.Invoke();
 
-        IsPostAttack = true;
-        ShowVisual(false);
+        MeleeAttackState = MeleeAttackState.AfterAttack;
+        //TODO: this could be a window for followup/combo attacks
         yield return new WaitForSeconds(endDelay);
-        IsPostAttack = false;
 
+        MeleeAttackState = MeleeAttackState.NotAttacking;
         AttackCompleted?.Invoke();
     }
 }

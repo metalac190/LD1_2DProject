@@ -23,6 +23,8 @@ public class PlayerSFXData : ScriptableObject
     private SFXOneShot _landSFX;
     [SerializeField]
     private SFXOneShot _wallGrabSFX;
+    [SerializeField]
+    private SFXOneShot _damagedSFX;
 
     #region Getters
     // sounds
@@ -34,5 +36,6 @@ public class PlayerSFXData : ScriptableObject
     public SFXOneShot LedgeCatchSFX => _ledgeCatchSFX;
     public SFXOneShot LandSFX => _landSFX;
     public SFXOneShot WallGrabSFX => _wallGrabSFX;
+    public SFXOneShot DamagedSFX => _damagedSFX;
     #endregion
 }

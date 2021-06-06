@@ -33,8 +33,6 @@ public class LedgeDetector : MonoBehaviour
     private LayerMask _whatIsWall;
     [SerializeField]
     private LayerMask _whatIsGround;
-    [SerializeField]
-    private bool _autoCheck = false;
 
     private bool _isDetectingUpperLedge = false;
     public bool IsDetectingUpperLedge

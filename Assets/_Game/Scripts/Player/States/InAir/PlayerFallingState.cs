@@ -75,7 +75,8 @@ public class PlayerFallingState : State
         _groundDetector.DetectGround();
         _wallDetector.DetectWall();
         _ledgeDetector.DetectUpperLedge();
-        
+
+        _movement.SetVelocityX(_input.XInputRaw * _data.MoveSpeed);
 
         // check for ledge grab - prioritze over wall grab
         if (_ledgeDetector.IsDetectingUpperLedge)
@@ -117,8 +118,6 @@ public class PlayerFallingState : State
     {
         base.Update();
 
-        _movement.SetVelocityX(_input.XInputRaw * _data.MoveSpeed);
-
         // if lateJump is allowed, and we've passed the window, close it off
         // if we're past the allow late jump window, then close it off and remove our buffer jump
         CheckLateJump();
@@ -146,7 +145,7 @@ public class PlayerFallingState : State
 
     private void OnAttackPressed()
     {
-        //_stateMachine.ChangeState(_stateMachine.AttackState);
+        _stateMachine.ChangeState(_stateMachine.AirAttackState);
     }
 
     private void OnJumpPressed()

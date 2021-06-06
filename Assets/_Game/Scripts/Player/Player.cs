@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     private BoxCollider2D _boxCollider;
     [SerializeField]
     private PlayerSFXData _playerSFX;
+    [SerializeField]
+    private PlayerVisuals _visuals;
 
     [Header("Ability Systems")]
     [SerializeField]
@@ -34,6 +36,7 @@ public class Player : MonoBehaviour
     public PlayerAnimator PlayerAnimator => _playerAnimator;
     public BoxCollider2D BoxCollider => _boxCollider;
     public PlayerSFXData SFX => _playerSFX;
+    public PlayerVisuals Visuals => _visuals;
 
     public WeaponSystem WeaponSystem => _weaponSystem;
     public DashSystem DashSystem => _dashSystem;

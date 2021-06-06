@@ -100,7 +100,7 @@ public class PlayerWallJumpState : State
 
     private void OnAttackPressed()
     {
-        //_stateMachine.ChangeState(_stateMachine.AttackState);
+        _stateMachine.ChangeState(_stateMachine.AirAttackState);
     }
 
     private void OnJumpPressed()
