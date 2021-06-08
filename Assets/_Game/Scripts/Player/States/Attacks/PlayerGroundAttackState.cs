@@ -15,8 +15,7 @@ public class PlayerGroundAttackState : State
     private GroundDetector _groundDetector;
 
     bool _attackInputBuffer = false;
-    // counts up to complete combo
-    private int _attackCount = 0;
+    private bool _isInitialAttack = true;
 
     public PlayerGroundAttackState(PlayerFSM stateMachine, Player player)
     {
@@ -43,8 +42,9 @@ public class PlayerGroundAttackState : State
         _input.AttackPressed += OnAttackPressed;
         _groundDetector.LeftGround += OnLeftGround;
 
-        _attackCount = 0;
+        _isInitialAttack = true;
         Attack();
+        _isInitialAttack = false;
     }
 
     public override void Exit()
@@ -103,10 +103,10 @@ public class PlayerGroundAttackState : State
 
         // if we've received new attack input during the post attack period
         if(_attackInputBuffer && _weaponSystem.MeleeAttackState == MeleeAttackState.AfterAttack
-            && _attackCount < _weaponData.MaxComboCount)
+            && _weaponSystem.AttackCount < _weaponData.MaxComboCount)
         {
             // if next attack will be our last attack, do the finisher
-            if(_attackCount == _weaponData.MaxComboCount - 1)
+            if(_weaponSystem.AttackCount == _weaponData.MaxComboCount - 1)
             {
                 FinisherAttack();
             }
@@ -121,19 +121,18 @@ public class PlayerGroundAttackState : State
     private void Attack()
     {
         _attackInputBuffer = false;
-        _attackCount++;
         _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.GroundAttack, 
-            _weaponSystem.EquippedWeapon.HitSFX);
-        Debug.Log("Attack: " + _attackCount);
+            _weaponSystem.EquippedWeapon.HitSFX, _isInitialAttack);
+        Debug.Log("Attack: " + _weaponSystem.AttackCount);
     }
 
     private void FinisherAttack()
     {
         _attackInputBuffer = false;
-        _attackCount++;
         _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.GroundFinisher, 
-            _weaponSystem.EquippedWeapon.FinisherSFX);
-        Debug.Log("Finisher Attack: " + _attackCount);
+            _weaponSystem.EquippedWeapon.FinisherSFX, _isInitialAttack);
+        Debug.Log("Finisher Attack: " + _weaponSystem.AttackCount);
+        _isInitialAttack = true;
     }
 
     private void OnAttackCompleted()

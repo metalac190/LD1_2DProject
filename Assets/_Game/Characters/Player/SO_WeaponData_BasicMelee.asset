@@ -16,12 +16,14 @@ MonoBehaviour:
   _hitSFX: {fileID: 11400000, guid: 06be151507a69204e856fa00a6633e3e, type: 2}
   _finisherSFX: {fileID: 11400000, guid: e848837ed21979443966e696aa087a9e, type: 2}
   _groundAttack:
-    _damage: 5
+    _damage: 3
     _startDelay: 0
     _activeDuration: 0.2
     _endDelay: 0.15
     _forwardAmount: 0
     _movementReductionRatio: 0.1
+    _spritePrimary: {fileID: 21300000, guid: 7e03526f6de2ab845911af64e39c8142, type: 3}
+    _spriteSecondary: {fileID: 21300000, guid: 5732b7c9af4292c4dbc9de7166281093, type: 3}
   _groundFinisher:
     _damage: 10
     _startDelay: 0.1
@@ -29,6 +31,8 @@ MonoBehaviour:
     _endDelay: 0.2
     _forwardAmount: 8
     _movementReductionRatio: 0.3
+    _spritePrimary: {fileID: 21300000, guid: e97e8c5f4c8a0a4488c11d3b2e63dea1, type: 3}
+    _spriteSecondary: {fileID: 21300000, guid: e97e8c5f4c8a0a4488c11d3b2e63dea1, type: 3}
   _airAttack:
     _damage: 5
     _startDelay: 0
@@ -36,6 +40,8 @@ MonoBehaviour:
     _endDelay: 0.15
     _forwardAmount: 0
     _movementReductionRatio: 0.5
+    _spritePrimary: {fileID: 21300000, guid: 7e03526f6de2ab845911af64e39c8142, type: 3}
+    _spriteSecondary: {fileID: 21300000, guid: 5732b7c9af4292c4dbc9de7166281093, type: 3}
   _airFinisher:
     _damage: 5
     _startDelay: 0.1
@@ -43,6 +49,8 @@ MonoBehaviour:
     _endDelay: 0.2
     _forwardAmount: 5
     _movementReductionRatio: 0.1
+    _spritePrimary: {fileID: 21300000, guid: e97e8c5f4c8a0a4488c11d3b2e63dea1, type: 3}
+    _spriteSecondary: {fileID: 21300000, guid: e97e8c5f4c8a0a4488c11d3b2e63dea1, type: 3}
   _wallAttack:
     _damage: 5
     _startDelay: 0
@@ -50,6 +58,8 @@ MonoBehaviour:
     _endDelay: 0.1
     _forwardAmount: 5
     _movementReductionRatio: 0.5
+    _spritePrimary: {fileID: 21300000, guid: 7e03526f6de2ab845911af64e39c8142, type: 3}
+    _spriteSecondary: {fileID: 21300000, guid: 5732b7c9af4292c4dbc9de7166281093, type: 3}
   _wallFinisher:
     _damage: 5
     _startDelay: 0
@@ -57,3 +67,5 @@ MonoBehaviour:
     _endDelay: 0.1
     _forwardAmount: 5
     _movementReductionRatio: 0.5
+    _spritePrimary: {fileID: 21300000, guid: e97e8c5f4c8a0a4488c11d3b2e63dea1, type: 3}
+    _spriteSecondary: {fileID: 21300000, guid: e97e8c5f4c8a0a4488c11d3b2e63dea1, type: 3}

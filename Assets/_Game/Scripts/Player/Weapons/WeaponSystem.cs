@@ -9,16 +9,22 @@ public class WeaponSystem : MonoBehaviour
     public event Action<WeaponData> AttackActivated;
     public event Action AttackDeactivated;
     public event Action AttackCompleted;
+    public event Action<IDamageable> HitDamageable;
 
     [SerializeField]
     private GameObject _weaponCollision;
     [SerializeField]
+    private SpriteRenderer _weaponRenderer;
+    [SerializeField]
     private WeaponData _equippedWeapon;
+    
 
     public WeaponData EquippedWeapon => _equippedWeapon;
     public MeleeAttack CurrentMeleeAttack { get; private set; }
 
     public MeleeAttackState MeleeAttackState { get; private set; } = MeleeAttackState.NotAttacking;
+
+    public int AttackCount { get; private set; } = 0;
 
     private Coroutine _attackRoutine;
 
@@ -29,17 +35,44 @@ public class WeaponSystem : MonoBehaviour
         MeleeAttackState = MeleeAttackState.NotAttacking;
     }
 
-    public void StartAttack(MeleeAttack meleeAttack, SFXOneShot hitSound)
+    public void StartAttack(MeleeAttack meleeAttack, SFXOneShot hitSound, bool isInitialAttack)
     {
-        if(meleeAttack == null) { return; }
+        if (meleeAttack == null) { return; }
+        // if it's a combo, progress the counter, if not, start over
+        if (isInitialAttack)
+            AttackCount = 1;
+        else
+            AttackCount++;
+
         CurrentMeleeAttack = meleeAttack;
+        LoadAttackVisual(meleeAttack);
 
         if (_attackRoutine != null)
             StopCoroutine(_attackRoutine);
-        _attackRoutine = StartCoroutine(AttackRoutine(meleeAttack.StartDelay,meleeAttack.ActiveDuration, 
+        _attackRoutine = StartCoroutine(AttackRoutine(meleeAttack.StartDelay, meleeAttack.ActiveDuration,
             meleeAttack.EndDelay, hitSound));
     }
-    
+
+    private void LoadAttackVisual(MeleeAttack meleeAttack)
+    {
+        if(AttackCount == EquippedWeapon.MaxComboCount)
+        {
+            _weaponRenderer.sprite = meleeAttack.SpritePrimary;
+            Debug.Log("Sprite Finisher");
+        }
+        // otherwise, alternate hit sprites
+        else if(AttackCount % 2 == 0)
+        {
+            _weaponRenderer.sprite = meleeAttack.SpriteSecondary;
+            Debug.Log("Sprite Secondary");
+        }
+        else
+        {
+            _weaponRenderer.sprite = meleeAttack.SpritePrimary;
+            Debug.Log("Sprite Primary");
+        }
+    }
+
     public virtual void StopAttack()
     {
         if (_attackRoutine != null)
@@ -60,6 +93,12 @@ public class WeaponSystem : MonoBehaviour
     public void ActivateCollision(bool isActive)
     {
         _weaponCollision.SetActive(isActive);
+    }
+
+    public void Hit(IDamageable damageable)
+    {
+        HitDamageable?.Invoke(damageable);
+        damageable.Damage(CurrentMeleeAttack.Damage);
     }
 
     IEnumerator AttackRoutine(float beforeDelay, float activeDuration, float endDelay, SFXOneShot sfx)

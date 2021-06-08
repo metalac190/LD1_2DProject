@@ -16,8 +16,8 @@ public class PlayerAirAttackState : State
     private GroundDetector _groundDetector;
 
     bool _attackInputBuffer = false;
-    private int _attackCount = 0;
-    Vector2 _attackPosition;
+    bool _hitDamageable = false;
+    private bool _isInitialAttack = true;
 
     public PlayerAirAttackState(PlayerFSM stateMachine, Player player)
     {
@@ -44,11 +44,13 @@ public class PlayerAirAttackState : State
         _input.DashPressed += OnDashPressed;
         _input.AttackPressed += OnAttackPressed;
         _groundDetector.FoundGround += OnFoundGround;
+        _weaponSystem.HitDamageable += OnHitDamageable;
 
-        _weaponSystem.StartAttack(_weaponData.AirAttack, _weaponSystem.EquippedWeapon.HitSFX);
 
-        _attackCount = 0;
+        _hitDamageable = false;
+        _isInitialAttack = true;
         Attack();
+        _isInitialAttack = false;
     }
 
     public override void Exit()
@@ -60,6 +62,7 @@ public class PlayerAirAttackState : State
         _input.DashPressed -= OnDashPressed;
         _input.AttackPressed -= OnAttackPressed;
         _groundDetector.FoundGround -= OnFoundGround;
+        _weaponSystem.HitDamageable -= OnHitDamageable;
 
         _weaponSystem.StopAttack();
     }
@@ -71,9 +74,9 @@ public class PlayerAirAttackState : State
         _groundDetector.DetectGround();
 
         // if attack is active propel forward, if it's in wepaon data
-        if (_weaponSystem.MeleeAttackState == MeleeAttackState.DuringAttack)
+        if (_weaponSystem.MeleeAttackState == MeleeAttackState.DuringAttack
+            && _hitDamageable)
         {
-            //TODO: Only allow hover if we're actually hitting something
             // if we're holding forward, apply additional movement based on weapon settings
             if(_input.XInputRaw == _movement.FacingDirection)
             {
@@ -112,9 +115,9 @@ public class PlayerAirAttackState : State
 
         // if we've completed the attack and have attack input buffer, attack again
         else if (_attackInputBuffer && _weaponSystem.MeleeAttackState == MeleeAttackState.AfterAttack
-            && _attackCount < _weaponData.MaxComboCount)
+            && _weaponSystem.AttackCount < _weaponData.MaxComboCount)
         {
-            if(_attackCount == _weaponData.MaxComboCount - 1)
+            if(_weaponSystem.AttackCount == _weaponData.MaxComboCount - 1)
             {
                 FinisherAttack();
             }
@@ -128,21 +131,27 @@ public class PlayerAirAttackState : State
     private void Attack()
     {
         _attackInputBuffer = false;
-        _attackCount++;
+        _hitDamageable = false;
 
         _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.AirAttack, 
-            _weaponSystem.EquippedWeapon.HitSFX);
-        Debug.Log("Air Attack: " + _attackCount);
+            _weaponSystem.EquippedWeapon.HitSFX, _isInitialAttack);
+        Debug.Log("Air Attack: " + _weaponSystem.AttackCount);
     }
 
     private void FinisherAttack()
     {
         _attackInputBuffer = false;
-        _attackCount++;
+        _hitDamageable = false;
 
         _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.AirFinisher,
-            _weaponSystem.EquippedWeapon.FinisherSFX);
-        Debug.Log("Air Finisher: " + _attackCount);
+            _weaponSystem.EquippedWeapon.FinisherSFX, _isInitialAttack);
+        Debug.Log("Air Finisher: " + _weaponSystem.AttackCount);
+        _isInitialAttack = true;
+    }
+
+    private void OnHitDamageable(IDamageable damageable)
+    {
+        _hitDamageable = true;
     }
 
     private void OnAttackCompleted()
