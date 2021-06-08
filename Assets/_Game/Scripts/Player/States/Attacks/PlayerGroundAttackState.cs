@@ -15,6 +15,8 @@ public class PlayerGroundAttackState : State
     private GroundDetector _groundDetector;
 
     bool _attackInputBuffer = false;
+    // counts up to complete combo
+    private int _attackCount = 0;
 
     public PlayerGroundAttackState(PlayerFSM stateMachine, Player player)
     {
@@ -41,8 +43,8 @@ public class PlayerGroundAttackState : State
         _input.AttackPressed += OnAttackPressed;
         _groundDetector.LeftGround += OnLeftGround;
 
-        _attackInputBuffer = false;
-        _weaponSystem.StartGroundAttack();
+        _attackCount = 0;
+        Attack();
     }
 
     public override void Exit()
@@ -66,23 +68,19 @@ public class PlayerGroundAttackState : State
         // if attack is active, propel forward based on weapon data forward amount
         if (_weaponSystem.MeleeAttackState == MeleeAttackState.DuringAttack)
         {
-            // if we're holding forward, add additional movement
+            // if we're holding forward, add additional movement based on our attacks move reduction
             if(_input.XInputRaw == _movement.FacingDirection)
             {
-                _movement.SetVelocityX((_weaponData.GroundForwardAmount * _movement.FacingDirection)
-                    + (_movement.FacingDirection * _data.MoveSpeed * _weaponData.MovementReductionRatio));
+                //TODO: Consider if this can be a force with momentum, once we have that capability
+                _movement.SetVelocityX((_weaponSystem.CurrentMeleeAttack.ForwardAmount * _movement.FacingDirection)
+                    + (_movement.FacingDirection * _data.MoveSpeed 
+                    * _weaponSystem.CurrentMeleeAttack.MovementReductionRatio));
             }
             // otherwise just use forward amount
             else
             {
-                _movement.SetVelocityX((_weaponData.GroundForwardAmount * _movement.FacingDirection));
+                _movement.SetVelocityX((_weaponSystem.CurrentMeleeAttack.ForwardAmount * _movement.FacingDirection));
             }
-        }
-        // otherwise move forward with normal movement speed cut by weapon reduction speed
-        else if(_input.XInputRaw == _movement.FacingDirection)
-        {
-            _movement.SetVelocityX(_input.XInputRaw * _data.MoveSpeed 
-                * _weaponData.MovementReductionRatio);
         }
         // otherwise no xinput, so don't move in x
         else
@@ -104,12 +102,38 @@ public class PlayerGroundAttackState : State
         }
 
         // if we've received new attack input during the post attack period
-        if(_attackInputBuffer && _weaponSystem.MeleeAttackState == MeleeAttackState.AfterAttack)
+        if(_attackInputBuffer && _weaponSystem.MeleeAttackState == MeleeAttackState.AfterAttack
+            && _attackCount < _weaponData.MaxComboCount)
         {
-            // start new attack and reset input
-            _weaponSystem.StartGroundAttack();
-            _attackInputBuffer = false;
+            // if next attack will be our last attack, do the finisher
+            if(_attackCount == _weaponData.MaxComboCount - 1)
+            {
+                FinisherAttack();
+            }
+            // otherwise do another attack
+            else
+            {
+                Attack();
+            }
         }
+    }
+
+    private void Attack()
+    {
+        _attackInputBuffer = false;
+        _attackCount++;
+        _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.GroundAttack, 
+            _weaponSystem.EquippedWeapon.HitSFX);
+        Debug.Log("Attack: " + _attackCount);
+    }
+
+    private void FinisherAttack()
+    {
+        _attackInputBuffer = false;
+        _attackCount++;
+        _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.GroundFinisher, 
+            _weaponSystem.EquippedWeapon.FinisherSFX);
+        Debug.Log("Finisher Attack: " + _attackCount);
     }
 
     private void OnAttackCompleted()

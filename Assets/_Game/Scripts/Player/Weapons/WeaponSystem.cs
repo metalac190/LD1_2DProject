@@ -16,7 +16,7 @@ public class WeaponSystem : MonoBehaviour
     private WeaponData _equippedWeapon;
 
     public WeaponData EquippedWeapon => _equippedWeapon;
-    // this specifically returns true while attack is active, and false during wind up and wind down periods
+    public MeleeAttack CurrentMeleeAttack { get; private set; }
 
     public MeleeAttackState MeleeAttackState { get; private set; } = MeleeAttackState.NotAttacking;
 
@@ -29,24 +29,17 @@ public class WeaponSystem : MonoBehaviour
         MeleeAttackState = MeleeAttackState.NotAttacking;
     }
 
-    public virtual void StartGroundAttack()
+    public void StartAttack(MeleeAttack meleeAttack, SFXOneShot hitSound)
     {
+        if(meleeAttack == null) { return; }
+        CurrentMeleeAttack = meleeAttack;
+
         if (_attackRoutine != null)
             StopCoroutine(_attackRoutine);
-        _attackRoutine = StartCoroutine(AttackRoutine(_equippedWeapon.GroundStartDelay, 
-            _equippedWeapon.GroundActiveDuration, _equippedWeapon.GroundEndDelay, 
-            _equippedWeapon.GroundAttackSFX));
+        _attackRoutine = StartCoroutine(AttackRoutine(meleeAttack.StartDelay,meleeAttack.ActiveDuration, 
+            meleeAttack.EndDelay, hitSound));
     }
-
-    public virtual void StartAirAttack()
-    {
-        if (_attackRoutine != null)
-            StopCoroutine(_attackRoutine);
-        _attackRoutine = StartCoroutine(AttackRoutine(_equippedWeapon.AirStartDelay,
-            _equippedWeapon.AirActiveDuration, _equippedWeapon.AirEndDelay, 
-            _equippedWeapon.AirAttackSFX));
-    }
-
+    
     public virtual void StopAttack()
     {
         if (_attackRoutine != null)

@@ -32,7 +32,7 @@ public class PlayerWallAttackState : State
         _movement.HoldPosition(_startPos);
 
         _movement.Flip();
-        _weaponSystem.StartAirAttack();
+        _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.WallAttack, _weaponSystem.EquippedWeapon.HitSFX);
     }
 
     public override void Exit()

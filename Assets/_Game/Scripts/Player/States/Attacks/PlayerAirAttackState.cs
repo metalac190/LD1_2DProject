@@ -16,6 +16,8 @@ public class PlayerAirAttackState : State
     private GroundDetector _groundDetector;
 
     bool _attackInputBuffer = false;
+    private int _attackCount = 0;
+    Vector2 _attackPosition;
 
     public PlayerAirAttackState(PlayerFSM stateMachine, Player player)
     {
@@ -43,9 +45,10 @@ public class PlayerAirAttackState : State
         _input.AttackPressed += OnAttackPressed;
         _groundDetector.FoundGround += OnFoundGround;
 
-        _weaponSystem.StartAirAttack();
+        _weaponSystem.StartAttack(_weaponData.AirAttack, _weaponSystem.EquippedWeapon.HitSFX);
 
-        _attackInputBuffer = false;
+        _attackCount = 0;
+        Attack();
     }
 
     public override void Exit()
@@ -68,11 +71,25 @@ public class PlayerAirAttackState : State
         _groundDetector.DetectGround();
 
         // if attack is active propel forward, if it's in wepaon data
-        if (_weaponSystem.MeleeAttackState == MeleeAttackState.DuringAttack
-            && _input.XInputRaw != 0)
+        if (_weaponSystem.MeleeAttackState == MeleeAttackState.DuringAttack)
         {
-            _movement.SetVelocityX((_weaponData.AirForwardAmount * _movement.FacingDirection) 
-                + (_input.XInput * _data.MoveSpeed));
+            //TODO: Only allow hover if we're actually hitting something
+            // if we're holding forward, apply additional movement based on weapon settings
+            if(_input.XInputRaw == _movement.FacingDirection)
+            {
+                // forward but disable falling
+                _movement.SetVelocity((_weaponSystem.CurrentMeleeAttack.ForwardAmount * _movement.FacingDirection)
+                    + (_movement.FacingDirection * _data.MoveSpeed) 
+                    * _weaponSystem.CurrentMeleeAttack.MovementReductionRatio, 
+                    0);
+            }
+            else
+            {
+                _movement.SetVelocity((_weaponSystem.CurrentMeleeAttack.ForwardAmount 
+                    * _movement.FacingDirection),
+                    0);
+            }
+
         }
         // otherwise just move according to input
         else
@@ -86,30 +103,46 @@ public class PlayerAirAttackState : State
         base.Update();
 
         // if we've changed directions
-        if (_input.XInputRaw == (_movement.FacingDirection * -1))
+        if (_input.XInputRaw == (_movement.FacingDirection * -1)
+            && _weaponSystem.MeleeAttackState == MeleeAttackState.BeforeAttack)
         {
             // and we're still ramping up, switch directions
-            if (_weaponSystem.MeleeAttackState == MeleeAttackState.BeforeAttack)
-            {
-                _movement.Flip();
-            }
-            // or if our attack is active, cancel it
-            else
-            {
-                _weaponSystem.StopAttack();
-                _stateMachine.ChangeState(_stateMachine.FallingState);
-                return;
-            }
+            _movement.Flip();
         }
 
         // if we've completed the attack and have attack input buffer, attack again
-        if (_attackInputBuffer && _weaponSystem.MeleeAttackState == MeleeAttackState.AfterAttack)
+        else if (_attackInputBuffer && _weaponSystem.MeleeAttackState == MeleeAttackState.AfterAttack
+            && _attackCount < _weaponData.MaxComboCount)
         {
-            Debug.Log("After attack buffer, start new attack!");
-            // start new attack and reset input
-            _weaponSystem.StartAirAttack();
-            _attackInputBuffer = false;
+            if(_attackCount == _weaponData.MaxComboCount - 1)
+            {
+                FinisherAttack();
+            }
+            else
+            {
+                Attack();
+            }
         }
+    }
+
+    private void Attack()
+    {
+        _attackInputBuffer = false;
+        _attackCount++;
+
+        _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.AirAttack, 
+            _weaponSystem.EquippedWeapon.HitSFX);
+        Debug.Log("Air Attack: " + _attackCount);
+    }
+
+    private void FinisherAttack()
+    {
+        _attackInputBuffer = false;
+        _attackCount++;
+
+        _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.AirFinisher,
+            _weaponSystem.EquippedWeapon.FinisherSFX);
+        Debug.Log("Air Finisher: " + _attackCount);
     }
 
     private void OnAttackCompleted()

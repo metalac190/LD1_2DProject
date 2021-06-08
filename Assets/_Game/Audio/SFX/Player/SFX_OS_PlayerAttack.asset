@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b9f54e29ada10f4eb324eb547417a3b, type: 3}
-  m_Name: SFX_OS_PlayerGroundAttack
+  m_Name: SFX_OS_PlayerAttack
   m_EditorClassIdentifier: 
   _possibleClips:
   - {fileID: 8300000, guid: 36cf0cc2f672863438a355cb1e915bc0, type: 3}

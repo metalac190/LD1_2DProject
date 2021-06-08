@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class WeaponCollision : MonoBehaviour
 {
+    public event Action<IDamageable> HitDamageable;
+
     private List<IDamageable> _detectedDamageables = new List<IDamageable>();
     [SerializeField]
     private WeaponSystem _weaponSystem;
@@ -24,17 +27,18 @@ public class WeaponCollision : MonoBehaviour
         IDamageable damageable = collision.GetComponent<IDamageable>();
         if(damageable != null)
         {
-
-            damageable?.Damage(_weaponSystem.EquippedWeapon.GroundDamageAmount);
+            damageable.Damage(_weaponSystem.CurrentMeleeAttack.Damage);
+            HitDamageable?.Invoke(damageable);
         }
     }
 
+    /*
     private void DamageDetected()
     {
         foreach(IDamageable item in _detectedDamageables)
         {
             Debug.Log("Damage: " + item.ToString());
-            item.Damage(_weaponSystem.EquippedWeapon.GroundDamageAmount);
+            item.Damage(_weaponSystem.EquippedWeapon.GroundHitDamage);
         }
     }
 
@@ -55,4 +59,5 @@ public class WeaponCollision : MonoBehaviour
             _detectedDamageables.Add(damageable);
         }
     }
+    */
 }

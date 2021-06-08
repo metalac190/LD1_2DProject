@@ -12,16 +12,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f482f7f01b827a2468687e0e8fa2d3d5, type: 3}
   m_Name: SO_WeaponData_BasicMelee
   m_EditorClassIdentifier: 
-  _groundDamageAmount: 5
-  _groundStartDelay: 0.15
-  _groundActiveDuration: 0.2
-  _groundEndDelay: 0.15
-  _movementReductionRatio: 0.2
-  _groundForwardAmount: 2
-  _groundAttackSFX: {fileID: 11400000, guid: f1c0da0bfde8ce74084288abf56448fc, type: 2}
-  _airDamageAmount: 3
-  _airStartDelay: 0.05
-  _airActiveDuration: 0.2
-  _airEndDelay: 0.15
-  _airForwardAmount: 0
-  _airAttackSFX: {fileID: 11400000, guid: f1c0da0bfde8ce74084288abf56448fc, type: 2}
+  _maxComboCount: 3
+  _hitSFX: {fileID: 11400000, guid: 06be151507a69204e856fa00a6633e3e, type: 2}
+  _finisherSFX: {fileID: 11400000, guid: e848837ed21979443966e696aa087a9e, type: 2}
+  _groundAttack:
+    _damage: 5
+    _startDelay: 0
+    _activeDuration: 0.2
+    _endDelay: 0.15
+    _forwardAmount: 0
+    _movementReductionRatio: 0.1
+  _groundFinisher:
+    _damage: 10
+    _startDelay: 0.1
+    _activeDuration: 0.15
+    _endDelay: 0.2
+    _forwardAmount: 8
+    _movementReductionRatio: 0.3
+  _airAttack:
+    _damage: 5
+    _startDelay: 0
+    _activeDuration: 0.2
+    _endDelay: 0.15
+    _forwardAmount: 0
+    _movementReductionRatio: 0.5
+  _airFinisher:
+    _damage: 5
+    _startDelay: 0.1
+    _activeDuration: 0.15
+    _endDelay: 0.2
+    _forwardAmount: 5
+    _movementReductionRatio: 0.1
+  _wallAttack:
+    _damage: 5
+    _startDelay: 0
+    _activeDuration: 0.1
+    _endDelay: 0.1
+    _forwardAmount: 5
+    _movementReductionRatio: 0.5
+  _wallFinisher:
+    _damage: 5
+    _startDelay: 0
+    _activeDuration: 0.1
+    _endDelay: 0.1
+    _forwardAmount: 5
+    _movementReductionRatio: 0.5

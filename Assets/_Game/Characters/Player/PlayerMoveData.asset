@@ -30,16 +30,16 @@ MonoBehaviour:
   _allowWallSlide: 1
   _wallSlideVelocity: 0.2
   _wallSlideAcceleration: 0.3
-  _allowWallGrab: 1
+  _allowWallGrab: 0
   _wallClimbVelocity: 5
-  _allowWallClimb: 1
+  _allowWallClimb: 0
   _shouldAutoClimb: 0
   _ledgeClimbDuration: 0.2
   _ledgeDropPushVelocity: 10
   _startClimbOffset: {x: 0.3, y: 2.5}
   _stopClimbOffset: {x: 1, y: 0.4}
   _allowDash: 1
-  _dashCooldown: 0.5
+  _dashCooldown: 0
   _maxHoldTime: 1
   _dashHoldMovementDampener: 0.05
   _dashDuration: 0.15
