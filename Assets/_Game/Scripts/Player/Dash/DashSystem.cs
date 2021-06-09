@@ -50,12 +50,19 @@ public class DashSystem : MonoBehaviour
 
         yield return new WaitForSeconds(duration);
 
-        _canDash = true;
-        ShowDashReadyVisual(true);
+        ReadyDash();
     }
 
     public void ShowDashReadyVisual(bool isActive)
     {
         _dashCooldownVisual.SetActive(isActive);
+    }
+
+    public void ReadyDash()
+    {
+        if (_cooldownRoutine != null)
+            StopCoroutine(_cooldownRoutine);
+        _canDash = true;
+        ShowDashReadyVisual(true);
     }
 }

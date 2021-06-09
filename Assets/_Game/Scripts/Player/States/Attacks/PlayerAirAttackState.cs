@@ -152,6 +152,8 @@ public class PlayerAirAttackState : State
     private void OnHitDamageable(IDamageable damageable)
     {
         _hitDamageable = true;
+        // if we've hit something, reset air dash
+        _dashSystem.ReadyDash();
     }
 
     private void OnAttackCompleted()

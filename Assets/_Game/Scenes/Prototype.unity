@@ -35492,7 +35492,7 @@ GameObject:
   - component: {fileID: 1940966892}
   - component: {fileID: 1940966891}
   m_Layer: 10
-  m_Name: CombatDummy (1)
+  m_Name: AirCombatDummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

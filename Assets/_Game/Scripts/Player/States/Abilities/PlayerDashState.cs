@@ -40,8 +40,6 @@ public class PlayerDashState : State
         _sfx = player.SFX;
 
         _afterImagePool = _dashSystem.AfterImagePool;
-
-
     }
 
     public override void Enter()
@@ -51,6 +49,7 @@ public class PlayerDashState : State
 
         //
         _input.DashReleased += OnDashInputReleased;
+        _input.AttackPressed += OnAttackPressed;
 
         _isDashing = false;
         _holdTimer = 0;
@@ -67,10 +66,12 @@ public class PlayerDashState : State
         base.Exit();
 
         _input.DashReleased -= OnDashInputReleased;
+        _input.AttackPressed -= OnAttackPressed;
 
         // ensure changed gravity values are returned
         _rb.gravityScale = _initialGravityScale;
         _rb.drag = _initialDrag;
+        _movement.SetVelocityY(_data.DashEndYMultiplier * _rb.velocity.y);
     }
 
     public override void FixedUpdate()
@@ -146,10 +147,22 @@ public class PlayerDashState : State
         UseDash();
     }
 
+    private void OnAttackPressed()
+    {
+        if (!_data.AllowAttack) { return; }
+
+        if (!_groundDetector.IsGrounded)
+        {
+            _stateMachine.ChangeState(_stateMachine.AirAttackState);
+        }
+        else
+        {
+            _stateMachine.ChangeState(_stateMachine.GroundAttackState);
+        }
+    }
+
     private void UseDash()
     {
-        //Time.timeScale = 1;
-        //Time.fixedDeltaTime = _initialFixedDeltaTime;
         _rb.gravityScale = _initialGravityScale;
 
         _isDashing = true;

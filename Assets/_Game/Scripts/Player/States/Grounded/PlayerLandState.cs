@@ -10,6 +10,7 @@ public class PlayerLandState : PlayerGroundedSuperState
     GameplayInput _input;
     PlayerData _data;
     PlayerSFXData _sfx;
+    DashSystem _dashSystem;
 
     public PlayerLandState(PlayerFSM stateMachine, Player player) : base(stateMachine, player)
     {
@@ -19,6 +20,7 @@ public class PlayerLandState : PlayerGroundedSuperState
         _input = player.Input;
         _data = player.Data;
         _sfx = player.SFX;
+        _dashSystem = player.DashSystem;
     }
 
     public override void Enter()
@@ -27,6 +29,7 @@ public class PlayerLandState : PlayerGroundedSuperState
         base.Enter();
 
         _player.ResetJumps();
+        _dashSystem.ReadyDash();
 
         _sfx.LandSFX.PlayOneShot(_player.transform.position);
     }
