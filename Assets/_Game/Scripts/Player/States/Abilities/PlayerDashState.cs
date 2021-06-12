@@ -57,7 +57,7 @@ public class PlayerDashState : State
         _initialDrag = _rb.drag;
         _initialGravityScale = _rb.gravityScale;
 
-        _dashSystem.ShowDashReadyVisual(false);
+        _dashSystem.UseDash();
         StartHold();
     }
 
@@ -113,7 +113,7 @@ public class PlayerDashState : State
 
         if(!_isDashing && _holdTimer >= _data.MaxHoldTime)
         {
-            UseDash();
+            DashInDirection();
         }
         else if(_isDashing && _dashTimer >= _data.DashDuration)
         {
@@ -144,7 +144,7 @@ public class PlayerDashState : State
 
     private void OnDashInputReleased()
     {
-        UseDash();
+        DashInDirection();
     }
 
     private void OnAttackPressed()
@@ -161,7 +161,7 @@ public class PlayerDashState : State
         }
     }
 
-    private void UseDash()
+    private void DashInDirection()
     {
         _rb.gravityScale = _initialGravityScale;
 
@@ -182,7 +182,6 @@ public class PlayerDashState : State
 
     private void CompleteDash()
     {
-        _dashSystem.StartCooldown(_data.DashCooldown);
         _rb.drag = _initialDrag;
         _movement.SetVelocityY(_data.DashEndYMultiplier * _rb.velocity.y);
 

@@ -17,52 +17,31 @@ public class DashSystem : MonoBehaviour
     [SerializeField] 
     private PlayerAfterImagePool _afterImagePool;
 
-    private Coroutine _cooldownRoutine;
-
-    private bool _canDash = true;
+    private bool _isReady = true;
 
     public PlayerAfterImagePool AfterImagePool => _afterImagePool;
-    public bool CanDash => _canDash;
+    public bool CanDash => _isReady && _data.AllowDash;
 
     private void Awake()
     {
         ShowDashReadyVisual(true);
     }
 
-    public void StartCooldown(float duration)
-    {
-        if (_cooldownRoutine != null)
-            StopCoroutine(_cooldownRoutine);
-        _cooldownRoutine = StartCoroutine(CooldownRoutine(duration));
-    }
-
-    public void StopCooldown()
-    {
-        if (_cooldownRoutine != null)
-            StopCoroutine(_cooldownRoutine);
-        _canDash = true;
-    }
-
-    private IEnumerator CooldownRoutine(float duration)
-    {
-        _canDash = false;
-        ShowDashReadyVisual(false);
-
-        yield return new WaitForSeconds(duration);
-
-        ReadyDash();
-    }
-
-    public void ShowDashReadyVisual(bool isActive)
-    {
-        _dashCooldownVisual.SetActive(isActive);
-    }
-
     public void ReadyDash()
     {
-        if (_cooldownRoutine != null)
-            StopCoroutine(_cooldownRoutine);
-        _canDash = true;
+        _isReady = true;
         ShowDashReadyVisual(true);
+    }
+
+
+    public void UseDash()
+    {
+        _isReady = false;
+        ShowDashReadyVisual(false);
+    }
+
+    private void ShowDashReadyVisual(bool isActive)
+    {
+        _dashCooldownVisual.SetActive(isActive);
     }
 }
