@@ -120,7 +120,7 @@ public class PlayerWallJumpState : State
 
     private void OnDashPressed()
     {
-        if (_dashSystem.CanDash)
+        if (_dashSystem.IsReady)
         {
             _stateMachine.ChangeState(_stateMachine.DashState);
         }

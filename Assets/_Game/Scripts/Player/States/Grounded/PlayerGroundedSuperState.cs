@@ -81,7 +81,7 @@ public class PlayerGroundedSuperState : State
     private void OnDashPressed()
     {
         _ceilingDetector.DetectCeiling();
-        if (_dashSystem.CanDash && !_ceilingDetector.IsTouchingCeiling)
+        if (_dashSystem.IsReady && !_ceilingDetector.IsTouchingCeiling)
         {
             _stateMachine.ChangeState(_stateMachine.DashState);
         }

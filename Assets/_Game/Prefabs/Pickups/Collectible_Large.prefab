@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3164852501795749342}
   - component: {fileID: 3164852501795749337}
-  - component: {fileID: 3164852501795749336}
+  - component: {fileID: 8090016382701968462}
   m_Layer: 0
   m_Name: Collectible_Large
   m_TagString: Untagged
@@ -49,7 +49,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.75
---- !u!114 &3164852501795749336
+--- !u!114 &8090016382701968462
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -58,11 +58,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3164852501795749343}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff3d47aa46702e64c8ee4f1622ef78d0, type: 3}
+  m_Script: {fileID: 11500000, guid: 505a9397a32f0c34e92018a7902b87ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _pickupSFX: {fileID: 11400000, guid: 92cf261e72f53e14aa6d0e5aded08873, type: 2}
   _particlePrefab: {fileID: 2010415367784037018, guid: 1bf67136a26c0da419c918f18c29d45b, type: 3}
+  _collectibleIncreaseAmount: 5
 --- !u!1 &3164852501879126503
 GameObject:
   m_ObjectHideFlags: 0

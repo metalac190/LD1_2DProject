@@ -12,15 +12,13 @@ public class DashSystem : MonoBehaviour
 {
     [SerializeField]
     private GameObject _dashCooldownVisual;
-    [SerializeField]
-    private PlayerData _data;
     [SerializeField] 
     private PlayerAfterImagePool _afterImagePool;
 
     private bool _isReady = true;
 
     public PlayerAfterImagePool AfterImagePool => _afterImagePool;
-    public bool CanDash => _isReady && _data.AllowDash;
+    public bool IsReady => _isReady;
 
     private void Awake()
     {

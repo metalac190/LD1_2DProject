@@ -10,6 +10,8 @@ public class Health : MonoBehaviour, IDamageable
     public UnityEvent<int> Damaged;
     public UnityEvent Died;
 
+    public event Action<int> HealthChanged;
+
     [Header("Health")]
     [SerializeField] 
     private int _healthMax = 50;
@@ -35,6 +37,10 @@ public class Health : MonoBehaviour, IDamageable
         set
         {
             value = Mathf.Clamp(value, 0, _healthMax);
+            if(value != _healthCurrent)
+            {
+                HealthChanged?.Invoke(value);
+            }
             _healthCurrent = value;
         }
     }

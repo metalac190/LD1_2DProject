@@ -181,7 +181,7 @@ public class PlayerAirAttackState : State
 
     private void OnDashPressed()
     {
-        if (_data.AllowDash && _dashSystem.CanDash)
+        if (_data.AllowDash && _dashSystem.IsReady)
         {
             _stateMachine.ChangeState(_stateMachine.DashState);
             return;

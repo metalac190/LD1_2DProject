@@ -95,7 +95,7 @@ public class PlayerWallSuperState : State
 
     private void OnDashPressed()
     {
-        if (_dashSystem.CanDash && _data.AllowDash)
+        if (_dashSystem.IsReady && _data.AllowDash)
         {
             _stateMachine.ChangeState(_stateMachine.DashState);
         }

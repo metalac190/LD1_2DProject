@@ -7,7 +7,7 @@ using SoundSystem;
 public abstract class Pickup : MonoBehaviour
 {
     // this is our template method. Subclasses must implement
-    protected abstract void OnPickup(GameObject collector);
+    protected abstract void OnPickup(Player player);
 
     [Header("Feedback")]
     [SerializeField] SFXOneShot _pickupSFX = null;
@@ -24,10 +24,12 @@ public abstract class Pickup : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // guard clause
-        GameObject collector = other.gameObject;
+        Player player = other.gameObject.GetComponent<Player>();
+        if (player == null)
+            return;
     
         // found the player! call our abstract method and supporting feedback
-        OnPickup(collector);
+        OnPickup(player);
 
         if (_pickupSFX != null)
         {

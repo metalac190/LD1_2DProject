@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     private PlayerSFXData _playerSFX;
     [SerializeField]
     private PlayerVisuals _visuals;
+    [SerializeField]
+    private Health _health;
 
     [Header("Ability Systems")]
     [SerializeField]
@@ -37,10 +39,13 @@ public class Player : MonoBehaviour
     public BoxCollider2D BoxCollider => _boxCollider;
     public PlayerSFXData SFX => _playerSFX;
     public PlayerVisuals Visuals => _visuals;
+    public Health Health => _health;
 
     public WeaponSystem WeaponSystem => _weaponSystem;
     public DashSystem DashSystem => _dashSystem;
     public PlayerAiming PlayerAiming => _playerAiming;
+
+    public Inventory Inventory { get; private set; } = new Inventory();
 
     public Vector2 AimDirection { get; private set; }
 
