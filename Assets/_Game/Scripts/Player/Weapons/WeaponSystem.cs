@@ -17,7 +17,8 @@ public class WeaponSystem : MonoBehaviour
     private SpriteRenderer _weaponRenderer;
     [SerializeField]
     private WeaponData _equippedWeapon;
-    
+    [SerializeField]
+    private WeaponAnimator _weaponAnimator;
 
     public WeaponData EquippedWeapon => _equippedWeapon;
     public MeleeAttack CurrentMeleeAttack { get; private set; }
@@ -45,7 +46,6 @@ public class WeaponSystem : MonoBehaviour
             AttackCount++;
 
         CurrentMeleeAttack = meleeAttack;
-        LoadAttackVisual(meleeAttack);
 
         if (_attackRoutine != null)
             StopCoroutine(_attackRoutine);
@@ -57,18 +57,21 @@ public class WeaponSystem : MonoBehaviour
     {
         if(AttackCount == EquippedWeapon.MaxComboCount)
         {
-            _weaponRenderer.sprite = meleeAttack.SpritePrimary;
+            _weaponAnimator.Play(WeaponAnimator.GroundSwingFinisherName);
+            //_weaponRenderer.sprite = meleeAttack.SpritePrimary;
             Debug.Log("Sprite Finisher");
         }
         // otherwise, alternate hit sprites
         else if(AttackCount % 2 == 0)
         {
-            _weaponRenderer.sprite = meleeAttack.SpriteSecondary;
+            _weaponAnimator.Play(WeaponAnimator.GroundSwing02Name);
+            //_weaponRenderer.sprite = meleeAttack.SpriteSecondary;
             Debug.Log("Sprite Secondary");
         }
         else
         {
-            _weaponRenderer.sprite = meleeAttack.SpritePrimary;
+            _weaponAnimator.Play(WeaponAnimator.GroundSwing01Name);
+            //_weaponRenderer.sprite = meleeAttack.SpritePrimary;
             Debug.Log("Sprite Primary");
         }
     }
@@ -78,6 +81,7 @@ public class WeaponSystem : MonoBehaviour
         if (_attackRoutine != null)
             StopCoroutine(_attackRoutine);
         ActivateCollision(false);
+        _weaponAnimator.Stop();
         MeleeAttackState = MeleeAttackState.NotAttacking;
     }
 
@@ -110,12 +114,14 @@ public class WeaponSystem : MonoBehaviour
         AttackActivated?.Invoke(EquippedWeapon);
         //TODO: check/deal damage here
         ActivateCollision(true);
+        LoadAttackVisual(CurrentMeleeAttack);
         sfx.PlayOneShot(transform.position);
         yield return new WaitForSeconds(activeDuration);
         ActivateCollision(false);
         AttackDeactivated?.Invoke();
 
         MeleeAttackState = MeleeAttackState.AfterAttack;
+        _weaponAnimator.Stop();
         //TODO: this could be a window for followup/combo attacks
         yield return new WaitForSeconds(endDelay);
 

@@ -16,9 +16,9 @@ public class DamageFlash
     private SpriteRenderer _renderer;
     private Health _health;
 
-    private Color _flashColor = Color.red;
-    private float _flashInDuration = .05f;
-    private float _flashHoldDuration = .15f;
+    private Color _flashColor = Color.white;
+    private float _flashInDuration = .02f;
+    private float _flashHoldDuration = .1f;
     private float _flashOutDuration = .1f;
 
     Color _startingColor;
