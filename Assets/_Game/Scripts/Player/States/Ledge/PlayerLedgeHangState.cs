@@ -11,6 +11,7 @@ public class PlayerLedgeHangState : State
     PlayerData _data;
     GameplayInput _input;
     LedgeDetector _ledgeDetector;
+    DashSystem _dashSystem;
     PlayerAnimator _playerAnimator;
     PlayerSFXData _sfx;
     PlayerVisuals _visuals;
@@ -29,6 +30,7 @@ public class PlayerLedgeHangState : State
         _data = player.Data;
         _input = player.Input;
         _ledgeDetector = player.Actor.CollisionDetector.LedgeDetector;
+        _dashSystem = player.DashSystem;
         _playerAnimator = player.PlayerAnimator;
         _sfx = player.SFX;
         _visuals = player.Visuals;
@@ -52,6 +54,8 @@ public class PlayerLedgeHangState : State
         _movement.HoldPosition(_hangPosition);
 
         _sfx.LedgeCatchSFX.PlayOneShot(_player.transform.position);
+        // consider 'ledge' to be grounded for dash reset
+        _dashSystem.ReadyDash();
     }
 
     public override void Exit()

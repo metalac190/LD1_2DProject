@@ -79,7 +79,7 @@ public class PlayerFallingState : State
         _movement.SetVelocityX(_input.XInputRaw * _data.MoveSpeed);
 
         // check for ledge grab - prioritze over wall grab
-        if (_ledgeDetector.IsDetectingUpperLedge)
+        if (_ledgeDetector.IsDetectingUpperLedge && _data.AllowLedgeHang)
         {
             _stateMachine.ChangeState(_stateMachine.LedgeHangState);
             return;

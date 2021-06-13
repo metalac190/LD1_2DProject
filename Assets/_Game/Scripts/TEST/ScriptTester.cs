@@ -6,14 +6,18 @@ using UnityEngine.InputSystem;
 public class ScriptTester : MonoBehaviour
 {
     [SerializeField]
-    private Movement _movement;
+    private MovingPlatform _platform;
 
     void Update()
     {
         // on q press
         if (Keyboard.current.qKey.wasPressedThisFrame)
         {
-            //
+            //_platform.Activate();
+        }
+        if (Keyboard.current.wKey.wasPressedThisFrame)
+        {
+            //_platform.Stop();
         }
     }
 }

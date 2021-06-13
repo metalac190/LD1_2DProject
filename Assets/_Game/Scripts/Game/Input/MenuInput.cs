@@ -30,22 +30,22 @@ public class MenuInput : MonoBehaviour
 
     public void OnClose(InputAction.CallbackContext context)
     {
-        Debug.Log("Input: Close");
+        //Debug.Log("Input: Close");
     }
 
     public void OnCancel(InputAction.CallbackContext context)
     {
-        Debug.Log("Input: Cancel");
+        //Debug.Log("Input: Cancel");
     }
 
     public void OnSubmit(InputAction.CallbackContext context)
     {
-        Debug.Log("Input: Submit");
+        //Debug.Log("Input: Submit");
     }
 
     public void OnNavigate(InputAction.CallbackContext context)
     {
-        Debug.Log("Input: Navigate");
+        //Debug.Log("Input: Navigate");
     }
 
     public void OnPoint(InputAction.CallbackContext context)
