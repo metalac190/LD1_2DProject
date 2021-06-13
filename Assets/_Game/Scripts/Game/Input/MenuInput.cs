@@ -50,6 +50,6 @@ public class MenuInput : MonoBehaviour
 
     public void OnPoint(InputAction.CallbackContext context)
     {
-        Debug.Log("Input: Point");
+        //Debug.Log("Input: Point");
     }
 }

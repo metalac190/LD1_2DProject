@@ -13,6 +13,8 @@ public class PlayerHUD : MonoBehaviour
     private TextMeshProUGUI _collectibleTextGUI;
     [SerializeField]
     private TextMeshProUGUI _keysTextGUI;
+    [SerializeField]
+    private TextMeshProUGUI _artifactsTextGUI;
 
     private Health _health;
     private Inventory _inventory;
@@ -23,22 +25,24 @@ public class PlayerHUD : MonoBehaviour
         _inventory = _player.Inventory;
 
         _healthBarGUI.SetScale(_health.HealthCurrent, _health.HealthMax);
-        _collectibleTextGUI.text = _inventory.Collectibles.ToString();
+        _collectibleTextGUI.text = _inventory.Fragments.ToString();
         _keysTextGUI.text = _inventory.Keys.ToString();
     }
 
     private void OnEnable()
     {
         _health.HealthChanged += OnChangedHealth;
-        _inventory.CollectiblesChanged += OnCollectiblesChanged;
+        _inventory.FragmentsChanged += OnFragmentsChanged;
         _inventory.KeysChanged += OnKeysChanged;
+        _inventory.ArtifactsChanged += OnArtifactsChanged;
     }
 
     private void OnDisable()
     {
         _health.HealthChanged -= OnChangedHealth;
-        _inventory.CollectiblesChanged += OnCollectiblesChanged;
+        _inventory.FragmentsChanged -= OnFragmentsChanged;
         _inventory.KeysChanged -= OnKeysChanged;
+        _inventory.ArtifactsChanged -= OnArtifactsChanged;
     }
 
     private void OnChangedHealth(int newHealth)
@@ -46,7 +50,7 @@ public class PlayerHUD : MonoBehaviour
         _healthBarGUI.SetScale(newHealth, _health.HealthMax);
     }
 
-    private void OnCollectiblesChanged(int newCollectibles)
+    private void OnFragmentsChanged(int newCollectibles)
     {
         _collectibleTextGUI.text = newCollectibles.ToString();
     }
@@ -54,5 +58,10 @@ public class PlayerHUD : MonoBehaviour
     private void OnKeysChanged(int newKeysAmount)
     {
         _keysTextGUI.text = newKeysAmount.ToString();
+    }
+
+    private void OnArtifactsChanged(int newArtifactAmount)
+    {
+        _artifactsTextGUI.text = newArtifactAmount.ToString();
     }
 }

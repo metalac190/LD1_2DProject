@@ -112,7 +112,7 @@ public class PlayerWallJumpState : State
             _stateMachine.ChangeState(_stateMachine.WallJumpState);
         }
         // otherwise, if we have remaining air jumps, use that
-        else if(_player.AirJumpsRemaining >= 0)
+        else if(_player.AirJumpsRemaining > 0)
         {
             _stateMachine.ChangeState(_stateMachine.AirJumpState);
         }

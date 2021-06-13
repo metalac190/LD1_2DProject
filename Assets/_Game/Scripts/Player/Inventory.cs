@@ -5,22 +5,23 @@ using System;
 
 public class Inventory
 {
-    public event Action<int> CollectiblesChanged;
+    public event Action<int> FragmentsChanged;
+    public event Action<int> ArtifactsChanged;
     public event Action<int> KeysChanged;
 
-    public const int _collectibleMax = 9999;
-    private int _collectibles = 0;
-    public int Collectibles 
+    public const int _fragmentsMax = 9999;
+    private int _fragments = 0;
+    public int Fragments 
     {
-        get => _collectibles;
+        get => _fragments;
         set
         {
-            value = Mathf.Clamp(value, 0, _collectibleMax);
-            if(value != _collectibles)
+            value = Mathf.Clamp(value, 0, _fragmentsMax);
+            if(value != _fragments)
             {
-                CollectiblesChanged?.Invoke(value);
+                FragmentsChanged?.Invoke(value);
             }
-            _collectibles = value;
+            _fragments = value;
         }
     }
 
@@ -37,6 +38,22 @@ public class Inventory
                 KeysChanged?.Invoke(value);
             }
             _keys = value;
+        }
+    }
+
+    public const int _artifactsMax = 999;
+    private int _artifacts = 0;
+    public int Artifacts
+    {
+        get => _artifacts;
+        set
+        {
+            value = Mathf.Clamp(value, 0, _artifactsMax);
+            if (value != _artifacts)
+            {
+                ArtifactsChanged?.Invoke(value);
+            }
+            _artifacts = value;
         }
     }
 }

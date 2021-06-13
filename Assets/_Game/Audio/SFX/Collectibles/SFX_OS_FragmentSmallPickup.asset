@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b9f54e29ada10f4eb324eb547417a3b, type: 3}
-  m_Name: SFX_OS_CollectibleSmallPickup
+  m_Name: SFX_OS_FragmentSmallPickup
   m_EditorClassIdentifier: 
   _possibleClips:
   - {fileID: 8300000, guid: 5b0b8477049f98f48bf043d43c03428f, type: 3}

@@ -9,7 +9,10 @@ using UnityEngine.UI;
 /// </summary>
 public class SimpleFillBar : MonoBehaviour
 {
-    [SerializeField] Image _fillImageUI;
+    [SerializeField] 
+    private Image _fillImageUI;
+    [SerializeField]
+    private bool _animateDamage = true;
 
     public void SetScale(float newAmount, float maxAmount)
     {

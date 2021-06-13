@@ -10,6 +10,6 @@ public class CollectiblePickup : Pickup
     protected override void OnPickup(Player collector)
     {
         Debug.Log("Small Collectible");
-        collector.Inventory.Collectibles += _collectibleIncreaseAmount;
+        collector.Inventory.Fragments += _collectibleIncreaseAmount;
     }
 }
