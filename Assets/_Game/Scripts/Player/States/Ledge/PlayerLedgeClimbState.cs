@@ -45,21 +45,23 @@ public class PlayerLedgeClimbState : State
         CalculateClimbPositions();
         CheckForCeiling();
         // set initial player position
-        _movement.MovePositionInstant(_hangPosition);
-        _movement.HoldPosition(_hangPosition);
-
+        //_movement.MovePositionInstant(_hangPosition);
+        //_movement.HoldPosition(_hangPosition);
+        _movement.SetVelocityZero();
+        _movement.SetGravityScale(0);
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        _movement.SetGravityScale(1);
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
 
-        _movement.HoldPosition(_hangPosition);
         if (_finishClimb)
         {
             FinishClimb();
@@ -80,8 +82,7 @@ public class PlayerLedgeClimbState : State
     private void FinishClimb()
     {
         _movement.MovePositionInstant(_stopClimbPos);
-
-        _movement.HoldPosition(_stopClimbPos);
+        _movement.SetVelocityZero();
 
         if (_isTouchingCeiling)
         {

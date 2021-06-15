@@ -46,7 +46,8 @@ public class PlayerWallJumpState : State
         //_player.DecreaseAirJumpsRemaining();
         Debug.Log("Remaining Jumps: " + _player.AirJumpsRemaining);
         // reverse direction
-        _movement.SetVelocity(_data.WallJumpVelocity, _data.WallJumpAngle, -_movement.FacingDirection);
+        _movement.Flip();
+        _movement.Move(_data.WallJumpVelocity, _data.WallJumpAngle, _movement.FacingDirection);
 
         _sfx.JumpSFX?.PlayOneShot(_player.transform.position);
     }
@@ -82,9 +83,12 @@ public class PlayerWallJumpState : State
         // if movement is now allowed, adjust player 
         if (_isMoveInputAllowed)
         {
-            _movement.SetVelocityX(_input.XInputRaw * _data.MoveSpeed * _data.WallJumpMovementDampener);
+            _movement.MoveX(_input.XInputRaw * _data.MoveSpeed * _data.WallJumpMovementDampener);
         }
-        
+        else
+        {
+            _movement.MoveX(_data.MoveSpeed * _movement.FacingDirection);
+        }
     }
 
     public override void Update()

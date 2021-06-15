@@ -37,7 +37,8 @@ public class PlayerMoveState : PlayerGroundedSuperState
     {
         base.FixedUpdate();
 
-        _movement.SetVelocityX(_data.MoveSpeed * _input.XInputRaw);
+        //_movement.SetVelocityX(_data.MoveSpeed * _input.XInputRaw);
+        _movement.MoveX(_data.MoveSpeed * _input.XInputRaw);
     }
 
     public override void Update()

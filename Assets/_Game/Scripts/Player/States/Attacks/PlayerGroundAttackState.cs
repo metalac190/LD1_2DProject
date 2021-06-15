@@ -72,20 +72,21 @@ public class PlayerGroundAttackState : State
             if(_input.XInputRaw == _movement.FacingDirection)
             {
                 //TODO: Consider if this can be a force with momentum, once we have that capability
-                _movement.SetVelocityX((_weaponSystem.CurrentMeleeAttack.ForwardAmount * _movement.FacingDirection)
-                    + (_movement.FacingDirection * _data.MoveSpeed 
+                _movement.MoveX((_weaponSystem.CurrentMeleeAttack.ForwardAmount 
+                    * _movement.FacingDirection) + (_movement.FacingDirection * _data.MoveSpeed 
                     * _weaponSystem.CurrentMeleeAttack.MovementReductionRatio));
             }
             // otherwise just use forward amount
             else
             {
-                _movement.SetVelocityX((_weaponSystem.CurrentMeleeAttack.ForwardAmount * _movement.FacingDirection));
+                _movement.MoveX((_weaponSystem.CurrentMeleeAttack.ForwardAmount 
+                    * _movement.FacingDirection));
             }
         }
         // otherwise no xinput, so don't move in x
         else
         {
-            _movement.SetVelocityX(0);
+            _movement.MoveX(0);
         }
     }
 

@@ -9,7 +9,6 @@ public class PlayerDashState : State
 
     private Movement _movement;
     private PlayerData _data;
-    private Rigidbody2D _rb;
     private DashSystem _dashSystem;
     private GameplayInput _input;
     private GroundDetector _groundDetector;
@@ -33,7 +32,6 @@ public class PlayerDashState : State
 
         _movement = player.Actor.Movement;
         _data = player.Data;
-        _rb = player.Actor.Movement.RB;
         _dashSystem = player.DashSystem;
         _input = player.Input;
         _groundDetector = player.Actor.CollisionDetector.GroundDetector;
@@ -54,10 +52,9 @@ public class PlayerDashState : State
         _isDashing = false;
         _holdTimer = 0;
         _dashTimer = 0;
-        _initialDrag = _rb.drag;
-        _initialGravityScale = _rb.gravityScale;
 
         _dashSystem.UseDash();
+
         StartHold();
     }
 
@@ -68,10 +65,11 @@ public class PlayerDashState : State
         _input.DashReleased -= OnDashInputReleased;
         _input.AttackPressed -= OnAttackPressed;
 
-        // ensure changed gravity values are returned
-        _rb.gravityScale = _initialGravityScale;
-        _rb.drag = _initialDrag;
-        _movement.SetVelocityY(_data.DashEndYMultiplier * _rb.velocity.y);
+        // ensure changed movement and gravity values are returned
+        //_movement.SetVelocity(_data.MoveSpeed * _input.XInputRaw * _data.DashEndScale, 0);
+        _movement.SetVelocityZero();
+        _movement.SetGravityScale(1);
+        Debug.Log("Exit: " + _movement.Velocity);
     }
 
     public override void FixedUpdate()
@@ -82,14 +80,13 @@ public class PlayerDashState : State
         // if we're prepping the dash, minimize movement with our hold dash dampener - y is still handled by gravity
         if (!_isDashing)
         {
-            _movement.SetVelocityX(_input.XInputRaw * _data.MoveSpeed * _data.DashHoldMovementDampener);
+            _movement.MoveX(_input.XInputRaw * _data.MoveSpeed * _data.DashHoldMovementScale);
         }
         // otherwise use dash values
         else if (_isDashing)
         {
-            _movement.SetVelocity(_dashDirection.x * _data.DashVelocity, _dashDirection.y * _data.DashVelocity);
+            _movement.Move(_dashDirection * _data.DashVelocity);
             CheckAfterImageSpawn();
-
         }
     }
 
@@ -135,7 +132,7 @@ public class PlayerDashState : State
 
     private void StartHold()
     {
-        _rb.gravityScale = _rb.gravityScale * _data.DashHoldMovementDampener;
+        _movement.SetGravityScale(_data.DashHoldMovementScale);
         // kill current velocity
         _movement.SetVelocityZero();
 
@@ -163,17 +160,15 @@ public class PlayerDashState : State
 
     private void DashInDirection()
     {
-        _rb.gravityScale = _initialGravityScale;
-
         _isDashing = true;
         _dashDirection = _input.MoveInput;
         // ensure we still dash, even without input
+        //TODO: consider... if there's no input, should we instead do a spot dodge or parry?
         if(_dashDirection == Vector2.zero)
         {
             _dashDirection = new Vector2(_movement.FacingDirection, 0);
         }
-
-        _rb.drag = _data.DashDrag;
+        _movement.SetGravityScale(_data.DashingGravityScale);
 
         _lastAfterImage = _afterImagePool.PlaceAfterImage(_player);
 
@@ -182,9 +177,6 @@ public class PlayerDashState : State
 
     private void CompleteDash()
     {
-        _rb.drag = _initialDrag;
-        _movement.SetVelocityY(_data.DashEndYMultiplier * _rb.velocity.y);
-
         // completed dash. Decide where to transition from here
         if (_groundDetector.IsGrounded && _input.XInputRaw != 0)
         {

@@ -38,7 +38,7 @@ public class PlayerJumpState : State
         _input.DashPressed += OnDashPressed;
         _input.AttackPressed += OnAttackPressed;
 
-        _movement.SetVelocityY(_data.JumpVelocity);
+        _movement.MoveY(_data.JumpVelocity);
 
         _sfx.JumpSFX?.PlayOneShot(_player.transform.position);
     }
@@ -64,7 +64,7 @@ public class PlayerJumpState : State
             _stateMachine.ChangeState(_stateMachine.FallingState);
         }
 
-        _movement.SetVelocityX(_input.XInputRaw * _data.MoveSpeed);
+        _movement.MoveX(_input.XInputRaw * _data.MoveSpeed);
     }
 
     public override void Update()
@@ -76,7 +76,7 @@ public class PlayerJumpState : State
 
     private void OnAttackPressed()
     {
-        _movement.SetVelocityY(_movement.Velocity.y * _data.AirAttackVelocityYDampen);
+        _movement.MoveY(_movement.Velocity.y * _data.AirAttackVelocityYDampen);
         _stateMachine.ChangeState(_stateMachine.AirAttackState);
     }
 
@@ -91,7 +91,7 @@ public class PlayerJumpState : State
     private void OnJumpReleased()
     {
         // cut the jump short on release
-        _movement.SetVelocityY(_movement.Velocity.y * _data.ShortJumpHeightScale);
+        _movement.MoveY(_movement.Velocity.y * _data.ShortJumpHeightScale);
     }
 
     private void OnDashPressed()

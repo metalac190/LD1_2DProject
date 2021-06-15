@@ -40,14 +40,17 @@ public class PlayerAirAttackState : State
         Debug.Log("STATE: Air Attack");
 
         _weaponSystem.AttackCompleted += OnAttackCompleted;
+        _weaponSystem.AttackDeactivated += OnAttackDeactivated;
         _input.JumpPressed += OnJumpPressed;
         _input.DashPressed += OnDashPressed;
         _input.AttackPressed += OnAttackPressed;
         _groundDetector.FoundGround += OnFoundGround;
         _weaponSystem.HitDamageable += OnHitDamageable;
 
-
         _hitDamageable = false;
+        // start at normal fall speed
+        _movement.SetGravityScale(1);
+
         _isInitialAttack = true;
         Attack();
         _isInitialAttack = false;
@@ -58,11 +61,15 @@ public class PlayerAirAttackState : State
         base.Exit();
 
         _weaponSystem.AttackCompleted -= OnAttackCompleted;
+        _weaponSystem.AttackDeactivated -= OnAttackDeactivated;
         _input.JumpPressed -= OnJumpPressed;
         _input.DashPressed -= OnDashPressed;
         _input.AttackPressed -= OnAttackPressed;
         _groundDetector.FoundGround -= OnFoundGround;
         _weaponSystem.HitDamageable -= OnHitDamageable;
+
+        // resume
+        _movement.SetGravityScale(1);
 
         _weaponSystem.StopAttack();
     }
@@ -81,23 +88,21 @@ public class PlayerAirAttackState : State
             if(_input.XInputRaw == _movement.FacingDirection)
             {
                 // forward but disable falling
-                _movement.SetVelocity((_weaponSystem.CurrentMeleeAttack.ForwardAmount * _movement.FacingDirection)
-                    + (_movement.FacingDirection * _data.MoveSpeed) 
-                    * _weaponSystem.CurrentMeleeAttack.MovementReductionRatio, 
-                    0);
+                _movement.MoveX((_weaponSystem.CurrentMeleeAttack.ForwardAmount 
+                    * _movement.FacingDirection) + (_movement.FacingDirection * _data.MoveSpeed) 
+                    * _weaponSystem.CurrentMeleeAttack.MovementReductionRatio);
             }
             else
             {
-                _movement.SetVelocity((_weaponSystem.CurrentMeleeAttack.ForwardAmount 
-                    * _movement.FacingDirection),
-                    0);
+                _movement.MoveX((_weaponSystem.CurrentMeleeAttack.ForwardAmount 
+                    * _movement.FacingDirection));
             }
 
         }
         // otherwise just move according to input
         else
         {
-            _movement.SetVelocityX(_input.XInputRaw * _data.MoveSpeed);
+            _movement.MoveX(_input.XInputRaw * _data.MoveSpeed);
         }
     }
 
@@ -135,7 +140,6 @@ public class PlayerAirAttackState : State
 
         _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.AirAttack, 
             _weaponSystem.EquippedWeapon.HitSFX, _isInitialAttack);
-        Debug.Log("Air Attack: " + _weaponSystem.AttackCount);
     }
 
     private void FinisherAttack()
@@ -145,7 +149,6 @@ public class PlayerAirAttackState : State
 
         _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.AirFinisher,
             _weaponSystem.EquippedWeapon.FinisherSFX, _isInitialAttack);
-        Debug.Log("Air Finisher: " + _weaponSystem.AttackCount);
         _isInitialAttack = true;
     }
 
@@ -154,11 +157,18 @@ public class PlayerAirAttackState : State
         _hitDamageable = true;
         // if we've hit something, reset air dash
         _dashSystem.ReadyDash();
+        _movement.SetGravityScale(0);
+        _movement.SetVelocityZero();
     }
 
     private void OnAttackCompleted()
     {
         _stateMachine.ChangeState(_stateMachine.FallingState);
+    }
+
+    private void OnAttackDeactivated()
+    {
+        _movement.SetGravityScale(1);
     }
 
     private void OnAttackPressed()

@@ -6,6 +6,8 @@ using SoundSystem;
 public class BounceZone : MonoBehaviour
 {
     [SerializeField]
+    private Vector2 _bounceDirection = new Vector2(0, 1);
+    [SerializeField]
     private float _bounceAmount = 20;
     [SerializeField]
     private SFXOneShot _bounceSFX;
@@ -17,7 +19,8 @@ public class BounceZone : MonoBehaviour
         {
             player.DashSystem.ReadyDash();
 
-            player.Actor.Movement.SetVelocityY(_bounceAmount);
+            player.Actor.Movement.Move(_bounceDirection * _bounceAmount);
+
             _bounceSFX?.PlayOneShot(player.transform.position);
         }
     }

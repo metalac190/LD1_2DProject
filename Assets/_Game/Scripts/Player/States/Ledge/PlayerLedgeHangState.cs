@@ -51,11 +51,13 @@ public class PlayerLedgeHangState : State
         CalculateClimbPositions();
         // set initial player position
         _movement.MovePositionInstant(_hangPosition);
-        _movement.HoldPosition(_hangPosition);
+        _movement.SetVelocityZero();
 
         _sfx.LedgeCatchSFX.PlayOneShot(_player.transform.position);
         // consider 'ledge' to be grounded for dash reset
         _dashSystem.ReadyDash();
+
+        _movement.SetGravityScale(0);
     }
 
     public override void Exit()
@@ -66,13 +68,12 @@ public class PlayerLedgeHangState : State
         _input.MovementPressed -= OnMovementPressed;
 
         _visuals.LedgeHangVisual.SetActive(false);
+        _movement.SetGravityScale(1);
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-
-        _movement.HoldPosition(_hangPosition);
     }
 
     public override void Update()
@@ -95,8 +96,8 @@ public class PlayerLedgeHangState : State
             else
             {
                 // pause briefly so we don't insta-regrab
-                _ledgeDetector.Pause(.15f);
-                _movement.SetVelocityY(-_data.LedgeDropPushVelocity);
+                _ledgeDetector.Pause(.2f);
+                _movement.MoveY(-_data.LedgeDropPushVelocity);
                 // start falling
                 _stateMachine.ChangeState(_stateMachine.FallingState);
                 return;

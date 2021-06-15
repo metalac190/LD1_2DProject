@@ -13,39 +13,40 @@ MonoBehaviour:
   m_Name: PlayerMoveData
   m_EditorClassIdentifier: 
   _moveSpeed: 10
+  _gravityScale: 6
   _allowJump: 1
   _jumpVelocity: 28
   _shortJumpHeightScale: 0.5
   _jumpAfterFallDuration: 0.1
-  _amountOfAirJumps: 0
+  _amountOfAirJumps: 1
   _airJumpVelocity: 20
   _shortAirJumpHeightScale: 0.5
   _allowWallJump: 1
   _wallJumpVelocity: 28
   _wallJumpAngle: {x: 1, y: 1.75}
   _wallJumpMovementDampener: 0.5
-  _moveInputLockDuration: 0.35
+  _moveInputLockDuration: 0.4
   _wallJumpAfterFallDuration: 0.1
   _landDuration: 0.2
   _allowWallSlide: 1
   _wallSlideVelocity: 0.2
   _wallSlideAcceleration: 0.3
-  _allowWallGrab: 0
+  _allowWallGrab: 1
   _wallClimbVelocity: 5
-  _allowWallClimb: 0
+  _allowWallClimb: 1
+  _allowLedgeHang: 0
   _shouldAutoClimb: 0
   _ledgeClimbDuration: 0.2
   _ledgeDropPushVelocity: 10
-  _startClimbOffset: {x: 0.3, y: 2.5}
+  _startClimbOffset: {x: 0.5, y: 2.5}
   _stopClimbOffset: {x: 1, y: 0.4}
   _allowDash: 1
-  _dashCooldown: 0
   _maxHoldTime: 1
-  _dashHoldMovementDampener: 0.05
-  _dashDuration: 0.15
-  _dashVelocity: 60
-  _dashDrag: 10
-  _dashEndYMultiplier: 0.2
+  _dashHoldMovementScale: 0.2
+  _dashDuration: 0.2
+  _dashVelocity: 55
+  _dashingGravityScale: 0
+  _dashEndScale: 0.2
   _distanceBetweenAfterImages: 0.5
   _crouchMoveVelocity: 3
   _crouchColliderHeight: 0.8

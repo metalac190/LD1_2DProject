@@ -38,6 +38,7 @@ public class PlayerFallingState : State
     {
         base.Enter();
         Debug.Log("STATE: Falling");
+
         _input.JumpPressed += OnJumpPressed;
         _input.DashPressed += OnDashPressed;
         _input.AttackPressed += OnAttackPressed;
@@ -76,7 +77,7 @@ public class PlayerFallingState : State
         _wallDetector.DetectWall();
         _ledgeDetector.DetectUpperLedge();
 
-        _movement.SetVelocityX(_input.XInputRaw * _data.MoveSpeed);
+        _movement.MoveX(_input.XInputRaw * _data.MoveSpeed);
 
         // check for ledge grab - prioritze over wall grab
         if (_ledgeDetector.IsDetectingUpperLedge && _data.AllowLedgeHang)

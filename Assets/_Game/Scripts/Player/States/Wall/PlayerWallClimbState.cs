@@ -39,7 +39,7 @@ public class PlayerWallClimbState : PlayerWallSuperState
     {
         base.FixedUpdate();
 
-        _movement.SetVelocityY(_data.WallClimbVelocity);
+        _movement.MoveY(_data.WallClimbVelocity);
 
         if (_ledgeDetector.IsDetectingUpperLedge && _data.AllowLedgeHang)
         {

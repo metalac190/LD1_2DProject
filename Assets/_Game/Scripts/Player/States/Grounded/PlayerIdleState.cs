@@ -25,7 +25,7 @@ public class PlayerIdleState : PlayerGroundedSuperState
         base.Enter();
         Debug.Log("STATE: Idle");
 
-        _movement.SetVelocityX(0);
+        _movement.SetVelocityXZero();
     }
 
     public override void Exit()

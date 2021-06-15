@@ -8,6 +8,8 @@ public class PlayerData : ScriptableObject
     [Header("Movement")]
     [SerializeField]
     private float _moveSpeed = 10f;
+    [SerializeField]
+    private float _gravityScale = 6;
 
     [Header("Jumping")]
     [SerializeField]
@@ -80,18 +82,18 @@ public class PlayerData : ScriptableObject
     [SerializeField]
     private float _maxHoldTime = 1;
     [SerializeField][Range(0,1)][Tooltip("ratio by which movement is slowed compared to original")]
-    private float _dashHoldMovementDampener = .2f;
+    private float _dashHoldMovementScale = .2f;
     [SerializeField]
     private float _dashDuration = 0.1f;
     [SerializeField]
     private float _dashVelocity = 50;
-    [SerializeField]
+    [SerializeField][Range(0,1)]
     [Tooltip("makes the dash punchier, slows down while in air")]
-    private float _dashDrag = 10;
+    private float _dashingGravityScale = 0;
     [SerializeField]
     [Range(0, 1)]
     [Tooltip("clamps upward movement at end of jump")]
-    private float _dashEndYMultiplier = 0.2f;
+    private float _dashEndScale = 0.2f;
     [SerializeField]
     private float _distanceBetweenAfterImages = 0.5f;
 
@@ -113,6 +115,7 @@ public class PlayerData : ScriptableObject
     #region Getters
     // movement
     public float MoveSpeed => _moveSpeed;
+    public float GravityScale => _gravityScale;
     // jumping
     public bool AllowJump => _allowJump;
     public float JumpVelocity => _jumpVelocity;
@@ -148,11 +151,11 @@ public class PlayerData : ScriptableObject
     // dash
     public bool AllowDash => _allowDash;
     public float MaxHoldTime => _maxHoldTime;
-    public float DashHoldMovementDampener => _dashHoldMovementDampener;
+    public float DashHoldMovementScale => _dashHoldMovementScale;
     public float DashDuration => _dashDuration;
     public float DashVelocity => _dashVelocity;
-    public float DashDrag => _dashDrag;
-    public float DashEndYMultiplier => _dashEndYMultiplier;
+    public float DashingGravityScale => _dashingGravityScale;
+    public float DashEndScale => _dashEndScale;
     public float DistanceBetweenAfterImages => _distanceBetweenAfterImages;
     // crouching
     public float CrouchMoveVelocity => _crouchMoveVelocity;

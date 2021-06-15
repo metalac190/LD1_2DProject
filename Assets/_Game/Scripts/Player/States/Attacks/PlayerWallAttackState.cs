@@ -29,11 +29,13 @@ public class PlayerWallAttackState : State
         _weaponSystem.AttackCompleted += OnAttackCompleted;
 
         _startPos = _movement.Position;
-        _movement.HoldPosition(_startPos);
+        //_movement.HoldPosition(_startPos);
 
         _movement.Flip();
         _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.WallAttack, 
             _weaponSystem.EquippedWeapon.HitSFX, true);
+        _movement.SetVelocityZero();
+        _movement.SetGravityScale(0);
     }
 
     public override void Exit()
@@ -43,15 +45,18 @@ public class PlayerWallAttackState : State
         _weaponSystem.AttackCompleted -= OnAttackCompleted;
 
         _movement.Flip();
-        _movement.HoldPosition(_startPos);
+        //_movement.HoldPosition(_startPos);
         _weaponSystem.StopAttack();
+        _movement.SetVelocityZero();
+        _movement.SetGravityScale(1);
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
 
-        _movement.HoldPosition(_startPos);
+        //_movement.HoldPosition(_startPos);
+        _movement.SetVelocityZero();
     }
 
     public override void Update()

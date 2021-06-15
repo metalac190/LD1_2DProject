@@ -50,7 +50,7 @@ public class PlayerCrouchMoveState : PlayerGroundedSuperState
 
         base.FixedUpdate();
 
-        _movement.SetVelocityX(_data.CrouchMoveVelocity * _input.XInputRaw);
+        _movement.MoveX(_data.CrouchMoveVelocity * _input.XInputRaw);
         _ceilingDetector.DetectCeiling();
         // if we're not holding down and holding either direction
         // AND we're not touching the ceiling

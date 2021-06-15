@@ -36,7 +36,7 @@ public class PlayerAirJumpState : State
         _input.DashPressed += OnDashPressed;
 
         _player.DecreaseAirJumpsRemaining();
-        _movement.SetVelocityY(_data.AirJumpVelocity);
+        _movement.MoveY(_data.AirJumpVelocity);
 
         _sfx.AirJumpSFX?.PlayOneShot(_player.transform.position);
     }
@@ -62,7 +62,7 @@ public class PlayerAirJumpState : State
             return;
         }
 
-        _movement.SetVelocityX(_input.XInputRaw * _data.MoveSpeed);
+        _movement.MoveX(_input.XInputRaw * _data.MoveSpeed);
     }
 
     public override void Update()
@@ -78,7 +78,7 @@ public class PlayerAirJumpState : State
     private void OnJumpReleased()
     {
         // cut the jump short on release
-        _movement.SetVelocityY(_movement.Velocity.y * _data.ShortAirJumpHeightScale);
+        _movement.MoveY(_movement.Velocity.y * _data.ShortAirJumpHeightScale);
     }
 
     private void OnDashPressed()

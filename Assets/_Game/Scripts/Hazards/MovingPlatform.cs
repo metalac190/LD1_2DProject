@@ -79,7 +79,6 @@ public class MovingPlatform : MonoBehaviour
         {
             // this only counts time moving, to ensure we're counting properly
             _movingElapsedTime += Time.deltaTime;
-            Debug.Log("Moving Elapsed Time: " + _movingElapsedTime);
         }
     }
 
@@ -101,9 +100,7 @@ public class MovingPlatform : MonoBehaviour
                     Move(secondsUntilDestination);
                     break;
                 case MoveState.Paused:
-                    Debug.Log("Waiting...");
                     yield return new WaitForSeconds(_pauseDuration);
-                    Debug.Log("Move again");
                     _moveState = MoveState.Moving;
                     break;
             }
