@@ -27,6 +27,9 @@ public class DashSystem : MonoBehaviour
 
     public void ReadyDash()
     {
+        // if it's already ready, don't 'activate' it, it's an unnecessary call
+        if (_isReady) { return; }
+
         _isReady = true;
         ShowDashReadyVisual(true);
     }

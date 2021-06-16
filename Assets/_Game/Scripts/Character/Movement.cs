@@ -7,14 +7,13 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     [SerializeField]
+    private Collider2D _collider;
+    [SerializeField]
     private Rigidbody2D _rb;
-
     private float _gravityScale = 1;
 
     [SerializeField]
     private float _minGroundNormalY = 0.65f;
-
-    private Coroutine _inputLockRoutine;
 
     protected bool _isGrounded;
     protected Vector2 _groundNormal;
@@ -42,7 +41,7 @@ public class Movement : MonoBehaviour
     private void Awake()
     {
         _contactFilter.useTriggers = false;
-        _contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
+        _contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(_collider.gameObject.layer));
         _contactFilter.useLayerMask = true;
     }
 
@@ -52,11 +51,6 @@ public class Movement : MonoBehaviour
         _isGrounded = false;
 
         // gate for blocking new movement requests
-        if (IsInputLocked)
-        {
-            ClearRequestedMovement();
-        }
-
         CalculateXVelocity();
         CalculateYVelocity();
         CheckIfShouldFlip();
@@ -65,7 +59,7 @@ public class Movement : MonoBehaviour
         _velocity += gravityForce;
 
         // begin calculating new position
-        Vector2 deltaPosition = _velocity * Time.fixedDeltaTime;
+        Vector2 deltaPosition = _velocity * Time.deltaTime;
         // calculate the sloped movement angle, for moving reliably on slops
         Vector2 moveAlongGround = new Vector2(_groundNormal.y, -_groundNormal.x);
         // apply x movement first
@@ -77,13 +71,12 @@ public class Movement : MonoBehaviour
         ApplyMovement(move, true);
 
         // clear
-        _requestedVelocity = Vector2.zero;
-        _xMoveRequested = false;
-        _yMoveRequested = false;
+        ClearRequestedMovement();
 }
 
     private void ClearRequestedMovement()
     {
+        _requestedVelocity = Vector2.zero;
         _xMoveRequested = false;
         _yMoveRequested = false;
     }
@@ -129,7 +122,7 @@ public class Movement : MonoBehaviour
         if(distance > _minMoveDistance)
         {
             // find nearby colliders and store them
-            int hitCount = _rb.Cast(move, _contactFilter, _hitBuffer, distance + _skinWidth);
+            int hitCount = _collider.Cast(move, _contactFilter, _hitBuffer, distance + _skinWidth);
             _hitBufferList.Clear();
             for (int i = 0; i < hitCount; i++)
             {
@@ -174,13 +167,7 @@ public class Movement : MonoBehaviour
     {
         if (_xMoveRequested)
         {
-            //TODO: if we're grounded, build acceleration
             _velocity.x = _requestedVelocity.x;
-
-        }
-        else
-        {
-            //TODO: if we're grounded, deceleration
         }
     }
 
@@ -265,24 +252,5 @@ public class Movement : MonoBehaviour
         }
     }
 
-    public void SetInputLock(bool isInputLocked)
-    {
-        IsInputLocked = isInputLocked;
-    }
-
-    public void LockInput(float duration)
-    {
-        if (_inputLockRoutine != null)
-            StopCoroutine(_inputLockRoutine);
-        _inputLockRoutine = StartCoroutine(InputLockRoutine(duration));
-    }
-
-    private IEnumerator InputLockRoutine(float duration)
-    {
-        IsInputLocked = true;
-        yield return new WaitForSeconds(duration);
-        IsInputLocked = false;
-    }
-    
     #endregion
 }

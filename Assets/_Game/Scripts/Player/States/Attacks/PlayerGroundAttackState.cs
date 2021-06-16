@@ -42,6 +42,9 @@ public class PlayerGroundAttackState : State
         _input.AttackPressed += OnAttackPressed;
         _groundDetector.LeftGround += OnLeftGround;
 
+        // it's possible we could cancel dash with a ground attack. make sure we refresh it
+        _dashSystem.ReadyDash();
+
         _isInitialAttack = true;
         Attack();
         _isInitialAttack = false;
@@ -63,6 +66,7 @@ public class PlayerGroundAttackState : State
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+
         _groundDetector.DetectGround();
 
         // if attack is active, propel forward based on weapon data forward amount
@@ -71,16 +75,19 @@ public class PlayerGroundAttackState : State
             // if we're holding forward, add additional movement based on our attacks move reduction
             if(_input.XInputRaw == _movement.FacingDirection)
             {
+                float moveAmount = (_weaponSystem.CurrentMeleeAttack.ForwardAmount
+                    * _movement.FacingDirection) + (_movement.FacingDirection * _data.MoveSpeed
+                    * _weaponSystem.CurrentMeleeAttack.MovementReductionRatio);
                 //TODO: Consider if this can be a force with momentum, once we have that capability
-                _movement.MoveX((_weaponSystem.CurrentMeleeAttack.ForwardAmount 
-                    * _movement.FacingDirection) + (_movement.FacingDirection * _data.MoveSpeed 
-                    * _weaponSystem.CurrentMeleeAttack.MovementReductionRatio));
+                _movement.MoveX(moveAmount);
             }
             // otherwise just use forward amount
             else
             {
-                _movement.MoveX((_weaponSystem.CurrentMeleeAttack.ForwardAmount 
-                    * _movement.FacingDirection));
+                float moveAmount = (_weaponSystem.CurrentMeleeAttack.ForwardAmount
+                    * _movement.FacingDirection);
+                
+                _movement.MoveX(moveAmount);
             }
         }
         // otherwise no xinput, so don't move in x

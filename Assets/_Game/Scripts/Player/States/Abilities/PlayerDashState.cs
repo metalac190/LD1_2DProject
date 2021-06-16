@@ -19,9 +19,6 @@ public class PlayerDashState : State
     private float _dashTimer = 0;
     private Vector2 _dashDirection;
 
-    private float _initialDrag;
-    private float _initialGravityScale;
-
     private PlayerAfterImagePool _afterImagePool;
     private PlayerAfterImage _lastAfterImage;
 
