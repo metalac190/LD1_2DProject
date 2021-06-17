@@ -37,8 +37,16 @@ public class PlayerMoveState : PlayerGroundedSuperState
     {
         base.FixedUpdate();
 
-        //_movement.SetVelocityX(_data.MoveSpeed * _input.XInputRaw);
-        _movement.MoveX(_data.MoveSpeed * _input.XInputRaw);
+        // if we're moving, 
+        if(_input.XInputRaw != 0)
+        {
+            _movement.MoveX(_data.MoveSpeed * _input.XInputRaw);
+        }
+        //TODO: otherwise, slow momentum
+        else
+        {
+
+        }
     }
 
     public override void Update()
@@ -50,6 +58,7 @@ public class PlayerMoveState : PlayerGroundedSuperState
             _stateMachine.ChangeState(_stateMachine.CrouchState);
             return;
         }
+        //TODO: track speed here and only switch if speed is at or near 0, NOT input
         else if(_input.XInputRaw == 0)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);

@@ -28768,11 +28768,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3199097969713858126, guid: dfed8114e3b021542b1d1dbd80c90c84, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.03
+      value: 10.58
       objectReference: {fileID: 0}
     - target: {fileID: 3199097969713858126, guid: dfed8114e3b021542b1d1dbd80c90c84, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.49
+      value: 9.49
       objectReference: {fileID: 0}
     - target: {fileID: 3199097969713858126, guid: dfed8114e3b021542b1d1dbd80c90c84, type: 3}
       propertyPath: m_LocalPosition.z
@@ -28806,13 +28806,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3199097969713858160, guid: dfed8114e3b021542b1d1dbd80c90c84, type: 3}
-      propertyPath: _bounceDirection.x
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3199097969713858161, guid: dfed8114e3b021542b1d1dbd80c90c84, type: 3}
       propertyPath: m_Name
-      value: BounceZone
+      value: Bumper
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfed8114e3b021542b1d1dbd80c90c84, type: 3}

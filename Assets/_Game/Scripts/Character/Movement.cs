@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 /// <summary>
 /// Movement code for kinematic rigidbody built off from Unity Training module
 /// </summary>
 public class Movement : MonoBehaviour
 {
+    public event Action ReceivedPush;
+
     [SerializeField]
     private Collider2D _collider;
     [SerializeField]
@@ -38,6 +41,12 @@ public class Movement : MonoBehaviour
     private bool _xMoveRequested = false;
     private bool _yMoveRequested = false;
 
+    // pushing
+    private Vector2 _pushVelocity;
+    private float _pushDecay;
+    private float _pushDecayDecrease = .05f;
+    private Coroutine _pushRoutine;
+
     private void Awake()
     {
         _contactFilter.useTriggers = false;
@@ -55,8 +64,8 @@ public class Movement : MonoBehaviour
         CalculateYVelocity();
         CheckIfShouldFlip();
 
-        Vector2 gravityForce = _gravityScale * Physics2D.gravity * Time.fixedDeltaTime;
-        _velocity += gravityForce;
+        ApplyGravity();
+        ApplyPushForce();   // force exerted externally upon this object, like knockback etc.
 
         // begin calculating new position
         Vector2 deltaPosition = _velocity * Time.deltaTime;
@@ -65,14 +74,19 @@ public class Movement : MonoBehaviour
         // apply x movement first
         Vector2 move = moveAlongGround * deltaPosition.x;
         ApplyMovement(move, false);
-
         // then apply y movement
         move = Vector2.up * deltaPosition.y;
         ApplyMovement(move, true);
 
         // clear
         ClearRequestedMovement();
-}
+    }
+
+    private void ApplyGravity()
+    {
+        Vector2 gravityForce = _gravityScale * Physics2D.gravity * Time.fixedDeltaTime;
+        _velocity += gravityForce;
+    }
 
     private void ClearRequestedMovement()
     {
@@ -180,10 +194,43 @@ public class Movement : MonoBehaviour
         }
     }
 
+    public void Push(Vector2 direction, float strength, float duration)
+    {
+        Debug.Log("PUSH");
 
-    #region Old Code
+        direction.Normalize();
 
+        if (_pushRoutine != null)
+            StopCoroutine(_pushRoutine);
+        _pushRoutine = StartCoroutine(PushRoutine(direction * strength, duration));
 
+        ReceivedPush?.Invoke();
+    }
+
+    private IEnumerator PushRoutine(Vector2 pushForce, float duration)
+    {
+        _pushVelocity = pushForce;
+        // because we're accounting for gravity, apply Y force once, initially
+        MoveY(pushForce.y);
+
+        for (float elapsedTime = 0; elapsedTime < duration; elapsedTime += Time.deltaTime)
+        {
+            // calculate
+            Vector2 newPushForce = Vector2.Lerp
+                (pushForce, Vector2.zero, elapsedTime / duration);
+            _pushVelocity = newPushForce;
+
+            yield return null;
+        }
+    }
+
+    private void ApplyPushForce()
+    {
+        if(_pushVelocity.x != 0)
+        {
+            _velocity.x += _pushVelocity.x;
+        }
+    }
 
     public void HoldPosition(Vector2 position)
     {
@@ -251,6 +298,4 @@ public class Movement : MonoBehaviour
             Flip();
         }
     }
-
-    #endregion
 }

@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 3199097969713858127}
   - component: {fileID: 3199097969713858160}
   m_Layer: 0
-  m_Name: JumpPad
+  m_Name: BounceZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -175,4 +175,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bounceAmount: 30
+  _bounceDuration: 0.5
+  _pushDirection: {x: 1, y: 1}
   _bounceSFX: {fileID: 11400000, guid: 6d6a393c582ac1940889cb37f21858a2, type: 2}
