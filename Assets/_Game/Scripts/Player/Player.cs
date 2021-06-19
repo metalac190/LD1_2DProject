@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Actor
 {
-    [SerializeField]
-    private Actor _actor;
-
     [Header("Player Settings")]
     [SerializeField]
     private GameplayInput _gameplayInput;
@@ -30,8 +27,6 @@ public class Player : MonoBehaviour
     private DashSystem _dashSystem;
     [SerializeField]
     private PlayerAiming _playerAiming;
-
-    public Actor Actor => _actor;
 
     public GameplayInput Input => _gameplayInput;
     public PlayerData Data => _data;

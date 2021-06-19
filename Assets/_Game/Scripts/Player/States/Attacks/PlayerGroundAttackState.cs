@@ -6,7 +6,7 @@ public class PlayerGroundAttackState : State
 {
     private PlayerFSM _stateMachine;
 
-    private Movement _movement;
+    private MovementKM _movement;
     private PlayerData _data;
     private GameplayInput _input;
     private WeaponSystem _weaponSystem;
@@ -21,13 +21,13 @@ public class PlayerGroundAttackState : State
     {
         _stateMachine = stateMachine;
 
-        _movement = player.Actor.Movement;
+        _movement = player.Movement;
         _data = player.Data;
         _input = player.Input;
         _weaponSystem = player.WeaponSystem;
         _dashSystem = player.DashSystem;
         _weaponData = player.WeaponSystem.EquippedWeapon;
-        _groundDetector = player.Actor.CollisionDetector.GroundDetector;
+        _groundDetector = player.CollisionDetector.GroundDetector;
     }
 
     public override void Enter()

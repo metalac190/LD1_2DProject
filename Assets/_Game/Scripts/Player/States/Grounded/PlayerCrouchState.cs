@@ -7,7 +7,7 @@ public class PlayerCrouchState : PlayerGroundedSuperState
     private PlayerFSM _stateMachine;
     private Player _player;
 
-    private Movement _movement;
+    private MovementKM _movement;
     private GameplayInput _input;
     private PlayerData _data;
     private PlayerAnimator _playerAnimator;
@@ -18,11 +18,11 @@ public class PlayerCrouchState : PlayerGroundedSuperState
         _stateMachine = stateMachine;
         _player = player;
 
-        _movement = player.Actor.Movement;
+        _movement = player.Movement;
         _input = player.Input;
         _data = player.Data;
         _playerAnimator = player.PlayerAnimator;
-        _ceilingDetector = player.Actor.CollisionDetector.CeilingDetector;
+        _ceilingDetector = player.CollisionDetector.CeilingDetector;
     }
 
     public override void Enter()

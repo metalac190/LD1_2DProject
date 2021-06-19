@@ -7,7 +7,7 @@ public class PlayerLedgeHangState : State
     PlayerFSM _stateMachine;
     Player _player;
 
-    Movement _movement;
+    MovementKM _movement;
     PlayerData _data;
     GameplayInput _input;
     LedgeDetector _ledgeDetector;
@@ -26,10 +26,10 @@ public class PlayerLedgeHangState : State
         _stateMachine = stateMachine;
         _player = player;
 
-        _movement = player.Actor.Movement;
+        _movement = player.Movement;
         _data = player.Data;
         _input = player.Input;
-        _ledgeDetector = player.Actor.CollisionDetector.LedgeDetector;
+        _ledgeDetector = player.CollisionDetector.LedgeDetector;
         _dashSystem = player.DashSystem;
         _playerAnimator = player.PlayerAnimator;
         _sfx = player.SFX;

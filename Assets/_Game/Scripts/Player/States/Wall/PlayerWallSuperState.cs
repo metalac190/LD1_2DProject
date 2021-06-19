@@ -8,7 +8,7 @@ public class PlayerWallSuperState : State
     Player _player;
 
     PlayerData _data;
-    Movement _movement;
+    MovementKM _movement;
     GameplayInput _input;
     GroundDetector _groundDetector;
     WallDetector _wallDetector;
@@ -20,10 +20,10 @@ public class PlayerWallSuperState : State
         _player = player;
 
         _data = player.Data;
-        _movement = player.Actor.Movement;
+        _movement = player.Movement;
         _input = player.Input;
-        _groundDetector = player.Actor.CollisionDetector.GroundDetector;
-        _wallDetector = player.Actor.CollisionDetector.WallDetector;
+        _groundDetector = player.CollisionDetector.GroundDetector;
+        _wallDetector = player.CollisionDetector.WallDetector;
         _dashSystem = player.DashSystem;
     }
 
@@ -35,6 +35,7 @@ public class PlayerWallSuperState : State
         _input.AttackPressed += OnAttackPressed;
 
         _player.ResetJumps();
+        _movement.SetGravityScale(0);
     }
 
     public override void Exit()
@@ -43,6 +44,7 @@ public class PlayerWallSuperState : State
         _input.JumpPressed -= OnJumpPressed;
         _input.DashPressed -= OnDashPressed;
         _input.AttackPressed -= OnAttackPressed;
+        _movement.SetGravityScale(1);
     }
 
     public override void FixedUpdate()

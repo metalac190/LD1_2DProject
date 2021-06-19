@@ -40,6 +40,9 @@ public class MovingPlatform : MonoBehaviour
     private Vector2 _startPosition;
     private Vector2 _endPosition;
     private Coroutine _moveRoutine;
+    // we need to save our movement change so we can carry other objects
+    public Vector2 PreviousPosition { get; private set; }
+    public Vector3 Velocity => (_platformRB.position - PreviousPosition) / Time.fixedDeltaTime;
 
     private void Awake()
     {
@@ -105,15 +108,20 @@ public class MovingPlatform : MonoBehaviour
                     break;
             }
 
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
     }
 
     private void Move(float secondsUntilDestination)
     {
         float moveRatio = Mathf.PingPong(_movingElapsedTime / secondsUntilDestination, 1f);
-        _platformRB.position = Vector2.Lerp(_startPosition, _endPosition,
+        // saving previous position allows us to calculate the move vector for objects that need to be carried
+        PreviousPosition = _platformRB.position;
+        Vector2 newPosition = Vector2.Lerp(_startPosition, _endPosition,
             Mathf.SmoothStep(0f, 1f, moveRatio));
+
+        _platformRB.position = newPosition;
+        //Debug.Log("Platform Velocity: " + Velocity);
 
         if ((_movingElapsedTime / _tripCounter) >= _secondsUntilDestination)
         {

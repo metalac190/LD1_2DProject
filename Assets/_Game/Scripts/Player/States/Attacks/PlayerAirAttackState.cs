@@ -8,7 +8,7 @@ public class PlayerAirAttackState : State
     private Player _player;
 
     private PlayerData _data;
-    private Movement _movement;
+    private MovementKM _movement;
     private GameplayInput _input;
     private WeaponSystem _weaponSystem;
     private DashSystem _dashSystem;
@@ -25,13 +25,13 @@ public class PlayerAirAttackState : State
         _player = player;
 
         _data = player.Data;
-        _movement = player.Actor.Movement;
+        _movement = player.Movement;
         _input = player.Input;
         _weaponSystem = player.WeaponSystem;
         _dashSystem = player.DashSystem;
 
         _weaponData = player.WeaponSystem.EquippedWeapon;
-        _groundDetector = player.Actor.CollisionDetector.GroundDetector;
+        _groundDetector = player.CollisionDetector.GroundDetector;
     }
 
     public override void Enter()

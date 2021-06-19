@@ -10,8 +10,6 @@ public class BounceZone : MonoBehaviour
     [SerializeField]
     private float _bounceDuration = .5f;
     [SerializeField]
-    private Vector2 _pushDirection = new Vector2(0, 1);
-    [SerializeField]
     private SFXOneShot _bounceSFX;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -21,7 +19,7 @@ public class BounceZone : MonoBehaviour
         {
             player.DashSystem.ReadyDash();
 
-            player.Actor.Movement.Push(_pushDirection, _bounceAmount, _bounceDuration);
+            player.Movement.Push(transform.up, _bounceAmount, _bounceDuration);
 
             _bounceSFX?.PlayOneShot(player.transform.position);
         }

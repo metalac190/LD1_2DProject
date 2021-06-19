@@ -7,7 +7,7 @@ public class PlayerFallingState : State
     PlayerFSM _stateMachine;
     Player _player;
 
-    Movement _movement;
+    MovementKM _movement;
     PlayerData _data;
     GameplayInput _input;
     GroundDetector _groundDetector;
@@ -24,12 +24,12 @@ public class PlayerFallingState : State
         _stateMachine = stateMachine;
         _player = player;
 
-        _movement = player.Actor.Movement;
+        _movement = player.Movement;
         _data = player.Data;
         _input = player.Input;
-        _groundDetector = player.Actor.CollisionDetector.GroundDetector;
-        _wallDetector = player.Actor.CollisionDetector.WallDetector;
-        _ledgeDetector = player.Actor.CollisionDetector.LedgeDetector;
+        _groundDetector = player.CollisionDetector.GroundDetector;
+        _wallDetector = player.CollisionDetector.WallDetector;
+        _ledgeDetector = player.CollisionDetector.LedgeDetector;
 
         _dashSystem = player.DashSystem;
     }

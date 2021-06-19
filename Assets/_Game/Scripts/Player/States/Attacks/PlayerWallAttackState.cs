@@ -7,7 +7,7 @@ public class PlayerWallAttackState : State
     PlayerFSM _stateMachine;
     Player _player;
 
-    private Movement _movement;
+    private MovementKM _movement;
     private WeaponSystem _weaponSystem;
 
     Vector2 _startPos;
@@ -17,7 +17,7 @@ public class PlayerWallAttackState : State
         _stateMachine = stateMachine;
         _player = player;
 
-        _movement = player.Actor.Movement;
+        _movement = player.Movement;
         _weaponSystem = player.WeaponSystem;
     }
 

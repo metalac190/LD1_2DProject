@@ -7,7 +7,7 @@ public class PlayerLedgeClimbState : State
     PlayerFSM _stateMachine;
     Player _player;
 
-    Movement _movement;
+    MovementKM _movement;
     PlayerData _data;
     LedgeDetector _ledgeDetector;
     CeilingDetector _ceilingDetector;
@@ -26,10 +26,10 @@ public class PlayerLedgeClimbState : State
         _stateMachine = stateMachine;
         _player = player;
 
-        _movement = player.Actor.Movement;
+        _movement = player.Movement;
         _data = player.Data;
-        _ledgeDetector = player.Actor.CollisionDetector.LedgeDetector;
-        _ceilingDetector = player.Actor.CollisionDetector.CeilingDetector;
+        _ledgeDetector = player.CollisionDetector.LedgeDetector;
+        _ceilingDetector = player.CollisionDetector.CeilingDetector;
     }
 
     public override void Enter()
@@ -54,8 +54,6 @@ public class PlayerLedgeClimbState : State
     public override void Exit()
     {
         base.Exit();
-
-        _movement.SetGravityScale(1);
     }
 
     public override void FixedUpdate()

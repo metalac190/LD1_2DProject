@@ -7,7 +7,7 @@ public class PlayerWallGrab : PlayerWallSuperState
     PlayerFSM _stateMachine;
     Player _player;
 
-    Movement _movement;
+    MovementKM _movement;
     PlayerData _data;
     GameplayInput _input;
     PlayerSFXData _sfx;
@@ -19,7 +19,7 @@ public class PlayerWallGrab : PlayerWallSuperState
         _stateMachine = stateMachine;
         _player = player;
 
-        _movement = player.Actor.Movement;
+        _movement = player.Movement;
         _input = player.Input;
         _data = player.Data;
         _sfx = player.SFX;
@@ -33,6 +33,7 @@ public class PlayerWallGrab : PlayerWallSuperState
         Debug.Log("STATE: Wall Grab");
 
         _startPosition = _movement.Position;
+        _movement.SetVelocityZero();
 
         _sfx.WallGrabSFX.PlayOneShot(_player.transform.position);
     }
@@ -45,7 +46,8 @@ public class PlayerWallGrab : PlayerWallSuperState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        _movement.HoldPosition(_startPosition);
+        _movement.Move(0, 0);
+        //_movement.HoldPosition(_startPosition);
     }
 
     public override void Update()

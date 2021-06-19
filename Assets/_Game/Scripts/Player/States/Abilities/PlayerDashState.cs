@@ -7,7 +7,7 @@ public class PlayerDashState : State
     private PlayerFSM _stateMachine;
     private Player _player;
 
-    private Movement _movement;
+    private MovementKM _movement;
     private PlayerData _data;
     private DashSystem _dashSystem;
     private GameplayInput _input;
@@ -27,11 +27,11 @@ public class PlayerDashState : State
         _stateMachine = stateMachine;
         _player = player;
 
-        _movement = player.Actor.Movement;
+        _movement = player.Movement;
         _data = player.Data;
         _dashSystem = player.DashSystem;
         _input = player.Input;
-        _groundDetector = player.Actor.CollisionDetector.GroundDetector;
+        _groundDetector = player.CollisionDetector.GroundDetector;
         _sfx = player.SFX;
 
         _afterImagePool = _dashSystem.AfterImagePool;

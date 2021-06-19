@@ -7,7 +7,7 @@ public class PlayerWallJumpState : State
     PlayerFSM _stateMachine;
     Player _player;
 
-    Movement _movement;
+    MovementKM _movement;
     PlayerData _data;
     GameplayInput _input;
     GroundDetector _groundDetector;
@@ -23,11 +23,11 @@ public class PlayerWallJumpState : State
         _stateMachine = stateMachine;
         _player = player;
 
-        _movement = player.Actor.Movement;
+        _movement = player.Movement;
         _data = player.Data;
         _input = player.Input;
-        _groundDetector = player.Actor.CollisionDetector.GroundDetector;
-        _wallDetector = player.Actor.CollisionDetector.WallDetector;
+        _groundDetector = player.CollisionDetector.GroundDetector;
+        _wallDetector = player.CollisionDetector.WallDetector;
         _dashSystem = player.DashSystem;
         _sfx = player.SFX;
     }

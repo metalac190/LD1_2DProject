@@ -20,8 +20,8 @@ public class PlayerGroundedSuperState : State
 
         _input = player.Input;
         _data = player.Data;
-        _groundDetector = player.Actor.CollisionDetector.GroundDetector;
-        _ceilingDetector = player.Actor.CollisionDetector.CeilingDetector;
+        _groundDetector = player.CollisionDetector.GroundDetector;
+        _ceilingDetector = player.CollisionDetector.CeilingDetector;
         _dashSystem = player.DashSystem;
     }
 

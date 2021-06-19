@@ -6,7 +6,7 @@ public class PlayerMoveState : PlayerGroundedSuperState
 {
     PlayerFSM _stateMachine;
 
-    Movement _movement;
+    MovementKM _movement;
     PlayerData _data;
     GameplayInput _input;
 
@@ -14,7 +14,7 @@ public class PlayerMoveState : PlayerGroundedSuperState
     {
         _stateMachine = stateMachine;
 
-        _movement = player.Actor.Movement;
+        _movement = player.Movement;
         _data = player.Data;
         _input = player.Input;
     }

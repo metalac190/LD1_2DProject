@@ -7,7 +7,7 @@ public class PlayerAirJumpState : State
     PlayerFSM _stateMachine;
     Player _player;
 
-    Movement _movement;
+    MovementKM _movement;
     GameplayInput _input;
     PlayerData _data;
     GroundDetector _groundDetector;
@@ -19,10 +19,10 @@ public class PlayerAirJumpState : State
         _stateMachine = stateMachine;
         _player = player;
 
-        _movement = player.Actor.Movement;
+        _movement = player.Movement;
         _input = player.Input;
         _data = player.Data;
-        _groundDetector = player.Actor.CollisionDetector.GroundDetector;
+        _groundDetector = player.CollisionDetector.GroundDetector;
         _dashSystem = player.DashSystem;
         _sfx = player.SFX;
     }

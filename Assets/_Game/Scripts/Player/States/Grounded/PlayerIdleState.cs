@@ -8,7 +8,7 @@ public class PlayerIdleState : PlayerGroundedSuperState
     PlayerFSM _stateMachine;
     Player _player;
 
-    Movement _movement;
+    MovementKM _movement;
     GameplayInput _input;
 
     public PlayerIdleState(PlayerFSM stateMachine, Player player) : base(stateMachine, player)
@@ -16,7 +16,7 @@ public class PlayerIdleState : PlayerGroundedSuperState
         _stateMachine = stateMachine;
         _player = player;
 
-        _movement = player.Actor.Movement;
+        _movement = player.Movement;
         _input = player.Input;
     }
 
