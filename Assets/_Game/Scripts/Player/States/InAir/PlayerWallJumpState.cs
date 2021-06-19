@@ -46,6 +46,7 @@ public class PlayerWallJumpState : State
         //_player.DecreaseAirJumpsRemaining();
         Debug.Log("Remaining Jumps: " + _player.AirJumpsRemaining);
         // reverse direction
+        _movement.SetVelocityZero();
         _movement.Flip();
         _movement.Move(_data.WallJumpVelocity, _data.WallJumpAngle, _movement.FacingDirection);
 
@@ -69,8 +70,9 @@ public class PlayerWallJumpState : State
         _wallDetector.DetectWall();
 
         // if we're not grounded, but began falling, go to fall state
-        if (!_groundDetector.IsGrounded && _movement.Velocity.y <= 0)
+        if (!_groundDetector.IsGrounded && _movement.Velocity.y < 0)
         {
+            Debug.Log("Test");
             _stateMachine.ChangeState(_stateMachine.FallingState);
             return;
         }
@@ -87,6 +89,7 @@ public class PlayerWallJumpState : State
         }
         else
         {
+            Debug.Log("Moving...");
             _movement.MoveX(_data.MoveSpeed * _movement.FacingDirection);
         }
     }

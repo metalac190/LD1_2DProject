@@ -50,6 +50,8 @@ public class MovementKM : MonoBehaviour
     // unorganized
     public int MaxIterations { get; private set; } = 2;
 
+    private float _gravityBuildup = 0;
+
     private void Awake()
     {
         _contactFilter.useTriggers = false;
@@ -106,10 +108,10 @@ public class MovementKM : MonoBehaviour
         _requestedVelocity += new Vector2(x, y);
     }
 
-    public void Move(float velocity, Vector2 angle, int direction)
+    public void Move(float speed, Vector2 angle, int direction)
     {
         angle.Normalize();
-        _requestedVelocity += new Vector2(angle.x * velocity * direction, angle.y * velocity);
+        _requestedVelocity += new Vector2(angle.x * speed * direction, angle.y * speed);
     }
 
     public void MoveX(float x)
