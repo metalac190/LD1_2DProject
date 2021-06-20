@@ -33,7 +33,7 @@ public class MovingPlatformStickyZone : MonoBehaviour
         {
             foreach(MovementKM moveable in _passengers)
             {
-                moveable.Move(_movingPlatform.Velocity);
+                moveable.Move(_movingPlatform.Velocity, false);
             }
         }
     }

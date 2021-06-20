@@ -74,7 +74,7 @@ public class PlayerCrouchState : PlayerGroundedSuperState
     public override void Update()
     {
         base.Update();
-
+        _movement.CheckIfShouldFlip(_input.XInputRaw);
         // if we're moving diagonally downwards
         if (_input.YInputRaw <= 0 && _input.XInputRaw != 0)
         {

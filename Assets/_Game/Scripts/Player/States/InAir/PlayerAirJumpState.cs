@@ -62,7 +62,7 @@ public class PlayerAirJumpState : State
             return;
         }
 
-        _movement.MoveX(_input.XInputRaw * _data.MoveSpeed);
+        _movement.MoveX(_input.XInputRaw * _data.MoveSpeed, true);
     }
 
     public override void Update()

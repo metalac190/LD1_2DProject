@@ -64,14 +64,12 @@ public class PlayerJumpState : State
             _stateMachine.ChangeState(_stateMachine.FallingState);
         }
 
-        _movement.MoveX(_input.XInputRaw * _data.MoveSpeed);
+        _movement.MoveX(_input.XInputRaw * _data.MoveSpeed, true);
     }
 
     public override void Update()
     {
         base.Update();
-        
-        
     }
 
     private void OnAttackPressed()

@@ -90,19 +90,19 @@ public class PlayerAirAttackState : State
                 // forward but disable falling
                 _movement.MoveX((_weaponSystem.CurrentMeleeAttack.ForwardAmount 
                     * _movement.FacingDirection) + (_movement.FacingDirection * _data.MoveSpeed) 
-                    * _weaponSystem.CurrentMeleeAttack.MovementReductionRatio);
+                    * _weaponSystem.CurrentMeleeAttack.MovementReductionRatio, false);
             }
             else
             {
                 _movement.MoveX((_weaponSystem.CurrentMeleeAttack.ForwardAmount 
-                    * _movement.FacingDirection));
+                    * _movement.FacingDirection), false);
             }
 
         }
         // otherwise just move according to input
         else
         {
-            _movement.MoveX(_input.XInputRaw * _data.MoveSpeed);
+            _movement.MoveX(_input.XInputRaw * _data.MoveSpeed, true);
         }
     }
 

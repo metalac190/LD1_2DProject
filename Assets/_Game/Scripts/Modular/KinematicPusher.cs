@@ -8,8 +8,6 @@ public class KinematicPusher : MonoBehaviour
     private Rigidbody2D _rb;
 
     private MovementKM _otherOverlappedMover;
-    // increases during overlap to ensure object gets pushed. A bit hacky, so consider changing later
-    private float _increasingPushAmount = 0;
 
     private void Awake()
     {
@@ -22,9 +20,7 @@ public class KinematicPusher : MonoBehaviour
         _otherOverlappedMover = collision.rigidbody.GetComponent<MovementKM>();
         if(_otherOverlappedMover != null)
         {
-            Debug.Log("Enter, OVERLAP");
-            _increasingPushAmount = 0;
-            _otherOverlappedMover.RemoveOverlap(collision.otherCollider, _increasingPushAmount);
+            _otherOverlappedMover.MoveOutOfCollider(collision.otherCollider);
         }
     }
 
@@ -32,9 +28,7 @@ public class KinematicPusher : MonoBehaviour
     {
         if(_otherOverlappedMover != null)
         {
-            _increasingPushAmount += 1;
-            Debug.Log("OVERLAP, Push: " + _increasingPushAmount);
-            _otherOverlappedMover.RemoveOverlap(collision.otherCollider, _increasingPushAmount);
+            _otherOverlappedMover.MoveOutOfCollider(collision.otherCollider);
         }
     }
 

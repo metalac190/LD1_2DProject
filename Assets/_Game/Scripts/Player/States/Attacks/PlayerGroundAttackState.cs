@@ -79,7 +79,7 @@ public class PlayerGroundAttackState : State
                     * _movement.FacingDirection) + (_movement.FacingDirection * _data.MoveSpeed
                     * _weaponSystem.CurrentMeleeAttack.MovementReductionRatio);
                 //TODO: Consider if this can be a force with momentum, once we have that capability
-                _movement.MoveX(moveAmount);
+                _movement.MoveX(moveAmount, false);
             }
             // otherwise just use forward amount
             else
@@ -87,13 +87,13 @@ public class PlayerGroundAttackState : State
                 float moveAmount = (_weaponSystem.CurrentMeleeAttack.ForwardAmount
                     * _movement.FacingDirection);
                 
-                _movement.MoveX(moveAmount);
+                _movement.MoveX(moveAmount, false);
             }
         }
         // otherwise no xinput, so don't move in x
         else
         {
-            _movement.MoveX(0);
+            _movement.MoveX(0, false);
         }
     }
 

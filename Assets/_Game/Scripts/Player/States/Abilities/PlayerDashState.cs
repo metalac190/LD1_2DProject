@@ -77,12 +77,12 @@ public class PlayerDashState : State
         // if we're prepping the dash, minimize movement with our hold dash dampener - y is still handled by gravity
         if (!_isDashing)
         {
-            _movement.MoveX(_input.XInputRaw * _data.MoveSpeed * _data.DashHoldMovementScale);
+            _movement.MoveX(_input.XInputRaw * _data.MoveSpeed * _data.DashHoldMovementScale, true);
         }
         // otherwise use dash values
         else if (_isDashing)
         {
-            _movement.Move(_dashDirection * _data.DashVelocity);
+            _movement.Move(_dashDirection * _data.DashVelocity, false);
             CheckAfterImageSpawn();
         }
     }

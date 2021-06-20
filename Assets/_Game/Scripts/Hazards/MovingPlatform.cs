@@ -85,6 +85,11 @@ public class MovingPlatform : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        PreviousPosition = _platformRB.position;
+    }
+
     IEnumerator MoveRoutine(float secondsUntilDestination)
     {
         // check for start delay before beginning our loop
@@ -116,11 +121,17 @@ public class MovingPlatform : MonoBehaviour
     {
         float moveRatio = Mathf.PingPong(_movingElapsedTime / secondsUntilDestination, 1f);
         // saving previous position allows us to calculate the move vector for objects that need to be carried
-        PreviousPosition = _platformRB.position;
+
         Vector2 newPosition = Vector2.Lerp(_startPosition, _endPosition,
             Mathf.SmoothStep(0f, 1f, moveRatio));
 
-        _platformRB.position = newPosition;
+        _platformRB.MovePosition(newPosition);
+
+        //Debug.Log("Moving Platform Velocity: " + Velocity);
+        //Debug.Log("Moving Platform Delta: " + (_platformRB.position - PreviousPosition));
+        //Debug.Log("New Position " + newPosition);
+        //Debug.Log("Current RB Position " + _platformRB.position);
+        //_platformRB.velocity = newPosition;
         //Debug.Log("Platform Velocity: " + Velocity);
 
         if ((_movingElapsedTime / _tripCounter) >= _secondsUntilDestination)

@@ -40,7 +40,7 @@ public class PlayerMoveState : PlayerGroundedSuperState
         // if we're moving, 
         if(_input.XInputRaw != 0)
         {
-            _movement.MoveX(_data.MoveSpeed * _input.XInputRaw);
+            _movement.MoveX(_data.MoveSpeed * _input.XInputRaw, true);
         }
         //TODO: otherwise, slow momentum
         else
@@ -53,7 +53,7 @@ public class PlayerMoveState : PlayerGroundedSuperState
     {
         base.Update();
 
-        if(_input.YInputRaw < 0)
+        if (_input.YInputRaw < 0)
         {
             _stateMachine.ChangeState(_stateMachine.CrouchState);
             return;

@@ -25,7 +25,7 @@ public class PlayerIdleState : PlayerGroundedSuperState
         base.Enter();
         Debug.Log("STATE: Idle");
 
-        _movement.SetVelocityXZero();
+        //_movement.SetVelocityXZero();
     }
 
     public override void Exit()
@@ -40,6 +40,8 @@ public class PlayerIdleState : PlayerGroundedSuperState
 
     public override void Update()
     {
+        _movement.CheckIfShouldFlip(_input.XInputRaw);
+
         if (_input.XInputRaw != 0 && _input.YInputRaw >= 0)
         {
             _stateMachine.ChangeState(_stateMachine.MoveState);

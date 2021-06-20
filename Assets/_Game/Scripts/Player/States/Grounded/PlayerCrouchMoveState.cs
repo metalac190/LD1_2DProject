@@ -47,10 +47,9 @@ public class PlayerCrouchMoveState : PlayerGroundedSuperState
 
     public override void FixedUpdate()
     {
-
         base.FixedUpdate();
 
-        _movement.MoveX(_data.CrouchMoveVelocity * _input.XInputRaw);
+        _movement.MoveX(_data.CrouchMoveVelocity * _input.XInputRaw, true);
         _ceilingDetector.DetectCeiling();
         // if we're not holding down and holding either direction
         // AND we're not touching the ceiling
@@ -73,7 +72,7 @@ public class PlayerCrouchMoveState : PlayerGroundedSuperState
     public override void Update()
     {
         base.Update();
-
+        _movement.CheckIfShouldFlip(_input.XInputRaw);
         // if we're holding downwards
         if (_input.YInputRaw <= 0 && _input.XInputRaw == 0)
         {

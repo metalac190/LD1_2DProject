@@ -33,15 +33,13 @@ public class MovementKM : MonoBehaviour
 
     public int FacingDirection { get; private set; } = 1;
     public Vector2 Velocity => _velocity;
+    //public Vector2 Velocity => (_rb.position - PreviousPosition) / Time.fixedDeltaTime;
     public Vector2 Position => _rb.position;
     public float GravityScale => _gravityScale;
+    public Vector2 PreviousPosition { get; private set; }
 
     public bool IsUsingGravity { get; private set; } = true;
     public bool IsInputLocked { get; private set; } = false;
-
-    // use these booleans do differentiate between 'move 0' and 'no movement requested, default to 0'
-    private bool _xMoveRequested = false;
-    private bool _yMoveRequested = false;
 
     // pushing
     private Vector2 _pushVelocity;
@@ -61,13 +59,15 @@ public class MovementKM : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // clear
+        // clear previous queries
         _isGrounded = false;
+        // save pre-calculated position for velocity calculations
+        PreviousPosition = _rb.position;
 
         // gate for blocking new movement requests
         CalculateXVelocity();
         CalculateYVelocity();
-        CheckIfShouldFlip();
+        //CheckIfShouldFlip();
 
         ApplyGravity();
         ApplyPushForce();   // force exerted externally upon this object, like knockback etc.
@@ -87,109 +87,42 @@ public class MovementKM : MonoBehaviour
         ClearRequestedMovement();
     }
 
-    private void ApplyGravity()
+    #region Public
+    public void Move(Vector2 targetVelocity, bool allowFlip)
     {
-        Vector2 gravityForce = _gravityScale * Physics2D.gravity * Time.fixedDeltaTime;
-        _velocity += gravityForce;
-    }
-
-    private void ClearRequestedMovement()
-    {
-        _requestedVelocity = Vector2.zero;
-    }
-
-    public void Move(Vector2 targetVelocity)
-    {
+        if (allowFlip)
+            CheckIfShouldFlip(targetVelocity.x);
         _requestedVelocity += targetVelocity;
     }
 
-    public void Move(float x, float y)
+    public void Move(float x, float y, bool allowFlip)
     {
+        if (allowFlip)
+            CheckIfShouldFlip(x);
         _requestedVelocity += new Vector2(x, y);
     }
 
-    public void Move(float speed, Vector2 angle, int direction)
+    public void Move(float speed, Vector2 angle, int direction, bool allowFlip)
     {
         angle.Normalize();
+
+        if (allowFlip)
+            CheckIfShouldFlip(angle.x * direction);
+
         _requestedVelocity += new Vector2(angle.x * speed * direction, angle.y * speed);
     }
 
-    public void MoveX(float x)
+    public void MoveX(float x, bool allowFlip)
     {
+        if (allowFlip)
+            CheckIfShouldFlip(x);
+
         _requestedVelocity.x += x;
     }
 
     public void MoveY(float y)
     {
         _requestedVelocity.y += y;
-    }
-
-    private void ApplyMovement(Vector2 move, bool yMovement)
-    {
-        // if we're moving at all substantially, check colliders
-        float distance = move.magnitude;
-        if(distance > _minMoveDistance)
-        {
-            // find nearby colliders and store them
-            int hitCount = _collider.Cast(move, _contactFilter, _hitBuffer, distance + _skinWidth);
-            _colliderHits.Clear();
-            for (int i = 0; i < hitCount; i++)
-            {
-                _colliderHits.Add(_hitBuffer[i]);
-            }
-            // search throuh colliders
-            for (int i = 0; i < _colliderHits.Count; i++)
-            {
-                Vector2 currentNormal = _colliderHits[i].normal;
-                // mark if collider is below us (ground)
-                if (currentNormal.y > _minGroundNormalY)
-                {
-                    _isGrounded = true;
-                    // if the normal fits within our slope, save it as our current ground normal
-                    if (yMovement)
-                    {
-                        _groundNormal = currentNormal;
-                        currentNormal.x = 0;
-                    }
-                }
-                // cut velocity based on our slope
-                float projection = Vector2.Dot(_velocity, currentNormal);
-                if(projection < 0)
-                {
-                    // reduce the calculated amount from velocity
-                    _velocity -= (projection * currentNormal);
-                }
-                // if we're close to a collider, only move up to our skinwidth
-                float modifiedDistance = _colliderHits[i].distance - _skinWidth;
-                if(modifiedDistance < distance)
-                {
-                    distance = modifiedDistance;
-                }
-            }
-        }
-        // move to new calculated position
-        Vector2 newMoveDelta = move.normalized * distance;
-        Vector2 newPosition = _rb.position + newMoveDelta;
-        //Debug.Log("Delta Position: " + newMoveDelta);
-        //Debug.Log("Target Position: " + newPosition);
-        _rb.position = newPosition;
-        // why doesn't the below work???
-        //_rb.MovePosition(newPosition);
-    }
-
-    private void CalculateXVelocity()
-    {
-        _velocity.x = _requestedVelocity.x;
-    }
-
-    private void CalculateYVelocity()
-    {
-        //TODO this is messy, we should calculate increasing gravity independent of input request reliability
-        if(_requestedVelocity.y != 0)
-        {
-            _velocity.y = _requestedVelocity.y;
-        }
-        
     }
 
     public void Push(Vector2 direction, float strength, float duration)
@@ -205,31 +138,6 @@ public class MovementKM : MonoBehaviour
         ReceivedPush?.Invoke();
     }
 
-    private IEnumerator PushRoutine(Vector2 pushForce, float duration)
-    {
-        _pushVelocity = pushForce;
-        // because we're accounting for gravity, apply Y force once, initially
-        MoveY(pushForce.y);
-
-        for (float elapsedTime = 0; elapsedTime < duration; elapsedTime += Time.deltaTime)
-        {
-            // calculate
-            Vector2 newPushForce = Vector2.Lerp
-                (pushForce, Vector2.zero, elapsedTime / duration);
-            _pushVelocity = newPushForce;
-
-            yield return null;
-        }
-        _pushVelocity = Vector2.zero;
-    }
-
-    private void ApplyPushForce()
-    {
-        if(_pushVelocity.x != 0)
-        {
-            _velocity.x += _pushVelocity.x;
-        }
-    }
 
     public void HoldPosition(Vector2 position)
     {
@@ -273,11 +181,13 @@ public class MovementKM : MonoBehaviour
     // moves to new position, accounting for path between points
     public void MovePositionSmooth(Vector2 newPosition)
     {
+        //TODO check and correct for overlap here
         _rb.MovePosition(newPosition);
     }
 
     public void MovePositionInstant(Vector2 newPosition)
     {
+        //TODO check and correct for overlap here
         _rb.position = newPosition;
     }
 
@@ -287,42 +197,160 @@ public class MovementKM : MonoBehaviour
         _rb.transform.Rotate(0, 180, 0);
     }
 
-    public void CheckIfShouldFlip()
-    {  
-        int xDirection = Mathf.RoundToInt(Velocity.x);
-
+    public void CheckIfShouldFlip(float xDirection)
+    {
         xDirection = Mathf.Clamp(xDirection, -1, 1);
+        xDirection = Mathf.RoundToInt(xDirection);
         if (xDirection != 0 && xDirection != FacingDirection)
         {
             Flip();
         }
     }
 
-    public void RemoveOverlap(Collider2D overlappingCollider, float extraPushMultiplier)
+    // remove this collider OUT of other collider
+    public void MoveOutOfCollider(Collider2D overlappingCollider)
     {
-        if(extraPushMultiplier < 1)
-        {
-            extraPushMultiplier = 1;
-        }
-
         // if we're supposed to be ignoring this layer, don't do anything
         if (_contactFilter.IsFilteringLayerMask(overlappingCollider.gameObject))
         {
-            Debug.Log("Filtering, don't do anything");
             return;
         }
         // calculate collider distance
-        ColliderDistance2D colliderDistance = 
+        ColliderDistance2D colliderDistance =
             Physics2D.Distance(_collider, overlappingCollider);
 
         // if we're overlapped, remove it
         if (colliderDistance.isOverlapped)
         {
-            //Move(colliderDistance.normal * (colliderDistance.distance));
-            // use contact offset
-            //ContactPoint2D contact = Physics2D.GetContacts(_collider, otherCollision.collider);
-            // use extra push Multiplier to push object out further. TODO: do this more accurately later
-            _rb.position += colliderDistance.normal * (colliderDistance.distance * extraPushMultiplier);
+            _rb.position += colliderDistance.normal * ((colliderDistance.distance + _skinWidth));
+        }
+    }
+
+    // remove other collider OUT of this one
+    public void RemoveOverlappingCollider(Collider2D overlappingCollider)
+    {
+        // if we're supposed to be ignoring this layer, don't do anything
+        if (_contactFilter.IsFilteringLayerMask(overlappingCollider.gameObject))
+        {
+            return;
+        }
+        // calculate collider distance
+        ColliderDistance2D colliderDistance =
+            Physics2D.Distance(_collider, overlappingCollider);
+
+        // if we're overlapped, remove it
+        if (colliderDistance.isOverlapped)
+        {
+            overlappingCollider.attachedRigidbody.position
+                += colliderDistance.normal * ((colliderDistance.distance + _skinWidth));
+        }
+    }
+    #endregion
+
+    private void ApplyGravity()
+    {
+        Vector2 gravityForce = _gravityScale * Physics2D.gravity * Time.fixedDeltaTime;
+        _velocity += gravityForce;
+    }
+
+    private void ClearRequestedMovement()
+    {
+        _requestedVelocity = Vector2.zero;
+    }
+
+    private void ApplyMovement(Vector2 move, bool isVertical)
+    {
+        // if we're moving at all substantially, check colliders
+        float distance = move.magnitude;
+        if(distance > _minMoveDistance)
+        {
+            // find nearby colliders and store them
+            int hitCount = _collider.Cast(move, _contactFilter, _hitBuffer, distance + _skinWidth);
+            _colliderHits.Clear();
+            for (int i = 0; i < hitCount; i++)
+            {
+                _colliderHits.Add(_hitBuffer[i]);
+            }
+            // search throuh colliders
+            for (int i = 0; i < _colliderHits.Count; i++)
+            {
+                Vector2 currentNormal = _colliderHits[i].normal;
+                // mark if collider is below us (ground)
+                if (currentNormal.y > _minGroundNormalY)
+                {
+                    _isGrounded = true;
+                    // if the normal fits within our slope, save it as our current ground normal
+                    if (isVertical)
+                    {
+                        _groundNormal = currentNormal;
+                        currentNormal.x = 0;
+                    }
+                }
+                // cut velocity based on our slope
+                float projection = Vector2.Dot(_velocity, currentNormal);
+                if(projection < 0)
+                {
+                    // reduce the calculated amount from velocity
+                    _velocity -= (projection * currentNormal);
+                }
+                // if we're close to a collider, only move up to our skinwidth
+                float modifiedDistance = _colliderHits[i].distance - _skinWidth;
+                if(modifiedDistance < distance)
+                {
+                    distance = modifiedDistance;
+                }
+            }
+        }
+        // move to new calculated position
+        Vector2 newMoveDelta = move.normalized * distance;
+        Vector2 newPosition = _rb.position + newMoveDelta;
+        //Debug.Log("Delta Position: " + newMoveDelta);
+        //Debug.Log("Target Position: " + newPosition);
+        _rb.position = newPosition;
+        // why doesn't the below work??? - I think it's because ApplyMovement is called twice in this query
+        //_rb.MovePosition(newPosition);
+    }
+
+    private void CalculateXVelocity()
+    {
+        _velocity.x = _requestedVelocity.x;
+    }
+
+    private void CalculateYVelocity()
+    {
+        //TODO this is messy, we should calculate increasing gravity independent of input request reliability
+        if(_requestedVelocity.y != 0)
+        {
+            _velocity.y = _requestedVelocity.y;
+        }
+        
+    }
+
+
+
+    private IEnumerator PushRoutine(Vector2 pushForce, float duration)
+    {
+        _pushVelocity = pushForce;
+        // because we're accounting for gravity, apply Y force once, initially
+        MoveY(pushForce.y);
+
+        for (float elapsedTime = 0; elapsedTime < duration; elapsedTime += Time.deltaTime)
+        {
+            // calculate
+            Vector2 newPushForce = Vector2.Lerp
+                (pushForce, Vector2.zero, elapsedTime / duration);
+            _pushVelocity = newPushForce;
+
+            yield return null;
+        }
+        _pushVelocity = Vector2.zero;
+    }
+
+    private void ApplyPushForce()
+    {
+        if(_pushVelocity.x != 0)
+        {
+            _velocity.x += _pushVelocity.x;
         }
     }
 

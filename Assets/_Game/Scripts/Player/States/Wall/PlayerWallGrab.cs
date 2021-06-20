@@ -46,7 +46,7 @@ public class PlayerWallGrab : PlayerWallSuperState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        _movement.Move(0, 0);
+        _movement.Move(0, 0, false);
         //_movement.HoldPosition(_startPosition);
     }
 

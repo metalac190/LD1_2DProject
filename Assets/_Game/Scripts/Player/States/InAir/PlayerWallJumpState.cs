@@ -48,7 +48,7 @@ public class PlayerWallJumpState : State
         // reverse direction
         _movement.SetVelocityZero();
         _movement.Flip();
-        _movement.Move(_data.WallJumpVelocity, _data.WallJumpAngle, _movement.FacingDirection);
+        _movement.Move(_data.WallJumpVelocity, _data.WallJumpAngle, _movement.FacingDirection, false);
 
         _sfx.JumpSFX?.PlayOneShot(_player.transform.position);
     }
@@ -85,12 +85,12 @@ public class PlayerWallJumpState : State
         // if movement is now allowed, adjust player 
         if (_isMoveInputAllowed)
         {
-            _movement.MoveX(_input.XInputRaw * _data.MoveSpeed * _data.WallJumpMovementDampener);
+            _movement.MoveX(_input.XInputRaw * _data.MoveSpeed * _data.WallJumpMovementDampener, true);
         }
         else
         {
             Debug.Log("Moving...");
-            _movement.MoveX(_data.MoveSpeed * _movement.FacingDirection);
+            _movement.MoveX(_data.MoveSpeed * _movement.FacingDirection, false);
         }
     }
 
