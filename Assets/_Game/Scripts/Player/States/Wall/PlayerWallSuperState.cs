@@ -8,7 +8,7 @@ public class PlayerWallSuperState : State
     Player _player;
 
     PlayerData _data;
-    MovementKM _movement;
+    KinematicObject _movement;
     GameplayInput _input;
     GroundDetector _groundDetector;
     WallDetector _wallDetector;

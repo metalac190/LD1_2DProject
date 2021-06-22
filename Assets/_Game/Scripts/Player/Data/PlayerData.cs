@@ -64,17 +64,11 @@ public class PlayerData : ScriptableObject
 
     [Header("Ledge")]
     [SerializeField]
-    private bool _allowLedgeHang = false;
-    [SerializeField][Tooltip("Turn this to true if you don't want to hang while waiting for input")]
-    private bool _shouldAutoClimb = false;
+    private bool _allowLedgeHop = false;
     [SerializeField]
-    private float _ledgeClimbDuration = .5f;
-    [SerializeField][Tooltip("Allow player to push downwards from ledge forcefully")]
-    private float _ledgeDropPushVelocity = 10;
+    private float _ledgeHopAmount = 20;
     [SerializeField]
-    private Vector2 _startClimbOffset;
-    [SerializeField]
-    private Vector2 _stopClimbOffset;
+    private float _ledgeHopDuration = .25f;
 
     [Header("Dash")]
     [SerializeField]
@@ -142,12 +136,9 @@ public class PlayerData : ScriptableObject
     public bool AllowWallClimb => _allowWallClimb;
     public float WallClimbVelocity => _wallClimbVelocity;
     // ledge
-    public bool AllowLedgeHang => _allowLedgeHang;
-    public bool ShouldAutoClimb => _shouldAutoClimb;
-    public float LedgeClimbDuration => _ledgeClimbDuration;
-    public float LedgeDropPushVelocity => _ledgeDropPushVelocity;
-    public Vector2 StartClimbOffset => _startClimbOffset;
-    public Vector2 StopClimbOffset => _stopClimbOffset;
+    public bool AllowLedgeHop => _allowLedgeHop;
+    public float LedgeHopAmount => _ledgeHopAmount;
+    public float LedgeHopDuration => _ledgeHopDuration;
     // dash
     public bool AllowDash => _allowDash;
     public float MaxHoldTime => _maxHoldTime;

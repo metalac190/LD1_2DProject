@@ -8,7 +8,7 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField]
     private Player _player;
     [SerializeField]
-    private SimpleFillBar _healthBarGUI;
+    private IconBar _healthBarGUI;
     [SerializeField]
     private TextMeshProUGUI _collectibleTextGUI;
     [SerializeField]
@@ -21,10 +21,17 @@ public class PlayerHUD : MonoBehaviour
 
     private void Awake()
     {
+        // dependencies
         _health = _player.Health;
         _inventory = _player.Inventory;
+        // setup
+        _healthBarGUI.CreateIcons(_health.HealthMax);
+    }
 
-        _healthBarGUI.SetScale(_health.HealthCurrent, _health.HealthMax);
+    private void Start()
+    {
+        // initial values
+        _healthBarGUI.FillIcons(_health.HealthCurrent);
         _collectibleTextGUI.text = _inventory.Fragments.ToString();
         _keysTextGUI.text = _inventory.Keys.ToString();
     }
@@ -47,7 +54,7 @@ public class PlayerHUD : MonoBehaviour
 
     private void OnChangedHealth(int newHealth)
     {
-        _healthBarGUI.SetScale(newHealth, _health.HealthMax);
+        _healthBarGUI.FillIcons(newHealth);
     }
 
     private void OnFragmentsChanged(int newCollectibles)

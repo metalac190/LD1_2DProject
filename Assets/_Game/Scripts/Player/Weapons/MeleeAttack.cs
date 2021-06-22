@@ -17,6 +17,10 @@ public class MeleeAttack
     [SerializeField]
     private float _forwardAmount = 5;
     [SerializeField]
+    private float _knockbackAmount = 5;
+    [SerializeField]
+    private float _knockbackDuration = .25f;
+    [SerializeField]
     [Range(0, 1)]
     [Tooltip("Scale from 0 - 1 on how much move speed is reduced during attack")]
     private float _movementReductionRatio = .2f;
@@ -26,5 +30,7 @@ public class MeleeAttack
     public float ActiveDuration => _activeDuration;
     public float EndDelay => _endDelay;
     public float ForwardAmount => _forwardAmount;
+    public float KnockbackAmount => _knockbackAmount;
+    public float KnockbackDuration => _knockbackDuration;
     public float MovementReductionRatio => _movementReductionRatio;
 }

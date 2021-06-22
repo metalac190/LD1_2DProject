@@ -21,6 +21,8 @@ MonoBehaviour:
     _activeDuration: 0.2
     _endDelay: 0.15
     _forwardAmount: 0
+    _knockbackAmount: 2
+    _knockbackDuration: 0.25
     _movementReductionRatio: 0.1
   _groundFinisher:
     _damage: 10
@@ -28,6 +30,8 @@ MonoBehaviour:
     _activeDuration: 0.15
     _endDelay: 0.2
     _forwardAmount: 8
+    _knockbackAmount: 5
+    _knockbackDuration: 0.25
     _movementReductionRatio: 0.3
   _airAttack:
     _damage: 5
@@ -35,6 +39,8 @@ MonoBehaviour:
     _activeDuration: 0.2
     _endDelay: 0.15
     _forwardAmount: 0
+    _knockbackAmount: 2
+    _knockbackDuration: 0.25
     _movementReductionRatio: 0.2
   _airFinisher:
     _damage: 5
@@ -42,6 +48,8 @@ MonoBehaviour:
     _activeDuration: 0.15
     _endDelay: 0.2
     _forwardAmount: 5
+    _knockbackAmount: 5
+    _knockbackDuration: 0.25
     _movementReductionRatio: 0.4
   _wallAttack:
     _damage: 5
@@ -49,6 +57,8 @@ MonoBehaviour:
     _activeDuration: 0.1
     _endDelay: 0.1
     _forwardAmount: 5
+    _knockbackAmount: 5
+    _knockbackDuration: 0.25
     _movementReductionRatio: 0.5
   _wallFinisher:
     _damage: 5
@@ -56,4 +66,6 @@ MonoBehaviour:
     _activeDuration: 0.1
     _endDelay: 0.1
     _forwardAmount: 5
+    _knockbackAmount: 5
+    _knockbackDuration: 0.25
     _movementReductionRatio: 0.5

@@ -7,7 +7,7 @@ public class KinematicPusher : MonoBehaviour
     [SerializeField]
     private Rigidbody2D _rb;
 
-    private MovementKM _otherOverlappedMover;
+    private KinematicObject _otherOverlappedMover;
 
     private void Awake()
     {
@@ -17,7 +17,8 @@ public class KinematicPusher : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        _otherOverlappedMover = collision.rigidbody.GetComponent<MovementKM>();
+        _otherOverlappedMover = collision.rigidbody.GetComponent<KinematicObject>();
+
         if(_otherOverlappedMover != null)
         {
             _otherOverlappedMover.MoveOutOfCollider(collision.otherCollider);

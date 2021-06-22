@@ -7,27 +7,29 @@ using System;
 /// the below is from Unity github example projects:
 /// https://github.com/Unity-Technologies/PhysicsExamples2D/blob/2019.3/Assets/Scripts/SceneSpecific/Miscellaneous/KinematicTopDownController.cs
 /// </summary>
-public class MovementKM : MonoBehaviour
+
+[RequireComponent(typeof(Rigidbody2D))]
+public class KinematicObject : MonoBehaviour, IPushable
 {
     public event Action ReceivedPush;
 
     [SerializeField]
     private Collider2D _collider;
+
     [SerializeField]
-    private Rigidbody2D _rb;
-    private float _gravityScale = 1;
+    private float _downMultiplier = 1.5f; // multiply down speed so downwards falling is faster than jump (if desired)
 
     [SerializeField]
     private float _minGroundNormalY = 0.65f;
 
-    protected bool _isGrounded;
+    private float _gravityScale = 1;
     protected Vector2 _groundNormal;
     protected const float _minMoveDistance = 0.001f;
-    [SerializeField]
+
     protected ContactFilter2D _contactFilter;
     protected RaycastHit2D[] _hitBuffer = new RaycastHit2D[16];
     protected const float _skinWidth = 0.01f;
-    protected List<RaycastHit2D> _colliderHits = new List<RaycastHit2D>(16);
+    //protected List<RaycastHit2D> _colliderHits = new List<RaycastHit2D>(16);
     private Vector2 _velocity;
     protected Vector2 _requestedVelocity;
 
@@ -37,21 +39,23 @@ public class MovementKM : MonoBehaviour
     public Vector2 Position => _rb.position;
     public float GravityScale => _gravityScale;
     public Vector2 PreviousPosition { get; private set; }
+    public Rigidbody2D RB => _rb;
 
-    public bool IsUsingGravity { get; private set; } = true;
-    public bool IsInputLocked { get; private set; } = false;
+    public bool IsGrounded { get; private set; }
 
     // pushing
     private Vector2 _pushVelocity;
     private Coroutine _pushRoutine;
+    private Rigidbody2D _rb;
 
     // unorganized
     public int MaxIterations { get; private set; } = 2;
 
-    private float _gravityBuildup = 0;
-
     private void Awake()
     {
+        _rb = GetComponent<Rigidbody2D>();
+        _rb.isKinematic = true;
+
         _contactFilter.useTriggers = false;
         _contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(_collider.gameObject.layer));
         _contactFilter.useLayerMask = true;
@@ -60,7 +64,7 @@ public class MovementKM : MonoBehaviour
     private void FixedUpdate()
     {
         // clear previous queries
-        _isGrounded = false;
+        IsGrounded = false;
         // save pre-calculated position for velocity calculations
         PreviousPosition = _rb.position;
 
@@ -189,6 +193,7 @@ public class MovementKM : MonoBehaviour
     {
         //TODO check and correct for overlap here
         _rb.position = newPosition;
+        SetVelocityZero();
     }
 
     public void Flip()
@@ -249,7 +254,11 @@ public class MovementKM : MonoBehaviour
 
     private void ApplyGravity()
     {
-        Vector2 gravityForce = _gravityScale * Physics2D.gravity * Time.fixedDeltaTime;
+        Vector2 gravityForce;
+        if(_velocity.y < 0)
+            gravityForce = _downMultiplier * _gravityScale * Physics2D.gravity * Time.fixedDeltaTime;
+        else
+            gravityForce = _gravityScale * Physics2D.gravity * Time.fixedDeltaTime;
         _velocity += gravityForce;
     }
 
@@ -262,23 +271,18 @@ public class MovementKM : MonoBehaviour
     {
         // if we're moving at all substantially, check colliders
         float distance = move.magnitude;
+        // if we're moving a significant amount
         if(distance > _minMoveDistance)
         {
             // find nearby colliders and store them
             int hitCount = _collider.Cast(move, _contactFilter, _hitBuffer, distance + _skinWidth);
-            _colliderHits.Clear();
             for (int i = 0; i < hitCount; i++)
             {
-                _colliderHits.Add(_hitBuffer[i]);
-            }
-            // search throuh colliders
-            for (int i = 0; i < _colliderHits.Count; i++)
-            {
-                Vector2 currentNormal = _colliderHits[i].normal;
-                // mark if collider is below us (ground)
+                Vector2 currentNormal = _hitBuffer[i].normal;
+                // is surface flat enouh to land on?
                 if (currentNormal.y > _minGroundNormalY)
                 {
-                    _isGrounded = true;
+                    IsGrounded = true;
                     // if the normal fits within our slope, save it as our current ground normal
                     if (isVertical)
                     {
@@ -286,19 +290,28 @@ public class MovementKM : MonoBehaviour
                         currentNormal.x = 0;
                     }
                 }
-                // cut velocity based on our slope
-                float projection = Vector2.Dot(_velocity, currentNormal);
-                if(projection < 0)
+                // if we're grounded, adjust velocity based on slope
+                if (IsGrounded)
                 {
-                    // reduce the calculated amount from velocity
-                    _velocity -= (projection * currentNormal);
+                    // cut velocity based on our slope
+                    float projection = Vector2.Dot(_velocity, currentNormal);
+                    if (projection < 0)
+                    {
+                        // reduce the calculated amount from velocity
+                        _velocity -= (projection * currentNormal);
+                    }
                 }
+                // otherwise we're airborn, cancel vertical velocity if there's a ceiling
+                else
+                {
+                    _velocity.x = 0;
+                    _velocity.y = Mathf.Min(_velocity.y, 0);
+                }
+
                 // if we're close to a collider, only move up to our skinwidth
-                float modifiedDistance = _colliderHits[i].distance - _skinWidth;
-                if(modifiedDistance < distance)
-                {
+                float modifiedDistance = _hitBuffer[i].distance - _skinWidth;
+                if (modifiedDistance < distance)
                     distance = modifiedDistance;
-                }
             }
         }
         // move to new calculated position

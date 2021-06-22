@@ -8,7 +8,7 @@ public class PlayerAirAttackState : State
     private Player _player;
 
     private PlayerData _data;
-    private MovementKM _movement;
+    private KinematicObject _movement;
     private GameplayInput _input;
     private WeaponSystem _weaponSystem;
     private DashSystem _dashSystem;

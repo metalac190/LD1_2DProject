@@ -7,7 +7,7 @@ public class PlayerFallingState : State
     PlayerFSM _stateMachine;
     Player _player;
 
-    MovementKM _movement;
+    KinematicObject _movement;
     PlayerData _data;
     GameplayInput _input;
     GroundDetector _groundDetector;
@@ -79,14 +79,8 @@ public class PlayerFallingState : State
 
         _movement.MoveX(_input.XInputRaw * _data.MoveSpeed, true);
 
-        // check for ledge grab - prioritze over wall grab
-        if (_ledgeDetector.IsDetectingUpperLedge && _data.AllowLedgeHang)
-        {
-            _stateMachine.ChangeState(_stateMachine.LedgeHangState);
-            return;
-        }
         // otherwise, check for wall grab
-        else if (_wallDetector.IsWallDetected
+        if (_wallDetector.IsWallDetected
             && _input.XInputRaw == _movement.FacingDirection)
         {
             // determine if we can enter any of our wall states

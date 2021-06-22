@@ -7,7 +7,7 @@ public class PlayerWallJumpState : State
     PlayerFSM _stateMachine;
     Player _player;
 
-    MovementKM _movement;
+    KinematicObject _movement;
     PlayerData _data;
     GameplayInput _input;
     GroundDetector _groundDetector;

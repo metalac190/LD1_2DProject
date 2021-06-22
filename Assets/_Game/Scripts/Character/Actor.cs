@@ -5,10 +5,10 @@ using UnityEngine;
 public class Actor : MonoBehaviour
 {
     [SerializeField]
-    private MovementKM _movement;
+    private KinematicObject _movement;
     [SerializeField]
     private CollisionDetector _collisionDetector;
 
-    public MovementKM Movement => _movement;
+    public KinematicObject Movement => _movement;
     public CollisionDetector CollisionDetector => _collisionDetector;
 }

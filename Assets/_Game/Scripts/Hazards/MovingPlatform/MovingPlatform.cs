@@ -42,7 +42,7 @@ public class MovingPlatform : MonoBehaviour
     private Coroutine _moveRoutine;
     // we need to save our movement change so we can carry other objects
     public Vector2 PreviousPosition { get; private set; }
-    public Vector3 Velocity => (_platformRB.position - PreviousPosition) / Time.fixedDeltaTime;
+    public Vector2 Velocity => (_platformRB.position - PreviousPosition) / Time.fixedDeltaTime;
 
     private void Awake()
     {

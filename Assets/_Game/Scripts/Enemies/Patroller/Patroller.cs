@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerDetector))]
-[RequireComponent(typeof(ReceiveHitStun))]
+[RequireComponent(typeof(ReceivePushForce))]
 public class Patroller : Enemy
 {
     [Header("Patroller Settings")]
@@ -14,7 +14,7 @@ public class Patroller : Enemy
     [SerializeField]
     private PlayerDetector _playerDetector;
     [SerializeField]
-    private ReceiveHitStun _receiveKnockback;
+    private ReceivePushForce _receiveKnockback;
 
     [SerializeField]
     private GameObject _detectedGraphic;
@@ -24,7 +24,7 @@ public class Patroller : Enemy
     public PatrollerData Data => _data;
     public PatrollerAnimator PatrollerAnimator => _patrollerAnimator;
     public PlayerDetector PlayerDetector => _playerDetector;
-    public ReceiveHitStun ReceiveKnockback => _receiveKnockback;
+    public ReceivePushForce ReceiveKnockback => _receiveKnockback;
 
     public GameObject DetectedGraphic => _detectedGraphic;
     public GameObject AttackLocation => _attackLocation;

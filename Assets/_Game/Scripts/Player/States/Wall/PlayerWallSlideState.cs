@@ -7,7 +7,7 @@ public class PlayerWallSlideState : PlayerWallSuperState
     PlayerFSM _stateMachine;
     Player _player;
 
-    MovementKM _movement;
+    KinematicObject _movement;
     PlayerData _data;
     GameplayInput _input;
 

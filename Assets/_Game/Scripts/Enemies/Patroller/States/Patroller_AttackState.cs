@@ -10,7 +10,7 @@ public class Patroller_AttackState : State
 
     PlayerDetector _playerDetector;
 
-    private bool _isAttackActive;
+    public bool IsAttackActive { get; private set; }
     private bool _isAttackSequenceComplete;
 
     Coroutine _attackRoutine;
@@ -37,7 +37,7 @@ public class Patroller_AttackState : State
             = new Vector2(_data.AttackRadius * 2, _data.AttackRadius * 2);
 
         // wait for startup time before triggering the attack
-        _isAttackActive = false;
+        IsAttackActive = false;
         _isAttackSequenceComplete = false;
 
         if (_attackRoutine != null)
@@ -51,7 +51,7 @@ public class Patroller_AttackState : State
 
         _detectedGraphic.SetActive(false);
 
-        _isAttackActive = false;
+        IsAttackActive = false;
         _isAttackSequenceComplete = false;
         // stop routine if it's active and we're exiting early
         if (_attackRoutine != null)
@@ -102,7 +102,7 @@ public class Patroller_AttackState : State
 
     private void TriggerAttack()
     {
-        _isAttackActive = true;
+        IsAttackActive = true;
         _patroller.AttackLocation.SetActive(true);
 
         //TODO: replace the below for an extended hitbox later on
@@ -118,7 +118,7 @@ public class Patroller_AttackState : State
 
     private void FinishAttack()
     {
-        _isAttackActive = false;
+        IsAttackActive = false;
         _patroller.AttackLocation.SetActive(false);
     }
 }

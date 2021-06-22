@@ -84,12 +84,12 @@ public class LedgeDetector : MonoBehaviour
                 // if we're about to be on wall and previously weren't
                 if (value == true)
                 {
-                    FoundUpperLedge?.Invoke();
+                    FoundLowerLedge?.Invoke();
                 }
                 // if we're leaving wall and previously were against it
                 else if (value == false)
                 {
-                    LostUpperLedge?.Invoke();
+                    LostLowerLedge?.Invoke();
                 }
             }
             _isDetectingLowerLedge = value;

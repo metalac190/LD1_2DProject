@@ -7,7 +7,7 @@ public class PlayerJumpState : State
     PlayerFSM _stateMachine;
     Player _player;
 
-    MovementKM _movement;
+    KinematicObject _movement;
     GameplayInput _input;
     PlayerData _data;
     GroundDetector _groundDetector;
@@ -62,6 +62,7 @@ public class PlayerJumpState : State
         if(!_groundDetector.IsGrounded && _movement.Velocity.y <= 0)
         {
             _stateMachine.ChangeState(_stateMachine.FallingState);
+            return;
         }
 
         _movement.MoveX(_input.XInputRaw * _data.MoveSpeed, true);

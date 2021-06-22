@@ -34,12 +34,8 @@ MonoBehaviour:
   _allowWallGrab: 1
   _wallClimbVelocity: 5
   _allowWallClimb: 1
-  _allowLedgeHang: 0
-  _shouldAutoClimb: 0
-  _ledgeClimbDuration: 0.2
-  _ledgeDropPushVelocity: 10
-  _startClimbOffset: {x: 0.5, y: 2.5}
-  _stopClimbOffset: {x: 1, y: 0.4}
+  _allowLedgeHop: 1
+  _ledgeHopAmount: 10
   _allowDash: 1
   _maxHoldTime: 1
   _dashHoldMovementScale: 0.2

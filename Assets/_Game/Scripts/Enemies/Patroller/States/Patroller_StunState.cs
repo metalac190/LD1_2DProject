@@ -7,7 +7,7 @@ public class Patroller_StunState : State
     PatrollerFSM _stateMachine;
     Patroller _patroller;
 
-    ReceiveHitStun _receiveKnockback;
+    ReceivePushForce _receiveKnockback;
     PlayerDetector _playerDetector;
 
     public Patroller_StunState(PatrollerFSM stateMachine, Patroller patroller)

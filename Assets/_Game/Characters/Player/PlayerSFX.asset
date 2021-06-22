@@ -20,3 +20,4 @@ MonoBehaviour:
   _ledgeCatchSFX: {fileID: 11400000, guid: acc469abfb7fe814795e2ab3428e2138, type: 2}
   _landSFX: {fileID: 11400000, guid: 550deb992f6eb034d9ec18c02a27a581, type: 2}
   _wallGrabSFX: {fileID: 11400000, guid: c5799b36170724644a851d632520bd5f, type: 2}
+  _damagedSFX: {fileID: 11400000, guid: 1c0ff3b0c80355442a4336ac13f67e4b, type: 2}

@@ -22,7 +22,6 @@ public class PlayerFSM : StateMachineMB
     public PlayerWallClimbState WallClimbState { get; private set; }
     public PlayerWallJumpState WallJumpState { get; private set; }
     // ledge
-    public PlayerLedgeHangState LedgeHangState { get; private set; }
     public PlayerLedgeClimbState LedgeClimbState { get; private set; }
     // abilities
     public PlayerDashState DashState { get; private set; }
@@ -49,7 +48,6 @@ public class PlayerFSM : StateMachineMB
         WallClimbState = new PlayerWallClimbState(this, _player);
         WallJumpState = new PlayerWallJumpState(this, _player);
         // ledge
-        LedgeHangState = new PlayerLedgeHangState(this, _player);
         LedgeClimbState = new PlayerLedgeClimbState(this, _player);
         // abilities
         DashState = new PlayerDashState(this, _player);

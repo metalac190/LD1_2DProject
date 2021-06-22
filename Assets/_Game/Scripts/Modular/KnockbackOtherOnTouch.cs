@@ -4,106 +4,43 @@ using UnityEngine;
 
 public class KnockbackOtherOnTouch : MonoBehaviour
 {
-    [SerializeField] private float _knockbackCooldown = .2f;
-    [SerializeField] private float _knockbackAmount = 7.5f;
-    [SerializeField] private float _knockbackDuration = .1f;
+    [Header("General")]
+    [SerializeField] 
+    private float _knockbackAmount = 7.5f;
+    [SerializeField] 
+    private float _knockbackDuration = .1f;
 
-    [SerializeField] private Transform _touchDamageCheck;
-    [SerializeField] private float _touchDamageWidth;
-    [SerializeField] private float _touchDamageHeight;
+    [Header("Colliders")]
+    [SerializeField]
+    private Collider2D _pushTrigger;
+    [SerializeField]
+    private LayerMask _layersToPush;
+    [SerializeField]
+    [Tooltip("Drag any colliders to ignore here, " +
+    "for example, this object's Primary collider for movement")]
+    private Collider2D[] _ignoreColliders;
 
-    float _timeAtLastTouch = 0;
-
-    private Vector2 _touchDamageBotLeft;
-    private Vector2 _touchDamageTopRight;
-
-    /*
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void Awake()
     {
-        // if we've gone long enough without being damaged
-        if (Time.time >= _timeAtLastTouch + _knockbackCooldown)
+        // enforce trigger volume
+        _pushTrigger = GetComponent<Collider2D>();
+        _pushTrigger.isTrigger = true;
+        // ignore specified colliders
+        foreach(Collider2D collider in _ignoreColliders)
         {
-            // if we're only looking for player, check
-            if (_onlyAffectPlayer)
-            {
-                // if it's the player, apply damage/knockback and reset cooldown
-                if (collision.gameObject.CompareTag("Player"))
-                {
-                    
-                    ReceiveKnockback knockback = collision.gameObject.GetComponent<ReceiveKnockback>();
-                    if (knockback != null)
-                    {
-                        Debug.Log("Apply Knockback to player");
-                        knockback.Knockback(_knockbackAmount, _knockbackDuration, transform);
-                    }
-
-                    _timeAtLastTouch = Time.time;
-                }
-            }
-
-            // otherwise apply knockback if it can receive it
-            else
-            {
-                Debug.Log("Apply Knockback to object");
-                ReceiveKnockback knockback = collision.gameObject.GetComponent<ReceiveKnockback>();
-                if (knockback != null)
-                {
-                    knockback.Knockback(_knockbackAmount, _knockbackDuration, transform);
-                }
-
-                _timeAtLastTouch = Time.time;
-            }
-        }
-    }
-    */
-
-    private void FixedUpdate()
-    {
-        CheckTouchDamage();
-    }
-
-    private void CheckTouchDamage()
-    {
-        // if we've gone long enough without being damaged
-        if (Time.time >= _timeAtLastTouch + _knockbackCooldown)
-        {
-            // create bounds
-            _touchDamageBotLeft.Set(_touchDamageCheck.position.x - (_touchDamageWidth / 2),
-                _touchDamageCheck.position.y - (_touchDamageHeight / 2));
-            _touchDamageTopRight.Set(_touchDamageCheck.position.x + (_touchDamageWidth / 2),
-                _touchDamageCheck.position.y + (_touchDamageHeight / 2));
-            // test with bounds
-            Collider2D hit = Physics2D.OverlapArea(_touchDamageBotLeft, _touchDamageTopRight);
-            // if it's the player, apply damage and knockback
-            if (hit.CompareTag("Player"))
-            {
-                ReceiveHitStun knockback = hit.GetComponent<ReceiveHitStun>();
-                if (knockback != null)
-                {
-                    Debug.Log("Apply Knockback to player");
-                    knockback.Hit(_knockbackAmount, _knockbackDuration, transform);
-                }
-
-                _timeAtLastTouch = Time.time;
-            }
+            Physics2D.IgnoreCollision(collider, _pushTrigger);
         }
     }
 
-    private void OnDrawGizmos()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Vector2 botLeft = new Vector2(_touchDamageCheck.position.x - (_touchDamageWidth / 2),
-            _touchDamageCheck.position.y - (_touchDamageHeight / 2));
-        Vector2 botRight = new Vector2(_touchDamageCheck.position.x + (_touchDamageWidth / 2),
-            _touchDamageCheck.position.y - (_touchDamageHeight / 2));
-        Vector2 topRight = new Vector2(_touchDamageCheck.position.x + (_touchDamageWidth / 2),
-            _touchDamageCheck.position.y + (_touchDamageHeight / 2));
-        Vector2 topLeft = new Vector2(_touchDamageCheck.position.x - (_touchDamageWidth / 2),
-            _touchDamageCheck.position.y + (_touchDamageHeight / 2));
+        if(!PhysicsHelper.IsInLayerMask(collision.gameObject, _layersToPush)) { return; }
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(botLeft, botRight);
-        Gizmos.DrawLine(botRight, topRight);
-        Gizmos.DrawLine(topRight, topLeft);
-        Gizmos.DrawLine(topLeft, botLeft);
+        IPushable pushable = collision.GetComponent<IPushable>();
+        if(pushable != null)
+        {
+            Vector2 direction = (transform.position - collision.gameObject.transform.position) * -1;
+            pushable.Push(direction, _knockbackAmount, _knockbackDuration);
+        }
     }
 }

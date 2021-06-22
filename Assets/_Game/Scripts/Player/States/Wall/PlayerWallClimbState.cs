@@ -7,7 +7,7 @@ public class PlayerWallClimbState : PlayerWallSuperState
     PlayerFSM _stateMachine;
     Player _player;
 
-    MovementKM _movement;
+    KinematicObject _movement;
     PlayerData _data;
     GameplayInput _input;
     LedgeDetector _ledgeDetector;
@@ -41,9 +41,9 @@ public class PlayerWallClimbState : PlayerWallSuperState
 
         _movement.MoveY(_data.WallClimbVelocity);
 
-        if (_ledgeDetector.IsDetectingUpperLedge && _data.AllowLedgeHang)
+        if (_ledgeDetector.IsDetectingUpperLedge && _data.AllowLedgeHop)
         {
-            _stateMachine.ChangeState(_stateMachine.LedgeHangState);
+            _stateMachine.ChangeState(_stateMachine.LedgeClimbState);
         }
     }
 

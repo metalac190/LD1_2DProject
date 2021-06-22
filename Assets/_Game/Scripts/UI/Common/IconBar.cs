@@ -6,63 +6,32 @@ using UnityEngine.UI;
 public class IconBar : MonoBehaviour
 {
     [Header("Dependencies")]
-    [SerializeField] Sprite _iconImage = null;
-    [SerializeField] Image _backgroundImage = null;
-    [SerializeField] Image _iconPrefab = null;
+    [SerializeField] 
+    private Image _iconPrefab = null;
+    [SerializeField]
+    private GridLayoutGroup _gridLayoutGroup;
 
-    [Header("Icon Settings")]
-    [SerializeField] Color _colorTintFilled = Color.cyan;
-    [SerializeField] Color _colorTintEmpty = Color.clear;
-    [SerializeField] Color _backgroundColor = Color.clear;
-    [SerializeField] GridLayoutGroup _iconLayoutGroup = null;
-    [SerializeField] int _startingIcons = 2;
-    [SerializeField] int _maxStartingIcons = 5;
+    [Header("Settings")]
+    [SerializeField]
+    private int _iconSize = 25;
+    [SerializeField]
+    private int _iconSpacing = 3;
 
-    List<Image> _icons = new List<Image>();
-    public int MaxIconCount => _icons.Count;
+    private List<Image> _icons = new List<Image>();
+    public int Count => _icons.Count;
 
-    RectTransform _rectTransform;
+    private Coroutine _refreshRoutine;
 
-    private void Awake()
+    public void CreateIcons(int count)
     {
-        _rectTransform = GetComponent<RectTransform>();
-        _backgroundImage.color = _backgroundColor;
-
+        _icons.Clear();
+        // resize
         ConstrainGridPadding();
-        SetMaxIcons(_maxStartingIcons);
-        FillIcons(_startingIcons);
-    }
-
-    public void SetMaxIcons(int newMaxNumber)
-    {
-        if (newMaxNumber == MaxIconCount || newMaxNumber < 0)
-            return;
-        // if our new max is lower than our current amount
-        if(newMaxNumber < MaxIconCount)
+        // create all possible icons
+        for (int i = 0; i < count; i++)
         {
-            int numberToRemove = MaxIconCount - newMaxNumber;
-            for (int i = 0; i < numberToRemove; i++)
-            {
-                RemoveIcon(i);
-            }
+            CreateIcon();
         }
-
-        // if our new max is higher than our current amount
-        if(newMaxNumber > _icons.Count)
-        {
-            int numberToAdd = newMaxNumber - MaxIconCount;
-            for (int i = 0; i < numberToAdd; i++)
-            {
-                CreateIcon();
-            }
-        }
-    }
-
-    private void RemoveIcon(int index)
-    {
-        Image _iconToRemove = _icons[index];
-        _icons.RemoveAt(index);
-        Destroy(_iconToRemove.gameObject);
     }
 
     public void FillIcons(int numberToFill)
@@ -71,42 +40,50 @@ public class IconBar : MonoBehaviour
         for (int i = 0; i < _icons.Count; i++)
         {
             // fill the requested number of icons
-            if(i <= numberToFill-1)
-            {
-                FillIcon(_icons[i]);
-            }
+            if(i < numberToFill)
+                EnableIcon(_icons[i]);
             // clear the rest
-            else if (i > numberToFill-1)
-            {
-                ClearIcon(_icons[i]);
-            }
+            else
+                DisableIcon(_icons[i]); 
         }
     }
 
-    void CreateIcon()
+    private Image CreateIcon()
     {
-        Image icon = Instantiate(_iconPrefab, _iconLayoutGroup.transform);
-
-        icon.sprite = _iconImage;
-        ClearIcon(icon);
+        Image icon = Instantiate(_iconPrefab, _gridLayoutGroup.transform);
         _icons.Add(icon);
+        EnableIcon(icon);
+        return icon;
     }
 
-    void FillIcon(Image image)
+    private void EnableIcon(Image image)
     {
-        image.color = _colorTintFilled;
+        image.gameObject.SetActive(true);
     }
 
-    void ClearIcon(Image image)
+    private void DisableIcon(Image image)
     {
-        image.color = _colorTintEmpty;
+        image.gameObject.SetActive(false);
     }
 
-    void ConstrainGridPadding()
+    private void ConstrainGridPadding()
     {
         // constrain grid padding to size of our entire UI object
         // note this currently only supports square icons
-        _iconLayoutGroup.cellSize = new Vector2
-            (_rectTransform.sizeDelta.y, _rectTransform.sizeDelta.y);
+        _gridLayoutGroup.cellSize = new Vector2(_iconSize, _iconSize);
+        _gridLayoutGroup.spacing = new Vector2(_iconSpacing, _iconSpacing);
+
+        if (_refreshRoutine != null)
+            StopCoroutine(_refreshRoutine);
+        _refreshRoutine = StartCoroutine(RefreshLayoutGroup());
+    }
+
+    private IEnumerator RefreshLayoutGroup()
+    {
+        Debug.Log("Start Layout");
+        _gridLayoutGroup.enabled = true;
+        yield return new WaitForSeconds(1f);
+        _gridLayoutGroup.enabled = false;
+        Debug.Log("Stop Layout");
     }
 }

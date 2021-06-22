@@ -7,20 +7,22 @@ using SoundSystem;
 
 public class Health : MonoBehaviour, IDamageable
 {
-    public UnityEvent<int> Damaged;
-    public UnityEvent Died;
-
     public event Action<int> HealthChanged;
 
     [Header("Health")]
-    [SerializeField] 
-    private int _healthMax = 50;
+    [SerializeField]
+    private int _healthMax = 10;
     [SerializeField] 
     private bool _isDamageable = true;
+    [SerializeField]
+    private Color _flashColor = Color.white;
     [SerializeField] 
     private SpriteRenderer _renderer;
     [SerializeField]
     private SFXOneShot _damagedSFX;
+
+    public UnityEvent<int> Damaged;
+    public UnityEvent Died;
 
     private DamageFlash _damageFlash;
 
@@ -59,15 +61,16 @@ public class Health : MonoBehaviour, IDamageable
     private void Awake()
     {
         if (_renderer != null)
-            _damageFlash = new DamageFlash(this, _renderer);
+            _damageFlash = new DamageFlash(this, _renderer, _flashColor);
         else
             Debug.LogError("No renderer assigned to Health component");
+
         HealthCurrent = _healthMax;
     }
 
     void OnDisable()
     {
-        _damageFlash.StopFlash();
+        _damageFlash?.StopFlash();
     }
 
     public virtual void Damage(int amount)
@@ -77,6 +80,7 @@ public class Health : MonoBehaviour, IDamageable
         Debug.Log("Damage: " + gameObject.name + " " + amount);
         HealthCurrent -= amount;
         Damaged?.Invoke(amount);
+
         _damagedSFX?.PlayOneShot(transform.position);
         _damageFlash?.Flash();
         //TODO Hit Particles

@@ -16,18 +16,19 @@ public class DamageFlash
     private SpriteRenderer _renderer;
     private Health _health;
 
-    private Color _flashColor = Color.white;
+    private Color _flashColor;
     private float _flashInDuration = .02f;
     private float _flashHoldDuration = .1f;
     private float _flashOutDuration = .1f;
 
-    Color _startingColor;
-    Coroutine _flashRoutine = null;
+    private Color _startingColor;
+    private Coroutine _flashRoutine = null;
 
-    public DamageFlash(Health health, SpriteRenderer renderer)
+    public DamageFlash(Health health, SpriteRenderer renderer, Color flashColor)
     {
         _health = health;
         _renderer = renderer;
+        _flashColor = flashColor;
 
         _startingColor = _renderer.color;
     }

@@ -14,14 +14,24 @@ public class BounceZone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Player player = collision.gameObject.GetComponent<Player>();
+        Player player = collision.GetComponent<Player>();
+        // if it's the player, do player specific things
         if(player != null)
         {
-            player.DashSystem.ReadyDash();
-
             player.Movement.Push(transform.up, _bounceAmount, _bounceDuration);
-
-            _bounceSFX?.PlayOneShot(player.transform.position);
+            player.DashSystem.ReadyDash();
+            _bounceSFX?.PlayOneShot(transform.position);
         }
+        // otherwise, if it's pushable just push it
+        else
+        {
+            IPushable pushable = collision.gameObject.GetComponent<IPushable>();
+            if (pushable != null)
+            {
+                pushable.Push(transform.up, _bounceAmount, _bounceDuration);
+                _bounceSFX?.PlayOneShot(transform.position);
+            }
+        }
+
     }
 }

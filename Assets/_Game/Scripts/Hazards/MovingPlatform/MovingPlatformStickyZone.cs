@@ -7,7 +7,7 @@ public class MovingPlatformStickyZone : MonoBehaviour
     [SerializeField]
     private MovingPlatform _movingPlatform;
 
-    private List<MovementKM> _passengers = new List<MovementKM>();
+    private List<KinematicObject> _passengers = new List<KinematicObject>();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -31,9 +31,10 @@ public class MovingPlatformStickyZone : MonoBehaviour
     {
         if(_passengers != null && _passengers.Count > 0)
         {
-            foreach(MovementKM moveable in _passengers)
+            foreach(KinematicObject moveable in _passengers)
             {
                 moveable.Move(_movingPlatform.Velocity, false);
+                //moveable.RB.position += _movingPlatform.Velocity;
             }
         }
     }

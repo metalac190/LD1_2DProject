@@ -7,7 +7,7 @@ public class PlayerDashState : State
     private PlayerFSM _stateMachine;
     private Player _player;
 
-    private MovementKM _movement;
+    private KinematicObject _movement;
     private PlayerData _data;
     private DashSystem _dashSystem;
     private GameplayInput _input;

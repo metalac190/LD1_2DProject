@@ -6,7 +6,7 @@ public class PlayerMoveState : PlayerGroundedSuperState
 {
     PlayerFSM _stateMachine;
 
-    MovementKM _movement;
+    KinematicObject _movement;
     PlayerData _data;
     GameplayInput _input;
 
