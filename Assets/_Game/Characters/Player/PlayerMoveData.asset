@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: PlayerMoveData
   m_EditorClassIdentifier: 
   _moveSpeed: 10
+  _accelToMaxInSeconds: 0.5
+  _decelToZeroInSeconds: 0.5
   _gravityScale: 6
   _allowJump: 1
   _jumpVelocity: 28
@@ -36,7 +38,9 @@ MonoBehaviour:
   _allowWallClimb: 1
   _allowLedgeHop: 1
   _ledgeHopAmount: 10
+  _ledgeHopDuration: 0.25
   _allowDash: 1
+  _dashCooldown: 1
   _maxHoldTime: 1
   _dashHoldMovementScale: 0.2
   _dashDuration: 0.2

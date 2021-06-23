@@ -29,7 +29,6 @@ public class PlayerLandState : PlayerGroundedSuperState
         base.Enter();
 
         _player.ResetJumps();
-        _dashSystem.ReadyDash();
 
         _sfx.LandSFX.PlayOneShot(_player.transform.position);
     }

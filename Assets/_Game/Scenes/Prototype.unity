@@ -27120,6 +27120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9458f2cd31820674cb5e3f057c9c8f84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _data: {fileID: 11400000, guid: 76c1a438b57b2f048b909ced677a1027, type: 2}
   _dashCooldownVisual: {fileID: 420489001}
   _afterImagePool: {fileID: 1636585656}
 --- !u!4 &641447807

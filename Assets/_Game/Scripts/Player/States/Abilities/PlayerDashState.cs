@@ -177,13 +177,11 @@ public class PlayerDashState : State
         // completed dash. Decide where to transition from here
         if (_groundDetector.IsGrounded && _input.XInputRaw != 0)
         {
-            _dashSystem.ReadyDash();
             _stateMachine.ChangeState(_stateMachine.MoveState);
             return;
         }
         else if(_groundDetector.IsGrounded && _input.XInputRaw == 0)
         {
-            _dashSystem.ReadyDash();
             _stateMachine.ChangeState(_stateMachine.IdleState);
             return;
         }

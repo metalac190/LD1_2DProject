@@ -32,6 +32,12 @@ public class GameplayInput : MonoBehaviour
 
     public Vector2 MoveInput { get; private set; }
 
+    public bool MoveHeld { get; private set; }
+    public bool JumpHeld { get; private set; }
+    public bool MenuHeld { get; private set; }
+    public bool DashHeld { get; private set; }
+    public bool AttackHeld { get; private set; }
+
     public float XInput => MoveInput.x;
     public float YInput => MoveInput.y;
     public int XInputRaw { get; private set; }
@@ -47,41 +53,75 @@ public class GameplayInput : MonoBehaviour
         YInputRaw = Mathf.RoundToInt(MoveInput.y);
 
         if (context.started)
+        {
+            MoveHeld = true;
             MovementPressed?.Invoke();
+        }
         else if (context.canceled)
+        {
+            MoveHeld = false;
             MovementCancelled?.Invoke();
+        }
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.started)
+        {
+            JumpHeld = true;
             JumpPressed?.Invoke();
+        }  
         else if (context.canceled)
+        {
+            JumpHeld = false;
             JumpReleased?.Invoke();
+        }   
     }
 
     public void OnDash(InputAction.CallbackContext context)
     {
         if (context.started)
+        {
+            DashHeld = true;
             DashPressed?.Invoke();
+        }
         else if (context.canceled)
+        {
+            DashHeld = false;
             DashReleased?.Invoke();
+        }
+            
     }
 
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (context.started)
+        {
+            AttackHeld = true;
             AttackPressed?.Invoke();
+        }
+            
         else if (context.canceled)
+        {
+            AttackHeld = false;
             AttackReleased?.Invoke();
+        }
+            
     }
 
     public void OnMenu(InputAction.CallbackContext context)
     {
         if (context.started)
+        {
+            MenuHeld = true;
             MenuPressed?.Invoke();
+        }
+            
         else if (context.canceled)
+        {
+            MenuHeld = false;
             MenuReleased?.Invoke();
+        }  
     }
 
     public void OnAim(InputAction.CallbackContext context)

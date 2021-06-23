@@ -9,6 +9,10 @@ public class PlayerData : ScriptableObject
     [SerializeField]
     private float _moveSpeed = 10f;
     [SerializeField]
+    private float _groundAccelToMax = .2f;
+    [SerializeField]
+    private float _groundDecelToZero = .1f;
+    [SerializeField]
     private float _gravityScale = 6;
 
     [Header("Jumping")]
@@ -74,6 +78,8 @@ public class PlayerData : ScriptableObject
     [SerializeField]
     private bool _allowDash = true;
     [SerializeField]
+    private float _dashCooldown = 1;
+    [SerializeField]
     private float _maxHoldTime = 1;
     [SerializeField][Range(0,1)][Tooltip("ratio by which movement is slowed compared to original")]
     private float _dashHoldMovementScale = .2f;
@@ -109,6 +115,8 @@ public class PlayerData : ScriptableObject
     #region Getters
     // movement
     public float MoveSpeed => _moveSpeed;
+    public float GroundAccelToMax => _groundAccelToMax;
+    public float GroundDecelToZero => _groundDecelToZero;
     public float GravityScale => _gravityScale;
     // jumping
     public bool AllowJump => _allowJump;
@@ -141,6 +149,7 @@ public class PlayerData : ScriptableObject
     public float LedgeHopDuration => _ledgeHopDuration;
     // dash
     public bool AllowDash => _allowDash;
+    public float DashCooldown => _dashCooldown;
     public float MaxHoldTime => _maxHoldTime;
     public float DashHoldMovementScale => _dashHoldMovementScale;
     public float DashDuration => _dashDuration;

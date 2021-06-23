@@ -157,7 +157,6 @@ public class PlayerAirAttackState : State
         Debug.Log("Hit Damageable");
         _hitDamageable = true;
         // if we've hit something, reset air dash
-        _dashSystem.ReadyDash();
         _movement.SetGravityScale(0);
         _movement.SetVelocityZero();
     }

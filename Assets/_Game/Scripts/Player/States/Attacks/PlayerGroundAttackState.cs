@@ -43,7 +43,6 @@ public class PlayerGroundAttackState : State
         _groundDetector.LeftGround += OnLeftGround;
 
         // it's possible we could cancel dash with a ground attack. make sure we refresh it
-        _dashSystem.ReadyDash();
 
         _isInitialAttack = true;
         Attack();
