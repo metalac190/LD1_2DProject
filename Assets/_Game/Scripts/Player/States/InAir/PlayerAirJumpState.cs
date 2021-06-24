@@ -56,7 +56,7 @@ public class PlayerAirJumpState : State
 
         _groundDetector.DetectGround();
         // if we're not grounded, but began falling, go to fall state
-        if (!_groundDetector.IsGrounded && _movement.Velocity.y <= 0)
+        if (!_groundDetector.IsGrounded && _movement.Velocity.y < 0)
         {
             _stateMachine.ChangeState(_stateMachine.FallingState);
             return;

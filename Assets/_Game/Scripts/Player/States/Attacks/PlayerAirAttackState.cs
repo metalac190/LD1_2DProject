@@ -122,7 +122,12 @@ public class PlayerAirAttackState : State
         else if (_attackInputBuffer && _weaponSystem.MeleeAttackState == MeleeAttackState.AfterAttack
             && _weaponSystem.AttackCount < _weaponData.MaxComboCount)
         {
-            if(_weaponSystem.AttackCount == _weaponData.MaxComboCount - 1)
+            if(_input.YInputRaw < 0)
+            {
+                _stateMachine.ChangeState(_stateMachine.BounceAttackState);
+                return;
+            }
+            else if(_weaponSystem.AttackCount == _weaponData.MaxComboCount - 1)
             {
                 FinisherAttack();
             }
@@ -138,7 +143,7 @@ public class PlayerAirAttackState : State
         _attackInputBuffer = false;
         _hitDamageable = false;
 
-        _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.AirAttack, 
+        _weaponSystem.StandardAttack(_weaponSystem.EquippedWeapon.AirAttack, 
             _weaponSystem.EquippedWeapon.HitSFX, _isInitialAttack);
     }
 
@@ -147,7 +152,7 @@ public class PlayerAirAttackState : State
         _attackInputBuffer = false;
         _hitDamageable = false;
 
-        _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.AirFinisher,
+        _weaponSystem.StandardAttack(_weaponSystem.EquippedWeapon.AirFinisher,
             _weaponSystem.EquippedWeapon.FinisherSFX, _isInitialAttack);
         _isInitialAttack = true;
     }

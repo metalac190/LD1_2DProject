@@ -12,9 +12,11 @@ public class WeaponSystem : MonoBehaviour
     public event Action<IDamageable> HitDamageable;
 
     [SerializeField]
-    private GameObject _forwardAttackCollision;
+    private GameObject _standardAttackCollision;
     [SerializeField]
     private GameObject _bounceAttackCollision;
+    [SerializeField]
+    private GameObject _wallAttackCollision;
     [SerializeField]
     private SpriteRenderer _weaponRenderer;
     [SerializeField]
@@ -24,6 +26,7 @@ public class WeaponSystem : MonoBehaviour
 
     public WeaponData EquippedWeapon => _equippedWeapon;
     public MeleeAttack CurrentMeleeAttack { get; private set; }
+    public GameObject CurrentWeaponCollision { get; private set; }
 
     public MeleeAttackState MeleeAttackState { get; private set; } = MeleeAttackState.NotAttacking;
 
@@ -33,12 +36,11 @@ public class WeaponSystem : MonoBehaviour
 
     private void Awake()
     {
-        ActivateCollision(false);
-
+        DisableAllWeaponCollisions();
         MeleeAttackState = MeleeAttackState.NotAttacking;
     }
 
-    public void StartAttack(MeleeAttack meleeAttack, SFXOneShot hitSound, bool isInitialAttack)
+    public void StandardAttack(MeleeAttack meleeAttack, SFXOneShot hitSound, bool isInitialAttack)
     {
         if (meleeAttack == null) { return; }
         // if it's a combo, progress the counter, if not, start over
@@ -48,35 +50,60 @@ public class WeaponSystem : MonoBehaviour
             AttackCount++;
 
         CurrentMeleeAttack = meleeAttack;
+        CurrentWeaponCollision = _standardAttackCollision;
+
+        string animationName;
+        if (AttackCount == EquippedWeapon.MaxComboCount)
+        {
+            animationName = WeaponAnimator.GroundSwingFinisherName;
+        }
+        // otherwise, alternate hit sprites
+        else if (AttackCount % 2 == 0)
+        {
+            animationName = WeaponAnimator.GroundSwing02Name;
+        }
+        else
+        {
+            animationName = WeaponAnimator.GroundSwing01Name;
+        }
 
         if (_attackRoutine != null)
             StopCoroutine(_attackRoutine);
         _attackRoutine = StartCoroutine(AttackRoutine(meleeAttack.StartDelay, meleeAttack.ActiveDuration,
-            meleeAttack.EndDelay, hitSound));
+            meleeAttack.EndDelay, hitSound, _standardAttackCollision, animationName));
     }
 
-    private void LoadAttackVisual(MeleeAttack meleeAttack)
+    public void BounceAttack(MeleeAttack meleeAttack, SFXOneShot hitSound)
     {
-        if(AttackCount == EquippedWeapon.MaxComboCount)
-        {
-            _weaponAnimator.Play(WeaponAnimator.GroundSwingFinisherName);
-        }
-        // otherwise, alternate hit sprites
-        else if(AttackCount % 2 == 0)
-        {
-            _weaponAnimator.Play(WeaponAnimator.GroundSwing02Name);
-        }
-        else
-        {
-            _weaponAnimator.Play(WeaponAnimator.GroundSwing01Name);
-        }
+        if(meleeAttack == null) { return; }
+
+        CurrentMeleeAttack = meleeAttack;
+        CurrentWeaponCollision = _bounceAttackCollision;
+        
+        if (_attackRoutine != null)
+            StopCoroutine(_attackRoutine);
+        _attackRoutine = StartCoroutine(AttackRoutine(meleeAttack.StartDelay, meleeAttack.ActiveDuration,
+            meleeAttack.EndDelay, hitSound, _bounceAttackCollision, WeaponAnimator.BounceAttackName));
+    }
+
+    private void DisableAllWeaponCollisions()
+    {
+        _standardAttackCollision.SetActive(false);
+        _bounceAttackCollision.SetActive(false);
+        _wallAttackCollision.SetActive(false);
+    }
+
+    private void LoadAttackVisual()
+    {
+
     }
 
     public virtual void StopAttack()
     {
         if (_attackRoutine != null)
             StopCoroutine(_attackRoutine);
-        ActivateCollision(false);
+
+        CurrentWeaponCollision.SetActive(false);
         _weaponAnimator.Stop();
         MeleeAttackState = MeleeAttackState.NotAttacking;
     }
@@ -90,18 +117,14 @@ public class WeaponSystem : MonoBehaviour
         }
     }
 
-    public void ActivateCollision(bool isActive)
-    {
-        _forwardAttackCollision.SetActive(isActive);
-    }
-
     public void Hit(IDamageable damageable)
     {
         HitDamageable?.Invoke(damageable);
         damageable.Damage(CurrentMeleeAttack.Damage);
     }
 
-    IEnumerator AttackRoutine(float beforeDelay, float activeDuration, float endDelay, SFXOneShot sfx)
+    IEnumerator AttackRoutine(float beforeDelay, float activeDuration, float endDelay, 
+        SFXOneShot sfx, GameObject collisionObject, string animationName)
     {
         MeleeAttackState = MeleeAttackState.BeforeAttack;
         yield return new WaitForSeconds(beforeDelay);
@@ -109,11 +132,11 @@ public class WeaponSystem : MonoBehaviour
         MeleeAttackState = MeleeAttackState.DuringAttack;
         AttackActivated?.Invoke(EquippedWeapon);
         //TODO: check/deal damage here
-        ActivateCollision(true);
-        LoadAttackVisual(CurrentMeleeAttack);
+        CurrentWeaponCollision.SetActive(true);
+        _weaponAnimator.Play(animationName);
         sfx.PlayOneShot(transform.position);
         yield return new WaitForSeconds(activeDuration);
-        ActivateCollision(false);
+        CurrentWeaponCollision.SetActive(false);
         AttackDeactivated?.Invoke();
 
         MeleeAttackState = MeleeAttackState.AfterAttack;

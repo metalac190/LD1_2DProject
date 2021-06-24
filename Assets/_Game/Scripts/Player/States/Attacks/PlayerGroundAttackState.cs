@@ -113,7 +113,7 @@ public class PlayerGroundAttackState : State
             && _weaponSystem.AttackCount < _weaponData.MaxComboCount)
         {
             // if next attack will be our last attack, do the finisher
-            if(_weaponSystem.AttackCount == _weaponData.MaxComboCount - 1)
+            if (_weaponSystem.AttackCount == _weaponData.MaxComboCount - 1)
             {
                 FinisherAttack();
             }
@@ -128,14 +128,14 @@ public class PlayerGroundAttackState : State
     private void Attack()
     {
         _attackInputBuffer = false;
-        _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.GroundAttack, 
+        _weaponSystem.StandardAttack(_weaponSystem.EquippedWeapon.GroundAttack, 
             _weaponSystem.EquippedWeapon.HitSFX, _isInitialAttack);
     }
 
     private void FinisherAttack()
     {
         _attackInputBuffer = false;
-        _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.GroundFinisher, 
+        _weaponSystem.StandardAttack(_weaponSystem.EquippedWeapon.GroundFinisher, 
             _weaponSystem.EquippedWeapon.FinisherSFX, _isInitialAttack);
 
         _isInitialAttack = true;

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PlayerMoveData
   m_EditorClassIdentifier: 
   _moveSpeed: 10
-  _accelToMaxInSeconds: 0.5
-  _decelToZeroInSeconds: 0.5
+  _groundAccelToMax: 0.2
+  _groundDecelToZero: 0.1
   _gravityScale: 6
   _allowJump: 1
   _jumpVelocity: 28
@@ -51,4 +51,6 @@ MonoBehaviour:
   _crouchMoveVelocity: 3
   _crouchColliderHeight: 0.8
   _standColliderHeight: 1.8
+  _allowAttack: 1
   _airAttackVelocityYDampen: 0.5
+  _bounceAttackVertical: 20

@@ -8,6 +8,7 @@ public class WeaponAnimator : MonoBehaviour
     public const string GroundSwing01Name = "GroundSwing_01";
     public const string GroundSwing02Name = "GroundSwing_02";
     public const string GroundSwingFinisherName = "GroundFinisher";
+    public const string BounceAttackName = "BounceAttack";
 
     [SerializeField]
     private Animator _animator;

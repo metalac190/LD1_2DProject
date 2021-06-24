@@ -106,10 +106,13 @@ public class PlayerData : ScriptableObject
     private float _standColliderHeight = 1.8f;
 
     [Header("Attack")]
+    [SerializeField]
     private bool _allowAttack = true;
     [SerializeField][Range(0, 1)]
     [Tooltip("Cuts velocity by this ratio whenever an air attack occurs")]
     private float _airAttackVelocityYDampen = .5f;
+    [SerializeField]
+    private float _bounceAttackVertical = 25;
 
 
     #region Getters
@@ -164,5 +167,6 @@ public class PlayerData : ScriptableObject
     // attack
     public bool AllowAttack => _allowAttack;
     public float AirAttackVelocityYDampen => _airAttackVelocityYDampen;
+    public float BounceAttackVertical => _bounceAttackVertical;
     #endregion
 }

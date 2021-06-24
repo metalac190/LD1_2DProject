@@ -15,7 +15,7 @@ public class ReceiveKnockback : MonoBehaviour, IPushable
 
     // this is used to try and make dynamic forces roughly match KM forces
     const float _dynamicForceMultiplier = 75;
-    const float _dynamicDragMultiplier = 10;
+    const float _dynamicDragMultiplier = 6;
 
     public event Action KnockbackStarted;
     public event Action KnockbackEnded;

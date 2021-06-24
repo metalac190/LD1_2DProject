@@ -29,6 +29,7 @@ public class PlayerFSM : StateMachineMB
     public PlayerGroundAttackState GroundAttackState { get; private set; }
     public PlayerAirAttackState AirAttackState { get; private set; }
     public PlayerWallAttackState WallAttackState { get; private set; }
+    public PlayerBounceAttackState BounceAttackState { get; private set; }
 
     private void Awake()
     {
@@ -55,6 +56,7 @@ public class PlayerFSM : StateMachineMB
         GroundAttackState = new PlayerGroundAttackState(this, _player);
         AirAttackState = new PlayerAirAttackState(this, _player);
         WallAttackState = new PlayerWallAttackState(this, _player);
+        BounceAttackState = new PlayerBounceAttackState(this, _player);
     }
 
     private void Start()

@@ -62,10 +62,9 @@ public class PlayerGroundedSuperState : State
     private void OnAttackPressed()
     {
         _ceilingDetector.DetectCeiling();
-        if (!_ceilingDetector.IsTouchingCeiling)
-        {
-            _stateMachine.ChangeState(_stateMachine.GroundAttackState);
-        }
+        if (_ceilingDetector.IsTouchingCeiling) { return; }
+
+        _stateMachine.ChangeState(_stateMachine.GroundAttackState);
     }
 
     private void OnJumpPressed()

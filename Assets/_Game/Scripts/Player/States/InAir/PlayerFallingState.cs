@@ -140,7 +140,15 @@ public class PlayerFallingState : State
 
     private void OnAttackPressed()
     {
-        _stateMachine.ChangeState(_stateMachine.AirAttackState);
+        if(_input.YInputRaw == -1)
+        {
+            _stateMachine.ChangeState(_stateMachine.BounceAttackState);
+        }
+        else
+        {
+            _stateMachine.ChangeState(_stateMachine.AirAttackState);
+        }
+        
     }
 
     private void OnJumpPressed()

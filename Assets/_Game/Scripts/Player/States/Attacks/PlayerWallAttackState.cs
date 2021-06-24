@@ -32,7 +32,7 @@ public class PlayerWallAttackState : State
         //_movement.HoldPosition(_startPos);
 
         _movement.Flip();
-        _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.WallAttack, 
+        _weaponSystem.StandardAttack(_weaponSystem.EquippedWeapon.WallAttack, 
             _weaponSystem.EquippedWeapon.HitSFX, true);
         _movement.SetVelocityZero();
         _movement.SetGravityScale(0);
