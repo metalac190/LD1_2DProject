@@ -34,13 +34,12 @@ public class IconBar : MonoBehaviour
         }
     }
 
-    public void FillIcons(int numberToFill)
+    public void FillIcons(int fillValue)
     {
-        // start from the bottom
         for (int i = 0; i < _icons.Count; i++)
         {
             // fill the requested number of icons
-            if(i < numberToFill)
+            if(i < fillValue)
                 EnableIcon(_icons[i]);
             // clear the rest
             else
@@ -80,10 +79,8 @@ public class IconBar : MonoBehaviour
 
     private IEnumerator RefreshLayoutGroup()
     {
-        Debug.Log("Start Layout");
         _gridLayoutGroup.enabled = true;
         yield return new WaitForSeconds(1f);
         _gridLayoutGroup.enabled = false;
-        Debug.Log("Stop Layout");
     }
 }

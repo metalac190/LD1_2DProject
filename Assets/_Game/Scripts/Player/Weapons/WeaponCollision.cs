@@ -7,8 +7,6 @@ public class WeaponCollision : MonoBehaviour
 {
     [SerializeField]
     private WeaponSystem _weaponSystem;
-    [SerializeField]
-    private float _verticalModifier = 1;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -27,16 +25,25 @@ public class WeaponCollision : MonoBehaviour
 
     private void DetectPushable(Collider2D collision)
     {
-        IPushable pushable = collision.GetComponent<IPushable>();
+        ReceiveKnockback pushable = collision.GetComponent<ReceiveKnockback>();
         if(pushable != null)
         {
             float amount = _weaponSystem.CurrentMeleeAttack.KnockbackAmount;
             float duration = _weaponSystem.CurrentMeleeAttack.KnockbackDuration;
-            Vector2 direction = (transform.position - collision.transform.position) * -1;
-            direction.y += _verticalModifier;
+            // add modifier, adjusted for facing direction
+            Vector2 direction = new Vector2(_weaponSystem.CurrentMeleeAttack.KnockbackForceModifier.x * transform.right.x,
+                _weaponSystem.CurrentMeleeAttack.KnockbackForceModifier.y);
+            if (_weaponSystem.CurrentMeleeAttack.AddReverseDirection)
+            {
+                Vector2 reverseForce = (transform.position - collision.transform.position) * -1;
+                // make sure distance isn't creating huge vectors
+                reverseForce.Normalize();
+                // combine with original force adjustment
+                direction += reverseForce;
+            }
+            // ensure direction can be modified with strength later
             direction.Normalize();
-
-            Debug.Log("Push: " + direction * amount);
+            Debug.Log("Push Direction: " + direction + " Push Amount: " + amount);
             pushable.Push(direction, amount, duration);
         }
     }

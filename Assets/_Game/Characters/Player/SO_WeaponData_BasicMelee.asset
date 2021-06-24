@@ -20,8 +20,9 @@ MonoBehaviour:
     _startDelay: 0
     _activeDuration: 0.2
     _endDelay: 0.15
-    _forwardAmount: 0
-    _knockbackAmount: 2
+    _playerForwardAmount: 0
+    _knockbackAmount: 3
+    _knockbackForceModifier: {x: 0.5, y: 1}
     _knockbackDuration: 0.25
     _movementReductionRatio: 0.1
   _groundFinisher:
@@ -29,8 +30,9 @@ MonoBehaviour:
     _startDelay: 0.1
     _activeDuration: 0.15
     _endDelay: 0.2
-    _forwardAmount: 8
-    _knockbackAmount: 5
+    _playerForwardAmount: 3
+    _knockbackAmount: 8
+    _knockbackForceModifier: {x: 0.5, y: 1}
     _knockbackDuration: 0.25
     _movementReductionRatio: 0.3
   _airAttack:
@@ -38,8 +40,9 @@ MonoBehaviour:
     _startDelay: 0
     _activeDuration: 0.2
     _endDelay: 0.15
-    _forwardAmount: 0
+    _playerForwardAmount: 0
     _knockbackAmount: 2
+    _knockbackForceModifier: {x: 1, y: 0}
     _knockbackDuration: 0.25
     _movementReductionRatio: 0.2
   _airFinisher:
@@ -47,8 +50,9 @@ MonoBehaviour:
     _startDelay: 0.1
     _activeDuration: 0.15
     _endDelay: 0.2
-    _forwardAmount: 5
-    _knockbackAmount: 5
+    _playerForwardAmount: 0
+    _knockbackAmount: 4
+    _knockbackForceModifier: {x: 1, y: 1}
     _knockbackDuration: 0.25
     _movementReductionRatio: 0.4
   _wallAttack:
@@ -56,8 +60,9 @@ MonoBehaviour:
     _startDelay: 0
     _activeDuration: 0.1
     _endDelay: 0.1
-    _forwardAmount: 5
+    _playerForwardAmount: 5
     _knockbackAmount: 5
+    _knockbackForceModifier: {x: 0.5, y: 1}
     _knockbackDuration: 0.25
     _movementReductionRatio: 0.5
   _wallFinisher:
@@ -65,7 +70,18 @@ MonoBehaviour:
     _startDelay: 0
     _activeDuration: 0.1
     _endDelay: 0.1
-    _forwardAmount: 5
+    _playerForwardAmount: 5
     _knockbackAmount: 5
+    _knockbackForceModifier: {x: 0, y: 1}
     _knockbackDuration: 0.25
     _movementReductionRatio: 0.5
+  _bounceAttack:
+    _damage: 5
+    _startDelay: 0
+    _activeDuration: 0.1
+    _endDelay: 0.1
+    _playerForwardAmount: 5
+    _knockbackAmount: 5
+    _knockbackForceModifier: {x: 0, y: 1}
+    _knockbackDuration: 0.25
+    _movementReductionRatio: 0.2

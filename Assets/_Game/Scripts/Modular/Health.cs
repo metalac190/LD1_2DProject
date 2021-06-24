@@ -77,7 +77,6 @@ public class Health : MonoBehaviour, IDamageable
     {
         if (!_isDamageable) return;
 
-        Debug.Log("Damage: " + gameObject.name + " " + amount);
         HealthCurrent -= amount;
         Damaged?.Invoke(amount);
 

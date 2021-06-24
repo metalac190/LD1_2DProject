@@ -88,13 +88,13 @@ public class PlayerAirAttackState : State
             if(_input.XInputRaw == _movement.FacingDirection)
             {
                 // forward but disable falling
-                _movement.MoveX((_weaponSystem.CurrentMeleeAttack.ForwardAmount 
+                _movement.MoveX((_weaponSystem.CurrentMeleeAttack.PlayerForwardAmount 
                     * _movement.FacingDirection) + (_movement.FacingDirection * _data.MoveSpeed) 
                     * _weaponSystem.CurrentMeleeAttack.MovementReductionRatio, false);
             }
             else
             {
-                _movement.MoveX((_weaponSystem.CurrentMeleeAttack.ForwardAmount 
+                _movement.MoveX((_weaponSystem.CurrentMeleeAttack.PlayerForwardAmount 
                     * _movement.FacingDirection), false);
             }
 
@@ -154,7 +154,6 @@ public class PlayerAirAttackState : State
 
     private void OnHitDamageable(IDamageable damageable)
     {
-        Debug.Log("Hit Damageable");
         _hitDamageable = true;
         // if we've hit something, reset air dash
         _movement.SetGravityScale(0);

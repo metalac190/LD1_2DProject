@@ -61,7 +61,6 @@ public class PlayerGroundedSuperState : State
 
     private void OnAttackPressed()
     {
-        Debug.Log("Attack pressed");
         _ceilingDetector.DetectCeiling();
         if (!_ceilingDetector.IsTouchingCeiling)
         {

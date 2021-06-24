@@ -74,7 +74,7 @@ public class PlayerGroundAttackState : State
             // if we're holding forward, add additional movement based on our attacks move reduction
             if(_input.XInputRaw == _movement.FacingDirection)
             {
-                float moveAmount = (_weaponSystem.CurrentMeleeAttack.ForwardAmount
+                float moveAmount = (_weaponSystem.CurrentMeleeAttack.PlayerForwardAmount
                     * _movement.FacingDirection) + (_movement.FacingDirection * _data.MoveSpeed
                     * _weaponSystem.CurrentMeleeAttack.MovementReductionRatio);
                 //TODO: Consider if this can be a force with momentum, once we have that capability
@@ -83,7 +83,7 @@ public class PlayerGroundAttackState : State
             // otherwise just use forward amount
             else
             {
-                float moveAmount = (_weaponSystem.CurrentMeleeAttack.ForwardAmount
+                float moveAmount = (_weaponSystem.CurrentMeleeAttack.PlayerForwardAmount
                     * _movement.FacingDirection);
                 
                 _movement.MoveX(moveAmount, false);
@@ -130,7 +130,6 @@ public class PlayerGroundAttackState : State
         _attackInputBuffer = false;
         _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.GroundAttack, 
             _weaponSystem.EquippedWeapon.HitSFX, _isInitialAttack);
-        Debug.Log("Attack: " + _weaponSystem.AttackCount);
     }
 
     private void FinisherAttack()
@@ -138,7 +137,7 @@ public class PlayerGroundAttackState : State
         _attackInputBuffer = false;
         _weaponSystem.StartAttack(_weaponSystem.EquippedWeapon.GroundFinisher, 
             _weaponSystem.EquippedWeapon.FinisherSFX, _isInitialAttack);
-        Debug.Log("Finisher Attack: " + _weaponSystem.AttackCount);
+
         _isInitialAttack = true;
     }
 

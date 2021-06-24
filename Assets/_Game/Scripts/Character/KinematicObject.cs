@@ -9,21 +9,22 @@ using System;
 /// </summary>
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class KinematicObject : MonoBehaviour, IPushable
+public class KinematicObject : MonoBehaviour
 {
     public event Action ReceivedPush;
 
     [SerializeField]
     private Collider2D _collider;
-
     [SerializeField]
-    private float _downMultiplier = 1.5f; // multiply down speed so downwards falling is faster than jump (if desired)
-
+    private float _downMultiplier = 1.1f; // multiply down speed so downwards falling is faster than jump (if desired)
     [SerializeField]
     private float _minGroundNormalY = 0.65f;
-
+    [SerializeField]
+    private bool _useGravity = true;
+    [SerializeField]
     private float _gravityScale = 1;
-    protected Vector2 _groundNormal;
+
+    protected Vector2 _groundNormal = new Vector2(0,1);
     protected const float _minMoveDistance = 0.001f;
 
     protected ContactFilter2D _contactFilter;
@@ -40,6 +41,7 @@ public class KinematicObject : MonoBehaviour, IPushable
     public float GravityScale => _gravityScale;
     public Vector2 PreviousPosition { get; private set; }
     public Rigidbody2D RB => _rb;
+    public float InitialGravityScale { get; private set; }
 
     public bool IsGrounded { get; private set; }
 
@@ -59,6 +61,12 @@ public class KinematicObject : MonoBehaviour, IPushable
         _contactFilter.useTriggers = false;
         _contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(_collider.gameObject.layer));
         _contactFilter.useLayerMask = true;
+
+        // if we're not using gravity, enforce scale is 0
+        if (!_useGravity)
+            _gravityScale = 0;
+
+        InitialGravityScale = _gravityScale;
     }
 
     private void FixedUpdate()
@@ -71,17 +79,17 @@ public class KinematicObject : MonoBehaviour, IPushable
         // gate for blocking new movement requests
         CalculateXVelocity();
         CalculateYVelocity();
-        //CheckIfShouldFlip();
 
         ApplyGravity();
         ApplyPushForce();   // force exerted externally upon this object, like knockback etc.
 
         // begin calculating new position
         Vector2 deltaPosition = _velocity * Time.fixedDeltaTime;
-        // calculate the sloped movement angle, for moving reliably on slops
+
+        // calculate the sloped movement angle, for moving reliably on slopes
         Vector2 moveAlongGround = new Vector2(_groundNormal.y, -_groundNormal.x);
-        // apply x movement first
         Vector2 move = moveAlongGround * deltaPosition.x;
+
         ApplyMovement(move, false);
         // then apply y movement
         move = Vector2.up * deltaPosition.y;
@@ -131,17 +139,19 @@ public class KinematicObject : MonoBehaviour, IPushable
 
     public void Push(Vector2 direction, float strength, float duration)
     {
-        Debug.Log("PUSH");
-
         direction.Normalize();
 
-        if (_pushRoutine != null)
-            StopCoroutine(_pushRoutine);
+        StopPush();
         _pushRoutine = StartCoroutine(PushRoutine(direction * strength, duration));
 
         ReceivedPush?.Invoke();
     }
 
+    public void StopPush()
+    {
+        if (_pushRoutine != null)
+            StopCoroutine(_pushRoutine);
+    }
 
     public void HoldPosition(Vector2 position)
     {
@@ -168,6 +178,7 @@ public class KinematicObject : MonoBehaviour, IPushable
     {
         _velocity.y = 0;
         _requestedVelocity.y = 0;
+        _pushVelocity.y = 0;
     }
 
     public void SetVelocityZero()
@@ -255,10 +266,12 @@ public class KinematicObject : MonoBehaviour, IPushable
     private void ApplyGravity()
     {
         Vector2 gravityForce;
+        // add extra velocity if we're moving downwards
         if(_velocity.y < 0)
             gravityForce = _downMultiplier * _gravityScale * Physics2D.gravity * Time.fixedDeltaTime;
         else
             gravityForce = _gravityScale * Physics2D.gravity * Time.fixedDeltaTime;
+
         _velocity += gravityForce;
     }
 
@@ -290,6 +303,7 @@ public class KinematicObject : MonoBehaviour, IPushable
                         currentNormal.x = 0;
                     }
                 }
+
                 // if we're grounded, adjust velocity based on slope
                 if (IsGrounded)
                 {
@@ -304,10 +318,9 @@ public class KinematicObject : MonoBehaviour, IPushable
                 // otherwise we're airborn, cancel vertical velocity if there's a ceiling
                 else
                 {
-                    _velocity.x = 0;
+                    //_velocity.x = 0;
                     _velocity.y = Mathf.Min(_velocity.y, 0);
                 }
-
                 // if we're close to a collider, only move up to our skinwidth
                 float modifiedDistance = _hitBuffer[i].distance - _skinWidth;
                 if (modifiedDistance < distance)
@@ -326,26 +339,41 @@ public class KinematicObject : MonoBehaviour, IPushable
 
     private void CalculateXVelocity()
     {
-        _velocity.x = _requestedVelocity.x;
+        // we may want different velocity judgements depending on whether or not we're using gravity
+        if (_useGravity)
+        {
+            _velocity.x = _requestedVelocity.x;
+        }
+        else
+        {
+            _velocity.x = _requestedVelocity.x;
+        }
     }
 
     private void CalculateYVelocity()
     {
-        //TODO this is messy, we should calculate increasing gravity independent of input request reliability
-        if(_requestedVelocity.y != 0)
+        // if we're using gravity, only change vertical if we have input, otherwise gravity will do its thing
+        if(_useGravity)
         {
+            if(_requestedVelocity.y != 0)
+            {
+                _velocity.y = _requestedVelocity.y;
+            }
+        }
+        // otherwise, we're not using gravity just set y velocity to requested, including 0
+        else
+        {
+            // don't do anything
             _velocity.y = _requestedVelocity.y;
         }
-        
     }
-
-
 
     private IEnumerator PushRoutine(Vector2 pushForce, float duration)
     {
         _pushVelocity = pushForce;
         // because we're accounting for gravity, apply Y force once, initially
-        MoveY(pushForce.y);
+        if(_useGravity)
+            MoveY(pushForce.y);
 
         for (float elapsedTime = 0; elapsedTime < duration; elapsedTime += Time.deltaTime)
         {
@@ -365,73 +393,10 @@ public class KinematicObject : MonoBehaviour, IPushable
         {
             _velocity.x += _pushVelocity.x;
         }
-    }
 
-    // below are other approaches to KM movement. Still determining best method for resuable controllers
-    /*
-    public void ApplyMove()
-    {
-        // arbitrarily small number for calculations
-        const float Epsilon = 0.005f;
-
-        // don't perform work if the movement is small enough
-        if (_velocity.sqrMagnitude <= Epsilon)
-            return;
-        // get move direction
-        Vector2 moveDirection = _velocity.normalized;
-        // calculate distance to cover this cycle
-        float distanceRemaining = _velocity.magnitude * Time.fixedDeltaTime;
-        // this can be increased if we have more complex geometry, but 2-3 is fine
-        int maxIterations = MaxIterations;
-
-        // save original position, since we will be moving it around during query
-        Vector2 startPosition = _rb.position;
-        // iterate up to cap OR until we have no more distance
-        while (maxIterations-- > 0 &&
-            distanceRemaining > Epsilon &&
-            moveDirection.sqrMagnitude > Epsilon)
+        if(!_useGravity)
         {
-            float distance = distanceRemaining;
-            // perform cast in the move direction using RB colliders
-            int hitCount = _rb.Cast(moveDirection, _contactFilter, _colliderHits, distance);
-            // did we have any hits?
-            if(hitCount > 0)
-            {
-                // for now we're only interested in the first thing we hit
-                var hit = _colliderHits[0];
-                // only move if we're beyond the collider 'skin buffer' area
-                if(hit.distance > _skinWidth)
-                {
-                    // calculate taret distance
-                    distance = hit.distance - _skinWidth;
-                    // reposition RB temporarily to continue iterations
-                    _rb.position += moveDirection * distance;
-                }
-                else
-                {
-                    // we had a hit but it resulted in overlap
-                    distance = 0;
-                }
-                // clamp movement direction
-                // NOT this is how we iterate and chaange direction for queries
-                moveDirection -= hit.normal * Vector2.Dot(moveDirection, hit.normal);
-            }
-            // no hits, so move the whole distance
-            else
-            {
-                _rb.position += moveDirection * distance;
-            }
-            // remove tested distance from remaining and continue tests
-            distanceRemaining -= distance;
-        };
-
-        // save and move rb back to original position before queries
-        // NOTE: this can be avoided with different query types (sphere casts, etc.)
-        Vector2 targetPosition = _rb.position;
-        _rb.position = startPosition;
-
-        // FINALLY move the RB to target position now that calculations are complete
-        _rb.MovePosition(targetPosition);
+            _velocity.y += _pushVelocity.y;
+        }
     }
-    */
 }

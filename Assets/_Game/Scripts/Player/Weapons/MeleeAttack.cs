@@ -15,9 +15,13 @@ public class MeleeAttack
     [SerializeField]
     private float _endDelay = .1f;
     [SerializeField]
-    private float _forwardAmount = 5;
+    private float _playerForwardAmount = 5;
     [SerializeField]
     private float _knockbackAmount = 5;
+    [SerializeField]
+    private Vector2 _knockbackForceModifier = new Vector2(0, 1);
+    [SerializeField]
+    private bool _addReverseDirection = true;
     [SerializeField]
     private float _knockbackDuration = .25f;
     [SerializeField]
@@ -29,8 +33,10 @@ public class MeleeAttack
     public float StartDelay => _startDelay;
     public float ActiveDuration => _activeDuration;
     public float EndDelay => _endDelay;
-    public float ForwardAmount => _forwardAmount;
+    public float PlayerForwardAmount => _playerForwardAmount;
     public float KnockbackAmount => _knockbackAmount;
+    public Vector2 KnockbackForceModifier => _knockbackForceModifier;
+    public bool AddReverseDirection => _addReverseDirection;
     public float KnockbackDuration => _knockbackDuration;
     public float MovementReductionRatio => _movementReductionRatio;
 }

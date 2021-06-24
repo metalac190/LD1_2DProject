@@ -12,7 +12,9 @@ public class WeaponSystem : MonoBehaviour
     public event Action<IDamageable> HitDamageable;
 
     [SerializeField]
-    private GameObject _weaponCollision;
+    private GameObject _forwardAttackCollision;
+    [SerializeField]
+    private GameObject _bounceAttackCollision;
     [SerializeField]
     private SpriteRenderer _weaponRenderer;
     [SerializeField]
@@ -58,21 +60,15 @@ public class WeaponSystem : MonoBehaviour
         if(AttackCount == EquippedWeapon.MaxComboCount)
         {
             _weaponAnimator.Play(WeaponAnimator.GroundSwingFinisherName);
-            //_weaponRenderer.sprite = meleeAttack.SpritePrimary;
-            Debug.Log("Sprite Finisher");
         }
         // otherwise, alternate hit sprites
         else if(AttackCount % 2 == 0)
         {
             _weaponAnimator.Play(WeaponAnimator.GroundSwing02Name);
-            //_weaponRenderer.sprite = meleeAttack.SpriteSecondary;
-            Debug.Log("Sprite Secondary");
         }
         else
         {
             _weaponAnimator.Play(WeaponAnimator.GroundSwing01Name);
-            //_weaponRenderer.sprite = meleeAttack.SpritePrimary;
-            Debug.Log("Sprite Primary");
         }
     }
 
@@ -96,7 +92,7 @@ public class WeaponSystem : MonoBehaviour
 
     public void ActivateCollision(bool isActive)
     {
-        _weaponCollision.SetActive(isActive);
+        _forwardAttackCollision.SetActive(isActive);
     }
 
     public void Hit(IDamageable damageable)
