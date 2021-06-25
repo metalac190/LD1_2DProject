@@ -31,7 +31,7 @@ public class WeaponCollision : MonoBehaviour
         float duration = _weaponSystem.CurrentMeleeAttack.KnockbackDuration;
         // add modifier, adjusted for facing direction
         Vector2 direction = CalculateDirection(other);
-        Debug.Log("Push Direction: " + direction + " Push Amount: " + amount);
+
         //pushable.Push(direction, amount, duration);
         HitData hitData = new HitData(other.transform, damage, direction, amount, duration);
         hitable.Hit(hitData);

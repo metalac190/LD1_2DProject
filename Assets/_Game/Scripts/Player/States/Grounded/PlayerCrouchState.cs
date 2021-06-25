@@ -52,7 +52,6 @@ public class PlayerCrouchState : PlayerGroundedSuperState
     {
         base.FixedUpdate();
 
-        _movement.SetVelocityXZero();
         _ceilingDetector.DetectCeiling();
 
         // if we're moving sideways, and not touching ceiling
@@ -74,7 +73,9 @@ public class PlayerCrouchState : PlayerGroundedSuperState
     public override void Update()
     {
         base.Update();
-        _movement.CheckIfShouldFlip(_input.XInputRaw);
+
+        //_movement.CheckIfShouldFlip(_input.XInputRaw);
+
         // if we're moving diagonally downwards
         if (_input.YInputRaw <= 0 && _input.XInputRaw != 0)
         {

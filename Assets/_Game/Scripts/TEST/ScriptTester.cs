@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class ScriptTester : MonoBehaviour
 {
     [SerializeField]
-    private MovingPlatform _platform;
+    private MoveBetweenPoints _platform;
 
     void Update()
     {

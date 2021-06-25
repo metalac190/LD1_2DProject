@@ -43,4 +43,12 @@ public static class PhysicsHelper
 
         return hits;
     }
+
+    public static Vector2 ReverseVector(Vector2 start, Vector2 end)
+    {
+        Vector2 reverseVector = (start - end) * -1;
+        reverseVector.Normalize();
+
+        return reverseVector;
+    }
 }

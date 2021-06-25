@@ -5,7 +5,7 @@ using UnityEngine;
 public class MovingPlatformStickyZone : MonoBehaviour
 {
     [SerializeField]
-    private MovingPlatform _movingPlatform;
+    private MoveBetweenPoints _movingObject;
 
     private List<KinematicObject> _passengers = new List<KinematicObject>();
 
@@ -33,7 +33,7 @@ public class MovingPlatformStickyZone : MonoBehaviour
         {
             foreach(KinematicObject moveable in _passengers)
             {
-                moveable.Move(_movingPlatform.Velocity, false);
+                moveable.Move(_movingObject.Velocity, false);
                 //moveable.RB.position += _movingPlatform.Velocity;
             }
         }

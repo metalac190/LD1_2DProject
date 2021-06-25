@@ -14,6 +14,10 @@ public class DamageZone : MonoBehaviour
     [SerializeField]
     private int _damageAmount = 5;
     [SerializeField]
+    private float _knockbackAmount = 5;
+    [SerializeField]
+    private float _knockbackDuration = .2f;
+    [SerializeField]
     private float _damageFrequency = .5f;
     [SerializeField]
     private LayerMask _layersToDamage;
@@ -41,13 +45,15 @@ public class DamageZone : MonoBehaviour
         // if we're not in the layer, return
         if (!PhysicsHelper.IsInLayerMask(collision.gameObject, _layersToDamage)) { return; }
 
-        IDamageable damageable = collision.GetComponent<IDamageable>();
-        if(damageable != null)
+        ReceiveHit hitable = collision.GetComponent<ReceiveHit>();
+        if(hitable != null)
         {
-            Debug.Log("Adding damageable: " + damageable.ToString());
-            DamageObject(damageable);
+            Vector2 reverseVector = PhysicsHelper.ReverseVector(transform.position, collision.transform.position);
+            HitData hitData = new HitData(hitable.transform, 
+                _damageAmount, reverseVector, _knockbackAmount, _knockbackDuration);
+            hitable.Hit(hitData);
         }
-
+        // temporarily disable hit damage
         if (_damageRoutine != null)
             StopCoroutine(_damageRoutine);
         _damageRoutine = StartCoroutine(DamageRoutine(_damageFrequency));

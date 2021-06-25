@@ -9,12 +9,12 @@ public enum MoveState
     Paused
 }
 
-public class MovingPlatform : MonoBehaviour
+public class MoveBetweenPoints : MonoBehaviour
 {
     [SerializeField]
-    private Rigidbody2D _platformRB;
+    private Rigidbody2D _rb;
     [SerializeField]
-    private Collider2D _platformCollider;
+    private Collider2D _objectCollider;
     [SerializeField]
     [Tooltip("Destination transform to move towards")]
     private Transform _endLocation;
@@ -29,7 +29,7 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField][Tooltip("True will begin movement on scene start. Disable if you'd like to control" +
         " the start movement with a trigger event")]
     private bool _activateOnAwake = true;
-    [SerializeField][Tooltip("Duration before starting movement. Use this to stagger platform timing while" +
+    [SerializeField][Tooltip("Duration before starting movement. Use this to stagger timing while" +
         " retaining the desired speed")]
     private float _startDelay = 0;
 
@@ -42,17 +42,20 @@ public class MovingPlatform : MonoBehaviour
     private Coroutine _moveRoutine;
     // we need to save our movement change so we can carry other objects
     public Vector2 PreviousPosition { get; private set; }
-    public Vector2 Velocity => (_platformRB.position - PreviousPosition) / Time.fixedDeltaTime;
+    public Vector2 Velocity => (_rb.position - PreviousPosition) / Time.fixedDeltaTime;
 
     private void Awake()
     {
-        _startPosition = _platformRB.position;
+        _rb.isKinematic = true;
+        _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+
+        _startPosition = _rb.position;
         // error-check our end location
         if (_endLocation != null)
             _endPosition = _endLocation.position;
         else
         {
-            _endPosition = _platformRB.position;
+            _endPosition = _rb.position;
             Debug.LogWarning("No end location set on moving platform");
         }
         // always start in forward direction
@@ -87,7 +90,7 @@ public class MovingPlatform : MonoBehaviour
 
     private void FixedUpdate()
     {
-        PreviousPosition = _platformRB.position;
+        PreviousPosition = _rb.position;
     }
 
     IEnumerator MoveRoutine(float secondsUntilDestination)
@@ -125,14 +128,7 @@ public class MovingPlatform : MonoBehaviour
         Vector2 newPosition = Vector2.Lerp(_startPosition, _endPosition,
             Mathf.SmoothStep(0f, 1f, moveRatio));
 
-        _platformRB.MovePosition(newPosition);
-
-        //Debug.Log("Moving Platform Velocity: " + Velocity);
-        //Debug.Log("Moving Platform Delta: " + (_platformRB.position - PreviousPosition));
-        //Debug.Log("New Position " + newPosition);
-        //Debug.Log("Current RB Position " + _platformRB.position);
-        //_platformRB.velocity = newPosition;
-        //Debug.Log("Platform Velocity: " + Velocity);
+        _rb.MovePosition(newPosition);
 
         if ((_movingElapsedTime / _tripCounter) >= _secondsUntilDestination)
         {
@@ -143,9 +139,9 @@ public class MovingPlatform : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if(_platformCollider == null || _endLocation == null) { return; }
+        if(_objectCollider == null || _endLocation == null) { return; }
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(_endLocation.position, _platformCollider.bounds.size);
+        Gizmos.DrawWireCube(_endLocation.position, _objectCollider.bounds.size);
     }
 }

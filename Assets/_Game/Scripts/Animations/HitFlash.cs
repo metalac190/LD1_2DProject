@@ -11,26 +11,50 @@ using System;
 /// flash remotely and pass in new flash values, or you can predefine settings in the Inspector
 /// </summary>
 
-public class DamageFlash
+public class HitFlash
 {
     private SpriteRenderer _renderer;
-    private Health _health;
+    private MonoBehaviour _monobehaviour;
 
     private Color _flashColor;
-    private float _flashInDuration = .02f;
-    private float _flashHoldDuration = .1f;
-    private float _flashOutDuration = .1f;
+
+    private float _flashInDuration = .05f;
+    private float _flashHoldDuration;
+    private float _flashOutDuration = .05f;
 
     private Color _startingColor;
     private Coroutine _flashRoutine = null;
 
-    public DamageFlash(Health health, SpriteRenderer renderer, Color flashColor)
+    public HitFlash(MonoBehaviour monobehaviour, SpriteRenderer renderer, Color flashColor, float flashDuration)
     {
-        _health = health;
+        _monobehaviour = monobehaviour;
         _renderer = renderer;
         _flashColor = flashColor;
-
         _startingColor = _renderer.color;
+
+        CalculateFlashBlends(flashDuration);
+    }
+
+    private void CalculateFlashBlends(float flashDuration)
+    {
+        // if our flash isn't valid, don't do it
+        if (flashDuration <= 0)
+        {
+            _flashInDuration = 0;
+            _flashHoldDuration = 0;
+            _flashOutDuration = 0;
+        }
+        // if we don't have enough time for transitions, just hold the flash
+        else if (flashDuration < _flashInDuration + _flashOutDuration)
+        {
+            _flashInDuration = 0;
+            _flashHoldDuration = flashDuration;
+            _flashOutDuration = 0;
+        }
+        else
+        {
+            _flashHoldDuration = flashDuration - (_flashInDuration + _flashOutDuration);
+        }
     }
 
     #region Public Functions
@@ -41,14 +65,14 @@ public class DamageFlash
 
         if (_flashRoutine != null)
             StopFlash();
-        _flashRoutine = _health.StartCoroutine(FlashRoutine(_flashColor, _flashInDuration, 
+        _flashRoutine = _monobehaviour.StartCoroutine(FlashRoutine(_flashColor, _flashInDuration, 
             _flashHoldDuration, _flashOutDuration));
     }
 
     public void StopFlash()
     {
         if (_flashRoutine != null)
-            _health.StopCoroutine(_flashRoutine);
+            _monobehaviour.StopCoroutine(_flashRoutine);
 
         SetInitialValues();
     }
@@ -72,6 +96,7 @@ public class DamageFlash
             _renderer.color = Color.Lerp(flashColor, _startingColor, elapsed / flashOutDuration);
             yield return null;
         }
+        _renderer.color = _startingColor;
     }
 
     private void SetInitialValues()

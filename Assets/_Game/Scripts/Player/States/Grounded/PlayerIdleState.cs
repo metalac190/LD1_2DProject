@@ -48,10 +48,6 @@ public class PlayerIdleState : PlayerGroundedSuperState
             return;
         }
 
-        else if (_input.XInputRaw != 0 && _input.YInputRaw < 0)
-        {
-            
-        }
         else if (_input.XInputRaw == 0 && _input.YInputRaw < 0)
         {
             _stateMachine.ChangeState(_stateMachine.CrouchState);
