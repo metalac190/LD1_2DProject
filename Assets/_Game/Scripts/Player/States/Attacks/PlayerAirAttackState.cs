@@ -45,7 +45,7 @@ public class PlayerAirAttackState : State
         _input.DashPressed += OnDashPressed;
         _input.AttackPressed += OnAttackPressed;
         _groundDetector.FoundGround += OnFoundGround;
-        _weaponSystem.HitDamageable += OnHitDamageable;
+        _weaponSystem.HitOther += OnHitOther;
 
         _hitDamageable = false;
         // start at normal fall speed
@@ -66,7 +66,7 @@ public class PlayerAirAttackState : State
         _input.DashPressed -= OnDashPressed;
         _input.AttackPressed -= OnAttackPressed;
         _groundDetector.FoundGround -= OnFoundGround;
-        _weaponSystem.HitDamageable -= OnHitDamageable;
+        _weaponSystem.HitOther -= OnHitOther;
 
         // resume
         _movement.SetGravityScale(1);
@@ -157,7 +157,7 @@ public class PlayerAirAttackState : State
         _isInitialAttack = true;
     }
 
-    private void OnHitDamageable(IDamageable damageable)
+    private void OnHitOther()
     {
         _hitDamageable = true;
         // if we've hit something, reset air dash

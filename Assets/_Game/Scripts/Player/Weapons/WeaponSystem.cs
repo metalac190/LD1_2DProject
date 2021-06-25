@@ -9,7 +9,7 @@ public class WeaponSystem : MonoBehaviour
     public event Action<WeaponData> AttackActivated;
     public event Action AttackDeactivated;
     public event Action AttackCompleted;
-    public event Action<IDamageable> HitDamageable;
+    public event Action HitOther;
 
     [SerializeField]
     private GameObject _standardAttackCollision;
@@ -117,10 +117,9 @@ public class WeaponSystem : MonoBehaviour
         }
     }
 
-    public void Hit(IDamageable damageable)
+    public void HitOtherObject()
     {
-        HitDamageable?.Invoke(damageable);
-        damageable.Damage(CurrentMeleeAttack.Damage);
+        HitOther?.Invoke();
     }
 
     IEnumerator AttackRoutine(float beforeDelay, float activeDuration, float endDelay, 

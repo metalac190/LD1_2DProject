@@ -23,17 +23,19 @@ MonoBehaviour:
     _playerForwardAmount: 0
     _knockbackAmount: 3
     _knockbackForceModifier: {x: 0.5, y: 1}
-    _knockbackDuration: 0.25
+    _addReverseDirection: 1
+    _knockbackDuration: 0.2
     _movementReductionRatio: 0.1
   _groundFinisher:
     _damage: 10
     _startDelay: 0.1
     _activeDuration: 0.15
-    _endDelay: 0.2
+    _endDelay: 0.05
     _playerForwardAmount: 3
     _knockbackAmount: 8
     _knockbackForceModifier: {x: 0.5, y: 1}
-    _knockbackDuration: 0.25
+    _addReverseDirection: 1
+    _knockbackDuration: 0.2
     _movementReductionRatio: 0.3
   _airAttack:
     _damage: 5
@@ -43,7 +45,8 @@ MonoBehaviour:
     _playerForwardAmount: 0
     _knockbackAmount: 2
     _knockbackForceModifier: {x: 1, y: 0}
-    _knockbackDuration: 0.25
+    _addReverseDirection: 1
+    _knockbackDuration: 0.2
     _movementReductionRatio: 0.2
   _airFinisher:
     _damage: 5
@@ -53,7 +56,8 @@ MonoBehaviour:
     _playerForwardAmount: 0
     _knockbackAmount: 4
     _knockbackForceModifier: {x: 1, y: 1}
-    _knockbackDuration: 0.25
+    _addReverseDirection: 1
+    _knockbackDuration: 0.2
     _movementReductionRatio: 0.4
   _wallAttack:
     _damage: 5
@@ -63,7 +67,8 @@ MonoBehaviour:
     _playerForwardAmount: 5
     _knockbackAmount: 5
     _knockbackForceModifier: {x: 0.5, y: 1}
-    _knockbackDuration: 0.25
+    _addReverseDirection: 1
+    _knockbackDuration: 0.2
     _movementReductionRatio: 0.5
   _wallFinisher:
     _damage: 5
@@ -73,7 +78,8 @@ MonoBehaviour:
     _playerForwardAmount: 5
     _knockbackAmount: 5
     _knockbackForceModifier: {x: 0, y: 1}
-    _knockbackDuration: 0.25
+    _addReverseDirection: 1
+    _knockbackDuration: 0.2
     _movementReductionRatio: 0.5
   _bounceAttack:
     _damage: 5
@@ -83,5 +89,6 @@ MonoBehaviour:
     _playerForwardAmount: 5
     _knockbackAmount: 5
     _knockbackForceModifier: {x: 0, y: 1}
-    _knockbackDuration: 0.25
+    _addReverseDirection: 1
+    _knockbackDuration: 0.2
     _movementReductionRatio: 0.2

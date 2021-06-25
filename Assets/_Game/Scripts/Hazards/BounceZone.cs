@@ -15,7 +15,7 @@ public class BounceZone : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // if it's the player, do player specific things
-        IPushable pushable = collision.gameObject.GetComponent<IPushable>();
+        ReceiveKnockback pushable = collision.gameObject.GetComponent<ReceiveKnockback>();
         if (pushable != null)
         {
             pushable.Push(transform.up, _bounceAmount, _bounceDuration);

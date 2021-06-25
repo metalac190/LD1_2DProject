@@ -13,6 +13,8 @@ public class PlayerDashState : State
     private GameplayInput _input;
     private GroundDetector _groundDetector;
     private PlayerSFXData _sfx;
+    private Health _health;
+    private ReceiveKnockback _knockback;
 
     private bool _isDashing = false;
     private float _holdTimer = 0;

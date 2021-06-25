@@ -29386,6 +29386,7 @@ GameObject:
   - component: {fileID: 1132149875}
   - component: {fileID: 1132149874}
   - component: {fileID: 1132149873}
+  - component: {fileID: 1132149877}
   - component: {fileID: 1132149872}
   - component: {fileID: 1132149871}
   - component: {fileID: 1132149870}
@@ -29524,6 +29525,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1132149877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132149869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0a8b675463fe674284da8f2f3c1e825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HitReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  _health: {fileID: 1132149872}
+  _receiveKnockback: {fileID: 1132149870}
 --- !u!1 &1146300224
 GameObject:
   m_ObjectHideFlags: 0
@@ -29838,6 +29856,7 @@ GameObject:
   - component: {fileID: 1295505879}
   - component: {fileID: 1295505880}
   - component: {fileID: 1295505881}
+  - component: {fileID: 1295505884}
   - component: {fileID: 1295505882}
   - component: {fileID: 1295505883}
   m_Layer: 10
@@ -29959,6 +29978,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 1295505880}
   _knockbackDampener: 1
+--- !u!114 &1295505884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295505877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0a8b675463fe674284da8f2f3c1e825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HitReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  _health: {fileID: 1295505882}
+  _receiveKnockback: {fileID: 1295505883}
 --- !u!1 &1301645068
 GameObject:
   m_ObjectHideFlags: 0
@@ -31795,6 +31831,7 @@ GameObject:
   - component: {fileID: 1917140615}
   - component: {fileID: 1917140620}
   - component: {fileID: 1917140621}
+  - component: {fileID: 1917140622}
   m_Layer: 10
   m_Name: AirCombatDummyKM
   m_TagString: Untagged
@@ -31929,7 +31966,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rb: {fileID: 1917140617}
-  _knockbackDampener: 1
+  _knockbackDampener: 0
+--- !u!114 &1917140622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917140614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0a8b675463fe674284da8f2f3c1e825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HitReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  _health: {fileID: 1917140615}
+  _receiveKnockback: {fileID: 1917140621}
 --- !u!1 &1923651086
 GameObject:
   m_ObjectHideFlags: 0
@@ -40353,6 +40407,7 @@ GameObject:
   - component: {fileID: 1940966894}
   - component: {fileID: 1940966893}
   - component: {fileID: 1940966892}
+  - component: {fileID: 1940966897}
   - component: {fileID: 1940966891}
   - component: {fileID: 1940966896}
   m_Layer: 10
@@ -40473,6 +40528,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 1940966893}
   _knockbackDampener: 1
+--- !u!114 &1940966897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940966890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0a8b675463fe674284da8f2f3c1e825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HitReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  _health: {fileID: 1940966891}
+  _receiveKnockback: {fileID: 1940966896}
 --- !u!1 &2015734705
 GameObject:
   m_ObjectHideFlags: 0
@@ -40896,6 +40968,7 @@ GameObject:
   - component: {fileID: 1061988416752541357}
   - component: {fileID: 1884541640432777365}
   - component: {fileID: 1884541640432777361}
+  - component: {fileID: 1884541640432777366}
   - component: {fileID: 1884541640432777364}
   - component: {fileID: 1884541640432777363}
   m_Layer: 9
@@ -41004,6 +41077,23 @@ MonoBehaviour:
   _minGroundNormalY: 0.65
   _useGravity: 1
   _gravityScale: 1
+--- !u!114 &1884541640432777366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884541640432777360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0a8b675463fe674284da8f2f3c1e825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HitReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  _health: {fileID: 1884541640432777364}
+  _receiveKnockback: {fileID: 1884541640432777363}
 --- !u!61 &1884541640432777452
 BoxCollider2D:
   m_ObjectHideFlags: 0

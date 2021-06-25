@@ -28,7 +28,7 @@ public class PlayerBounceAttackState : State
         base.Enter();
         Debug.Log("STATE: Bounce Attack");
         _weaponSystem.AttackCompleted += OnAttackCompleted;
-        _weaponSystem.HitDamageable += OnHitDamageable;
+        _weaponSystem.HitOther += OnHitOther;
         _input.AttackPressed += OnAttackPressed;
 
         _usedBounce = false;
@@ -41,7 +41,7 @@ public class PlayerBounceAttackState : State
         base.Exit();
 
         _weaponSystem.AttackCompleted -= OnAttackCompleted;
-        _weaponSystem.HitDamageable -= OnHitDamageable;
+        _weaponSystem.HitOther -= OnHitOther;
         _input.AttackPressed -= OnAttackPressed;
         // make sure that if we leave early, we cancel the attack in the weapon system
         _weaponSystem.StopAttack();
@@ -73,7 +73,7 @@ public class PlayerBounceAttackState : State
         _stateMachine.ChangeState(_stateMachine.AirAttackState);
     }
 
-    private void OnHitDamageable(IDamageable damageable)
+    private void OnHitOther()
     {
         // launch player upward!
         if(_usedBounce == false)

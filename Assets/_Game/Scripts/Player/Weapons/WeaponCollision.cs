@@ -10,41 +10,47 @@ public class WeaponCollision : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        DetectDamageable(collision);
-        DetectPushable(collision);
+        DetectHitable(collision);
     }
 
-    private void DetectDamageable(Collider2D collision)
+    private void DetectHitable(Collider2D collision)
     {
-        IDamageable damageable = collision.GetComponent<IDamageable>();
-        if(damageable != null)
+        ReceiveHit hitable = collision.GetComponent<ReceiveHit>();
+        if (hitable != null)
         {
-            _weaponSystem.Hit(damageable);
+            ApplyHitEffects(collision, hitable);
+            // notify weapon system so player behavior can respond
+            _weaponSystem.HitOtherObject();
         }
     }
 
-    private void DetectPushable(Collider2D collision)
+    private void ApplyHitEffects(Collider2D other, ReceiveHit hitable)
     {
-        ReceiveKnockback pushable = collision.GetComponent<ReceiveKnockback>();
-        if(pushable != null)
+        int damage = _weaponSystem.CurrentMeleeAttack.Damage;
+        float amount = _weaponSystem.CurrentMeleeAttack.KnockbackAmount;
+        float duration = _weaponSystem.CurrentMeleeAttack.KnockbackDuration;
+        // add modifier, adjusted for facing direction
+        Vector2 direction = CalculateDirection(other);
+        Debug.Log("Push Direction: " + direction + " Push Amount: " + amount);
+        //pushable.Push(direction, amount, duration);
+        HitData hitData = new HitData(other.transform, damage, direction, amount, duration);
+        hitable.Hit(hitData);
+    }
+
+    private Vector2 CalculateDirection(Collider2D otherCollision)
+    {
+        Vector2 direction = new Vector2(_weaponSystem.CurrentMeleeAttack.KnockbackForceModifier.x * transform.right.x,
+                    _weaponSystem.CurrentMeleeAttack.KnockbackForceModifier.y);
+        if (_weaponSystem.CurrentMeleeAttack.AddReverseDirection)
         {
-            float amount = _weaponSystem.CurrentMeleeAttack.KnockbackAmount;
-            float duration = _weaponSystem.CurrentMeleeAttack.KnockbackDuration;
-            // add modifier, adjusted for facing direction
-            Vector2 direction = new Vector2(_weaponSystem.CurrentMeleeAttack.KnockbackForceModifier.x * transform.right.x,
-                _weaponSystem.CurrentMeleeAttack.KnockbackForceModifier.y);
-            if (_weaponSystem.CurrentMeleeAttack.AddReverseDirection)
-            {
-                Vector2 reverseForce = (transform.position - collision.transform.position) * -1;
-                // make sure distance isn't creating huge vectors
-                reverseForce.Normalize();
-                // combine with original force adjustment
-                direction += reverseForce;
-            }
-            // ensure direction can be modified with strength later
-            direction.Normalize();
-            Debug.Log("Push Direction: " + direction + " Push Amount: " + amount);
-            pushable.Push(direction, amount, duration);
+            Vector2 reverseForce = (transform.position - otherCollision.transform.position) * -1;
+            // make sure distance isn't creating huge vectors
+            reverseForce.Normalize();
+            // combine with original force adjustment
+            direction += reverseForce;
         }
+        // ensure direction can be modified with strength later
+        direction.Normalize();
+        return direction;
     }
 }
