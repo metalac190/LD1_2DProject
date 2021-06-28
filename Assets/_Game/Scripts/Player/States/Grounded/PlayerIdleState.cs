@@ -7,6 +7,7 @@ public class PlayerIdleState : PlayerGroundedSuperState
 {
     PlayerFSM _stateMachine;
     Player _player;
+    PlayerAnimator _animator;
 
     KinematicObject _movement;
     GameplayInput _input;
@@ -15,6 +16,7 @@ public class PlayerIdleState : PlayerGroundedSuperState
     {
         _stateMachine = stateMachine;
         _player = player;
+        _animator = player.PlayerAnimator;
 
         _movement = player.Movement;
         _input = player.Input;
@@ -25,6 +27,7 @@ public class PlayerIdleState : PlayerGroundedSuperState
         base.Enter();
         Debug.Log("STATE: Idle");
 
+        _animator.PlayAnimation(PlayerAnimator.IdleName);
         //_movement.SetVelocityXZero();
     }
 

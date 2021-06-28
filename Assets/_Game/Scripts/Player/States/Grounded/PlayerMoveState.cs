@@ -9,6 +9,7 @@ public class PlayerMoveState : PlayerGroundedSuperState
     KinematicObject _movement;
     PlayerData _data;
     GameplayInput _input;
+    PlayerAnimator _animator;
 
     public PlayerMoveState(PlayerFSM stateMachine, Player player) : base(stateMachine, player)
     {
@@ -17,6 +18,7 @@ public class PlayerMoveState : PlayerGroundedSuperState
         _movement = player.Movement;
         _data = player.Data;
         _input = player.Input;
+        _animator = player.PlayerAnimator;
     }
 
     public override void Enter()
@@ -24,6 +26,8 @@ public class PlayerMoveState : PlayerGroundedSuperState
         base.Enter();
 
         Debug.Log("STATE: Move");
+
+        _animator.PlayAnimation(PlayerAnimator.RunName);
     }
 
     public override void Exit()

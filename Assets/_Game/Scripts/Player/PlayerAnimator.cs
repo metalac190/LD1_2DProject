@@ -9,26 +9,26 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField]
     private SpriteRenderer _spriteRenderer;
     [SerializeField]
-    private GameObject _mainVisual;
-    [SerializeField]
     private GameObject _crouchVisual;
 
     public SpriteRenderer SpriteRenderer => _spriteRenderer;
 
-    public GameObject MainVisual => _mainVisual;
-    public GameObject CrouchVisual => _crouchVisual;
+    //public GameObject MainVisual => _mainVisual;
+    //public GameObject CrouchVisual => _crouchVisual;
 
     public const string IdleName = "Idle";
-    public const string WalkName = "Walk";
+    public const string RunName = "Run";
 
     public void PlayAnimation(string AnimationName)
     {
         //
+        _animator.Play(AnimationName);
     }
 
 
     public void ShowCrouchVisual(bool isActive)
     {
+        /*
         if (isActive)
         {
             _crouchVisual.SetActive(true);
@@ -39,5 +39,6 @@ public class PlayerAnimator : MonoBehaviour
             _crouchVisual.SetActive(false);
             _mainVisual.SetActive(true);
         }
+        */
     }
 }
