@@ -6,6 +6,7 @@ public class PlayerFallingState : State
 {
     PlayerFSM _stateMachine;
     Player _player;
+    PlayerAnimator _animator;
 
     KinematicObject _movement;
     PlayerData _data;
@@ -23,6 +24,7 @@ public class PlayerFallingState : State
     {
         _stateMachine = stateMachine;
         _player = player;
+        _animator = player.PlayerAnimator;
 
         _movement = player.Movement;
         _data = player.Data;
@@ -38,6 +40,8 @@ public class PlayerFallingState : State
     {
         base.Enter();
         Debug.Log("STATE: Falling");
+
+        _animator.PlayAnimation(PlayerAnimator.FallName);
 
         _input.JumpPressed += OnJumpPressed;
         _input.DashPressed += OnDashPressed;

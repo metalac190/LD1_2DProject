@@ -18,6 +18,8 @@ public class PlayerAnimator : MonoBehaviour
 
     public const string IdleName = "Idle";
     public const string RunName = "Run";
+    public const string JumpName = "Jump";
+    public const string FallName = "Fall";
 
     public void PlayAnimation(string AnimationName)
     {

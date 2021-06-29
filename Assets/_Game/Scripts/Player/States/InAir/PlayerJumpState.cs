@@ -6,6 +6,7 @@ public class PlayerJumpState : State
 {
     PlayerFSM _stateMachine;
     Player _player;
+    PlayerAnimator _animator;
 
     KinematicObject _movement;
     GameplayInput _input;
@@ -18,6 +19,7 @@ public class PlayerJumpState : State
     {
         _stateMachine = stateMachine;
         _player = player;
+        _animator = player.PlayerAnimator;
 
         _movement = player.Movement;
         _input = player.Input;
@@ -32,6 +34,7 @@ public class PlayerJumpState : State
         base.Enter();
 
         Debug.Log("STATE: Jump");
+        _animator.PlayAnimation(PlayerAnimator.JumpName);
 
         _input.JumpPressed += OnJumpPressed;
         _input.JumpReleased += OnJumpReleased;
