@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerGroundAttackState : State
 {
     private PlayerFSM _stateMachine;
+    private PlayerAnimator _animator;
 
     private KinematicObject _movement;
     private PlayerData _data;
@@ -20,6 +21,7 @@ public class PlayerGroundAttackState : State
     public PlayerGroundAttackState(PlayerFSM stateMachine, Player player)
     {
         _stateMachine = stateMachine;
+        _animator = player.PlayerAnimator;
 
         _movement = player.Movement;
         _data = player.Data;

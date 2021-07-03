@@ -6,6 +6,7 @@ public class PlayerLandState : PlayerGroundedSuperState
 {
     PlayerFSM _stateMachine;
     Player _player;
+    PlayerAnimator _animator;
 
     GameplayInput _input;
     PlayerData _data;
@@ -16,6 +17,7 @@ public class PlayerLandState : PlayerGroundedSuperState
     {
         _stateMachine = stateMachine;
         _player = player;
+        _animator = player.PlayerAnimator;
 
         _input = player.Input;
         _data = player.Data;
@@ -28,6 +30,7 @@ public class PlayerLandState : PlayerGroundedSuperState
         Debug.Log("STATE: Land");
         base.Enter();
 
+        _animator.PlayAnimation(PlayerAnimator.LandName);
         _player.ResetJumps();
 
         _sfx.LandSFX.PlayOneShot(_player.transform.position);

@@ -18,11 +18,9 @@ public class WeaponSystem : MonoBehaviour
     [SerializeField]
     private GameObject _wallAttackCollision;
     [SerializeField]
-    private SpriteRenderer _weaponRenderer;
-    [SerializeField]
     private WeaponData _equippedWeapon;
     [SerializeField]
-    private WeaponAnimator _weaponAnimator;
+    private PlayerAnimator _playerAnimator;
 
     public WeaponData EquippedWeapon => _equippedWeapon;
     public MeleeAttack CurrentMeleeAttack { get; private set; }
@@ -55,18 +53,18 @@ public class WeaponSystem : MonoBehaviour
         string animationName;
         if (AttackCount == EquippedWeapon.MaxComboCount)
         {
-            animationName = WeaponAnimator.GroundSwingFinisherName;
+            animationName = PlayerAnimator.GroundFinisherName;
         }
         // otherwise, alternate hit sprites
         else if (AttackCount % 2 == 0)
         {
-            animationName = WeaponAnimator.GroundSwing02Name;
+            animationName = PlayerAnimator.GroundAttack02Name;
         }
         else
         {
-            animationName = WeaponAnimator.GroundSwing01Name;
+            animationName = PlayerAnimator.GroundAttack01Name;
         }
-
+        Debug.Log("Animation Name: " + animationName);
         if (_attackRoutine != null)
             StopCoroutine(_attackRoutine);
         _attackRoutine = StartCoroutine(AttackRoutine(meleeAttack.StartDelay, meleeAttack.ActiveDuration,
@@ -93,18 +91,13 @@ public class WeaponSystem : MonoBehaviour
         _wallAttackCollision.SetActive(false);
     }
 
-    private void LoadAttackVisual()
-    {
-
-    }
-
     public virtual void StopAttack()
     {
         if (_attackRoutine != null)
             StopCoroutine(_attackRoutine);
 
         CurrentWeaponCollision.SetActive(false);
-        _weaponAnimator.Stop();
+        //_weaponAnimator.Stop();
         MeleeAttackState = MeleeAttackState.NotAttacking;
     }
 
@@ -125,6 +118,8 @@ public class WeaponSystem : MonoBehaviour
     IEnumerator AttackRoutine(float beforeDelay, float activeDuration, float endDelay, 
         SFXOneShot sfx, GameObject collisionObject, string animationName)
     {
+        // start animation before hit, in case there's windup
+        _playerAnimator.PlayAnimation(animationName);
         MeleeAttackState = MeleeAttackState.BeforeAttack;
         yield return new WaitForSeconds(beforeDelay);
 
@@ -132,14 +127,14 @@ public class WeaponSystem : MonoBehaviour
         AttackActivated?.Invoke(EquippedWeapon);
         //TODO: check/deal damage here
         CurrentWeaponCollision.SetActive(true);
-        _weaponAnimator.Play(animationName);
+        //_weaponAnimator.Play(animationName);
         sfx.PlayOneShot(transform.position);
         yield return new WaitForSeconds(activeDuration);
         CurrentWeaponCollision.SetActive(false);
         AttackDeactivated?.Invoke();
 
         MeleeAttackState = MeleeAttackState.AfterAttack;
-        _weaponAnimator.Stop();
+        //_weaponAnimator.Stop();
         //TODO: this could be a window for followup/combo attacks
         yield return new WaitForSeconds(endDelay);
 

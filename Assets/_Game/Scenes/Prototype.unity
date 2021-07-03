@@ -26888,6 +26888,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &492758563 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 4879995555917594110, guid: 6b3f1d7e1400c7746af28340a576791d, type: 3}
+  m_PrefabInstance: {fileID: 4879995554817815579}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -27618,9 +27623,8 @@ MonoBehaviour:
   _standardAttackCollision: {fileID: 1774031727}
   _bounceAttackCollision: {fileID: 2065341576}
   _wallAttackCollision: {fileID: 1774031727}
-  _weaponRenderer: {fileID: 1369130289}
   _equippedWeapon: {fileID: 11400000, guid: ad7c415b165dcb645a8c17682f2e10d6, type: 2}
-  _weaponAnimator: {fileID: 703497169}
+  _playerAnimator: {fileID: 1884541640506076339}
 --- !u!114 &703497169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29551,7 +29555,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1369130288
 Transform:
   m_ObjectHideFlags: 0
@@ -40214,7 +40218,7 @@ MonoBehaviour:
   _health: {fileID: 1884541640432777364}
   _receiveKnockback: {fileID: 1884541640432777363}
   _flashColor: {r: 1, g: 0, b: 0, a: 1}
-  _renderer: {fileID: 0}
+  _renderer: {fileID: 1884541640506076340}
   _hitSFX: {fileID: 11400000, guid: 1c0ff3b0c80355442a4336ac13f67e4b, type: 2}
 --- !u!61 &1884541640432777452
 BoxCollider2D:
@@ -40683,6 +40687,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4879995555917594109, guid: 6b3f1d7e1400c7746af28340a576791d, type: 3}
+      propertyPath: _rb
+      value: 
+      objectReference: {fileID: 492758563}
     - target: {fileID: 4879995556418992841, guid: 6b3f1d7e1400c7746af28340a576791d, type: 3}
       propertyPath: m_RootOrder
       value: 14

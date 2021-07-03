@@ -20,10 +20,17 @@ public class PlayerAnimator : MonoBehaviour
     public const string RunName = "Run";
     public const string JumpName = "Jump";
     public const string FallName = "Fall";
+    public const string LandName = "Land";
+    public const string GroundAttack01Name = "GroundAttack01";
+    public const string GroundAttack02Name = "GroundAttack02";
+    public const string GroundFinisherName = "GroundFinisher";
+    public const string AirAttack01Name = "AirAttack01";
+    public const string AirAttack02Name = "AirAttack02";
+    public const string AirFinisher = "AirFinisher";
+    public const string WallAttack = "WallAttack";
 
     public void PlayAnimation(string AnimationName)
     {
-        //
         _animator.Play(AnimationName);
     }
 
