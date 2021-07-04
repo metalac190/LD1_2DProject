@@ -6,6 +6,7 @@ public class PlayerAirJumpState : State
 {
     PlayerFSM _stateMachine;
     Player _player;
+    PlayerAnimator _animator;
 
     KinematicObject _movement;
     GameplayInput _input;
@@ -18,6 +19,7 @@ public class PlayerAirJumpState : State
     {
         _stateMachine = stateMachine;
         _player = player;
+        _animator = player.PlayerAnimator;
 
         _movement = player.Movement;
         _input = player.Input;
@@ -30,6 +32,8 @@ public class PlayerAirJumpState : State
     public override void Enter()
     {
         base.Enter();
+
+        _animator.PlayAnimation(PlayerAnimator.JumpName);
 
         _input.AttackPressed += OnAttackPressed;
         _input.JumpReleased += OnJumpReleased;

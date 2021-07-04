@@ -6,6 +6,7 @@ public class PlayerWallSlideState : PlayerWallSuperState
 {
     PlayerFSM _stateMachine;
     Player _player;
+    PlayerAnimator _animator;
 
     KinematicObject _movement;
     PlayerData _data;
@@ -17,6 +18,7 @@ public class PlayerWallSlideState : PlayerWallSuperState
     {
         _stateMachine = stateMachine;
         _player = player;
+        _animator = player.PlayerAnimator;
 
         _movement = player.Movement;
         _data = player.Data;
@@ -28,6 +30,7 @@ public class PlayerWallSlideState : PlayerWallSuperState
         base.Enter();
 
         Debug.Log("STATE: Wall Slide");
+        _animator.PlayAnimation(PlayerAnimator.WallSlideName);
         _accelerationAmount = 0;
     }
 

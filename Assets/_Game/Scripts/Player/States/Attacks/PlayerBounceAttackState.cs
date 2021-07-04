@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerBounceAttackState : State
 {
     PlayerFSM _stateMachine;
+    PlayerAnimator _animator;
 
     KinematicObject _movement;
     PlayerData _data;
@@ -16,6 +17,7 @@ public class PlayerBounceAttackState : State
     public PlayerBounceAttackState(PlayerFSM stateMachine, Player player)
     {
         _stateMachine = stateMachine;
+        _animator = player.PlayerAnimator;
 
         _movement = player.Movement;
         _data = player.Data;
@@ -31,6 +33,7 @@ public class PlayerBounceAttackState : State
         _weaponSystem.HitOther += OnHitOther;
         _input.AttackPressed += OnAttackPressed;
 
+        _animator.PlayAnimation(PlayerAnimator.BounceAttackName);
         _usedBounce = false;
 
         Attack();

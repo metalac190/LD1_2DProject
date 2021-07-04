@@ -24,10 +24,13 @@ public class PlayerAnimator : MonoBehaviour
     public const string GroundAttack01Name = "GroundAttack01";
     public const string GroundAttack02Name = "GroundAttack02";
     public const string GroundFinisherName = "GroundFinisher";
+    public const string BounceAttackName = "BounceAttack";
     public const string AirAttack01Name = "AirAttack01";
     public const string AirAttack02Name = "AirAttack02";
     public const string AirFinisher = "AirFinisher";
     public const string WallAttack = "WallAttack";
+    public const string WallGrabName = "WallGrab";
+    public const string WallSlideName = "WallSlide";
 
     public void PlayAnimation(string AnimationName)
     {
