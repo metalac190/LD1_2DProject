@@ -33,6 +33,7 @@ public class PlayerAirJumpState : State
     {
         base.Enter();
 
+        Debug.Log("STATE: Air Jump");
         _animator.PlayAnimation(PlayerAnimator.JumpName);
 
         _input.AttackPressed += OnAttackPressed;
@@ -40,6 +41,8 @@ public class PlayerAirJumpState : State
         _input.DashPressed += OnDashPressed;
 
         _player.DecreaseAirJumpsRemaining();
+
+        _movement.SetVelocityYZero();
         _movement.MoveY(_data.AirJumpVelocity);
 
         _sfx.AirJumpSFX?.PlayOneShot(_player.transform.position);

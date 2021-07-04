@@ -8,6 +8,7 @@ public class PlayerIdleState : PlayerGroundedSuperState
     PlayerFSM _stateMachine;
     Player _player;
     PlayerAnimator _animator;
+    PlayerData _data;
 
     KinematicObject _movement;
     GameplayInput _input;
@@ -17,6 +18,7 @@ public class PlayerIdleState : PlayerGroundedSuperState
         _stateMachine = stateMachine;
         _player = player;
         _animator = player.PlayerAnimator;
+        _data = player.Data;
 
         _movement = player.Movement;
         _input = player.Input;
@@ -45,13 +47,14 @@ public class PlayerIdleState : PlayerGroundedSuperState
     {
         _movement.CheckIfShouldFlip(_input.XInputRaw);
 
-        if (_input.XInputRaw != 0 && _input.YInputRaw >= 0)
+        if (_input.XInputRaw != 0)
         {
             _stateMachine.ChangeState(_stateMachine.MoveState);
             return;
         }
 
-        else if (_input.XInputRaw == 0 && _input.YInputRaw < 0)
+        else if (_input.XInputRaw == 0 && _input.YInputRaw < 0
+            && _data.AllowCrouch)
         {
             _stateMachine.ChangeState(_stateMachine.CrouchState);
             return;

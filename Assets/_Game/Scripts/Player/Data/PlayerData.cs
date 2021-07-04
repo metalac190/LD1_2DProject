@@ -99,6 +99,8 @@ public class PlayerData : ScriptableObject
 
     [Header("Crouching")]
     [SerializeField]
+    private bool _allowCrouch = false;
+    [SerializeField]
     private float _crouchMoveVelocity = 3;
     [SerializeField]
     private float _crouchColliderHeight = 0.8f;
@@ -161,6 +163,7 @@ public class PlayerData : ScriptableObject
     public float DashEndScale => _dashEndScale;
     public float DistanceBetweenAfterImages => _distanceBetweenAfterImages;
     // crouching
+    public bool AllowCrouch => _allowCrouch;
     public float CrouchMoveVelocity => _crouchMoveVelocity;
     public float CrouchColliderHeight => _crouchColliderHeight;
     public float StandColliderHeight => _standColliderHeight;

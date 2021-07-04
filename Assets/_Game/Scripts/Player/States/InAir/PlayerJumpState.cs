@@ -42,7 +42,6 @@ public class PlayerJumpState : State
         _input.AttackPressed += OnAttackPressed;
 
         _movement.MoveY(_data.JumpVelocity);
-
         _sfx.JumpSFX?.PlayOneShot(_player.transform.position);
     }
 

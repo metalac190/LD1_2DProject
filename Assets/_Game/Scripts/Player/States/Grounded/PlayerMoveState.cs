@@ -50,7 +50,7 @@ public class PlayerMoveState : PlayerGroundedSuperState
     {
         base.Update();
 
-        if (_input.YInputRaw < 0)
+        if (_input.YInputRaw < 0 && _data.AllowCrouch)
         {
             _stateMachine.ChangeState(_stateMachine.CrouchState);
             return;
