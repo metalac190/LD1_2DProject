@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 0}
-  m_Color: {r: 0, g: 0.77231455, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -97,5 +97,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _renderer: {fileID: 7316423373781554097}
   _activeTime: 0.1
-  _alphaSet: 0.8
-  _alphaDecay: 10
+  _alphaMax: 0.9
+  _alphaDecay: 4

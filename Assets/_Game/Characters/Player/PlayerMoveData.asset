@@ -47,7 +47,8 @@ MonoBehaviour:
   _dashVelocity: 55
   _dashingGravityScale: 0
   _dashEndScale: 0.2
-  _distanceBetweenAfterImages: 0.5
+  _distanceBetweenAfterImages: 1.5
+  _allowCrouch: 0
   _crouchMoveVelocity: 3
   _crouchColliderHeight: 0.8
   _standColliderHeight: 1.8

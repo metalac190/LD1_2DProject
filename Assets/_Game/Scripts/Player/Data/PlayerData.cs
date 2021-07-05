@@ -78,11 +78,9 @@ public class PlayerData : ScriptableObject
     [SerializeField]
     private bool _allowDash = true;
     [SerializeField]
-    private float _dashCooldown = 1;
+    private bool _allowDirectionInput = false;
     [SerializeField]
-    private float _maxHoldTime = 1;
-    [SerializeField][Range(0,1)][Tooltip("ratio by which movement is slowed compared to original")]
-    private float _dashHoldMovementScale = .2f;
+    private float _dashCooldown = 1;
     [SerializeField]
     private float _dashDuration = 0.1f;
     [SerializeField]
@@ -92,10 +90,8 @@ public class PlayerData : ScriptableObject
     private float _dashingGravityScale = 0;
     [SerializeField]
     [Range(0, 1)]
-    [Tooltip("clamps upward movement at end of jump")]
+    [Tooltip("clamps upward movement at end of dash")]
     private float _dashEndScale = 0.2f;
-    [SerializeField]
-    private float _distanceBetweenAfterImages = 0.5f;
 
     [Header("Crouching")]
     [SerializeField]
@@ -154,14 +150,13 @@ public class PlayerData : ScriptableObject
     public float LedgeHopDuration => _ledgeHopDuration;
     // dash
     public bool AllowDash => _allowDash;
+    public bool AllowDirectionInput => _allowDirectionInput;
     public float DashCooldown => _dashCooldown;
-    public float MaxHoldTime => _maxHoldTime;
-    public float DashHoldMovementScale => _dashHoldMovementScale;
     public float DashDuration => _dashDuration;
     public float DashVelocity => _dashVelocity;
     public float DashingGravityScale => _dashingGravityScale;
     public float DashEndScale => _dashEndScale;
-    public float DistanceBetweenAfterImages => _distanceBetweenAfterImages;
+
     // crouching
     public bool AllowCrouch => _allowCrouch;
     public float CrouchMoveVelocity => _crouchMoveVelocity;

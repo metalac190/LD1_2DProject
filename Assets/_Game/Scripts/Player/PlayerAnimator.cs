@@ -13,9 +13,6 @@ public class PlayerAnimator : MonoBehaviour
 
     public SpriteRenderer SpriteRenderer => _spriteRenderer;
 
-    //public GameObject MainVisual => _mainVisual;
-    //public GameObject CrouchVisual => _crouchVisual;
-
     public const string IdleName = "Idle";
     public const string RunName = "Run";
     public const string JumpName = "Jump";
@@ -31,6 +28,7 @@ public class PlayerAnimator : MonoBehaviour
     public const string WallAttack = "WallAttack";
     public const string WallGrabName = "WallGrab";
     public const string WallSlideName = "WallSlide";
+    public const string DashingName = "Dashing";
 
     public void PlayAnimation(string AnimationName)
     {
@@ -40,17 +38,6 @@ public class PlayerAnimator : MonoBehaviour
 
     public void ShowCrouchVisual(bool isActive)
     {
-        /*
-        if (isActive)
-        {
-            _crouchVisual.SetActive(true);
-            _mainVisual.SetActive(false);
-        }
-        else
-        {
-            _crouchVisual.SetActive(false);
-            _mainVisual.SetActive(true);
-        }
-        */
+
     }
 }

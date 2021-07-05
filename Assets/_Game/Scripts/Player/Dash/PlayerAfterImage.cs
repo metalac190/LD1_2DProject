@@ -6,7 +6,7 @@ public class PlayerAfterImage : MonoBehaviour
 {
     [SerializeField] SpriteRenderer _renderer;
     [SerializeField] private float _activeTime = 0.1f;
-    [SerializeField] private float _alphaSet = 0.8f;
+    [SerializeField] private float _alphaMax = 0.8f;
 
     private float _timeActivated;
     private float _alpha;
@@ -29,10 +29,12 @@ public class PlayerAfterImage : MonoBehaviour
         _playerSpriteRenderer = player.PlayerAnimator.SpriteRenderer;
 
         _playerSpriteTransform = _playerSpriteRenderer.transform;
+
         _playerColor = _playerSpriteRenderer.color;
+
         transform.localScale = _playerSpriteTransform.localScale;
         // start new sprite sequence
-        _alpha = _alphaSet;
+        _alpha = _alphaMax;
         _renderer.sprite = _playerSpriteRenderer.sprite;
         transform.position = _playerSpriteTransform.position;
         transform.rotation = _playerSpriteTransform.rotation;

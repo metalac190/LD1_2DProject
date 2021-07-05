@@ -27131,9 +27131,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9458f2cd31820674cb5e3f057c9c8f84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _data: {fileID: 11400000, guid: 76c1a438b57b2f048b909ced677a1027, type: 2}
+  _player: {fileID: 1061988416752541357}
   _dashCooldownVisual: {fileID: 420489001}
   _afterImagePool: {fileID: 1636585656}
+  _distanceBetweenAfterImages: 2
 --- !u!4 &641447807
 Transform:
   m_ObjectHideFlags: 0
@@ -39892,7 +39893,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1884541640399623758}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.66, y: 1.3, z: 0}
+  m_LocalPosition: {x: 0.66, y: 2.21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1019700327}
