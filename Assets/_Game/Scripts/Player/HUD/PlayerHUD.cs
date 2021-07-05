@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
 public class PlayerHUD : MonoBehaviour
 {
@@ -10,11 +10,11 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField]
     private IconBar _healthBarGUI;
     [SerializeField]
-    private TextMeshProUGUI _collectibleTextGUI;
+    private Text _fragmentTextGUI;
     [SerializeField]
-    private TextMeshProUGUI _keysTextGUI;
+    private Text _keysTextGUI;
     [SerializeField]
-    private TextMeshProUGUI _artifactsTextGUI;
+    private Text _artifactsTextGUI;
 
     private Health _health;
     private Inventory _inventory;
@@ -32,7 +32,7 @@ public class PlayerHUD : MonoBehaviour
     {
         // initial values
         _healthBarGUI.FillIcons(_health.HealthCurrent);
-        _collectibleTextGUI.text = _inventory.Fragments.ToString();
+        _fragmentTextGUI.text = _inventory.Fragments.ToString();
         _keysTextGUI.text = _inventory.Keys.ToString();
     }
 
@@ -59,7 +59,7 @@ public class PlayerHUD : MonoBehaviour
 
     private void OnFragmentsChanged(int newCollectibles)
     {
-        _collectibleTextGUI.text = newCollectibles.ToString();
+        _fragmentTextGUI.text = newCollectibles.ToString();
     }
 
     private void OnKeysChanged(int newKeysAmount)
