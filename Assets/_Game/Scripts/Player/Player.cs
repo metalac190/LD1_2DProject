@@ -25,8 +25,6 @@ public class Player : Actor
     private WeaponSystem _weaponSystem;
     [SerializeField]
     private DashSystem _dashSystem;
-    [SerializeField]
-    private PlayerAiming _playerAiming;
 
     public GameplayInput Input => _gameplayInput;
     public PlayerData Data => _data;
@@ -38,7 +36,6 @@ public class Player : Actor
 
     public WeaponSystem WeaponSystem => _weaponSystem;
     public DashSystem DashSystem => _dashSystem;
-    public PlayerAiming PlayerAiming => _playerAiming;
 
     public Inventory Inventory { get; private set; } = new Inventory();
 
@@ -47,9 +44,23 @@ public class Player : Actor
     public int AirJumpsRemaining { get; private set; }
     public float DashCooldown { get; private set; }
 
+    public void Initialize(GameplayInput gameplayInput)
+    {
+        _gameplayInput = gameplayInput;
+    }
+
     private void Awake()
     {
         ResetJumps();
+        // if we already have a player in the scene, we  may not have input assigned
+        if(_gameplayInput == null)
+        {
+            _gameplayInput = FindObjectOfType<GameplayInput>();
+            if (_gameplayInput == null)
+            {
+                Debug.LogError("No GameplayInput script in the scene");
+            }
+        }
     }
 
     public void DecreaseAirJumpsRemaining() => AirJumpsRemaining--;
@@ -65,5 +76,4 @@ public class Player : Actor
         BoxCollider.size = newSize;
         BoxCollider.offset = center;
     }
-
 }

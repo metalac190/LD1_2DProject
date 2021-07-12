@@ -35,19 +35,17 @@ MonoBehaviour:
   _wallSlideAcceleration: 0.3
   _allowWallGrab: 1
   _wallClimbVelocity: 5
-  _allowWallClimb: 1
+  _allowWallClimb: 0
   _allowLedgeHop: 1
-  _ledgeHopAmount: 10
+  _ledgeHopAmount: 13
   _ledgeHopDuration: 0.25
   _allowDash: 1
+  _allowDirectionInput: 0
   _dashCooldown: 1
-  _maxHoldTime: 1
-  _dashHoldMovementScale: 0.2
   _dashDuration: 0.2
   _dashVelocity: 55
   _dashingGravityScale: 0
   _dashEndScale: 0.2
-  _distanceBetweenAfterImages: 1.5
   _allowCrouch: 0
   _crouchMoveVelocity: 3
   _crouchColliderHeight: 0.8

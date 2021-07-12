@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour
 {
+    [Header("Actor Settings")]
     [SerializeField]
     private KinematicObject _movement;
     [SerializeField]

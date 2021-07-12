@@ -64,7 +64,7 @@ public class WeaponSystem : MonoBehaviour
         {
             animationName = PlayerAnimator.GroundAttack01Name;
         }
-        Debug.Log("Animation Name: " + animationName);
+        // do the gameplay sequence
         if (_attackRoutine != null)
             StopCoroutine(_attackRoutine);
         _attackRoutine = StartCoroutine(AttackRoutine(meleeAttack.StartDelay, meleeAttack.ActiveDuration,
@@ -81,7 +81,7 @@ public class WeaponSystem : MonoBehaviour
         if (_attackRoutine != null)
             StopCoroutine(_attackRoutine);
         _attackRoutine = StartCoroutine(AttackRoutine(meleeAttack.StartDelay, meleeAttack.ActiveDuration,
-            meleeAttack.EndDelay, hitSound, _bounceAttackCollision, WeaponAnimator.BounceAttackName));
+            meleeAttack.EndDelay, hitSound, _bounceAttackCollision, PlayerAnimator.BounceAttackName));
     }
 
     private void DisableAllWeaponCollisions()
