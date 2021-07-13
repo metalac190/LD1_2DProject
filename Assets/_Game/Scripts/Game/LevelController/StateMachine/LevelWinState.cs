@@ -6,9 +6,15 @@ public class LevelWinState : State
 {
     private LevelFSM _stateMachine;
 
-    public LevelWinState(LevelFSM stateMachine)
+    private HUDScreen _winScreen;
+    private PlayerSpawner _playerSpawner;
+
+    public LevelWinState(LevelFSM stateMachine, LevelController controller)
     {
         _stateMachine = stateMachine;
+
+        _playerSpawner = controller.PlayerSpawner;
+        _winScreen = controller.LevelHUD.WinScreen;
     }
 
     public override void Enter()
@@ -17,12 +23,19 @@ public class LevelWinState : State
 
         Debug.Log("STATE: Win!");
 
-        //TODO disable game input
+
+        //TODO save player stats before removing
+        _winScreen.Display();
+
+        //TODO optionally, we could create a 'PlayerInactive' state that doesn't take input,
+        // in the meantime just remove it for simplicity
+        _playerSpawner.RemoveExistingPlayer();
     }
 
     public override void Exit()
     {
         base.Exit();
+        _winScreen.Hide();
     }
 
     public override void FixedUpdate()

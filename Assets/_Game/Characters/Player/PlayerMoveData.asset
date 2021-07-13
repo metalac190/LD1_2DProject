@@ -33,7 +33,7 @@ MonoBehaviour:
   _allowWallSlide: 1
   _wallSlideVelocity: 0.2
   _wallSlideAcceleration: 0.3
-  _allowWallGrab: 1
+  _allowWallGrab: 0
   _wallClimbVelocity: 5
   _allowWallClimb: 0
   _allowLedgeHop: 1

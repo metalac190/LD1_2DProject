@@ -7,12 +7,16 @@ public class LevelActiveState : State
     private LevelFSM _stateMachine;
 
     private WinTrigger _winTrigger;
+    private PlayerSpawner _playerSpawner;
+
+    private Player _activePlayer;
 
     public LevelActiveState(LevelFSM stateMachine, LevelController levelController)
     {
         _stateMachine = stateMachine;
 
         _winTrigger = levelController.WinTrigger;
+        _playerSpawner = levelController.PlayerSpawner;
     }
 
     public override void Enter()
@@ -20,6 +24,7 @@ public class LevelActiveState : State
         base.Enter();
 
         _winTrigger.PlayerEntered += OnPlayerEnteredWin;
+        _playerSpawner.PlayerDied += OnPlayerDied;
     }
 
     public override void Exit()
@@ -27,6 +32,7 @@ public class LevelActiveState : State
         base.Exit();
 
         _winTrigger.PlayerEntered -= OnPlayerEnteredWin;
+        _playerSpawner.PlayerDied -= OnPlayerDied;
     }
 
     public override void FixedUpdate()
@@ -42,5 +48,10 @@ public class LevelActiveState : State
     private void OnPlayerEnteredWin()
     {
         _stateMachine.ChangeState(_stateMachine.WinState);
+    }
+
+    private void OnPlayerDied(Player player)
+    {
+        _stateMachine.ChangeState(_stateMachine.LoseState);
     }
 }

@@ -46,13 +46,15 @@ public class Player : Actor
 
     public void Initialize(GameplayInput gameplayInput)
     {
+        //TODO currently Initialize gets called AFTER this object States are created. This causes
+        // null references for input. Determine how to send input properly when this player is spawned
         _gameplayInput = gameplayInput;
     }
 
     private void Awake()
     {
-        ResetJumps();
-        // if we already have a player in the scene, we  may not have input assigned
+        //NOTE: When a player prefab is spawned, the states are created before the input is assigned
+        // inside of Initialize. This creates bugs. Determine how to send the Input down when player is spawned
         if(_gameplayInput == null)
         {
             _gameplayInput = FindObjectOfType<GameplayInput>();
@@ -61,6 +63,8 @@ public class Player : Actor
                 Debug.LogError("No GameplayInput script in the scene");
             }
         }
+
+        ResetJumps();
     }
 
     public void DecreaseAirJumpsRemaining() => AirJumpsRemaining--;
