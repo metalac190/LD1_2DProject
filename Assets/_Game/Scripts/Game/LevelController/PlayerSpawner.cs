@@ -8,8 +8,7 @@ public class PlayerSpawner : MonoBehaviour
     private LevelController _levelController;
 
     [Header("Player Spawning")]
-    [SerializeField]
-    private Player _player;
+
     [SerializeField]
     private Transform _spawnLocation;
     [SerializeField]
@@ -17,23 +16,12 @@ public class PlayerSpawner : MonoBehaviour
     [SerializeField]
     private Player _playerPrefab;
 
+    private Player _player;
+
     public float RespawnDelay => _respawnDelay;
     public Player ActivePlayer => _player;
 
-    private void Awake()
-    {
-        // ensure we have an active player
-        if (_player == null)
-        {
-            _player = FindObjectOfType<Player>();
-            if (_player == null)
-            {
-                SpawnPlayer();
-            }
-        }
-    }
-
-    private void SpawnPlayer()
+    public void SpawnPlayer()
     {
         if (_player != null)
             Destroy(_player.gameObject);

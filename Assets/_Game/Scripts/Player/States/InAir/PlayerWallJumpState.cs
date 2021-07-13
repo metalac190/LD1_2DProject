@@ -75,7 +75,6 @@ public class PlayerWallJumpState : State
         // if we're not grounded, but began falling, go to fall state
         if (!_groundDetector.IsGrounded && _movement.Velocity.y < 0)
         {
-            Debug.Log("Test");
             _stateMachine.ChangeState(_stateMachine.FallingState);
             return;
         }
@@ -92,7 +91,6 @@ public class PlayerWallJumpState : State
         }
         else
         {
-            Debug.Log("Moving...");
             _movement.MoveX(_data.MoveSpeed * _movement.FacingDirection, false);
         }
     }

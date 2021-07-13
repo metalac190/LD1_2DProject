@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelActiveState : State
+public class LevelWinState : State
 {
     private LevelFSM _stateMachine;
 
-    public LevelActiveState(LevelFSM stateMachine)
+    public LevelWinState(LevelFSM stateMachine)
     {
         _stateMachine = stateMachine;
     }
@@ -14,6 +14,10 @@ public class LevelActiveState : State
     public override void Enter()
     {
         base.Enter();
+
+        Debug.Log("STATE: Win!");
+
+        //TODO disable game input
     }
 
     public override void Exit()

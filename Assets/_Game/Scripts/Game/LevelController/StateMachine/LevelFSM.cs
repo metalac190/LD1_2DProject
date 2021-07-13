@@ -17,8 +17,8 @@ public class LevelFSM : StateMachineMB
     {
         _controller = GetComponent<LevelController>();
 
-        IntroState = new LevelIntroState(this);
-        ActiveState = new LevelActiveState(this);
+        IntroState = new LevelIntroState(this, _controller);
+        ActiveState = new LevelActiveState(this, _controller);
         PauseState = new LevelPauseState(this);
         WinState = new LevelWinState(this);
         LoseState = new LevelLoseState(this, _controller);

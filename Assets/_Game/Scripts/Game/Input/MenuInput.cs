@@ -26,6 +26,8 @@ public class MenuInput : MonoBehaviour
     public event Action PointPressed;
     public event Action PointReleased;
 
+    public bool SubmitHeld { get; private set; }
+
     //TODO: Make navigation functional for UI
 
     public void OnClose(InputAction.CallbackContext context)
@@ -40,7 +42,16 @@ public class MenuInput : MonoBehaviour
 
     public void OnSubmit(InputAction.CallbackContext context)
     {
-        //Debug.Log("Input: Submit");
+        if (context.started)
+        {
+            SubmitHeld = true;
+            SubmitPressed?.Invoke();
+        }
+        else if (context.canceled)
+        {
+            SubmitHeld = false;
+            SubmitReleased?.Invoke();
+        }
     }
 
     public void OnNavigate(InputAction.CallbackContext context)
