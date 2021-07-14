@@ -18,7 +18,7 @@ public class LevelLoseState : State
     public override void Enter()
     {
         base.Enter();
-
+        Debug.Log("STATE: Lose state");
         //TODO save data on death, so we can determine respawn point
     }
 

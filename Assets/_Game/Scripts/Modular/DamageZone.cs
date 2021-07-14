@@ -65,9 +65,4 @@ public class DamageZone : MonoBehaviour
         yield return new WaitForSeconds(damageFrequency);
         _damageCollider.enabled = true;
     }
-
-    public void DamageObject(IDamageable damageable)
-    {
-        damageable.Damage(_damageAmount);
-    }
 }

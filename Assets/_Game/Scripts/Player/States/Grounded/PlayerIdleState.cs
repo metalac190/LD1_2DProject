@@ -27,10 +27,8 @@ public class PlayerIdleState : PlayerGroundedSuperState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("STATE: Idle");
 
         _animator.PlayAnimation(PlayerAnimator.IdleName);
-        //_movement.SetVelocityXZero();
     }
 
     public override void Exit()

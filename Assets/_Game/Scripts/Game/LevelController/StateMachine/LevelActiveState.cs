@@ -10,6 +10,9 @@ public class LevelActiveState : State
     private PlayerSpawner _playerSpawner;
 
     private Player _activePlayer;
+    private GameSessionData _gameSession;
+
+    private MenuInput _menuInput;
 
     public LevelActiveState(LevelFSM stateMachine, LevelController levelController)
     {
@@ -17,6 +20,9 @@ public class LevelActiveState : State
 
         _winTrigger = levelController.WinTrigger;
         _playerSpawner = levelController.PlayerSpawner;
+        _gameSession = levelController.GameSessionData;
+
+        _menuInput = levelController.MenuInput;
     }
 
     public override void Enter()
@@ -24,7 +30,9 @@ public class LevelActiveState : State
         base.Enter();
 
         _winTrigger.PlayerEntered += OnPlayerEnteredWin;
-        _playerSpawner.PlayerDied += OnPlayerDied;
+        _playerSpawner.PlayerRemoved += OnPlayerDied;
+
+        _menuInput.CancelPressed += OnCancelPressed;
     }
 
     public override void Exit()
@@ -32,7 +40,8 @@ public class LevelActiveState : State
         base.Exit();
 
         _winTrigger.PlayerEntered -= OnPlayerEnteredWin;
-        _playerSpawner.PlayerDied -= OnPlayerDied;
+        _playerSpawner.PlayerRemoved -= OnPlayerDied;
+        _menuInput.CancelPressed -= OnCancelPressed;
     }
 
     public override void FixedUpdate()
@@ -52,6 +61,15 @@ public class LevelActiveState : State
 
     private void OnPlayerDied(Player player)
     {
+        Debug.Log("Player DIED!");
+        _gameSession.DeathCount++;
         _stateMachine.ChangeState(_stateMachine.LoseState);
+    }
+
+    private void OnCancelPressed()
+    {
+        // reset level data. Make this clear to player in the future, and consider putting in menus
+        _gameSession.ClearGameSession();
+        LevelLoader.ReloadLevel();
     }
 }

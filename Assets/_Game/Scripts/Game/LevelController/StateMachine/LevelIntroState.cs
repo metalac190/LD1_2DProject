@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Note: The difference between 'setup' and 'intro', is setup will always get calledon level load.
+/// Intro is only called if it's determined that this is the player's first experience with the level.
+/// (cutscenes, initialization, etc.)
+/// </summary>
 public class LevelIntroState : State
 {
     private LevelFSM _stateMachine;
@@ -9,6 +14,7 @@ public class LevelIntroState : State
     private MenuInput _input;
     private HUDScreen _introScreen;
     private PlayerSpawner _playerSpawner;
+
 
     public LevelIntroState(LevelFSM stateMachine, LevelController controller)
     {
@@ -23,6 +29,7 @@ public class LevelIntroState : State
     {
         base.Enter();
         _input.SubmitPressed += OnSubmitPressed;
+        
         // spawn player if a player doesn't already exist
         _introScreen.Display();
     }
@@ -30,8 +37,6 @@ public class LevelIntroState : State
     public override void Exit()
     {
         base.Exit();
-
-        _playerSpawner.SpawnPlayer();
 
         _input.SubmitPressed -= OnSubmitPressed;
         _introScreen.Hide();
@@ -49,7 +54,7 @@ public class LevelIntroState : State
 
     private void OnSubmitPressed()
     {
-        // immediately transition to active play state
+        _playerSpawner.SpawnPlayer();
         _stateMachine.ChangeState(_stateMachine.ActiveState);
     }
 }

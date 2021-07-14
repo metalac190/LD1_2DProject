@@ -9,7 +9,6 @@ public class HUDScreen : MonoBehaviour
 
     public virtual void Display()
     {
-        Debug.Log("Display!");
         if(_canvas.gameObject.activeSelf == false)
             _canvas.gameObject.SetActive(true);
     }

@@ -26,7 +26,25 @@ public class Player : Actor
     [SerializeField]
     private DashSystem _dashSystem;
 
-    public GameplayInput Input => _gameplayInput;
+    public GameplayInput Input
+    {
+        //TODO this is doing a scenewide search. Consider a better method for connecting the game input
+        // with the player character after it's spawned
+        get
+        {
+            if (_gameplayInput == null)
+            {
+                _gameplayInput = FindObjectOfType<GameplayInput>();
+                if(_gameplayInput == null)
+                {
+                    Debug.LogError("No gameplay input in scene");
+                }
+            }
+
+            return _gameplayInput;
+        }
+    }
+
     public PlayerData Data => _data;
     public PlayerAnimator PlayerAnimator => _playerAnimator;
     public BoxCollider2D BoxCollider => _boxCollider;
@@ -53,17 +71,6 @@ public class Player : Actor
 
     private void Awake()
     {
-        //NOTE: When a player prefab is spawned, the states are created before the input is assigned
-        // inside of Initialize. This creates bugs. Determine how to send the Input down when player is spawned
-        if(_gameplayInput == null)
-        {
-            _gameplayInput = FindObjectOfType<GameplayInput>();
-            if (_gameplayInput == null)
-            {
-                Debug.LogError("No GameplayInput script in the scene");
-            }
-        }
-
         ResetJumps();
     }
 

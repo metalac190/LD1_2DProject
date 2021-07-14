@@ -7,6 +7,7 @@ public class LevelFSM : StateMachineMB
 {
     private LevelController _controller;
 
+    public LevelSetupState SetupState;
     public LevelIntroState IntroState;
     public LevelActiveState ActiveState;
     public LevelPauseState PauseState;
@@ -17,6 +18,7 @@ public class LevelFSM : StateMachineMB
     {
         _controller = GetComponent<LevelController>();
 
+        SetupState = new LevelSetupState(this, _controller);
         IntroState = new LevelIntroState(this, _controller);
         ActiveState = new LevelActiveState(this, _controller);
         PauseState = new LevelPauseState(this);
@@ -26,6 +28,6 @@ public class LevelFSM : StateMachineMB
 
     private void Start()
     {
-        ChangeState(IntroState);
+        ChangeState(SetupState);
     }
 }

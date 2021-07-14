@@ -6,7 +6,7 @@ using System;
 public class PlayerSpawner : MonoBehaviour
 {
     public event Action<Player> PlayerSpawned;
-    public event Action<Player> PlayerDied;
+    public event Action<Player> PlayerRemoved;
 
     [SerializeField]
     private LevelController _levelController;
@@ -14,7 +14,7 @@ public class PlayerSpawner : MonoBehaviour
     [Header("Player Spawning")]
 
     [SerializeField]
-    private Transform _spawnLocation;
+    private Transform _startSpawnLocation;
     [SerializeField]
     private float _respawnDelay = 1.5f;
     [SerializeField]
@@ -24,13 +24,43 @@ public class PlayerSpawner : MonoBehaviour
 
     public float RespawnDelay => _respawnDelay;
     public Player ActivePlayer => _player;
+    public Transform StartSpawnLocation => _startSpawnLocation;
 
+    /// <summary>
+    /// Respawn player at designated location
+    /// </summary>
+    /// <param name="respawnPosition"></param>
+    public void RespawnPlayer(Vector3 respawnPosition)
+    {
+        // if there's already a player, remove it
+        if (_player != null)
+        {
+            RemoveExistingPlayer();
+        }
+
+        _player = Instantiate(_playerPrefab, respawnPosition, Quaternion.identity);
+        //TODO look into a way to pass this information before instantiating (it calls awake before initialize)
+        _player.Initialize(_levelController.GameplayInput);
+        _player.Health.Died.AddListener(OnPlayerDied);
+
+        PlayerSpawned?.Invoke(_player);
+
+        _levelController.MainCamera.Follow = _player.transform;
+    }
+
+    /// <summary>
+    /// Spawn a new player at start position
+    /// </summary>
     public void SpawnPlayer()
     {
-        RemoveExistingPlayer();
+        // if there's already a player, remove it
+        if(_player != null)
+        {
+            RemoveExistingPlayer();
+        }
 
-        _player = Instantiate(_playerPrefab, _spawnLocation.position, _spawnLocation.rotation);
-        Debug.Log("Player Initialize");
+        _player = Instantiate(_playerPrefab, _startSpawnLocation.position, Quaternion.identity);
+        //TODO look into a way to pass this information before instantiating (it calls awake before initialize)
         _player.Initialize(_levelController.GameplayInput);
         _player.Health.Died.AddListener(OnPlayerDied);
 
@@ -41,16 +71,14 @@ public class PlayerSpawner : MonoBehaviour
 
     public void RemoveExistingPlayer()
     {
-        if (_player != null)
-        {
-            PlayerDied?.Invoke(_player);
-            Destroy(_player.gameObject);
-        }
+        PlayerRemoved?.Invoke(_player);
+        Destroy(_player.gameObject);
     }
 
     private void OnPlayerDied()
     {
         _player.Health.Died.RemoveListener(OnPlayerDied);
-        PlayerDied?.Invoke(_player);
+        RemoveExistingPlayer();
     }
+
 }
