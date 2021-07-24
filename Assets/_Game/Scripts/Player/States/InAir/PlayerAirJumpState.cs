@@ -79,7 +79,18 @@ public class PlayerAirJumpState : State
 
     private void OnAttackPressed()
     {
-        _stateMachine.ChangeState(_stateMachine.AirAttackState);
+        if (_input.YInputRaw == -1)
+        {
+            _movement.MoveY(_movement.Velocity.y * _data.AirAttackVelocityYDampen);
+            _stateMachine.ChangeState(_stateMachine.BounceAttackState);
+            return;
+        }
+        else
+        {
+            _movement.MoveY(_movement.Velocity.y * _data.AirAttackVelocityYDampen);
+            _stateMachine.ChangeState(_stateMachine.AirAttackState);
+            return;
+        }
     }
 
     private void OnJumpReleased()
