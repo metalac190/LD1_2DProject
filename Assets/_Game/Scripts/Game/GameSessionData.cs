@@ -9,7 +9,7 @@ using UnityEngine;
 /// to file if needed.
 /// </summary>
 
-[CreateAssetMenu(fileName = "GameSessionData", menuName = "SessionData/GameSession")]
+[CreateAssetMenu(fileName = "GameSessionData", menuName = "Data/Game/GameSession")]
 public class GameSessionData : ScriptableObject
 {
     public Vector3 SpawnLocation { get; set; } = Vector3.zero;

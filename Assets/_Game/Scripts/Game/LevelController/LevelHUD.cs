@@ -5,20 +5,16 @@ using UnityEngine;
 public class LevelHUD : MonoBehaviour
 {
     [SerializeField]
-    private HUDScreen _introScreen;
+    private IntroScreen _introScreen;
     [SerializeField]
-    private HUDScreen _winScreen;
-    [SerializeField]
-    private HUDScreen _loseScreen;
+    private WinScreen _winScreen;
 
-    public HUDScreen IntroScreen => _introScreen;
-    public HUDScreen WinScreen => _winScreen;
-    public HUDScreen LoseScreen => _loseScreen;
+    public IntroScreen IntroScreen => _introScreen;
+    public WinScreen WinScreen => _winScreen;
 
     public void DisableAllCanvases()
     {
         _introScreen.Hide();
         _winScreen.Hide();
-        _loseScreen.Hide();
     }
 }

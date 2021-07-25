@@ -8,6 +8,8 @@ public class LevelController : MonoBehaviour
     [SerializeField]
     private GameSessionData _gameSessionData;
     [SerializeField]
+    private LevelData _levelData;
+    [SerializeField]
     private PlayerSpawner _playerSpawner;
     [SerializeField]
     private GameplayInput _gameplayInput;
@@ -21,6 +23,7 @@ public class LevelController : MonoBehaviour
     private LevelHUD _levelHUD;
 
     public GameSessionData GameSessionData => _gameSessionData;
+    public LevelData LevelData => _levelData;
     public PlayerSpawner PlayerSpawner => _playerSpawner;
     public GameplayInput GameplayInput => _gameplayInput;
     public MenuInput MenuInput => _menuInput;

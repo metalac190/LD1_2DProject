@@ -13,6 +13,7 @@ public class LevelSetupState : State
 
     private GameSessionData _gameSessionData;
     private PlayerSpawner _spawner;
+    private IntroScreen _introScreen;
 
     public LevelSetupState(LevelFSM stateMachine, LevelController controller)
     {
@@ -20,12 +21,15 @@ public class LevelSetupState : State
 
         _spawner = controller.PlayerSpawner;
         _gameSessionData = controller.GameSessionData;
+        _introScreen = controller.LevelHUD.IntroScreen;
     }
 
     public override void Enter()
     {
         base.Enter();
         Debug.Log("STATE: Setup");
+
+        _introScreen.Display();
     }
 
     public override void Exit()
