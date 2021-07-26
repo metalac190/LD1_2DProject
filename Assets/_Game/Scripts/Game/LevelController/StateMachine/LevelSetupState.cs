@@ -11,7 +11,7 @@ public class LevelSetupState : State
 {
     private LevelFSM _stateMachine;
 
-    private GameSessionData _gameSessionData;
+    private GameSession _gameSession;
     private PlayerSpawner _spawner;
     private IntroScreen _introScreen;
 
@@ -20,7 +20,7 @@ public class LevelSetupState : State
         _stateMachine = stateMachine;
 
         _spawner = controller.PlayerSpawner;
-        _gameSessionData = controller.GameSessionData;
+        _gameSession = GameSession.Instance;
         _introScreen = controller.LevelHUD.IntroScreen;
     }
 
@@ -46,15 +46,15 @@ public class LevelSetupState : State
     {
         base.Update();
 
-        if (_gameSessionData.IsFirstAttempt)
+        if (_gameSession.IsFirstAttempt)
         {
-            _gameSessionData.SpawnLocation = _spawner.StartSpawnLocation.position;
+            _gameSession.SpawnLocation = _spawner.StartSpawnLocation.position;
             _stateMachine.ChangeState(_stateMachine.IntroState);
             return;
         }
         else
         {
-            _spawner.RespawnPlayer(_gameSessionData.SpawnLocation);
+            _spawner.RespawnPlayer(_gameSession.SpawnLocation);
             _stateMachine.ChangeState(_stateMachine.ActiveState);
             return;
         }

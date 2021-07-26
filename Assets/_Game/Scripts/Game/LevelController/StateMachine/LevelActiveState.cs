@@ -10,7 +10,7 @@ public class LevelActiveState : State
     private PlayerSpawner _playerSpawner;
 
     private Player _activePlayer;
-    private GameSessionData _gameSession;
+    private GameSession _gameSession;
 
     private MenuInput _menuInput;
 
@@ -20,7 +20,7 @@ public class LevelActiveState : State
 
         _winTrigger = levelController.WinTrigger;
         _playerSpawner = levelController.PlayerSpawner;
-        _gameSession = levelController.GameSessionData;
+        _gameSession = GameSession.Instance;
 
         _menuInput = levelController.MenuInput;
     }

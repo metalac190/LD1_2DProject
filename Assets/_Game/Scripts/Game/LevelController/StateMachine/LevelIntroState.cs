@@ -12,7 +12,6 @@ public class LevelIntroState : State
     private LevelFSM _stateMachine;
 
     private MenuInput _input;
-    private HUDScreen _introScreen;
     private PlayerSpawner _playerSpawner;
 
 
@@ -21,7 +20,6 @@ public class LevelIntroState : State
         _stateMachine = stateMachine;
 
         _input = controller.MenuInput;
-        _introScreen = controller.LevelHUD.IntroScreen;
         _playerSpawner = controller.PlayerSpawner;
     }
 
