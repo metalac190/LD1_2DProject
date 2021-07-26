@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class SavePoint : MonoBehaviour
+public class SavePoint : TriggerVolume
 {
     [SerializeField]
     private Transform _newSpawnPoint;
@@ -19,14 +19,16 @@ public class SavePoint : MonoBehaviour
         _gameSession = GameSession.Instance;
     }
 
-    private void OnTriggerEnter2D(Collider2D otherCollider)
+    public override void TriggerEntered(Collider2D collider)
     {
         Debug.Log("Set new spawn point");
         // if we're not in the layer, return
-        Player player = otherCollider.GetComponent<Player>();
-        if(player != null)
+        Player player = collider.GetComponent<Player>();
+        if (player != null)
         {
             _gameSession.SpawnLocation = _newSpawnPoint.position;
         }
     }
+
+
 }

@@ -44,11 +44,6 @@ public abstract class Pickup : MonoBehaviour
         Disable();
     }
 
-    void SpawnAudio(AudioClip pickupSFX)
-    {
-        AudioSource.PlayClipAtPoint(pickupSFX, transform.position);
-    }
-
     void SpawnParticle(ParticleSystem pickupParticles)
     {
         ParticleSystem newParticles =

@@ -1,15 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SoundSystem;
 
 [RequireComponent(typeof(Collider2D))]
 public abstract class TriggerVolume : MonoBehaviour
 {
-    public abstract void TriggerEntered(Collider2D collider);
-    public abstract void TriggerExited(Collider2D collider);
+    public abstract void TriggerEntered(Collider2D otherCollider);
 
     [SerializeField]
     private LayerMask _layersDetected;
+
+    [Header("FX")]
+    [SerializeField]
+    private SFXOneShot _enteredSFX;
+    [SerializeField]
+    private ParticleSystem _enteredParticles;
 
     private Collider2D _collider;
 
@@ -25,6 +31,7 @@ public abstract class TriggerVolume : MonoBehaviour
         // if we're not in the layer, return
         if (!PhysicsHelper.IsInLayerMask(otherCollider.gameObject, _layersDetected)) { return; }
 
+        PlayFX();
         TriggerEntered(otherCollider);
     }
 
@@ -34,5 +41,24 @@ public abstract class TriggerVolume : MonoBehaviour
         if (!PhysicsHelper.IsInLayerMask(otherCollider.gameObject, _layersDetected)) { return; }
 
         TriggerExited(otherCollider);
+    }
+
+    public virtual void TriggerExited(Collider2D otherCollider)
+    {
+        if (!PhysicsHelper.IsInLayerMask(otherCollider.gameObject, _layersDetected)) { return; }
+
+    }
+
+    private void PlayFX()
+    {
+        if (_enteredSFX != null)
+            _enteredSFX.PlayOneShot(transform.position);
+
+        if(_enteredParticles != null)
+        {
+            ParticleSystem newParticles =
+                Instantiate(_enteredParticles, transform.position, Quaternion.identity);
+            newParticles.Play();
+        }  
     }
 }

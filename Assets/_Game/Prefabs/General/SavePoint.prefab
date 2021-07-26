@@ -90,6 +90,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42cd06e84f3350c43b5cef7e71447b86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _layersDetected:
+    serializedVersion: 2
+    m_Bits: 512
+  _enteredSFX: {fileID: 11400000, guid: 15ddbdf166ad72a4b9aacc792fca3feb, type: 2}
+  _enteredParticles: {fileID: 2010415367784037018, guid: 1bf67136a26c0da419c918f18c29d45b, type: 3}
   _newSpawnPoint: {fileID: 172956061715604526}
 --- !u!61 &172956062278085910
 BoxCollider2D:

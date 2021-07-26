@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class WinTrigger : MonoBehaviour
+public class WinTrigger : TriggerVolume
 {
     public event Action PlayerEntered;
 
-    private void OnTriggerEnter2D(Collider2D otherCollider)
+    public override void TriggerEntered(Collider2D collider)
     {
-        Player player = otherCollider.gameObject.GetComponent<Player>();
-        if(player != null)
+        Player player = collider.gameObject.GetComponent<Player>();
+        if (player != null)
         {
             Debug.Log("Trigger entered");
             PlayerEntered?.Invoke();

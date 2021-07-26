@@ -12,9 +12,4 @@ public class KillVolume : TriggerVolume
             health.Kill();
         }
     }
-
-    public override void TriggerExited(Collider2D collider)
-    {
-        //
-    }
 }
