@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crawler : Enemy
+public class Crawler : Actor
 {
     [Header("Dependencies")]
     [SerializeField]

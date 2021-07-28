@@ -8,14 +8,10 @@ public class SavePoint : TriggerVolume
     [SerializeField]
     private Transform _newSpawnPoint;
 
-    private Collider2D _collider;
     private GameSession _gameSession;
 
     private void Awake()
     {
-        // ensure it's marked as trigger
-        _collider = GetComponent<Collider2D>();
-        _collider.isTrigger = true;
         _gameSession = GameSession.Instance;
     }
 

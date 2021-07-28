@@ -133,7 +133,7 @@ public class LedgeDetector : MonoBehaviour
         }
     }
 
-    public bool CheckLowerLedge()
+    public bool DetectLowerLedge()
     {
         // if we're paused, DONT detect
         if (IsDetectPaused) 
