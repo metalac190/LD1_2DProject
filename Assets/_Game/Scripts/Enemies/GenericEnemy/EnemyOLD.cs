@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(EnvironmentDetector))]
 [RequireComponent(typeof(Health))]
-public class Enemy : MonoBehaviour
+public class EnemyOLD : MonoBehaviour
 {
     [Header("Enemy Settings")]
     [SerializeField]

@@ -7,7 +7,7 @@ public class PlayerWallAttackState : State
     PlayerFSM _stateMachine;
     Player _player;
 
-    private KinematicObject _movement;
+    private MovementKM _movement;
     private WeaponSystem _weaponSystem;
 
     Vector2 _startPos;

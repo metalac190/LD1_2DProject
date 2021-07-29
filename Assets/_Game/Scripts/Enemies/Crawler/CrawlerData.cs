@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CrawlerData", menuName = "Data/Enemies/Crawler")]
-public class CrawlerData : ScriptableObject
+public class CrawlerData : EnemyData
 {
-    [Header("Movement")]
+    [Header("Crawler")]
     [SerializeField]
     private float _movementSpeed = 3f;
 

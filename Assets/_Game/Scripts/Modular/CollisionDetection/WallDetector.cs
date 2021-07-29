@@ -11,7 +11,7 @@ public class WallDetector : MonoBehaviour
     [SerializeField]
     private Transform _wallCheckLocation;
     [SerializeField]
-    private float _wallCheckDistance = 0.5f;
+    private float _wallCheckRadius = 0.5f;
     [SerializeField]
     private LayerMask _whatIsWall;
 
@@ -60,8 +60,10 @@ public class WallDetector : MonoBehaviour
     {
         if (_wallCheckLocation != null)
         {
-            IsWallDetected = Physics2D.Raycast(_wallCheckLocation.position, 
-                transform.right, _wallCheckDistance, _whatIsWall);
+            //IsWallDetected = Physics2D.Raycast(_wallCheckLocation.position, 
+            //transform.right, _wallCheckRadius, _whatIsWall);
+            IsWallDetected = Physics2D.OverlapCircle(_wallCheckLocation.position,
+                _wallCheckRadius, _whatIsWall);
             return IsWallDetected;
         }
         else
@@ -75,8 +77,9 @@ public class WallDetector : MonoBehaviour
     {
         if (_wallCheckLocation != null)
         {
-            Gizmos.DrawLine(_wallCheckLocation.position, 
-                _wallCheckLocation.position + (transform.right * _wallCheckDistance));
+            //Gizmos.DrawLine(_wallCheckLocation.position, 
+                //_wallCheckLocation.position + (transform.right * _wallCheckDistance));
+            Gizmos.DrawWireSphere(_wallCheckLocation.position, _wallCheckRadius);
         }
     }
 }

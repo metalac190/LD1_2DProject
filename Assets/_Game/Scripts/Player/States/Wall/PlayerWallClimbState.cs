@@ -7,7 +7,7 @@ public class PlayerWallClimbState : PlayerWallSuperState
     PlayerFSM _stateMachine;
     Player _player;
 
-    KinematicObject _movement;
+    MovementKM _movement;
     PlayerData _data;
     GameplayInput _input;
     LedgeDetector _ledgeDetector;

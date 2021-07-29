@@ -24,11 +24,11 @@ public class LedgeDetector : MonoBehaviour
     [SerializeField]
     private Transform _upperLedgeCheckLocation;
     [SerializeField]
-    private float _upperLedgeCheckDistance = 0.5f;
+    private float _upperLedgeCheckRadius = 0.2f;
     [SerializeField]
     private Transform _lowerLedgeCheckLocation;
     [SerializeField]
-    private float _lowerLedgeCheckDistance = 0.5f;
+    private float _lowerLedgeCheckRadius = 0.2f;
     [SerializeField]
     private LayerMask _whatIsWall;
     [SerializeField]
@@ -110,8 +110,10 @@ public class LedgeDetector : MonoBehaviour
 
         if (_upperLedgeCheckLocation != null)
         {
-            bool wallPresentNearTop = Physics2D.Raycast(_upperLedgeCheckLocation.position,
-                transform.right, _upperLedgeCheckDistance, _whatIsWall);
+            //bool wallPresentNearTop = Physics2D.Raycast(_upperLedgeCheckLocation.position,
+                //transform.right, _upperLedgeCheckRadius, _whatIsWall);
+            bool wallPresentNearTop = Physics2D.OverlapCircle(_upperLedgeCheckLocation.position,
+                _upperLedgeCheckRadius, _whatIsWall);
             // if we're against a wall, but there's nothing above it, we're beneath a ledge
             if (_wallDetector.IsWallDetected && !wallPresentNearTop)
             {
@@ -144,10 +146,14 @@ public class LedgeDetector : MonoBehaviour
 
         if (_lowerLedgeCheckLocation != null && !IsDetectPaused)
         {
-            bool groundPresentNearFront = Physics2D.Raycast(_lowerLedgeCheckLocation.position,
-                Vector2.down, _lowerLedgeCheckDistance, _whatIsWall);
+            //bool groundPresentNearFront = Physics2D.Raycast(_lowerLedgeCheckLocation.position,
+                //Vector2.down, _lowerLedgeCheckRadius, _whatIsWall);
+            bool groundPresentNearFront = Physics2D.OverlapCircle(_lowerLedgeCheckLocation.position,
+                _lowerLedgeCheckRadius, _whatIsWall);
+
+            _groundDetector.DetectGround();
             // if we're grounded but there's no ground shortly in front of us, it's a lower ledge
-            if (_groundDetector.IsGrounded && !groundPresentNearFront)
+            if (_groundDetector.IsGrounded && groundPresentNearFront == false)
             {
                 IsDetectingLowerLedge = true;
                 return IsDetectingLowerLedge;
@@ -207,13 +213,17 @@ public class LedgeDetector : MonoBehaviour
     {
         if (_upperLedgeCheckLocation != null)
         {
-            Gizmos.DrawLine(_upperLedgeCheckLocation.position,
-                _upperLedgeCheckLocation.position + (transform.right * _upperLedgeCheckDistance));
+            //Gizmos.DrawLine(_upperLedgeCheckLocation.position,
+                //_upperLedgeCheckLocation.position + (transform.right * _upperLedgeCheckDistance));
+            Gizmos.DrawWireSphere(_upperLedgeCheckLocation.position, 
+                _upperLedgeCheckRadius);
         }
         if(_lowerLedgeCheckLocation != null)
         {
-            Gizmos.DrawLine(_lowerLedgeCheckLocation.position,
-                _lowerLedgeCheckLocation.position + (Vector3.down * _lowerLedgeCheckDistance));
+            //Gizmos.DrawLine(_lowerLedgeCheckLocation.position,
+                //_lowerLedgeCheckLocation.position + (Vector3.down * _lowerLedgeCheckDistance));
+            Gizmos.DrawWireSphere(_lowerLedgeCheckLocation.position,
+                _lowerLedgeCheckRadius);
         }
     }
 }

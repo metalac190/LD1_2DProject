@@ -7,7 +7,7 @@ public class PlayerBounceAttackState : State
     PlayerFSM _stateMachine;
     PlayerAnimator _animator;
 
-    KinematicObject _movement;
+    MovementKM _movement;
     PlayerData _data;
     WeaponSystem _weaponSystem;
     GameplayInput _input;

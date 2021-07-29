@@ -2,29 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crawler_MoveState : State
+public class CrawlerMoveState : State
 {
     private CrawlerFSM _stateMachine;
     private CrawlerData _data;
 
-    private KinematicObject _kinematicObject;
+    private MovementKM _kinematicObject;
     private WallDetector _wallDetector;
     private LedgeDetector _ledgeDetector;
 
-    public Crawler_MoveState(CrawlerFSM stateMachine, Crawler crawler)
+    public CrawlerMoveState(CrawlerFSM stateMachine, Crawler crawler)
     {
         _stateMachine = stateMachine;
         _data = crawler.Data;
 
         _kinematicObject = crawler.Movement;
-        _wallDetector = crawler.CollisionDetector.WallDetector;
-        _ledgeDetector = crawler.CollisionDetector.LedgeDetector;
+        _wallDetector = crawler.WallDetector;
+        _ledgeDetector = crawler.LedgeDetector;
     }
 
     public override void Enter()
     {
         base.Enter();
-
+        Debug.Log("STATE: Crawler Move");
 
     }
 
@@ -36,7 +36,6 @@ public class Crawler_MoveState : State
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-
 
         _wallDetector.DetectWall();
         _ledgeDetector.DetectLowerLedge();

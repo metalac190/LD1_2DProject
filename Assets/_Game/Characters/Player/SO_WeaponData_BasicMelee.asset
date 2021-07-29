@@ -16,7 +16,7 @@ MonoBehaviour:
   _hitSFX: {fileID: 11400000, guid: 06be151507a69204e856fa00a6633e3e, type: 2}
   _finisherSFX: {fileID: 11400000, guid: e848837ed21979443966e696aa087a9e, type: 2}
   _groundAttack:
-    _damage: 3
+    _damage: 1
     _startDelay: 0
     _activeDuration: 0.2
     _endDelay: 0.15
@@ -24,10 +24,10 @@ MonoBehaviour:
     _knockbackAmount: 3
     _knockbackForceModifier: {x: 0.5, y: 1}
     _addReverseDirection: 1
-    _knockbackDuration: 0.2
+    _knockbackDuration: 0.5
     _movementReductionRatio: 0.1
   _groundFinisher:
-    _damage: 10
+    _damage: 2
     _startDelay: 0.1
     _activeDuration: 0.15
     _endDelay: 0.05
@@ -35,10 +35,10 @@ MonoBehaviour:
     _knockbackAmount: 8
     _knockbackForceModifier: {x: 0.5, y: 1}
     _addReverseDirection: 1
-    _knockbackDuration: 0.2
+    _knockbackDuration: 0.5
     _movementReductionRatio: 0.3
   _airAttack:
-    _damage: 5
+    _damage: 1
     _startDelay: 0
     _activeDuration: 0.2
     _endDelay: 0.15
@@ -46,10 +46,10 @@ MonoBehaviour:
     _knockbackAmount: 2
     _knockbackForceModifier: {x: 1, y: 0}
     _addReverseDirection: 1
-    _knockbackDuration: 0.2
+    _knockbackDuration: 0.5
     _movementReductionRatio: 0.2
   _airFinisher:
-    _damage: 5
+    _damage: 2
     _startDelay: 0.1
     _activeDuration: 0.15
     _endDelay: 0.2
@@ -57,10 +57,10 @@ MonoBehaviour:
     _knockbackAmount: 4
     _knockbackForceModifier: {x: 1, y: 1}
     _addReverseDirection: 1
-    _knockbackDuration: 0.2
+    _knockbackDuration: 0.5
     _movementReductionRatio: 0.4
   _wallAttack:
-    _damage: 5
+    _damage: 1
     _startDelay: 0
     _activeDuration: 0.1
     _endDelay: 0.1
@@ -68,10 +68,10 @@ MonoBehaviour:
     _knockbackAmount: 5
     _knockbackForceModifier: {x: 0.5, y: 1}
     _addReverseDirection: 1
-    _knockbackDuration: 0.2
+    _knockbackDuration: 0.5
     _movementReductionRatio: 0.5
   _wallFinisher:
-    _damage: 5
+    _damage: 2
     _startDelay: 0
     _activeDuration: 0.1
     _endDelay: 0.1
@@ -79,10 +79,10 @@ MonoBehaviour:
     _knockbackAmount: 5
     _knockbackForceModifier: {x: 0, y: 1}
     _addReverseDirection: 1
-    _knockbackDuration: 0.2
+    _knockbackDuration: 0.5
     _movementReductionRatio: 0.5
   _bounceAttack:
-    _damage: 5
+    _damage: 1
     _startDelay: 0
     _activeDuration: 0.1
     _endDelay: 0.1
@@ -90,5 +90,5 @@ MonoBehaviour:
     _knockbackAmount: 5
     _knockbackForceModifier: {x: 0, y: 1}
     _addReverseDirection: 1
-    _knockbackDuration: 0.2
+    _knockbackDuration: 0.5
     _movementReductionRatio: 0.2

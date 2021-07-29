@@ -7,7 +7,7 @@ public class PlayerGroundAttackState : State
     private PlayerFSM _stateMachine;
     private PlayerAnimator _animator;
 
-    private KinematicObject _movement;
+    private MovementKM _movement;
     private PlayerData _data;
     private GameplayInput _input;
     private WeaponSystem _weaponSystem;

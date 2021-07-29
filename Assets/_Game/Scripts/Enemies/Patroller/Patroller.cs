@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(PlayerDetector))]
 [RequireComponent(typeof(ReceiveKnockback))]
-public class Patroller : Enemy
+public class Patroller : EnemyOLD
 {
     [Header("Patroller Settings")]
     [SerializeField]

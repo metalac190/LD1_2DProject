@@ -10,7 +10,7 @@ public class PlayerIdleState : PlayerGroundedSuperState
     PlayerAnimator _animator;
     PlayerData _data;
 
-    KinematicObject _movement;
+    MovementKM _movement;
     GameplayInput _input;
 
     public PlayerIdleState(PlayerFSM stateMachine, Player player) : base(stateMachine, player)

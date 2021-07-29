@@ -8,7 +8,7 @@ public class PlayerJumpState : State
     Player _player;
     PlayerAnimator _animator;
 
-    KinematicObject _movement;
+    MovementKM _movement;
     GameplayInput _input;
     PlayerData _data;
     GroundDetector _groundDetector;

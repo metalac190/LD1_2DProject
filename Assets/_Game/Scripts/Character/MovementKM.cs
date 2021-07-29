@@ -9,7 +9,7 @@ using System;
 /// </summary>
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class KinematicObject : MonoBehaviour
+public class MovementKM : MonoBehaviour
 {
     public event Action ReceivedPush;
 

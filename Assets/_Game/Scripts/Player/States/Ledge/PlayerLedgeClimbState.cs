@@ -6,7 +6,7 @@ public class PlayerLedgeClimbState : State
 {
     PlayerFSM _stateMachine;
 
-    KinematicObject _movement;
+    MovementKM _movement;
     PlayerData _data;
     PlayerSFXData _sfx;
 

@@ -6,10 +6,10 @@ public class Actor : MonoBehaviour
 {
     [Header("Actor Settings")]
     [SerializeField]
-    private KinematicObject _movement;
+    private MovementKM _movement;
     [SerializeField]
     private CollisionDetector _collisionDetector;
 
-    public KinematicObject Movement => _movement;
+    public MovementKM Movement => _movement;
     public CollisionDetector CollisionDetector => _collisionDetector;
 }

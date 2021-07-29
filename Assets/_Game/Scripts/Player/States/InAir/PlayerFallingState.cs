@@ -8,7 +8,7 @@ public class PlayerFallingState : State
     Player _player;
     PlayerAnimator _animator;
 
-    KinematicObject _movement;
+    MovementKM _movement;
     PlayerData _data;
     GameplayInput _input;
     GroundDetector _groundDetector;

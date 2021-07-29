@@ -282,7 +282,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2310930631312999663}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.483, y: 2.21, z: 0}
+  m_LocalPosition: {x: 0.65, y: 2.21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4194310894753150662}
@@ -614,7 +614,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4194310893709982353}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.71, y: 0.11, z: 0}
+  m_LocalPosition: {x: 0.86, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4194310894753150662}
@@ -1840,7 +1840,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _wallCheckLocation: {fileID: 2310930631312999656}
-  _wallCheckDistance: 0.35
+  _wallCheckRadius: 0.2
   _whatIsWall:
     serializedVersion: 2
     m_Bits: 256
@@ -1859,9 +1859,9 @@ MonoBehaviour:
   _wallDetector: {fileID: 4194310894753150665}
   _groundDetector: {fileID: 4194310894753150664}
   _upperLedgeCheckLocation: {fileID: 2310930630529761638}
-  _upperLedgeCheckDistance: 0.75
+  _upperLedgeCheckRadius: 0.2
   _lowerLedgeCheckLocation: {fileID: 4194310893709982352}
-  _lowerLedgeCheckDistance: 0.5
+  _lowerLedgeCheckRadius: 0.2
   _whatIsWall:
     serializedVersion: 2
     m_Bits: 256

@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Crawler))]
-public class CrawlerFSM : StateMachineMB
+public class CrawlerFSM : EnemyFSM
 {
-    public Crawler_MoveState MoveState { get; private set; }
+    public CrawlerMoveState MoveState { get; private set; }
 
     [SerializeField] 
     private Crawler _crawler;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         // create states
-        MoveState = new Crawler_MoveState(this, _crawler);
+        MoveState = new CrawlerMoveState(this, _crawler);
     }
 
-    private void Start()
+    protected override void Start()
     {
         ChangeState(MoveState);
     }

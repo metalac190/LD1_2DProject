@@ -4,7 +4,9 @@ using UnityEngine;
 using System;
 
 /// <summary>
-/// This component is used to push things that are NOT a Kinematic Object
+/// This component is used to push .objects with hit knockback.
+/// It has been built to work with both custom physics as well as RB physics,
+/// if needed.
 /// </summary>
 public class ReceiveKnockback : MonoBehaviour, IPushable
 {
@@ -20,12 +22,12 @@ public class ReceiveKnockback : MonoBehaviour, IPushable
     public event Action KnockbackStarted;
     public event Action KnockbackEnded;
 
-    private KinematicObject _kinematicObject;
+    private MovementKM _kinematicObject;
     private Coroutine _knockbackRoutine;
 
     private void Awake()
     {
-        _kinematicObject = GetComponent<KinematicObject>();
+        _kinematicObject = GetComponent<MovementKM>();
 
         _rb.drag = _dynamicDragMultiplier;
     }

@@ -7,7 +7,7 @@ public class PlayerCrouchState : PlayerGroundedSuperState
     private PlayerFSM _stateMachine;
     private Player _player;
 
-    private KinematicObject _movement;
+    private MovementKM _movement;
     private GameplayInput _input;
     private PlayerData _data;
     private PlayerAnimator _playerAnimator;

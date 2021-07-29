@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8a500c70527b714aa5e476573607f4e, type: 3}
   m_Name: CrawlerData
   m_EditorClassIdentifier: 
+  _name: Crawler
+  _health: 3
+  _isDamageable: 1
+  _isHittable: 1
+  _deathDuration: 0
   _movementSpeed: 3
