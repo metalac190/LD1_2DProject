@@ -203,17 +203,6 @@
                 },
                 {
                     "name": "",
-                    "id": "d5519f7d-6f4d-44e9-9858-fb489b7174a9",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "MouseAndKeyboard",
-                    "action": "Cancel",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "eff33e40-b7fa-4614-b8dd-da0da7af35e5",
                     "path": "<Keyboard>/backspace",
                     "interactions": "",

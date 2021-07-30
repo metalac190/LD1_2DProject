@@ -8,6 +8,8 @@ public class LevelWinState : State
 
     private HUDScreen _winScreen;
     private PlayerSpawner _playerSpawner;
+    private MenuInput _input;
+    private GameSession _gameSession;
 
     public LevelWinState(LevelFSM stateMachine, LevelController controller)
     {
@@ -15,6 +17,8 @@ public class LevelWinState : State
 
         _playerSpawner = controller.PlayerSpawner;
         _winScreen = controller.LevelHUD.WinScreen;
+        _input = controller.MenuInput;
+        _gameSession = GameSession.Instance;
     }
 
     public override void Enter()
@@ -22,8 +26,9 @@ public class LevelWinState : State
         base.Enter();
 
         Debug.Log("STATE: Win!");
-
-
+        _input.CancelPressed += OnCancelPressed;
+        _input.ClosePressed += OnClosePressed;
+        
         //TODO save player stats before removing
         _winScreen.Display();
 
@@ -35,6 +40,11 @@ public class LevelWinState : State
     public override void Exit()
     {
         base.Exit();
+
+        _input.CancelPressed -= OnCancelPressed;
+        _input.ClosePressed -= OnClosePressed;
+
+
         _winScreen.Hide();
     }
 
@@ -46,5 +56,16 @@ public class LevelWinState : State
     public override void Update()
     {
         base.Update();
+    }
+
+    private void OnCancelPressed()
+    {
+        _gameSession.ClearGameSession();
+        LevelLoader.ReloadLevel();
+    }
+
+    private void OnClosePressed()
+    {
+        Application.Quit();
     }
 }

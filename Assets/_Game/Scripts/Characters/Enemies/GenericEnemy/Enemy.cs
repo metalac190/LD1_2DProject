@@ -18,4 +18,10 @@ public class Enemy : MonoBehaviour
     public Health Health => _health;
     public ReceiveHit ReceiveHit => _receiveHit;
     public ReceiveKnockback ReceiveKnockback => _receiveKnockback;
+
+    protected virtual void Awake()
+    {
+        _health.HealthMax = _enemyData.Health;
+        _health.IsDamageable = _enemyData.IsDamageable;
+    }
 }

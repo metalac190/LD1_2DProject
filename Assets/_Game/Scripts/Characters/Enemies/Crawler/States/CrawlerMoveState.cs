@@ -41,11 +41,17 @@ public class CrawlerMoveState : State
         _ledgeDetector.DetectLowerLedge();
 
         // if we've reached the path end
-        if (_wallDetector.IsWallDetected || _ledgeDetector.IsDetectingLowerLedge)
+        if (_wallDetector.IsWallDetected)
         {
             // turn around
             _kinematicObject.Flip();
             _kinematicObject.MoveX(_data.MovementSpeed * _kinematicObject.FacingDirection, true);
+        }
+        else if(_ledgeDetector.IsDetectingLowerLedge && _data.ReverseAtLedge)
+        {
+            _kinematicObject.Flip();
+            _kinematicObject.MoveX(_data.MovementSpeed * _kinematicObject.FacingDirection, true);
+
         }
         else
         {

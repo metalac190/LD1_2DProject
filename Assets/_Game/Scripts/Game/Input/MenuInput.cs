@@ -28,12 +28,23 @@ public class MenuInput : MonoBehaviour
 
     public bool SubmitHeld { get; private set; }
     public bool CancelHeld { get; private set; }
+    public bool CloseHeld { get; private set; }
 
     //TODO: Make navigation functional for UI
 
     public void OnClose(InputAction.CallbackContext context)
     {
         //Debug.Log("Input: Close");
+        if (context.started)
+        {
+            CloseHeld = true;
+            ClosePressed?.Invoke();
+        }
+        else if (context.canceled)
+        {
+            CloseHeld = false;
+            CloseReleased?.Invoke();
+        }
     }
 
     public void OnCancel(InputAction.CallbackContext context)

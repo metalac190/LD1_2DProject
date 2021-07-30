@@ -34,9 +34,6 @@ public class EnemyDeathState : State
     {
         base.Update();
 
-        if(StateDuration >= _data.DeathDuration)
-        {
-            Object.Destroy(_stateMachine.gameObject);
-        }
+        Object.Destroy(_stateMachine.gameObject);
     }
 }
