@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: CrawlerData
   m_EditorClassIdentifier: 
   _name: Crawler
-  _health: 3
+  _health: 10
   _isDamageable: 1
-  _isHittable: 1
-  _deathDuration: 0
   _movementSpeed: 2
   _reverseAtLedge: 1

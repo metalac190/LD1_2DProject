@@ -2,18 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CrawlerKnockbackState : State
+public class CrawlerHitState : State
 {
     private CrawlerFSM _stateMachine;
 
-    private ReceiveKnockback _receiveKnockback;
     private DamageZone _damageZone;
+    private ReceiveHit _receiveHit;
 
-    public CrawlerKnockbackState(CrawlerFSM stateMachine, Crawler crawler)
+    public CrawlerHitState(CrawlerFSM stateMachine, Crawler crawler)
     {
         _stateMachine = stateMachine;
 
-        _receiveKnockback = crawler.ReceiveKnockback;
+        _receiveHit = crawler.ReceiveHit;
         _damageZone = crawler.DamageZone;
     }
 
@@ -21,7 +21,7 @@ public class CrawlerKnockbackState : State
     {
         base.Enter();
 
-        _receiveKnockback.KnockbackEnded += OnKnockbackEnded;
+        _receiveHit.HitRecovered += OnHitRecovered;
         _damageZone.enabled = false;
     }
 
@@ -29,7 +29,7 @@ public class CrawlerKnockbackState : State
     {
         base.Exit();
 
-        _receiveKnockback.KnockbackEnded -= OnKnockbackEnded;
+        _receiveHit.HitRecovered -= OnHitRecovered;
         _damageZone.enabled = true;
     }
 
@@ -43,7 +43,7 @@ public class CrawlerKnockbackState : State
         base.Update();
     }
 
-    private void OnKnockbackEnded()
+    private void OnHitRecovered()
     {
         _stateMachine.ChangeState(_stateMachine.MoveState);
     }

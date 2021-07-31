@@ -25,13 +25,13 @@ public class PlayerHUD : MonoBehaviour
         _health = _player.Health;
         _inventory = _player.Inventory;
         // setup
-        _healthBarGUI.CreateIcons(_health.HealthMax);
+        _healthBarGUI.CreateIcons(_health.Max);
     }
 
     private void Start()
     {
         // initial values
-        _healthBarGUI.FillIcons(_health.HealthCurrent);
+        _healthBarGUI.FillIcons(_health.Current);
         _fragmentTextGUI.text = _inventory.Fragments.ToString();
         _keysTextGUI.text = _inventory.Keys.ToString();
     }

@@ -6,31 +6,30 @@ using UnityEngine;
 public class CrawlerFSM : StateMachineMB
 {
     public CrawlerMoveState MoveState { get; private set; }
-    public CrawlerKnockbackState KnockbackState { get; private set; }
+    public CrawlerHitState HitState { get; private set; }
 
     [SerializeField] 
     private Crawler _crawler;
 
-    private ReceiveKnockback _receiveKnockback;
+    private ReceiveHit _receiveHit;
 
     private void Awake()
     {
         // create states
         MoveState = new CrawlerMoveState(this, _crawler);
-        KnockbackState = new CrawlerKnockbackState(this, _crawler);
+        HitState = new CrawlerHitState(this, _crawler);
         // any state transitions
-        _receiveKnockback = _crawler.ReceiveKnockback;
+        _receiveHit = _crawler.ReceiveHit;
     }
 
     protected override void OnEnable()
     {
-        _receiveKnockback.KnockbackStarted += OnKnockbackStarted;
+        _receiveHit.HitReceived.AddListener(OnHitReceived);
     }
 
     protected override void OnDisable()
     {
-        _receiveKnockback.KnockbackStarted -= OnKnockbackStarted;
-
+        _receiveHit.HitReceived.RemoveListener(OnHitReceived);
     }
 
     private void Start()
@@ -38,8 +37,8 @@ public class CrawlerFSM : StateMachineMB
         ChangeState(MoveState);
     }
 
-    private void OnKnockbackStarted()
+    private void OnHitReceived()
     {
-        ChangeState(KnockbackState);
+        ChangeState(HitState);
     }
 }

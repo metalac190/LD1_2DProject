@@ -11,17 +11,20 @@ public class Enemy : MonoBehaviour
     private Health _health;
     [SerializeField]
     private ReceiveHit _receiveHit;
-    [SerializeField]
-    private ReceiveKnockback _receiveKnockback;
 
     public EnemyData EnemyData => _enemyData;
     public Health Health => _health;
     public ReceiveHit ReceiveHit => _receiveHit;
-    public ReceiveKnockback ReceiveKnockback => _receiveKnockback;
 
     protected virtual void Awake()
     {
-        _health.HealthMax = _enemyData.Health;
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        _health.Max = _enemyData.Health;
+        _health.Current = _enemyData.Health;
         _health.IsDamageable = _enemyData.IsDamageable;
     }
 }

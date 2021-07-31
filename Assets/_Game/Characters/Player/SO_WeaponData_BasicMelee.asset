@@ -21,7 +21,7 @@ MonoBehaviour:
     _activeDuration: 0.2
     _endDelay: 0.15
     _playerForwardAmount: 0
-    _knockbackAmount: 3
+    _knockbackAmount: 0
     _knockbackForceModifier: {x: 0.5, y: 1}
     _addReverseDirection: 1
     _knockbackDuration: 0.5
@@ -32,7 +32,7 @@ MonoBehaviour:
     _activeDuration: 0.15
     _endDelay: 0.05
     _playerForwardAmount: 3
-    _knockbackAmount: 8
+    _knockbackAmount: 10
     _knockbackForceModifier: {x: 0.5, y: 1}
     _addReverseDirection: 1
     _knockbackDuration: 0.5
@@ -43,7 +43,7 @@ MonoBehaviour:
     _activeDuration: 0.2
     _endDelay: 0.15
     _playerForwardAmount: 0
-    _knockbackAmount: 2
+    _knockbackAmount: 0
     _knockbackForceModifier: {x: 1, y: 0}
     _addReverseDirection: 1
     _knockbackDuration: 0.5
@@ -54,7 +54,7 @@ MonoBehaviour:
     _activeDuration: 0.15
     _endDelay: 0.2
     _playerForwardAmount: 0
-    _knockbackAmount: 4
+    _knockbackAmount: 5
     _knockbackForceModifier: {x: 1, y: 1}
     _addReverseDirection: 1
     _knockbackDuration: 0.5
@@ -64,7 +64,7 @@ MonoBehaviour:
     _startDelay: 0
     _activeDuration: 0.1
     _endDelay: 0.1
-    _playerForwardAmount: 5
+    _playerForwardAmount: 0
     _knockbackAmount: 5
     _knockbackForceModifier: {x: 0.5, y: 1}
     _addReverseDirection: 1
@@ -75,7 +75,7 @@ MonoBehaviour:
     _startDelay: 0
     _activeDuration: 0.1
     _endDelay: 0.1
-    _playerForwardAmount: 5
+    _playerForwardAmount: 0
     _knockbackAmount: 5
     _knockbackForceModifier: {x: 0, y: 1}
     _addReverseDirection: 1

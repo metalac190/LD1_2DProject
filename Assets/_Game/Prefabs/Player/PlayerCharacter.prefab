@@ -76,7 +76,6 @@ GameObject:
   - component: {fileID: 2310930631278062128}
   - component: {fileID: 2310930631278062135}
   - component: {fileID: 2310930631278062133}
-  - component: {fileID: 2310930631278062130}
   m_Layer: 9
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -218,9 +217,11 @@ MonoBehaviour:
   HitReceived:
     m_PersistentCalls:
       m_Calls: []
-  _hitRecoverTime: 0.5
+  _movement: {fileID: 2310930631278062132}
+  _hitRecoverTime: 1
+  _receiveHitsWhileRecovering: 0
+  _knockbackDampener: 1
   _health: {fileID: 2310930631278062133}
-  _receiveKnockback: {fileID: 2310930631278062130}
   _flashColor: {r: 1, g: 0, b: 0, a: 1}
   _renderer: {fileID: 2310930631334526485}
   _hitSFX: {fileID: 11400000, guid: 1c0ff3b0c80355442a4336ac13f67e4b, type: 2}
@@ -244,20 +245,6 @@ MonoBehaviour:
   Died:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2310930631278062130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2310930631278062129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 684cc8aa36a89434c8746749d1d3e20c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rb: {fileID: 2310930631278062156}
-  _knockbackDampener: 1
 --- !u!1 &2310930631312999663
 GameObject:
   m_ObjectHideFlags: 0

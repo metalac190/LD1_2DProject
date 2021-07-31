@@ -23,7 +23,7 @@ public class EnemyFSM : StateMachineMB
         base.OnEnable();
 
         _enemy.Health.Died.AddListener(OnDied);
-        _enemy.ReceiveKnockback.KnockbackStarted += OnKnockbackStarted;
+        _enemy.ReceiveHit.HitReceived.AddListener(OnHitReceived);
     }
 
     protected override void OnDisable()
@@ -31,7 +31,7 @@ public class EnemyFSM : StateMachineMB
         base.OnDisable();
 
         _enemy.Health.Died.RemoveListener(OnDied);
-        _enemy.ReceiveKnockback.KnockbackStarted -= OnKnockbackStarted;
+        _enemy.ReceiveHit.HitReceived.RemoveListener(OnHitReceived);
     }
 
     protected virtual void Start()
@@ -44,7 +44,7 @@ public class EnemyFSM : StateMachineMB
         ChangeState(DeathState);
     }
 
-    private void OnKnockbackStarted()
+    private void OnHitReceived()
     {
         ChangeState(KnockbackState);
     }

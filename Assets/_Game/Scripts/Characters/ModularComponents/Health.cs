@@ -10,7 +10,9 @@ public class Health : MonoBehaviour, IDamageable
 
     [Header("Health")]
     [SerializeField]
-    private int _healthMax = 10;
+    private int _max = 10;
+    [SerializeField]
+    private int _current = 10;
     [SerializeField] 
     private bool _isDamageable = true;
 
@@ -23,46 +25,41 @@ public class Health : MonoBehaviour, IDamageable
         set => _isDamageable = value;
     }
 
-    private int _healthCurrent;
-    public int HealthCurrent 
+    public int Current 
     {
-        get => _healthCurrent;
+        get => _current;
         set
         {
-            value = Mathf.Clamp(value, 0, _healthMax);
-            if(value != _healthCurrent)
+            value = Mathf.Clamp(value, 0, _max);
+            if(value != _current)
             {
                 HealthChanged?.Invoke(value);
             }
-            _healthCurrent = value;
+            _current = value;
         }
     }
 
-    public int HealthMax
+    public int Max
     {
-        get => _healthMax;
+        get => _max;
         set
         {
             if (value < 1)
                 value = 1;
-            _healthMax = value;
+            _max = value;
         }
-    }
-
-    private void Awake()
-    {
-        HealthCurrent = _healthMax;
     }
 
     public virtual void Damage(int amount)
     {
         if (!_isDamageable) return;
 
-        HealthCurrent -= amount;
+        Current -= amount;
         Damaged?.Invoke(amount);
 
-        HealthCurrent = Mathf.Clamp(HealthCurrent, 0, _healthMax);
-        if(HealthCurrent == 0)
+        Current = Mathf.Clamp(Current, 0, _max);
+
+        if(Current == 0)
         {
             Kill();
         }

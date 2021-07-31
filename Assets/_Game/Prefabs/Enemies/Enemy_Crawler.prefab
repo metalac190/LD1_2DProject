@@ -480,7 +480,6 @@ GameObject:
   - component: {fileID: 4047701039734664396}
   - component: {fileID: 4047701039734664395}
   - component: {fileID: 4047701039734664392}
-  - component: {fileID: 4047701039734664393}
   - component: {fileID: 1705054040}
   m_Layer: 10
   m_Name: Enemy_Crawler
@@ -569,7 +568,6 @@ MonoBehaviour:
   _enemyData: {fileID: 11400000, guid: 13b02b0a0208a7045a622fa64a715464, type: 2}
   _health: {fileID: 4047701039734664395}
   _receiveHit: {fileID: 4047701039734664392}
-  _receiveKnockback: {fileID: 4047701039734664393}
   _data: {fileID: 11400000, guid: 13b02b0a0208a7045a622fa64a715464, type: 2}
   _movement: {fileID: 4047701039734664396}
   _damageZone: {fileID: 4047701038697332350}
@@ -617,7 +615,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c27cd9c8c99284798e8eff9975ad32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthMax: 5
+  _max: 1
+  _current: 1
   _isDamageable: 1
   Damaged:
     m_PersistentCalls:
@@ -640,26 +639,14 @@ MonoBehaviour:
   HitReceived:
     m_PersistentCalls:
       m_Calls: []
-  _hitRecoverTime: 0.1
+  _movement: {fileID: 4047701039734664396}
+  _hitRecoverTime: 0.5
+  _receiveHitsWhileRecovering: 1
+  _knockbackDampener: 1
   _health: {fileID: 4047701039734664395}
-  _receiveKnockback: {fileID: 4047701039734664393}
   _flashColor: {r: 1, g: 0, b: 0, a: 1}
   _renderer: {fileID: 4047701038548981358}
   _hitSFX: {fileID: 11400000, guid: 5678337ce5ae3304dab8de0589de4117, type: 2}
---- !u!114 &4047701039734664393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4047701039734664384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 684cc8aa36a89434c8746749d1d3e20c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rb: {fileID: 4047701039734664399}
-  _knockbackDampener: 1
 --- !u!114 &1705054040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -674,7 +661,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: {fileID: 4047701039734664395}
   _killParticlesPrefab: {fileID: 2010415367784037018, guid: 1bf67136a26c0da419c918f18c29d45b, type: 3}
-  _killSFX: {fileID: 0}
+  _killSFX: {fileID: 11400000, guid: 5678337ce5ae3304dab8de0589de4117, type: 2}
 --- !u!1 &4047701040003310298
 GameObject:
   m_ObjectHideFlags: 0

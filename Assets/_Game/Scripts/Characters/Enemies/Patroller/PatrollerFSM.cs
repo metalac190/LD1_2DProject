@@ -32,24 +32,19 @@ public class PatrollerFSM : StateMachineMB
     protected override void OnEnable()
     {
         // any-state events
-        _patroller.ReceiveKnockback.KnockbackStarted += OnKnockbackStarted;
+        //_patroller.ReceiveKnockback.KnockbackStarted += OnKnockbackStarted;
         _patroller.Health.Died.AddListener(OnDied);
     }
 
     protected override void OnDisable()
     {
-        _patroller.ReceiveKnockback.KnockbackStarted -= OnKnockbackStarted;
+        //_patroller.ReceiveKnockback.KnockbackStarted -= OnKnockbackStarted;
         _patroller.Health.Died.RemoveListener(OnDied);
     }
 
     private void Start()
     {
         ChangeState(MoveState);
-    }
-
-    private void OnKnockbackStarted()
-    {
-        ChangeState(StunState);
     }
 
     private void OnDied()

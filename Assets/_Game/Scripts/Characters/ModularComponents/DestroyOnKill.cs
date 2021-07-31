@@ -28,12 +28,13 @@ public class DestroyOnKill : MonoBehaviour
         {
             ParticleSystem killParticles = Instantiate(_killParticlesPrefab,
                 transform.position, Quaternion.identity);
+            killParticles.Play();
         }
         if(_killSFX != null)
         {
             _killSFX.PlayOneShot(transform.position);
         }
-
+        Debug.Log("Crawler Destroyed");
         Destroy(gameObject);
     }
 }

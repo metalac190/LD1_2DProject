@@ -5,30 +5,28 @@ using UnityEngine;
 public class EnemyKnockbackState : State
 {
     private EnemyFSM _stateMachine;
-    private Enemy _enemy;
 
-    private ReceiveKnockback _receiveKnockback;
+    private ReceiveHit _receiveHit;
 
     public EnemyKnockbackState(EnemyFSM stateMachine, Enemy enemy)
     {
         _stateMachine = stateMachine;
-        _enemy = enemy;
 
-        _receiveKnockback = enemy.ReceiveKnockback;
+        _receiveHit = enemy.ReceiveHit;
     }
 
     public override void Enter()
     {
         base.Enter();
         Debug.Log("STATE: Enemy Knockback");
-        _receiveKnockback.KnockbackEnded += OnKnockbackEnded;
+        _receiveHit.HitRecovered += OnKnockbackEnded;
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        _receiveKnockback.KnockbackEnded -= OnKnockbackEnded;
+        _receiveHit.HitRecovered -= OnKnockbackEnded;
     }
 
     public override void FixedUpdate()

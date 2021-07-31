@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using SoundSystem;
+using System;
 
 /// <summary>
 /// Receive hits from the player's weapon
@@ -10,15 +11,22 @@ using SoundSystem;
 public class ReceiveHit : MonoBehaviour, IHitable
 {
     public UnityEvent HitReceived;
+    public event Action HitRecovered;  // this event is called after recovery from knocbkac
 
+    [Header("Main")]
+    [SerializeField]
+    private MovementKM _movement;
     [SerializeField]
     private float _hitRecoverTime = .1f;
+    [SerializeField]
+    private bool _receiveHitsWhileRecovering = false;
+    [Range(0, 1)]
+    [Tooltip("0 = no knockback, 1 = full knockback")]
+    [SerializeField] float _knockbackDampener = 1;
 
     [Header("Optional Components")]
     [SerializeField]
     private Health _health;
-    [SerializeField]
-    private ReceiveKnockback _receiveKnockback;
 
     [Header("Hit Effects")]
     [SerializeField]
@@ -52,7 +60,7 @@ public class ReceiveHit : MonoBehaviour, IHitable
     public void Hit(HitData hitData)
     {
         // if we're recovering from previous hit, don't receive this one yet
-        if (IsRecovering) { return; }
+        if (IsRecovering && !_receiveHitsWhileRecovering) { return; }
 
         // apply damage if we have health
         if (_health != null)
@@ -60,10 +68,7 @@ public class ReceiveHit : MonoBehaviour, IHitable
             _health.Damage(hitData.Damage);
         }
         // apply knockback if we can receive it
-        if (_receiveKnockback != null)
-        {
-            _receiveKnockback.Push(hitData.Direction, hitData.KnockbackForce, hitData.KnockbackDuration);
-        }
+        Push(hitData.Direction, hitData.KnockbackForce, hitData.KnockbackDuration);
 
         HitReceived?.Invoke();
 
@@ -86,5 +91,17 @@ public class ReceiveHit : MonoBehaviour, IHitable
         yield return new WaitForSeconds(duration);
 
         IsRecovering = false;
+        HitRecovered?.Invoke();
+    }
+
+    public void Push(Vector2 direction, float knockbackAmount, float knockbackDuration)
+    {
+        // dampener scales value from 0 to full, using 0-1 input.
+        // This allows this object to specify resistance to knockback if desired
+        float dampenedDuration = knockbackDuration * _knockbackDampener;
+        float dampenedAmount = knockbackAmount * _knockbackDampener;
+
+        if (_movement != null)
+            _movement.Push(direction, dampenedAmount, dampenedDuration);
     }
 }

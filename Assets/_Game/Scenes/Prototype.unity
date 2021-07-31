@@ -26850,9 +26850,11 @@ MonoBehaviour:
   HitReceived:
     m_PersistentCalls:
       m_Calls: []
+  _movement: {fileID: 0}
   _hitRecoverTime: 0.1
+  _receiveHitsWhileRecovering: 0
+  _knockbackDampener: 1
   _health: {fileID: 703102814}
-  _receiveKnockback: {fileID: 703102813}
   _flashColor: {r: 1, g: 1, b: 1, a: 1}
   _renderer: {fileID: 798316768}
   _hitSFX: {fileID: 11400000, guid: 5678337ce5ae3304dab8de0589de4117, type: 2}
@@ -26870,6 +26872,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 703102820}
   _knockbackDampener: 1
+  _kinematicObject: {fileID: 0}
 --- !u!114 &703102814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26882,7 +26885,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c27cd9c8c99284798e8eff9975ad32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthMax: 50
+  _max: 10
+  _current: 10
   _isDamageable: 1
   Damaged:
     m_PersistentCalls:
@@ -26948,7 +26952,6 @@ MonoBehaviour:
   _data: {fileID: 11400000, guid: 754df99a424a3254ab30eed5433aee41, type: 2}
   _patrollerAnimator: {fileID: 703102823}
   _playerDetector: {fileID: 703102815}
-  _receiveKnockback: {fileID: 703102813}
   _detectedGraphic: {fileID: 2015734705}
   _attackLocation: {fileID: 2055662174}
 --- !u!61 &703102818
@@ -28140,6 +28143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 1538508778}
   _knockbackDampener: 1
+  _kinematicObject: {fileID: 0}
 --- !u!114 &1538508775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28169,7 +28173,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c27cd9c8c99284798e8eff9975ad32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthMax: 50
+  _max: 10
+  _current: 10
   _isDamageable: 1
   Damaged:
     m_PersistentCalls:
@@ -28266,9 +28271,11 @@ MonoBehaviour:
   HitReceived:
     m_PersistentCalls:
       m_Calls: []
+  _movement: {fileID: 0}
   _hitRecoverTime: 0.1
+  _receiveHitsWhileRecovering: 0
+  _knockbackDampener: 1
   _health: {fileID: 1538508776}
-  _receiveKnockback: {fileID: 1538508774}
   _flashColor: {r: 1, g: 1, b: 1, a: 1}
   _renderer: {fileID: 99635459}
   _hitSFX: {fileID: 11400000, guid: 5678337ce5ae3304dab8de0589de4117, type: 2}
@@ -28663,7 +28670,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c27cd9c8c99284798e8eff9975ad32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthMax: 50
+  _max: 10
+  _current: 10
   _isDamageable: 1
   Damaged:
     m_PersistentCalls:
@@ -28776,6 +28784,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 1917140617}
   _knockbackDampener: 0
+  _kinematicObject: {fileID: 0}
 --- !u!114 &1917140622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28791,9 +28800,11 @@ MonoBehaviour:
   HitReceived:
     m_PersistentCalls:
       m_Calls: []
+  _movement: {fileID: 0}
   _hitRecoverTime: 0.1
+  _receiveHitsWhileRecovering: 0
+  _knockbackDampener: 1
   _health: {fileID: 1917140615}
-  _receiveKnockback: {fileID: 1917140621}
   _flashColor: {r: 1, g: 1, b: 1, a: 1}
   _renderer: {fileID: 34587844}
   _hitSFX: {fileID: 11400000, guid: 5678337ce5ae3304dab8de0589de4117, type: 2}
@@ -37111,7 +37122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c27cd9c8c99284798e8eff9975ad32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthMax: 50
+  _max: 10
+  _current: 10
   _isDamageable: 1
   Damaged:
     m_PersistentCalls:
@@ -37207,6 +37219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 1940966893}
   _knockbackDampener: 1
+  _kinematicObject: {fileID: 0}
 --- !u!114 &1940966897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37222,9 +37235,11 @@ MonoBehaviour:
   HitReceived:
     m_PersistentCalls:
       m_Calls: []
+  _movement: {fileID: 0}
   _hitRecoverTime: 0.1
+  _receiveHitsWhileRecovering: 0
+  _knockbackDampener: 1
   _health: {fileID: 1940966891}
-  _receiveKnockback: {fileID: 1940966896}
   _flashColor: {r: 1, g: 1, b: 1, a: 1}
   _renderer: {fileID: 445937628}
   _hitSFX: {fileID: 11400000, guid: 5678337ce5ae3304dab8de0589de4117, type: 2}
