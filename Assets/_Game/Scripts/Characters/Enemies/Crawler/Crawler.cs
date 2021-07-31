@@ -21,4 +21,11 @@ public class Crawler : Enemy
     public DamageZone DamageZone => _damageZone;
     public WallDetector WallDetector => _wallDetector;
     public LedgeDetector LedgeDetector => _ledgeDetector;
+
+    protected override void Initialize()
+    {
+        base.Initialize();
+
+        _damageZone.DamageAmount = _data.DamageOnTouch;
+    }
 }

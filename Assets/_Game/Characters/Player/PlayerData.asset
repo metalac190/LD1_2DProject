@@ -15,7 +15,6 @@ MonoBehaviour:
   _moveSpeed: 10
   _groundAccelToMax: 0.2
   _groundDecelToZero: 0.1
-  _gravityScale: 6
   _allowJump: 1
   _jumpVelocity: 28
   _shortJumpHeightScale: 0.5

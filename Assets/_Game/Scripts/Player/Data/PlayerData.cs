@@ -12,8 +12,8 @@ public class PlayerData : ScriptableObject
     private float _groundAccelToMax = .2f;
     [SerializeField]
     private float _groundDecelToZero = .1f;
-    [SerializeField]
-    private float _gravityScale = 6;
+    //[SerializeField]
+    //private float _gravityScale = 6;
 
     [Header("Jumping")]
     [SerializeField]
@@ -118,7 +118,7 @@ public class PlayerData : ScriptableObject
     public float MoveSpeed => _moveSpeed;
     public float GroundAccelToMax => _groundAccelToMax;
     public float GroundDecelToZero => _groundDecelToZero;
-    public float GravityScale => _gravityScale;
+    //public float GravityScale => _gravityScale;
     // jumping
     public bool AllowJump => _allowJump;
     public float JumpVelocity => _jumpVelocity;

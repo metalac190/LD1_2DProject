@@ -11,11 +11,7 @@ GameObject:
   - component: {fileID: 8018639064887193577}
   - component: {fileID: 8018639064887193576}
   - component: {fileID: 8018639064887193575}
-  - component: {fileID: 8018639064887193574}
   - component: {fileID: 8018639064887193571}
-  - component: {fileID: 8018639064887193573}
-  - component: {fileID: 941720813018514098}
-  - component: {fileID: 8018639064887193572}
   m_Layer: 10
   m_Name: CombatDummy
   m_TagString: Untagged
@@ -85,18 +81,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &8018639064887193574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8018639064887193578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 833d873645f6f1c4da1ab5ae1dd69d88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8018639064887193571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,62 +97,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _hitRecoverTime: 0.1
-  _health: {fileID: 8018639064887193573}
-  _receiveKnockback: {fileID: 8018639064887193572}
+  _receiveHitsWhileRecovering: 1
+  _knockbackDampener: 1
+  _movement: {fileID: 0}
+  _health: {fileID: 0}
   _flashColor: {r: 1, g: 1, b: 1, a: 1}
   _renderer: {fileID: 8018639065784860106}
   _hitSFX: {fileID: 11400000, guid: 5678337ce5ae3304dab8de0589de4117, type: 2}
---- !u!114 &8018639064887193573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8018639064887193578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0c27cd9c8c99284798e8eff9975ad32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _healthMax: 50
-  _isDamageable: 1
-  Damaged:
-    m_PersistentCalls:
-      m_Calls: []
-  Died:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &941720813018514098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8018639064887193578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d20e1d9c2f68bd74888deb030cb00185, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _collider: {fileID: 8018639064887193576}
-  _downMultiplier: 1.5
-  _minGroundNormalY: 0.65
-  _useGravity: 1
-  _gravityScale: 1
---- !u!114 &8018639064887193572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8018639064887193578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 684cc8aa36a89434c8746749d1d3e20c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rb: {fileID: 8018639064887193575}
-  _knockbackDampener: 1
 --- !u!1 &8018639065744642459
 GameObject:
   m_ObjectHideFlags: 0

@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageAmount: 5
-  _knockbackAmount: 5
+  _knockbackAmount: 15
   _knockbackDuration: 0.2
   _damageFrequency: 0.5
   _layersToDamage:
@@ -639,10 +639,10 @@ MonoBehaviour:
   HitReceived:
     m_PersistentCalls:
       m_Calls: []
-  _movement: {fileID: 4047701039734664396}
   _hitRecoverTime: 0.5
   _receiveHitsWhileRecovering: 1
   _knockbackDampener: 1
+  _movement: {fileID: 4047701039734664396}
   _health: {fileID: 4047701039734664395}
   _flashColor: {r: 1, g: 0, b: 0, a: 1}
   _renderer: {fileID: 4047701038548981358}

@@ -10,7 +10,10 @@ public class CrawlerData : EnemyData
     private float _movementSpeed = 3f;
     [SerializeField]
     private bool _reverseAtLedge = true;
+    [SerializeField]
+    private int _damageOnTouch = 1;
 
     public float MovementSpeed => _movementSpeed;
     public bool ReverseAtLedge => _reverseAtLedge;
+    public int DamageOnTouch => _damageOnTouch;
 }

@@ -27,6 +27,17 @@ public class DamageZone : MonoBehaviour
 
     private Collider2D _damageCollider;
 
+    public int DamageAmount
+    {
+        get => _damageAmount;
+        set 
+        {
+            if(value < 0)
+                value = 0;
+            _damageAmount = value;
+        } 
+    }
+
     Coroutine _damageRoutine;
 
     private void Awake()

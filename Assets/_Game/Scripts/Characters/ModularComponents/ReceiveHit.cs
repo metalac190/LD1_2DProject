@@ -14,8 +14,7 @@ public class ReceiveHit : MonoBehaviour, IHitable
     public event Action HitRecovered;  // this event is called after recovery from knocbkac
 
     [Header("Main")]
-    [SerializeField]
-    private MovementKM _movement;
+
     [SerializeField]
     private float _hitRecoverTime = .1f;
     [SerializeField]
@@ -25,6 +24,8 @@ public class ReceiveHit : MonoBehaviour, IHitable
     [SerializeField] float _knockbackDampener = 1;
 
     [Header("Optional Components")]
+    [SerializeField]
+    private MovementKM _movement;
     [SerializeField]
     private Health _health;
 
@@ -67,8 +68,11 @@ public class ReceiveHit : MonoBehaviour, IHitable
         {
             _health.Damage(hitData.Damage);
         }
-        // apply knockback if we can receive it
-        Push(hitData.Direction, hitData.KnockbackForce, hitData.KnockbackDuration);
+        // apply push if we can receive it
+        if(_movement != null)
+        {
+            Push(hitData.Direction, hitData.KnockbackForce, hitData.KnockbackDuration);
+        }
 
         HitReceived?.Invoke();
 
