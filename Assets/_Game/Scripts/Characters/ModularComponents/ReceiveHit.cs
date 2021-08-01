@@ -18,7 +18,7 @@ public class ReceiveHit : MonoBehaviour, IHitable
     [SerializeField]
     private float _hitRecoverTime = .1f;
     [SerializeField]
-    private bool _receiveHitsWhileRecovering = false;
+    private bool _receiveHitsWhileRecovering = true;
     [Range(0, 1)]
     [Tooltip("0 = no knockback, 1 = full knockback")]
     [SerializeField] float _knockbackDampener = 1;

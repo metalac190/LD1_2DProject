@@ -13,13 +13,13 @@ TagManager:
   - UI
   - 
   - 
-  - Ground
+  - LevelCollision
   - Player
   - Enemy
   - Trigger
   - Weapon
-  - 
-  - 
+  - DynamicCollision
+  - Pickup
   - 
   - 
   - 

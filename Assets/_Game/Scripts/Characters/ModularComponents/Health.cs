@@ -50,6 +50,11 @@ public class Health : MonoBehaviour, IDamageable
         }
     }
 
+    public virtual void Heal(int amount)
+    {
+        Current += amount;
+    }
+
     public virtual void Damage(int amount)
     {
         if (!_isDamageable) return;

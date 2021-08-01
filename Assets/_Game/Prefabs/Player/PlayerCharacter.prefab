@@ -217,10 +217,10 @@ MonoBehaviour:
   HitReceived:
     m_PersistentCalls:
       m_Calls: []
-  _movement: {fileID: 2310930631278062132}
   _hitRecoverTime: 1
   _receiveHitsWhileRecovering: 0
   _knockbackDampener: 1
+  _movement: {fileID: 2310930631278062132}
   _health: {fileID: 2310930631278062133}
   _flashColor: {r: 1, g: 0, b: 0, a: 1}
   _renderer: {fileID: 2310930631334526485}
@@ -237,7 +237,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c27cd9c8c99284798e8eff9975ad32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthMax: 10
+  _max: 10
+  _current: 10
   _isDamageable: 1
   Damaged:
     m_PersistentCalls:
@@ -1830,7 +1831,7 @@ MonoBehaviour:
   _wallCheckRadius: 0.2
   _whatIsWall:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 8448
 --- !u!114 &4194310894753150663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1851,10 +1852,10 @@ MonoBehaviour:
   _lowerLedgeCheckRadius: 0.2
   _whatIsWall:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 8448
   _whatIsGround:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 8448
 --- !u!114 &4194310894753150667
 MonoBehaviour:
   m_ObjectHideFlags: 0

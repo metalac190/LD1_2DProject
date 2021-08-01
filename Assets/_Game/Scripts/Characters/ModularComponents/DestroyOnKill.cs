@@ -5,12 +5,17 @@ using SoundSystem;
 
 public class DestroyOnKill : MonoBehaviour
 {
+    [Header("Dependencies")]
     [SerializeField]
     private Health _health;
+
+    [Header("Optional")]
     [SerializeField]
     private ParticleSystem _killParticlesPrefab;
     [SerializeField]
     private SFXOneShot _killSFX;
+    [SerializeField]
+    private GameObject _spawnPrefabOnDeath;
 
     private void OnEnable()
     {
@@ -24,17 +29,32 @@ public class DestroyOnKill : MonoBehaviour
 
     private void OnDied()
     {
-        if(_killParticlesPrefab != null)
+        PlayVFX();
+        SpawnObject();
+
+        Destroy(gameObject);
+    }
+
+    private void PlayVFX()
+    {
+        if (_killParticlesPrefab != null)
         {
             ParticleSystem killParticles = Instantiate(_killParticlesPrefab,
                 transform.position, Quaternion.identity);
             killParticles.Play();
         }
-        if(_killSFX != null)
+        if (_killSFX != null)
         {
             _killSFX.PlayOneShot(transform.position);
         }
-        Debug.Log("Crawler Destroyed");
-        Destroy(gameObject);
+    }
+
+    private void SpawnObject()
+    {
+        if(_spawnPrefabOnDeath != null)
+        {
+            Debug.Log("Spawn Object");
+            Instantiate(_spawnPrefabOnDeath, transform.position, Quaternion.identity);
+        }
     }
 }
