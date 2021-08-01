@@ -5,7 +5,7 @@ using UnityEngine;
 public class CrawlerMoveState : State
 {
     private CrawlerFSM _stateMachine;
-    private CrawlerData _data;
+    private Crawler _crawler;
 
     private MovementKM _kinematicObject;
     private WallDetector _wallDetector;
@@ -14,7 +14,7 @@ public class CrawlerMoveState : State
     public CrawlerMoveState(CrawlerFSM stateMachine, Crawler crawler)
     {
         _stateMachine = stateMachine;
-        _data = crawler.Data;
+        _crawler = crawler;
 
         _kinematicObject = crawler.Movement;
         _wallDetector = crawler.WallDetector;
@@ -24,7 +24,6 @@ public class CrawlerMoveState : State
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("STATE: Crawler Move");
 
     }
 
@@ -45,17 +44,17 @@ public class CrawlerMoveState : State
         {
             // turn around
             _kinematicObject.Flip();
-            _kinematicObject.MoveX(_data.MovementSpeed * _kinematicObject.FacingDirection, true);
+            _kinematicObject.MoveX(_crawler.MovementSpeed * _kinematicObject.FacingDirection, true);
         }
-        else if(_ledgeDetector.IsDetectingLowerLedge && _data.ReverseAtLedge)
+        else if(_ledgeDetector.IsDetectingLowerLedge && _crawler.ReverseAtLedge)
         {
             _kinematicObject.Flip();
-            _kinematicObject.MoveX(_data.MovementSpeed * _kinematicObject.FacingDirection, true);
+            _kinematicObject.MoveX(_crawler.MovementSpeed * _kinematicObject.FacingDirection, true);
 
         }
         else
         {
-            _kinematicObject.MoveX(_data.MovementSpeed * _kinematicObject.FacingDirection, true);
+            _kinematicObject.MoveX(_crawler.MovementSpeed * _kinematicObject.FacingDirection, true);
         }
     }
 

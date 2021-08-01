@@ -2,30 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crawler : Enemy
+public class Crawler : MonoBehaviour
 {
-    [Header("Crawler")]
+    [Header("Crawler Data")]
     [SerializeField]
-    private CrawlerData _data;
+    private float _movementSpeed = 3f;
+    [SerializeField]
+    private bool _reverseAtLedge = true;
+
+    public float MovementSpeed => _movementSpeed;
+    public bool ReverseAtLedge => _reverseAtLedge;
+
+    [Header("Dependencies")]
     [SerializeField]
     private MovementKM _movement;
     [SerializeField]
     private DamageZone _damageZone;
     [SerializeField]
+    private Health _health;
+    [SerializeField]
+    private ReceiveHit _receiveHit;
+    [SerializeField]
     private WallDetector _wallDetector;
     [SerializeField]
     private LedgeDetector _ledgeDetector;
 
-    public CrawlerData Data => _data;
     public MovementKM Movement => _movement;
     public DamageZone DamageZone => _damageZone;
+    public Health Health => _health;
+    public ReceiveHit ReceiveHit => _receiveHit;
     public WallDetector WallDetector => _wallDetector;
     public LedgeDetector LedgeDetector => _ledgeDetector;
-
-    protected override void Initialize()
-    {
-        base.Initialize();
-
-        _damageZone.DamageAmount = _data.DamageOnTouch;
-    }
 }

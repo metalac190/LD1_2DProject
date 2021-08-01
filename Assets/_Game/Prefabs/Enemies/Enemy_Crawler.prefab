@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c79face2a2ce54794d7cb450e8bafa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damageAmount: 5
+  _damageAmount: 1
   _knockbackAmount: 15
   _knockbackDuration: 0.2
   _damageFrequency: 0.5
@@ -565,12 +565,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc7b5cdb2bbb04345951131f2c2b44ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyData: {fileID: 11400000, guid: 13b02b0a0208a7045a622fa64a715464, type: 2}
-  _health: {fileID: 4047701039734664395}
-  _receiveHit: {fileID: 4047701039734664392}
-  _data: {fileID: 11400000, guid: 13b02b0a0208a7045a622fa64a715464, type: 2}
+  _movementSpeed: 3
+  _reverseAtLedge: 1
   _movement: {fileID: 4047701039734664396}
   _damageZone: {fileID: 4047701038697332350}
+  _health: {fileID: 4047701039734664395}
+  _receiveHit: {fileID: 4047701039734664392}
   _wallDetector: {fileID: 4047701038755375960}
   _ledgeDetector: {fileID: 4047701038755375961}
 --- !u!114 &4047701039734664394
