@@ -24,6 +24,8 @@ namespace SoundSystem
             audioSource.pitch = Pitch;
             audioSource.panStereo = StereoPan;
             audioSource.spatialBlend = SpatialBlend;
+            audioSource.minDistance = AttenuationMin;
+            audioSource.maxDistance = AttenuationMax;
 
             audioSource.Play();
         }

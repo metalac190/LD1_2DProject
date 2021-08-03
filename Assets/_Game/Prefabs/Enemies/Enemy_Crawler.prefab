@@ -185,12 +185,13 @@ MonoBehaviour:
   _damageAmount: 1
   _knockbackAmount: 15
   _knockbackDuration: 0.2
-  _damageFrequency: 0.5
-  _layersToDamage:
+  _hitFrequency: 0.5
+  _layersToHit:
     serializedVersion: 2
     m_Bits: 512
   _ignoreColliders:
   - {fileID: 4047701039734664397}
+  _hitCollider: {fileID: 4047701038697332349}
 --- !u!1 &4047701038755375964
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,6 +640,7 @@ MonoBehaviour:
   HitReceived:
     m_PersistentCalls:
       m_Calls: []
+  _isImmune: 0
   _hitRecoverTime: 0.5
   _receiveHitsWhileRecovering: 1
   _knockbackDampener: 1

@@ -24,7 +24,7 @@ public class HitVolume : MonoBehaviour
     [SerializeField][Tooltip("Drag any colliders to ignore here, " +
         "for example, this object's Primary collider for movement")]
     private Collider2D[] _ignoreColliders;
-    [SerializeField]
+
     private Collider2D _hitCollider;
 
     public int DamageAmount
@@ -42,6 +42,7 @@ public class HitVolume : MonoBehaviour
 
     private void Awake()
     {
+        _hitCollider = GetComponent<Collider2D>();
         _hitCollider.isTrigger = true;
         // ignore any specified colliders
         foreach(Collider2D collider in _ignoreColliders)

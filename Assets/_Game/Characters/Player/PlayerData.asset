@@ -19,7 +19,7 @@ MonoBehaviour:
   _jumpVelocity: 28
   _shortJumpHeightScale: 0.5
   _jumpAfterFallDuration: 0.1
-  _amountOfAirJumps: 1
+  _amountOfAirJumps: 0
   _airJumpVelocity: 20
   _shortAirJumpHeightScale: 0.5
   _allowWallJump: 1

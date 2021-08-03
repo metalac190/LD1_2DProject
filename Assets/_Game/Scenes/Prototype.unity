@@ -37702,7 +37702,7 @@ GameObject:
   - component: {fileID: 1884541641194731627}
   - component: {fileID: 1884541641194731626}
   - component: {fileID: 1884541641194731625}
-  m_Layer: 11
+  m_Layer: 15
   m_Name: DamageZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37753,9 +37753,8 @@ MonoBehaviour:
   _hitFrequency: 0.5
   _layersToHit:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   _ignoreColliders: []
-  _hitCollider: {fileID: 0}
 --- !u!4 &1884541641194731627
 Transform:
   m_ObjectHideFlags: 0
@@ -38127,10 +38126,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4047701038697332336, guid: 955d37519523659439c3b1c0c7524fba, type: 3}
-      propertyPath: m_Name
-      value: HitVolume
-      objectReference: {fileID: 0}
     - target: {fileID: 4047701039734664384, guid: 955d37519523659439c3b1c0c7524fba, type: 3}
       propertyPath: m_Name
       value: Enemy_Crawler
@@ -38478,6 +38473,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79de176958f441b4caeee27f80447068, type: 3}
+--- !u!1001 &7380972156433766270
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7380972155612115831, guid: 781a24ee49ff62b4bbbb0a2d773afd14, type: 3}
+      propertyPath: m_RootOrder
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380972155612115831, guid: 781a24ee49ff62b4bbbb0a2d773afd14, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 29.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380972155612115831, guid: 781a24ee49ff62b4bbbb0a2d773afd14, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -29.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380972155612115831, guid: 781a24ee49ff62b4bbbb0a2d773afd14, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.5735044
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380972155612115831, guid: 781a24ee49ff62b4bbbb0a2d773afd14, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380972155612115831, guid: 781a24ee49ff62b4bbbb0a2d773afd14, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380972155612115831, guid: 781a24ee49ff62b4bbbb0a2d773afd14, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380972155612115831, guid: 781a24ee49ff62b4bbbb0a2d773afd14, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380972155612115831, guid: 781a24ee49ff62b4bbbb0a2d773afd14, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380972155612115831, guid: 781a24ee49ff62b4bbbb0a2d773afd14, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380972155612115831, guid: 781a24ee49ff62b4bbbb0a2d773afd14, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380972155612115833, guid: 781a24ee49ff62b4bbbb0a2d773afd14, type: 3}
+      propertyPath: m_Name
+      value: DamageVolumeToggle
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 781a24ee49ff62b4bbbb0a2d773afd14, type: 3}
 --- !u!1001 &9063031109701385691
 PrefabInstance:
   m_ObjectHideFlags: 0
