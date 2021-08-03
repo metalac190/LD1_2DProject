@@ -54,7 +54,8 @@ public class LevelSetupState : State
         }
         else
         {
-            _spawner.RespawnPlayer(_gameSession.SpawnLocation);
+            Player player = _spawner.RespawnPlayer(_gameSession.SpawnLocation);
+            _gameSession.LoadPlayerData(player);
             _stateMachine.ChangeState(_stateMachine.ActiveState);
             return;
         }

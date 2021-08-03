@@ -30,7 +30,7 @@ public class PlayerSpawner : MonoBehaviour
     /// Respawn player at designated location
     /// </summary>
     /// <param name="respawnPosition"></param>
-    public void RespawnPlayer(Vector3 respawnPosition)
+    public Player RespawnPlayer(Vector3 respawnPosition)
     {
         // if there's already a player, remove it
         if (_player != null)
@@ -46,12 +46,14 @@ public class PlayerSpawner : MonoBehaviour
         PlayerSpawned?.Invoke(_player);
 
         _levelController.MainCamera.Follow = _player.transform;
+
+        return _player;
     }
 
     /// <summary>
     /// Spawn a new player at start position
     /// </summary>
-    public void SpawnPlayer()
+    public Player SpawnPlayer()
     {
         // if there's already a player, remove it
         if(_player != null)
@@ -67,6 +69,8 @@ public class PlayerSpawner : MonoBehaviour
         PlayerSpawned?.Invoke(_player);
 
         _levelController.MainCamera.Follow = _player.transform;
+
+        return _player;
     }
 
     public void RemoveExistingPlayer()

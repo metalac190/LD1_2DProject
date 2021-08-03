@@ -11,7 +11,11 @@ using UnityEngine;
 public class GameSession : SingletonMBPersistent<GameSession>
 {
     public Vector3 SpawnLocation { get; set; } = Vector3.zero;
+
     public int DeathCount { get; set; } = 0;
+    public int FragmentCount { get; set; } = 0;
+    public int ArtifactCount { get; set; } = 0;
+    public int KeyCount { get; set; } = 0;
 
     public bool IsFirstAttempt => DeathCount <= 0;
 
@@ -19,5 +23,22 @@ public class GameSession : SingletonMBPersistent<GameSession>
     {
         SpawnLocation = Vector3.zero;
         DeathCount = 0;
+        FragmentCount = 0;
+        ArtifactCount = 0;
+        KeyCount = 0;
+    }
+
+    public void SavePlayerData(Vector3 spawnPoint, Player player)
+    {
+        FragmentCount = player.Inventory.Fragments;
+        ArtifactCount = player.Inventory.Artifacts;
+        KeyCount = player.Inventory.Keys;
+    }
+
+    public void LoadPlayerData(Player player)
+    {
+        player.Inventory.Fragments = FragmentCount;
+        player.Inventory.Artifacts = ArtifactCount;
+        player.Inventory.Keys = KeyCount;
     }
 }

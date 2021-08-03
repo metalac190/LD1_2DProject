@@ -239,8 +239,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c27cd9c8c99284798e8eff9975ad32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _max: 10
-  _current: 10
+  _max: 5
+  _current: 3
   _isDamageable: 1
   Damaged:
     m_PersistentCalls:
@@ -1668,7 +1668,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 195, y: -70}
+  m_AnchoredPosition: {x: 217, y: -70}
   m_SizeDelta: {x: 105.87, y: 50}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &4194310894683103602
@@ -2176,8 +2176,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 71.7, y: 18.7}
-  m_SizeDelta: {x: 400, y: 25}
+  m_AnchoredPosition: {x: 71.7, y: 29}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4194310895206810807
 MonoBehaviour:
@@ -2193,8 +2193,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _iconPrefab: {fileID: 2791687222902248407, guid: aacd56dbe35ec5a48836ea3088d6deed, type: 3}
   _gridLayoutGroup: {fileID: 4194310893846926355}
-  _iconSize: 25
-  _iconSpacing: 2
+  _iconSize: 50
+  _iconSpacing: 5
 --- !u!222 &4194310895206810808
 CanvasRenderer:
   m_ObjectHideFlags: 0

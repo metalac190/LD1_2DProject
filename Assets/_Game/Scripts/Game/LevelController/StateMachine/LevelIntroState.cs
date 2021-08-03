@@ -13,7 +13,7 @@ public class LevelIntroState : State
 
     private MenuInput _input;
     private PlayerSpawner _playerSpawner;
-
+    private GameSession _gameSession;
 
     public LevelIntroState(LevelFSM stateMachine, LevelController controller)
     {
@@ -21,6 +21,7 @@ public class LevelIntroState : State
 
         _input = controller.MenuInput;
         _playerSpawner = controller.PlayerSpawner;
+        _gameSession = GameSession.Instance;
     }
 
     public override void Enter()
@@ -46,7 +47,8 @@ public class LevelIntroState : State
     {
         base.Update();
         // check if our cutscene is complete, if we have one. For now, just skip
-        _playerSpawner.SpawnPlayer();
+        Player player = _playerSpawner.SpawnPlayer();
+        _gameSession.LoadPlayerData(player);
         _stateMachine.ChangeState(_stateMachine.ActiveState);
     }
 

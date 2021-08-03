@@ -22,9 +22,7 @@ public class SavePoint : TriggerVolume
         Player player = collider.GetComponent<Player>();
         if (player != null)
         {
-            _gameSession.SpawnLocation = _newSpawnPoint.position;
+            _gameSession.SavePlayerData(transform.position, player);
         }
     }
-
-
 }
