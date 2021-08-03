@@ -14,7 +14,8 @@ public class ReceiveHit : MonoBehaviour, IHitable
     public event Action HitRecovered;  // this event is called after recovery from knocbkac
 
     [Header("Main")]
-
+    [SerializeField]
+    private bool _isImmune = false;
     [SerializeField]
     private float _hitRecoverTime = .1f;
     [SerializeField]
@@ -40,6 +41,11 @@ public class ReceiveHit : MonoBehaviour, IHitable
     private HitFlash _hitFlash;
     private Coroutine _hitRecoverRoutine;
 
+    public bool IsImmune
+    {
+        get => _isImmune;
+        set => _isImmune = value;
+    }
     public bool IsRecovering { get; private set; } = false;
 
     private void Awake()
@@ -60,6 +66,7 @@ public class ReceiveHit : MonoBehaviour, IHitable
 
     public void Hit(HitData hitData)
     {
+        if(_isImmune) { return; }
         // if we're recovering from previous hit, don't receive this one yet
         if (IsRecovering && !_receiveHitsWhileRecovering) { return; }
 

@@ -14,6 +14,7 @@ public class PlayerDashState : State
     private GameplayInput _input;
     private GroundDetector _groundDetector;
     private PlayerSFXData _sfx;
+    private ReceiveHit _receiveHit;
 
     private Vector2 _dashDirection;
 
@@ -29,6 +30,7 @@ public class PlayerDashState : State
         _input = player.Input;
         _groundDetector = player.CollisionDetector.GroundDetector;
         _sfx = player.SFX;
+        _receiveHit = player.ReceiveHit;
     }
 
     public override void Enter()
@@ -37,6 +39,7 @@ public class PlayerDashState : State
         base.Enter();
 
         _animator.PlayAnimation(PlayerAnimator.DashingName);
+        _receiveHit.IsImmune = true;
 
         _input.AttackPressed += OnAttackPressed;
         _dashSystem.DashCompleted += OnDashCompleted;
@@ -56,6 +59,8 @@ public class PlayerDashState : State
 
         _input.AttackPressed -= OnAttackPressed;
         _dashSystem.DashCompleted -= OnDashCompleted;
+
+        _receiveHit.IsImmune = false;
 
         _dashSystem.StopDash(_data.DashCooldown);
         // ensure changed movement and gravity values are returned

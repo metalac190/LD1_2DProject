@@ -17,7 +17,7 @@ public class Crawler : MonoBehaviour
     [SerializeField]
     private MovementKM _movement;
     [SerializeField]
-    private DamageZone _damageZone;
+    private HitVolume _damageZone;
     [SerializeField]
     private Health _health;
     [SerializeField]
@@ -28,7 +28,7 @@ public class Crawler : MonoBehaviour
     private LedgeDetector _ledgeDetector;
 
     public MovementKM Movement => _movement;
-    public DamageZone DamageZone => _damageZone;
+    public HitVolume DamageZone => _damageZone;
     public Health Health => _health;
     public ReceiveHit ReceiveHit => _receiveHit;
     public WallDetector WallDetector => _wallDetector;

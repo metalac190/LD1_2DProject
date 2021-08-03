@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3517438244845252296}
   - component: {fileID: 3517438244845252303}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3517438245202960385}
   - component: {fileID: 3517438245202960384}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Collectible
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,8 +139,8 @@ GameObject:
   - component: {fileID: 3517438245315449058}
   - component: {fileID: 3517438245315449057}
   - component: {fileID: 3517438245315449056}
-  m_Layer: 0
-  m_Name: Collectible_Small
+  m_Layer: 14
+  m_Name: FragmentPickup_Small
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

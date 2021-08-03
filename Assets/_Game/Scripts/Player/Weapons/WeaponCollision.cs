@@ -7,6 +7,20 @@ public class WeaponCollision : MonoBehaviour
 {
     [SerializeField]
     private WeaponSystem _weaponSystem;
+    [SerializeField]
+    private Collider2D _damageCollider;
+    [SerializeField]
+    private Collider2D[] _ignoreColliders;
+
+    private void Awake()
+    {
+        _damageCollider.isTrigger = true;
+
+        foreach (Collider2D collider in _ignoreColliders)
+        {
+            Physics2D.IgnoreCollision(collider, _damageCollider);
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

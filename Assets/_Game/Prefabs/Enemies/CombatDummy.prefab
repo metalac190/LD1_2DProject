@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8018639064887193576}
   - component: {fileID: 8018639064887193575}
   - component: {fileID: 8018639064887193571}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: CombatDummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8018639065744642458}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8018639065784860107}
   - component: {fileID: 8018639065784860106}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}

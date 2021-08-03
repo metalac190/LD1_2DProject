@@ -9,7 +9,7 @@ using UnityEngine;
 /// also ignore any specified colliders if you don't want an enemy to damage itself, for example.
 /// </summary>
 [RequireComponent(typeof(Collider2D))]
-public class DamageZone : MonoBehaviour
+public class HitVolume : MonoBehaviour
 {
     [SerializeField]
     private int _damageAmount = 5;
@@ -18,14 +18,14 @@ public class DamageZone : MonoBehaviour
     [SerializeField]
     private float _knockbackDuration = .2f;
     [SerializeField]
-    private float _damageFrequency = .5f;
+    private float _hitFrequency = .5f;
     [SerializeField]
-    private LayerMask _layersToDamage;
+    private LayerMask _layersToHit;
     [SerializeField][Tooltip("Drag any colliders to ignore here, " +
         "for example, this object's Primary collider for movement")]
     private Collider2D[] _ignoreColliders;
-
-    private Collider2D _damageCollider;
+    [SerializeField]
+    private Collider2D _hitCollider;
 
     public int DamageAmount
     {
@@ -38,23 +38,22 @@ public class DamageZone : MonoBehaviour
         } 
     }
 
-    Coroutine _damageRoutine;
+    Coroutine _hitRoutine;
 
     private void Awake()
     {
-        _damageCollider = GetComponent<Collider2D>();
-        _damageCollider.isTrigger = true;
+        _hitCollider.isTrigger = true;
         // ignore any specified colliders
         foreach(Collider2D collider in _ignoreColliders)
         {
-            Physics2D.IgnoreCollision(collider, _damageCollider);
+            Physics2D.IgnoreCollision(collider, _hitCollider);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // if we're not in the layer, return
-        if (!PhysicsHelper.IsInLayerMask(collision.gameObject, _layersToDamage)) { return; }
+        if (!PhysicsHelper.IsInLayerMask(collision.gameObject, _layersToHit)) { return; }
 
         ReceiveHit hitable = collision.GetComponent<ReceiveHit>();
         if(hitable != null)
@@ -65,15 +64,15 @@ public class DamageZone : MonoBehaviour
             hitable.Hit(hitData);
         }
         // temporarily disable hit damage
-        if (_damageRoutine != null)
-            StopCoroutine(_damageRoutine);
-        _damageRoutine = StartCoroutine(DamageRoutine(_damageFrequency));
+        if (_hitRoutine != null)
+            StopCoroutine(_hitRoutine);
+        _hitRoutine = StartCoroutine(DamageRoutine(_hitFrequency));
     }
 
     IEnumerator DamageRoutine(float damageFrequency)
     {
-        _damageCollider.enabled = false;
+        _hitCollider.enabled = false;
         yield return new WaitForSeconds(damageFrequency);
-        _damageCollider.enabled = true;
+        _hitCollider.enabled = true;
     }
 }

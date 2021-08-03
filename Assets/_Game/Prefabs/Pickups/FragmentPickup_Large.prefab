@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3164852501795749342}
   - component: {fileID: 3164852501795749337}
   - component: {fileID: 8090016382701968462}
-  m_Layer: 0
-  m_Name: Collectible_Large
+  m_Layer: 14
+  m_Name: FragmentPickup_Large
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3164852501879126502}
   - component: {fileID: 3164852501879126497}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Circle_Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3164852502490753797}
   - component: {fileID: 3164852502490753796}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Circle_Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,7 +238,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3164852503237281267}
   - component: {fileID: 3164852503237281266}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Circle_Middle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,7 +320,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3164852503265190051}
   - component: {fileID: 3164852503265190050}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}

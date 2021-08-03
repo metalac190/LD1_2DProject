@@ -120,6 +120,7 @@ MonoBehaviour:
   _health: {fileID: 2270063874650972145}
   _killParticlesPrefab: {fileID: 2010415367784037018, guid: 1bf67136a26c0da419c918f18c29d45b, type: 3}
   _killSFX: {fileID: 0}
+  _spawnPrefabOnDeath: {fileID: 0}
 --- !u!1 &2270063876005381656
 GameObject:
   m_ObjectHideFlags: 0

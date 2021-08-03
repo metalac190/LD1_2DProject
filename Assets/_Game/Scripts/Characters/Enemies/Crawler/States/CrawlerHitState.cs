@@ -6,7 +6,7 @@ public class CrawlerHitState : State
 {
     private CrawlerFSM _stateMachine;
 
-    private DamageZone _damageZone;
+    private HitVolume _damageZone;
     private ReceiveHit _receiveHit;
 
     public CrawlerHitState(CrawlerFSM stateMachine, Crawler crawler)

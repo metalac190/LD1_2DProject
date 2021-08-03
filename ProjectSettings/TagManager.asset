@@ -12,15 +12,15 @@ TagManager:
   - Water
   - UI
   - 
-  - 
-  - LevelCollision
+  - NoCllimbCollision
+  - CollisionTile
   - Player
   - Enemy
   - Trigger
-  - Weapon
-  - DynamicCollision
+  - NoCollisionObject
+  - CollisionObject
   - Pickup
-  - 
+  - HitDetection
   - 
   - 
   - 

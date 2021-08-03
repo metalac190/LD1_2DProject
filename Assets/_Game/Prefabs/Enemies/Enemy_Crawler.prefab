@@ -123,8 +123,8 @@ GameObject:
   - component: {fileID: 4047701038697332351}
   - component: {fileID: 4047701038697332349}
   - component: {fileID: 4047701038697332350}
-  m_Layer: 11
-  m_Name: DamageZone
+  m_Layer: 15
+  m_Name: HitVolume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -662,6 +662,7 @@ MonoBehaviour:
   _health: {fileID: 4047701039734664395}
   _killParticlesPrefab: {fileID: 2010415367784037018, guid: 1bf67136a26c0da419c918f18c29d45b, type: 3}
   _killSFX: {fileID: 11400000, guid: 5678337ce5ae3304dab8de0589de4117, type: 2}
+  _spawnPrefabOnDeath: {fileID: 0}
 --- !u!1 &4047701040003310298
 GameObject:
   m_ObjectHideFlags: 0

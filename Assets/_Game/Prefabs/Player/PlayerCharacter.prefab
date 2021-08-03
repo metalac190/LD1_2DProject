@@ -170,6 +170,7 @@ MonoBehaviour:
   _playerSFX: {fileID: 11400000, guid: 41a54594458593a43995bbb1788c91e5, type: 2}
   _visuals: {fileID: 4194310894847363065}
   _health: {fileID: 2310930631278062133}
+  _receiveHit: {fileID: 2310930631278062135}
   _weaponSystem: {fileID: 4194310894939148657}
   _dashSystem: {fileID: 4194310894860314079}
 --- !u!114 &2310930631278062132
@@ -217,6 +218,7 @@ MonoBehaviour:
   HitReceived:
     m_PersistentCalls:
       m_Calls: []
+  _isImmune: 0
   _hitRecoverTime: 1
   _receiveHitsWhileRecovering: 0
   _knockbackDampener: 1
@@ -518,7 +520,7 @@ GameObject:
   - component: {fileID: 4194310893566299688}
   - component: {fileID: 4194310893566299690}
   - component: {fileID: 4194310893566299691}
-  m_Layer: 12
+  m_Layer: 15
   m_Name: DownAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -578,6 +580,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponSystem: {fileID: 4194310894939148657}
+  _damageCollider: {fileID: 4194310893566299690}
+  _ignoreColliders:
+  - {fileID: 2310930631278062157}
 --- !u!1 &4194310893709982353
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,7 +1033,7 @@ GameObject:
   - component: {fileID: 4194310893862191569}
   - component: {fileID: 4194310893862191568}
   - component: {fileID: 4194310893862191571}
-  m_Layer: 12
+  m_Layer: 15
   m_Name: ForwardAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1088,6 +1093,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponSystem: {fileID: 4194310894939148657}
+  _damageCollider: {fileID: 4194310893862191568}
+  _ignoreColliders:
+  - {fileID: 2310930631278062157}
 --- !u!1 &4194310893921291377
 GameObject:
   m_ObjectHideFlags: 0
@@ -2060,7 +2068,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4194310894939148654}
   - component: {fileID: 4194310894939148657}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: WeaponSystem
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
