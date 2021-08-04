@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using SoundSystem;
 
+[RequireComponent(typeof(Health))]
 public class DestroyOnKill : MonoBehaviour
 {
-    [Header("Dependencies")]
-    [SerializeField]
-    private Health _health;
-
     [Header("Optional")]
     [SerializeField]
     private ParticleSystem _killParticlesPrefab;
@@ -16,6 +13,13 @@ public class DestroyOnKill : MonoBehaviour
     private SFXOneShot _killSFX;
     [SerializeField]
     private GameObject _spawnPrefabOnDeath;
+
+    private Health _health;
+
+    private void Awake()
+    {
+        _health = GetComponent<Health>();
+    }
 
     private void OnEnable()
     {

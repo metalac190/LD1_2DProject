@@ -30,6 +30,8 @@ public class GameSession : SingletonMBPersistent<GameSession>
 
     public void SavePlayerData(Vector3 spawnPoint, Player player)
     {
+        SpawnLocation = spawnPoint;
+
         FragmentCount = player.Inventory.Fragments;
         ArtifactCount = player.Inventory.Artifacts;
         KeyCount = player.Inventory.Keys;

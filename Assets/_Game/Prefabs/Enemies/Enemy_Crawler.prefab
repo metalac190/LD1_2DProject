@@ -191,7 +191,6 @@ MonoBehaviour:
     m_Bits: 512
   _ignoreColliders:
   - {fileID: 4047701039734664397}
-  _hitCollider: {fileID: 4047701038697332349}
 --- !u!1 &4047701038755375964
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,11 +200,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4047701038755375963}
-  - component: {fileID: 4047701038755375942}
   - component: {fileID: 4047701038755375943}
   - component: {fileID: 4047701038755375960}
   - component: {fileID: 4047701038755375961}
-  - component: {fileID: 4047701038755375962}
   m_Layer: 9
   m_Name: CollisionChecks
   m_TagString: Untagged
@@ -232,22 +229,6 @@ Transform:
   m_Father: {fileID: 4047701039734664398}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4047701038755375942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4047701038755375964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3795bc1e399c3e46869ad902522f08f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _groundDetector: {fileID: 4047701038755375943}
-  _wallDetector: {fileID: 4047701038755375960}
-  _ledgeDetector: {fileID: 4047701038755375961}
-  _ceilingDetector: {fileID: 4047701038755375962}
 --- !u!114 &4047701038755375943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,23 +287,6 @@ MonoBehaviour:
   _whatIsGround:
     serializedVersion: 2
     m_Bits: 256
---- !u!114 &4047701038755375962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4047701038755375964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36c1ac23d4aa9cc46859ce36d153ec50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _ceilingCheckLocation: {fileID: 4047701040076824039}
-  _ceilingCheckRadius: 0.5
-  _whatIsCeiling:
-    serializedVersion: 2
-    m_Bits: 8448
 --- !u!1 &4047701039346767605
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,11 +563,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d20e1d9c2f68bd74888deb030cb00185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collider: {fileID: 4047701039734664397}
   _downMultiplier: 1.1
   _minGroundNormalY: 0.65
   _useGravity: 1
   _gravityScale: 1
+  _useCollisions: 1
 --- !u!114 &4047701039734664395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,8 +608,6 @@ MonoBehaviour:
   _hitRecoverTime: 0.5
   _receiveHitsWhileRecovering: 1
   _knockbackDampener: 1
-  _movement: {fileID: 4047701039734664396}
-  _health: {fileID: 4047701039734664395}
   _flashColor: {r: 1, g: 0, b: 0, a: 1}
   _renderer: {fileID: 4047701038548981358}
   _hitSFX: {fileID: 11400000, guid: 5678337ce5ae3304dab8de0589de4117, type: 2}

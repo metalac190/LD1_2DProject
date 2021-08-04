@@ -17,18 +17,14 @@ public class ReceiveHit : MonoBehaviour, IHitable
     [SerializeField]
     private bool _isImmune = false;
     [SerializeField]
-    private float _hitRecoverTime = .1f;
+    private float _hitRecoverTime = .5f;
     [SerializeField]
     private bool _receiveHitsWhileRecovering = true;
     [Range(0, 1)]
     [Tooltip("0 = no knockback, 1 = full knockback")]
     [SerializeField] float _knockbackDampener = 1;
 
-    [Header("Optional Components")]
-    [SerializeField]
-    private MovementKM _movement;
-    [SerializeField]
-    private Health _health;
+
 
     [Header("Hit Effects")]
     [SerializeField]
@@ -38,6 +34,8 @@ public class ReceiveHit : MonoBehaviour, IHitable
     [SerializeField]
     private SFXOneShot _hitSFX;
 
+    private MovementKM _movement;
+    private Health _health;
     private HitFlash _hitFlash;
     private Coroutine _hitRecoverRoutine;
 
@@ -50,6 +48,9 @@ public class ReceiveHit : MonoBehaviour, IHitable
 
     private void Awake()
     {
+        _movement = GetComponent<MovementKM>(); // if we have movement, use it
+        _health = GetComponent<Health>();   // if we have health, use it
+
         if (_renderer != null)
             _hitFlash = new HitFlash(this, _renderer, _flashColor, _hitRecoverTime);
         else

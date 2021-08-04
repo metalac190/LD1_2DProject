@@ -26,6 +26,7 @@ public class PlayerSpawner : MonoBehaviour
     public Player ActivePlayer => _player;
     public Transform StartSpawnLocation => _startSpawnLocation;
 
+    /*
     /// <summary>
     /// Respawn player at designated location
     /// </summary>
@@ -49,11 +50,12 @@ public class PlayerSpawner : MonoBehaviour
 
         return _player;
     }
+    */
 
     /// <summary>
     /// Spawn a new player at start position
     /// </summary>
-    public Player SpawnPlayer()
+    public Player SpawnPlayer(Vector3 spawnPosition)
     {
         // if there's already a player, remove it
         if(_player != null)
@@ -61,7 +63,7 @@ public class PlayerSpawner : MonoBehaviour
             RemoveExistingPlayer();
         }
 
-        _player = Instantiate(_playerPrefab, _startSpawnLocation.position, Quaternion.identity);
+        _player = Instantiate(_playerPrefab, spawnPosition, Quaternion.identity);
         //TODO look into a way to pass this information before instantiating (it calls awake before initialize)
         _player.Initialize(_levelController.GameplayInput);
         _player.Health.Died.AddListener(OnPlayerDied);

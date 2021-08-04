@@ -12,9 +12,9 @@ using UnityEngine;
 public class HitVolume : MonoBehaviour
 {
     [SerializeField]
-    private int _damageAmount = 5;
+    private int _damageAmount = 1;
     [SerializeField]
-    private float _knockbackAmount = 5;
+    private float _knockbackAmount = 10;
     [SerializeField]
     private float _knockbackDuration = .2f;
     [SerializeField]

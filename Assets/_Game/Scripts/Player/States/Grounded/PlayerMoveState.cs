@@ -24,8 +24,7 @@ public class PlayerMoveState : PlayerGroundedSuperState
     public override void Enter()
     {
         base.Enter();
-
-        Debug.Log("STATE: Move");
+        //Debug.Log("STATE: Move");
 
         _animator.PlayAnimation(PlayerAnimator.RunName);
     }

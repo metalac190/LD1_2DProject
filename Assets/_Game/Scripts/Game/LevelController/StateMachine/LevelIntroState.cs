@@ -29,6 +29,7 @@ public class LevelIntroState : State
         base.Enter();
 
         _input.SubmitPressed += OnSubmitPressed;
+
     }
 
     public override void Exit()
@@ -47,15 +48,20 @@ public class LevelIntroState : State
     {
         base.Update();
         // check if our cutscene is complete, if we have one. For now, just skip
-        Player player = _playerSpawner.SpawnPlayer();
-        _gameSession.LoadPlayerData(player);
-        _stateMachine.ChangeState(_stateMachine.ActiveState);
+        BeginLevel();
     }
 
     // basically, this allows us to skip the cutscene
     private void OnSubmitPressed()
     {
-        _playerSpawner.SpawnPlayer();
+        BeginLevel();
+    }
+
+    private void BeginLevel()
+    {
+
+        Player player = _playerSpawner.SpawnPlayer(_gameSession.SpawnLocation);
+        _gameSession.LoadPlayerData(player);
         _stateMachine.ChangeState(_stateMachine.ActiveState);
     }
 }

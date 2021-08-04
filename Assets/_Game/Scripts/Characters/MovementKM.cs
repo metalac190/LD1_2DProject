@@ -9,12 +9,11 @@ using System;
 /// </summary>
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Collider2D))]
 public class MovementKM : MonoBehaviour
 {
     public event Action ReceivedPush;
 
-    [SerializeField]
-    private Collider2D _collider;
     [SerializeField]
     private float _downMultiplier = 1.1f; // multiply down speed so downwards falling is faster than jump (if desired)
     [SerializeField]
@@ -23,6 +22,8 @@ public class MovementKM : MonoBehaviour
     private bool _useGravity = true;
     [SerializeField]
     private float _gravityScale = 1;
+    [SerializeField]
+    private bool _useCollisions = true;
 
     protected Vector2 _groundNormal = new Vector2(0,1);
     protected const float _minMoveDistance = 0.001f;
@@ -49,6 +50,7 @@ public class MovementKM : MonoBehaviour
     private Vector2 _pushVelocity;
     private Coroutine _pushRoutine;
     private Rigidbody2D _rb;
+    private Collider2D _collider;
 
     // unorganized
     public int MaxIterations { get; private set; } = 2;
@@ -57,6 +59,8 @@ public class MovementKM : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _rb.isKinematic = true;
+
+        _collider = GetComponent<Collider2D>();
 
         _contactFilter.useTriggers = false;
         _contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(_collider.gameObject.layer));
@@ -285,7 +289,7 @@ public class MovementKM : MonoBehaviour
         // if we're moving at all substantially, check colliders
         float distance = move.magnitude;
         // if we're moving a significant amount
-        if(distance > _minMoveDistance)
+        if(distance > _minMoveDistance && _useCollisions)
         {
             // find nearby colliders and store them
             int hitCount = _collider.Cast(move, _contactFilter, _hitBuffer, distance + _skinWidth);
