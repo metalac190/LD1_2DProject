@@ -23,14 +23,17 @@ public class Crawler : MonoBehaviour
     [SerializeField]
     private ReceiveHit _receiveHit;
     [SerializeField]
-    private WallDetector _wallDetector;
+    private OverlapDetector _wallDetector;
     [SerializeField]
-    private LedgeDetector _ledgeDetector;
+    private OverlapDetector _groundDetector;
+    [SerializeField]
+    private OverlapDetector _groundInFrontDetector;
 
     public MovementKM Movement => _movement;
     public HitVolume DamageZone => _damageZone;
     public Health Health => _health;
     public ReceiveHit ReceiveHit => _receiveHit;
-    public WallDetector WallDetector => _wallDetector;
-    public LedgeDetector LedgeDetector => _ledgeDetector;
+    public OverlapDetector WallDetector => _wallDetector;
+    public OverlapDetector GroundDetector => _groundDetector;
+    public OverlapDetector GroundInFrontDetector => _groundInFrontDetector;
 }

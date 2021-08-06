@@ -12,7 +12,7 @@ public class Flyer : MonoBehaviour
 
     [Header("Dependencies")]
     [SerializeField]
-    private OverlapDetector _objectDetector; // this will detect if player is near
+    private OverlapDetector _playerDetector; // this will detect if player is near
     [SerializeField]
     private MovementKM _movement;
     [SerializeField]
@@ -25,7 +25,7 @@ public class Flyer : MonoBehaviour
     public float ChaseSpeed => _chaseSpeed;
     public float ReturnSpeed => _returnSpeed;
 
-    public OverlapDetector PlayerDetector => _objectDetector;
+    public OverlapDetector PlayerDetector => _playerDetector;
     public MovementKM Movement => _movement;
     public ReceiveHit ReceiveHit => _receiveHit;
     public HitVolume HitVolume => _hitVolume;

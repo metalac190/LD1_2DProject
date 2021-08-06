@@ -8,8 +8,9 @@ public class CrawlerMoveState : State
     private Crawler _crawler;
 
     private MovementKM _kinematicObject;
-    private WallDetector _wallDetector;
-    private LedgeDetector _ledgeDetector;
+    private OverlapDetector _wallDetector;
+    private OverlapDetector _groundDetector;
+    private OverlapDetector _groundInFrontDetector;
 
     public CrawlerMoveState(CrawlerFSM stateMachine, Crawler crawler)
     {
@@ -18,40 +19,49 @@ public class CrawlerMoveState : State
 
         _kinematicObject = crawler.Movement;
         _wallDetector = crawler.WallDetector;
-        _ledgeDetector = crawler.LedgeDetector;
+        _groundDetector = crawler.GroundDetector;
+        _groundInFrontDetector = crawler.GroundInFrontDetector;
     }
 
     public override void Enter()
     {
         base.Enter();
 
+        _groundInFrontDetector.StartDetecting();
+        _wallDetector.StartDetecting();
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        _groundInFrontDetector.StopDetecting();
+        _wallDetector.StopDetecting();
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
 
-        _wallDetector.DetectWall();
-        _ledgeDetector.DetectLowerLedge();
-
-        // if we've reached the path end
-        if (_wallDetector.IsWallDetected)
+        // if we've reached a wall
+        if (_wallDetector.IsDetected)
         {
             // turn around
             _kinematicObject.Flip();
             _kinematicObject.MoveX(_crawler.MovementSpeed * _kinematicObject.FacingDirection, true);
         }
-        else if(_ledgeDetector.IsDetectingLowerLedge && _crawler.ReverseAtLedge)
+        // or a ledge
+        else if(!_groundInFrontDetector.IsDetected)
         {
-            _kinematicObject.Flip();
-            _kinematicObject.MoveX(_crawler.MovementSpeed * _kinematicObject.FacingDirection, true);
+            // if there's no ground in front, but ground beneath, it's a ledge
+            if (_groundDetector.Detect())
+            {
+                _kinematicObject.Flip();
+                _kinematicObject.MoveX(_crawler.MovementSpeed * _kinematicObject.FacingDirection, true);
+            }
 
         }
+        // otherwise, keep moving
         else
         {
             _kinematicObject.MoveX(_crawler.MovementSpeed * _kinematicObject.FacingDirection, true);

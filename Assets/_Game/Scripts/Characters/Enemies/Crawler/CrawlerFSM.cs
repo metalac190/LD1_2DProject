@@ -8,13 +8,13 @@ public class CrawlerFSM : StateMachineMB
     public CrawlerMoveState MoveState { get; private set; }
     public CrawlerHitState HitState { get; private set; }
 
-    [SerializeField] 
     private Crawler _crawler;
 
     private ReceiveHit _receiveHit;
 
     private void Awake()
     {
+        _crawler = GetComponent<Crawler>();
         // create states
         MoveState = new CrawlerMoveState(this, _crawler);
         HitState = new CrawlerHitState(this, _crawler);
