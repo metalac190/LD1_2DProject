@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageAmount: 1
-  _knockbackAmount: 5
-  _knockbackDuration: 0.2
+  _knockbackAmount: 35
+  _knockbackDuration: 0.25
   _hitFrequency: 0.5
   _layersToHit:
     serializedVersion: 2

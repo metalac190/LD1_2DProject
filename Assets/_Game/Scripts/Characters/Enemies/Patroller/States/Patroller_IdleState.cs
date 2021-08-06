@@ -6,12 +6,15 @@ public class Patroller_IdleState : State
 {
     private float _idleTime = 0;
 
-    PatrollerFSM _stateMachine;
-    Patroller _patroller;
-    PatrollerData _data;
+    private PatrollerFSM _stateMachine;
+    private Patroller _patroller;
+    private PatrollerData _data;
 
-    PlayerDetector _playerDetector;
-    EnvironmentDetector _environmentDetector;
+    private MovementKM _movement;
+    private RayDetector _playerDetector;
+    private OverlapDetector _wallDetector;
+    private OverlapDetector _groundDetector;
+    private OverlapDetector _groundInFrontDetector;
 
     public Patroller_IdleState(PatrollerFSM stateMachine, Patroller patroller)
     {
@@ -19,43 +22,53 @@ public class Patroller_IdleState : State
         _patroller = patroller;
         _data = patroller.Data;
 
-        _playerDetector = patroller.PlayerDetector;
-        _environmentDetector = patroller.EnvironmentDetector;
+        _movement = patroller.Movement;
+        _playerDetector = patroller.AggroDetector;
+        _wallDetector = patroller.WallDetector;
+        _groundDetector = patroller.GroundDetector;
+        _groundInFrontDetector = patroller.SpaceDetector;
     }
 
     public override void Enter()
     {
         base.Enter();
 
-        _patroller.Move(0);
+        _movement.MoveX(0, false);
         SetRandomIdleTime();
 
-        _playerDetector.StartCheckingForPlayer();
+        _playerDetector.StartDetecting();
+        _wallDetector.StartDetecting();
+        _groundDetector.StartDetecting();
+        _groundInFrontDetector.StartDetecting();
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        _playerDetector.StopCheckingForPlayer();
+        _playerDetector.StopDetecting();
+        _wallDetector.StopDetecting();
+        _groundDetector.StopDetecting();
+        _groundInFrontDetector.StopDetecting();
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
 
-
         if (StateDuration >= _idleTime)
         {
-            // if we're at a wall or ledge, turn around before moving
-            if (_environmentDetector.CheckLedge() || _environmentDetector.CheckWall())
+            // if we detect space in front but are grounded, it's a ledge
+            bool isLedge = !_groundInFrontDetector.IsDetected 
+                && _groundDetector.IsDetected;
+            if (isLedge || _wallDetector.IsDetected)
             {
-                _patroller.Flip();
+                _movement.Flip();
             }
             _stateMachine.ChangeState(_stateMachine.MoveState);
         }
 
-        if (_playerDetector.IsPlayerDetected)
+        if (_playerDetector.IsDetected)
         {
             _stateMachine.ChangeState(_stateMachine.PlayerDetectedState);
         }

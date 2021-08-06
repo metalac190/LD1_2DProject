@@ -185,11 +185,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d20e1d9c2f68bd74888deb030cb00185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collider: {fileID: 2310930631278062157}
   _downMultiplier: 1
   _minGroundNormalY: 0.65
   _useGravity: 1
   _gravityScale: 1
+  _useCollisions: 1
 --- !u!114 &2310930631278062128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,8 +222,6 @@ MonoBehaviour:
   _hitRecoverTime: 1
   _receiveHitsWhileRecovering: 0
   _knockbackDampener: 1
-  _movement: {fileID: 2310930631278062132}
-  _health: {fileID: 2310930631278062133}
   _flashColor: {r: 1, g: 0, b: 0, a: 1}
   _renderer: {fileID: 2310930631334526485}
   _hitSFX: {fileID: 11400000, guid: 1c0ff3b0c80355442a4336ac13f67e4b, type: 2}
@@ -2176,8 +2174,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 71.7, y: 29}
-  m_SizeDelta: {x: 400, y: 50}
+  m_AnchoredPosition: {x: 71.7, y: 31}
+  m_SizeDelta: {x: 400, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4194310895206810807
 MonoBehaviour:

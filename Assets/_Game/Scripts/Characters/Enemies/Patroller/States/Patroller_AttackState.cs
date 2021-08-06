@@ -8,7 +8,8 @@ public class Patroller_AttackState : State
     Patroller _patroller;
     PatrollerData _data;
 
-    PlayerDetector _playerDetector;
+    private MovementKM _movement;
+    RayDetector _playerDetector;
 
     public bool IsAttackActive { get; private set; }
     private bool _isAttackSequenceComplete;
@@ -22,7 +23,8 @@ public class Patroller_AttackState : State
         _patroller = patroller;
         _data = patroller.Data;
 
-        _playerDetector = patroller.PlayerDetector;
+        _movement = patroller.Movement;
+        _playerDetector = patroller.AggroDetector;
         _detectedGraphic = patroller.DetectedGraphic;
     }
 
@@ -31,7 +33,7 @@ public class Patroller_AttackState : State
         base.Enter();
 
         _detectedGraphic.SetActive(true);
-        _patroller.Move(0);
+        _movement.MoveX(0, true);
         // adjust visual graphic - multiply x2 to convert radius to scale units
         _patroller.AttackLocation.transform.localScale 
             = new Vector2(_data.AttackRadius * 2, _data.AttackRadius * 2);
@@ -69,13 +71,15 @@ public class Patroller_AttackState : State
         // if our attack is active and has exceeded the attack duration
         if(_isAttackSequenceComplete)
         {
-            if (_playerDetector.CheckPlayerInAggroRange())
+            if (_playerDetector.Detect())
             {
                 _stateMachine.ChangeState(_stateMachine.PlayerDetectedState);
+                return;
             }
             else
             {
                 _stateMachine.ChangeState(_stateMachine.SearchState);
+                return;
             }
         }
     }

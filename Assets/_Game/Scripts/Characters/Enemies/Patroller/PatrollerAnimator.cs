@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Patroller))]
 public class PatrollerAnimator : MonoBehaviour
 {
     [SerializeField] Animator _animator;

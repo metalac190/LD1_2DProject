@@ -7,14 +7,14 @@ public class FlyerIdleState : State
     private FlyerFSM _stateMachine;
     private Flyer _flyer;
 
-    private ObjectDetector _objectDetector;
+    private OverlapDetector _playerDetector;
 
     public FlyerIdleState(FlyerFSM stateMachine, Flyer flyer)
     {
         _stateMachine = stateMachine;
         _flyer = flyer;
 
-        _objectDetector = flyer.ObjectDetector;
+        _playerDetector = flyer.PlayerDetector;
     }
 
     public override void Enter()
@@ -37,7 +37,7 @@ public class FlyerIdleState : State
     {
         base.Update();
 
-        if (_objectDetector.IsObjectDetected)
+        if (_playerDetector.IsDetected)
         {
             _stateMachine.ChangeState(_stateMachine.ChasingState);
         }

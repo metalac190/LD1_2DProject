@@ -8,7 +8,8 @@ public class Patroller_SearchState : State
     Patroller _patroller;
     PatrollerData _data;
 
-    PlayerDetector _playerDetector;
+    private MovementKM _movement;
+    RayDetector _playerDetector;
 
     private float _lastTurnTime;
     private int _turnsCompleted;
@@ -19,7 +20,8 @@ public class Patroller_SearchState : State
         _patroller = patroller;
         _data = patroller.Data;
 
-        _playerDetector = patroller.PlayerDetector;
+        _movement = patroller.Movement;
+        _playerDetector = patroller.AggroDetector;
     }
 
     public override void Enter()
@@ -29,7 +31,7 @@ public class Patroller_SearchState : State
         _lastTurnTime = 0;
         _turnsCompleted = 0;
 
-        _patroller.Move(0);
+        _movement.MoveX(0, false);
 
         // do the first turn immediately
         if(_data.TurnImmediatelyOnSearch && _data.NumberOfSearchTurns >= 1)
@@ -37,21 +39,21 @@ public class Patroller_SearchState : State
             Turn();
         }
 
-        _playerDetector.StartCheckingForPlayer();
+        _playerDetector.StartDetecting();
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        _playerDetector.StopCheckingForPlayer();
+        _playerDetector.StopDetecting();
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
 
-        if (_playerDetector.IsPlayerDetected)
+        if (_playerDetector.IsDetected)
         {
             _stateMachine.ChangeState(_stateMachine.PlayerDetectedState);
         }
@@ -80,6 +82,6 @@ public class Patroller_SearchState : State
     {
         _lastTurnTime = 0;
         _turnsCompleted++;
-        _patroller.Flip();
+        _movement.Flip();
     }
 }

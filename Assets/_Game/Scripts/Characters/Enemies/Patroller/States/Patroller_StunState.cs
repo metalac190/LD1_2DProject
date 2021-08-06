@@ -7,14 +7,18 @@ public class Patroller_StunState : State
     PatrollerFSM _stateMachine;
     Patroller _patroller;
 
-    PlayerDetector _playerDetector;
+    private MovementKM _movement;
+    private RayDetector _playerDetector;
+    private ReceiveHit _receiveHit;
 
     public Patroller_StunState(PatrollerFSM stateMachine, Patroller patroller)
     {
         _stateMachine = stateMachine;
         _patroller = patroller;
 
-        _playerDetector = patroller.PlayerDetector;
+        _movement = patroller.Movement;
+        _playerDetector = patroller.AggroDetector;
+        _receiveHit = patroller.ReceiveHit;
     }
 
     public override void Enter()
@@ -22,11 +26,16 @@ public class Patroller_StunState : State
         base.Enter();
 
         Debug.Log("STATE: Knockback!");
+
+        _receiveHit.HitRecovered += OnHitRecovered;
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        _receiveHit.HitRecovered -= OnHitRecovered;
+
     }
 
     public override void FixedUpdate()
@@ -39,9 +48,9 @@ public class Patroller_StunState : State
         base.Update();
     }
 
-    private void OnKnockbackEnded()
+    private void OnHitRecovered()
     {
-        _patroller.Move(0);
+        _movement.MoveX(0, false);
 
         _stateMachine.ChangeState(_stateMachine.SearchState);
     }

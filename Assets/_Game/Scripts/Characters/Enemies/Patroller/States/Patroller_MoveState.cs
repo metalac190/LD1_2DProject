@@ -8,8 +8,11 @@ public class Patroller_MoveState : State
     private Patroller _patroller;
     private PatrollerData _data;
 
-    private PlayerDetector _playerDetector;
-    private EnvironmentDetector _environmentDetector;
+    private MovementKM _movement;
+    private RayDetector _playerDetector;
+    private OverlapDetector _wallDetector;
+    private OverlapDetector _groundDetector;
+    private OverlapDetector _groundInFrontDetector;
 
     public Patroller_MoveState(PatrollerFSM stateMachine, Patroller patroller)
     {
@@ -17,24 +20,31 @@ public class Patroller_MoveState : State
         _patroller = patroller;
         _data = patroller.Data;
 
-        _playerDetector = patroller.PlayerDetector;
-        _environmentDetector = patroller.EnvironmentDetector;
+        _movement = patroller.Movement;
+        _playerDetector = patroller.AggroDetector;
+        _wallDetector = patroller.WallDetector;
+        _groundDetector = patroller.GroundDetector;
+        _groundInFrontDetector = patroller.SpaceDetector;
     }
 
     public override void Enter()
     {
-        _patroller.Move(_data.MovementSpeed);
+        _movement.MoveX(_data.MovementSpeed * _movement.FacingDirection, true);
 
-        _environmentDetector.StartCheckingEnvironment();
-        _playerDetector.StartCheckingForPlayer();
+        _playerDetector.StartDetecting();
+        _wallDetector.StartDetecting();
+        _groundDetector.StartDetecting();
+        _groundInFrontDetector.StartDetecting();
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        _environmentDetector.StopCheckingEnvironment();
-        _playerDetector.StopCheckingForPlayer();
+        _playerDetector.StopDetecting();
+        _wallDetector.StopDetecting();
+        _groundDetector.StopDetecting();
+        _groundInFrontDetector.StopDetecting();
     }
 
     public override void FixedUpdate()
@@ -42,7 +52,8 @@ public class Patroller_MoveState : State
         base.FixedUpdate();
 
         // if we've reached the path end
-        if (_environmentDetector.IsWallDetected || _environmentDetector.IsLedgeDetected)
+        bool isLedge = !_groundInFrontDetector && _groundDetector.IsDetected;
+        if (isLedge || _wallDetector.IsDetected)
         {
             // idle if specified
             if (_data.IdleOnPathEnd)
@@ -52,12 +63,13 @@ public class Patroller_MoveState : State
             // otherwise turn and continue
             else
             {
-                _patroller.Flip();
-                _patroller.Move(_data.MovementSpeed);
+                _movement.Flip();
+                _movement.MoveX(_data.MovementSpeed 
+                    * _movement.FacingDirection, true);
             }
         }
         // if we've detected the player
-        if (_playerDetector.IsPlayerDetected)
+        if (_playerDetector.IsDetected)
         {
             _stateMachine.ChangeState(_stateMachine.PlayerDetectedState);
         }

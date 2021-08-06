@@ -45,6 +45,10 @@ public class IconBar : MonoBehaviour
             else
                 DisableIcon(_icons[i]); 
         }
+
+        if (_refreshRoutine != null)
+            StopCoroutine(_refreshRoutine);
+        _refreshRoutine = StartCoroutine(RefreshLayoutGroup());
     }
 
     private Image CreateIcon()
@@ -80,7 +84,7 @@ public class IconBar : MonoBehaviour
     private IEnumerator RefreshLayoutGroup()
     {
         _gridLayoutGroup.enabled = true;
-        yield return new WaitForSeconds(1f);
+        yield return null;
         _gridLayoutGroup.enabled = false;
     }
 }

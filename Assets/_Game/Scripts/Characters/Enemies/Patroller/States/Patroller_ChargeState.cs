@@ -8,8 +8,11 @@ public class Patroller_ChargeState : State
     Patroller _patroller;
     PatrollerData _data;
 
-    EnvironmentDetector _environmentDetector;
-    PlayerDetector _playerDetector;
+    private MovementKM _movement;
+    private ColliderDetector _groundDetector;
+    private ColliderDetector _wallDetector;
+    private ColliderDetector _lowerLedgeDetector;
+    private RayDetector _playerDetector;
     GameObject _detectedGraphic;
 
     public Patroller_ChargeState(PatrollerFSM stateMachine, Patroller patroller)
@@ -18,8 +21,11 @@ public class Patroller_ChargeState : State
         _patroller = patroller;
         _data = patroller.Data;
 
-        _environmentDetector = patroller.EnvironmentDetector;
-        _playerDetector = patroller.PlayerDetector;
+        _movement = patroller.Movement;
+        _groundDetector = patroller.GroundDetector;
+        _wallDetector = patroller.WallDetector;
+        _lowerLedgeDetector = patroller.SpaceDetector;
+        _playerDetector = patroller.AggroDetector;
         _detectedGraphic = patroller.DetectedGraphic;
     }
 
@@ -27,10 +33,7 @@ public class Patroller_ChargeState : State
     {
         base.Enter();
 
-        _patroller.Move(_data.ChargeSpeed);
 
-        _environmentDetector.StartCheckingEnvironment();
-        _playerDetector.StartCheckingForPlayer();
 
         _detectedGraphic.SetActive(true);
     }
@@ -39,9 +42,6 @@ public class Patroller_ChargeState : State
     {
         base.Exit();
 
-        _environmentDetector.StopCheckingEnvironment();
-        _playerDetector.StopCheckingForPlayer();
-
         _detectedGraphic.SetActive(false);
     }
 
@@ -49,11 +49,16 @@ public class Patroller_ChargeState : State
     {
         base.FixedUpdate();
 
-        if (_environmentDetector.IsWallDetected || _environmentDetector.IsLedgeDetected)
+        _groundDetector.Detect();
+        _playerDetector.Detect();
+
+        _movement.MoveX(_data.ChargeSpeed * _movement.FacingDirection, true);
+
+        if (_wallDetector.IsDetected || _lowerLedgeDetector.IsDetected)
         {
             _stateMachine.ChangeState(_stateMachine.SearchState);
         }
-        else if (_playerDetector.IsPlayerInCloseRange)
+        else if (_playerDetector.IsDetected)
         {
             _stateMachine.ChangeState(_stateMachine.AttackState);
         }
@@ -63,7 +68,7 @@ public class Patroller_ChargeState : State
         if (StateDuration >= _data.ChargeDuration)
         {
             // if player still detected, do it again
-            if (_playerDetector.IsPlayerDetected)
+            if (_playerDetector.IsDetected)
             {
                 _stateMachine.ChangeState(_stateMachine.PlayerDetectedState);
             }

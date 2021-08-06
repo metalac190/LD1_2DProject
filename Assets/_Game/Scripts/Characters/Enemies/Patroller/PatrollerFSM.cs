@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Patroller))]
 public class PatrollerFSM : StateMachineMB
 {
     public Patroller_IdleState IdleState { get; private set; }
@@ -13,11 +14,16 @@ public class PatrollerFSM : StateMachineMB
     public Patroller_StunState StunState { get; private set; }
     public Patroller_DeadState DeadState { get; private set; }
 
-    [SerializeField]
     private Patroller _patroller;
+
+    private Health _health;
+    private ReceiveHit _receiveHit;
 
     private void Awake()
     {
+        _patroller = GetComponent<Patroller>();
+        _health = _patroller.Health;
+        _receiveHit = _patroller.ReceiveHit;
         // create states
         IdleState = new Patroller_IdleState(this, _patroller);
         MoveState = new Patroller_MoveState(this, _patroller);
