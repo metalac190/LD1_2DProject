@@ -21,8 +21,6 @@ public class Patroller : MonoBehaviour
     private PatrollerAnimator _patrollerAnimator;
     [SerializeField]
     private GameObject _detectedGraphic;
-    [SerializeField]
-    private GameObject _attackLocation;
 
     [Header("Environment Detection")]
     [SerializeField]
@@ -30,9 +28,11 @@ public class Patroller : MonoBehaviour
     [SerializeField]
     private OverlapDetector _wallDetector;
     [SerializeField]
-    private OverlapDetector _spaceDetector;
+    private OverlapDetector _farGroundDetector;
     [SerializeField]
     private OverlapDetector _closeRangeDetector;
+    [SerializeField]
+    private HitVolume _hitVolume;
     [SerializeField]
     private RayDetector _aggroDetector;
 
@@ -42,25 +42,19 @@ public class Patroller : MonoBehaviour
     public ReceiveHit ReceiveHit => _receiveHit;
     public PatrollerData Data => _data;
     public PatrollerAnimator PatrollerAnimator => _patrollerAnimator;
+    public HitVolume HitVolume => _hitVolume;
     public GameObject DetectedGraphic => _detectedGraphic;
-    public GameObject AttackLocation => _attackLocation;
 
     public OverlapDetector GroundDetector => _groundDetector;
     public OverlapDetector WallDetector => _wallDetector;
-    public OverlapDetector SpaceDetector => _spaceDetector;
+    public OverlapDetector GroundInFrontDetector => _farGroundDetector;
     public OverlapDetector CloseRangeDetector => _closeRangeDetector;
     public RayDetector AggroDetector => _aggroDetector;
 
     private void Awake()
     {
-        _attackLocation.SetActive(false);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_attackLocation.transform.position, 
-            _data.AttackRadius);
+        HitVolume.gameObject.SetActive(false);
+        DetectedGraphic.gameObject.SetActive(false);
     }
 
     public void Remove()

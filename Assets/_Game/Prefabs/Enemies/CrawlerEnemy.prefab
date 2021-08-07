@@ -323,7 +323,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8448
   _autoDetect: 0
-  _detectPlayerFrequency: 0.2
+  _detectFrequency: 0.2
   _detectRadius: 0.3
 --- !u!1 &4047701039561476725
 GameObject:
@@ -372,7 +372,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8448
   _autoDetect: 0
-  _detectPlayerFrequency: 0.2
+  _detectFrequency: 0.2
   _detectRadius: 0.3
 --- !u!1 &4047701039734664384
 GameObject:
@@ -496,7 +496,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e03e4d24305734a8257e7c1de0d8b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _crawler: {fileID: 4047701039734664438}
 --- !u!114 &4047701039734664396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -766,5 +765,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8448
   _autoDetect: 0
-  _detectPlayerFrequency: 0.2
+  _detectFrequency: 0.2
   _detectRadius: 0.3

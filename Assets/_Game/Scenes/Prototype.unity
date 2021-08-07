@@ -37744,7 +37744,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8548787143059724889, guid: 29acb0868e1591b40967a8af4898fdd7, type: 3}
       propertyPath: m_Name
-      value: Flyer
+      value: FlyerEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 8548787143059724890, guid: 29acb0868e1591b40967a8af4898fdd7, type: 3}
       propertyPath: m_RootOrder

@@ -27,7 +27,7 @@ public class PlayerLandState : PlayerGroundedSuperState
 
     public override void Enter()
     {
-        Debug.Log("STATE: Land");
+        //Debug.Log("STATE: Land");
         base.Enter();
 
         _animator.PlayAnimation(PlayerAnimator.LandName);

@@ -56,6 +56,7 @@ public class Patroller_SearchState : State
         if (_playerDetector.IsDetected)
         {
             _stateMachine.ChangeState(_stateMachine.PlayerDetectedState);
+            return;
         }
     }
 
@@ -74,6 +75,7 @@ public class Patroller_SearchState : State
             else
             {
                 _stateMachine.ChangeState(_stateMachine.MoveState);
+                return;
             }
         }
     }

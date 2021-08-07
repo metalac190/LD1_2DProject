@@ -26,7 +26,7 @@ public class Patroller_IdleState : State
         _playerDetector = patroller.AggroDetector;
         _wallDetector = patroller.WallDetector;
         _groundDetector = patroller.GroundDetector;
-        _groundInFrontDetector = patroller.SpaceDetector;
+        _groundInFrontDetector = patroller.GroundInFrontDetector;
     }
 
     public override void Enter()

@@ -47,25 +47,33 @@ public class CrawlerMoveState : State
         if (_wallDetector.IsDetected)
         {
             // turn around
-            _kinematicObject.Flip();
-            _kinematicObject.MoveX(_crawler.MovementSpeed * _kinematicObject.FacingDirection, true);
+            TurnAround();
+            // detect again in new direction to reset
+            _wallDetector.Detect();
         }
         // or a ledge
         else if(!_groundInFrontDetector.IsDetected)
         {
             // if there's no ground in front, but ground beneath, it's a ledge
-            if (_groundDetector.Detect())
+            if (_groundDetector.Detect() != null)
             {
-                _kinematicObject.Flip();
-                _kinematicObject.MoveX(_crawler.MovementSpeed * _kinematicObject.FacingDirection, true);
+                TurnAround();
+                // detect in new direction to reset
+                _groundInFrontDetector.Detect();
             }
-
         }
         // otherwise, keep moving
         else
         {
             _kinematicObject.MoveX(_crawler.MovementSpeed * _kinematicObject.FacingDirection, true);
         }
+    }
+
+    private void TurnAround()
+    {
+        _kinematicObject.Flip();
+        _kinematicObject.MoveX(_crawler.MovementSpeed
+            * _kinematicObject.FacingDirection, true);
     }
 
     public override void Update()

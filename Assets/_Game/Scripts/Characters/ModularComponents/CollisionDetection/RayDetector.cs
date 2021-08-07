@@ -11,12 +11,13 @@ public class RayDetector : ColliderDetector
     [SerializeField]
     private float _detectDistance = 10;
     [SerializeField]
-    private Vector3 _direction = Vector3.forward;
+    private Vector2 _direction = new Vector2(1, 0);
 
     public override Collider2D Detect()
     {
         // cast in forward direction
-        LastDetectedCollider = Physics2D.Raycast(transform.position, _direction,
+        LastDetectedCollider = Physics2D.Raycast(transform.position, 
+            _direction * transform.right,
             _detectDistance, DetectLayers).collider;
 
         IsDetected = LastDetectedCollider != null;

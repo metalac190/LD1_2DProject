@@ -8,7 +8,8 @@ public class Patroller_PlayerDetectedState : State
     private Patroller _patroller;
     private PatrollerData _data;
 
-    private RayDetector _playerDetector;
+    private RayDetector _aggroDetector;
+    private OverlapDetector _closeRangeDetector;
     private GameObject _detectedGraphic;    // graphic icon that communicates detect state
 
     public Patroller_PlayerDetectedState(PatrollerFSM stateMachine, Patroller patroller)
@@ -17,7 +18,8 @@ public class Patroller_PlayerDetectedState : State
         _patroller = patroller;
         _data = patroller.Data;
 
-        _playerDetector = patroller.AggroDetector;
+        _aggroDetector = patroller.AggroDetector;
+        _closeRangeDetector = patroller.CloseRangeDetector;
         _detectedGraphic = patroller.DetectedGraphic;
     }
 
@@ -27,7 +29,8 @@ public class Patroller_PlayerDetectedState : State
 
         _detectedGraphic.SetActive(true);
 
-        _playerDetector.StartDetecting();
+        _aggroDetector.StartDetecting();
+        _closeRangeDetector.StartDetecting();
     }
 
     public override void Exit()
@@ -36,24 +39,25 @@ public class Patroller_PlayerDetectedState : State
 
         _detectedGraphic.SetActive(false);
 
-        _playerDetector.StopDetecting();
+        _aggroDetector.StopDetecting();
+        _closeRangeDetector.StopDetecting();
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
 
-        // wait for alert pause
+        // pause briefly as if surprised
         if(StateDuration >= _data.DetectedPauseTime)
         {
             // if player is in close range, do an attack
-            if (_playerDetector.IsDetected)
+            if (_closeRangeDetector.IsDetected)
             {
                 _stateMachine.ChangeState(_stateMachine.AttackState);
                 return;
             }
             // otherwise if player is still detected, charge
-            else if (_playerDetector.IsDetected)
+            else if (_aggroDetector.IsDetected)
             {
                 _stateMachine.ChangeState(_stateMachine.ChargeState);
                 return;

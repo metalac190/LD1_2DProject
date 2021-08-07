@@ -21,11 +21,15 @@ public class FlyerIdleState : State
     {
         base.Enter();
         Debug.Log("FLYER: Idle State");
+
+        _playerDetector.StartDetecting();
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        _playerDetector.StopDetecting();
     }
 
     public override void FixedUpdate()
@@ -40,6 +44,7 @@ public class FlyerIdleState : State
         if (_playerDetector.IsDetected)
         {
             _stateMachine.ChangeState(_stateMachine.ChasingState);
+            return;
         }
     }
 }

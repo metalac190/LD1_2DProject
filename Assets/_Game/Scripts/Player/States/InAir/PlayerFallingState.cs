@@ -39,7 +39,7 @@ public class PlayerFallingState : State
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("STATE: Falling");
+        //Debug.Log("STATE: Falling");
 
         _animator.PlayAnimation(PlayerAnimator.FallName);
 

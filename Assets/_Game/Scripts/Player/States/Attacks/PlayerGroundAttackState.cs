@@ -36,7 +36,7 @@ public class PlayerGroundAttackState : State
     {
         base.Enter();
 
-        Debug.Log("STATE: Attack");
+        //Debug.Log("STATE: Attack");
 
         _weaponSystem.AttackCompleted += OnAttackCompleted;
         _input.JumpPressed += OnJumpPressed;

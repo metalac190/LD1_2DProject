@@ -33,7 +33,7 @@ public class PlayerJumpState : State
     {
         base.Enter();
 
-        Debug.Log("STATE: Jump");
+        //Debug.Log("STATE: Jump");
         _animator.PlayAnimation(PlayerAnimator.JumpName);
 
         _input.JumpPressed += OnJumpPressed;

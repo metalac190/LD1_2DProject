@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Patroller_StunState : State
+public class Patroller_HitState : State
 {
     PatrollerFSM _stateMachine;
     Patroller _patroller;
@@ -11,7 +11,7 @@ public class Patroller_StunState : State
     private RayDetector _playerDetector;
     private ReceiveHit _receiveHit;
 
-    public Patroller_StunState(PatrollerFSM stateMachine, Patroller patroller)
+    public Patroller_HitState(PatrollerFSM stateMachine, Patroller patroller)
     {
         _stateMachine = stateMachine;
         _patroller = patroller;
@@ -51,7 +51,6 @@ public class Patroller_StunState : State
     private void OnHitRecovered()
     {
         _movement.MoveX(0, false);
-
         _stateMachine.ChangeState(_stateMachine.SearchState);
     }
 }

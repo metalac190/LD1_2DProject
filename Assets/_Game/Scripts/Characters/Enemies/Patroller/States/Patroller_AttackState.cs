@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class Patroller_AttackState : State
 {
-    PatrollerFSM _stateMachine;
-    Patroller _patroller;
-    PatrollerData _data;
+    private PatrollerFSM _stateMachine;
+    private Patroller _patroller;
+    private PatrollerData _data;
 
     private MovementKM _movement;
-    RayDetector _playerDetector;
+    private RayDetector _aggroDetector;
+    private HitVolume _hitVolume;
+    private GameObject _detectedGraphic;
+
 
     public bool IsAttackActive { get; private set; }
     private bool _isAttackSequenceComplete;
 
     Coroutine _attackRoutine;
-    GameObject _detectedGraphic;
 
     public Patroller_AttackState(PatrollerFSM stateMachine, Patroller patroller)
     {
@@ -24,7 +26,8 @@ public class Patroller_AttackState : State
         _data = patroller.Data;
 
         _movement = patroller.Movement;
-        _playerDetector = patroller.AggroDetector;
+        _aggroDetector = patroller.AggroDetector;
+        _hitVolume = patroller.HitVolume;
         _detectedGraphic = patroller.DetectedGraphic;
     }
 
@@ -34,9 +37,6 @@ public class Patroller_AttackState : State
 
         _detectedGraphic.SetActive(true);
         _movement.MoveX(0, true);
-        // adjust visual graphic - multiply x2 to convert radius to scale units
-        _patroller.AttackLocation.transform.localScale 
-            = new Vector2(_data.AttackRadius * 2, _data.AttackRadius * 2);
 
         // wait for startup time before triggering the attack
         IsAttackActive = false;
@@ -52,6 +52,7 @@ public class Patroller_AttackState : State
         base.Exit();
 
         _detectedGraphic.SetActive(false);
+        _hitVolume.gameObject.SetActive(false);
 
         IsAttackActive = false;
         _isAttackSequenceComplete = false;
@@ -59,7 +60,6 @@ public class Patroller_AttackState : State
         if (_attackRoutine != null)
         {
             _stateMachine.StopCoroutine(_attackRoutine);
-            _patroller.AttackLocation.SetActive(false);
         }
             
     }
@@ -68,10 +68,17 @@ public class Patroller_AttackState : State
     {
         base.FixedUpdate();
 
+
+    }
+
+    public override void Update()
+    {
+        base.Update();
+
         // if our attack is active and has exceeded the attack duration
-        if(_isAttackSequenceComplete)
+        if (_isAttackSequenceComplete)
         {
-            if (_playerDetector.Detect())
+            if (_aggroDetector.Detect() != null)
             {
                 _stateMachine.ChangeState(_stateMachine.PlayerDetectedState);
                 return;
@@ -82,11 +89,6 @@ public class Patroller_AttackState : State
                 return;
             }
         }
-    }
-
-    public override void Update()
-    {
-        base.Update();
     }
 
     private IEnumerator AttackRoutine()
@@ -107,22 +109,12 @@ public class Patroller_AttackState : State
     private void TriggerAttack()
     {
         IsAttackActive = true;
-        _patroller.AttackLocation.SetActive(true);
-
-        //TODO: replace the below for an extended hitbox later on
-        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(
-            _patroller.AttackLocation.transform.position, _data.AttackRadius, _data.AttackableLayers);
-        Health health;
-        foreach(Collider2D collider in detectedObjects)
-        {
-            health = collider.GetComponent<Health>();
-            health?.Damage(_data.AttackDamage);
-        }
+        _hitVolume.gameObject.SetActive(true);
     }
 
     private void FinishAttack()
     {
         IsAttackActive = false;
-        _patroller.AttackLocation.SetActive(false);
+        _hitVolume.gameObject.SetActive(false);
     }
 }

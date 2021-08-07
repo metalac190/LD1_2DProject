@@ -9,7 +9,7 @@ public class Patroller_MoveState : State
     private PatrollerData _data;
 
     private MovementKM _movement;
-    private RayDetector _playerDetector;
+    private RayDetector _aggroDetector;
     private OverlapDetector _wallDetector;
     private OverlapDetector _groundDetector;
     private OverlapDetector _groundInFrontDetector;
@@ -21,17 +21,18 @@ public class Patroller_MoveState : State
         _data = patroller.Data;
 
         _movement = patroller.Movement;
-        _playerDetector = patroller.AggroDetector;
+        _aggroDetector = patroller.AggroDetector;
         _wallDetector = patroller.WallDetector;
         _groundDetector = patroller.GroundDetector;
-        _groundInFrontDetector = patroller.SpaceDetector;
+        _groundInFrontDetector = patroller.GroundInFrontDetector;
     }
 
     public override void Enter()
     {
+        Debug.Log("PATROLLER: Move State");
         _movement.MoveX(_data.MovementSpeed * _movement.FacingDirection, true);
 
-        _playerDetector.StartDetecting();
+        _aggroDetector.StartDetecting();
         _wallDetector.StartDetecting();
         _groundDetector.StartDetecting();
         _groundInFrontDetector.StartDetecting();
@@ -41,7 +42,7 @@ public class Patroller_MoveState : State
     {
         base.Exit();
 
-        _playerDetector.StopDetecting();
+        _aggroDetector.StopDetecting();
         _wallDetector.StopDetecting();
         _groundDetector.StopDetecting();
         _groundInFrontDetector.StopDetecting();
@@ -51,27 +52,56 @@ public class Patroller_MoveState : State
     {
         base.FixedUpdate();
 
-        // if we've reached the path end
-        bool isLedge = !_groundInFrontDetector && _groundDetector.IsDetected;
-        if (isLedge || _wallDetector.IsDetected)
+        // look for wall
+        if (_wallDetector.IsDetected)
         {
-            // idle if specified
-            if (_data.IdleOnPathEnd)
+            Debug.Log("Wall");
+            HandleEndOfPath();
+        }
+        // look for ledge
+        else if (!_groundInFrontDetector.IsDetected)
+        {
+            Debug.Log("Ground in front: " + _groundInFrontDetector.IsDetected);
+            // if there's nothing in front but we're grounded, it's a ledge
+            if (_groundDetector.Detect() != null)
             {
-                _stateMachine.ChangeState(_stateMachine.IdleState);
-            }
-            // otherwise turn and continue
-            else
-            {
-                _movement.Flip();
-                _movement.MoveX(_data.MovementSpeed 
-                    * _movement.FacingDirection, true);
+                Debug.Log("Ledge");
+                HandleEndOfPath();
             }
         }
-        // if we've detected the player
-        if (_playerDetector.IsDetected)
+        // look for player
+        else if (_aggroDetector.IsDetected)
         {
+            Debug.Log("Player");
             _stateMachine.ChangeState(_stateMachine.PlayerDetectedState);
+            return;
+        }
+        // otherwise, keep moving
+        else
+        {
+            Debug.Log("Move");
+            _movement.MoveX(_data.MovementSpeed
+                * _movement.FacingDirection, true);
+        }
+    }
+
+    private void HandleEndOfPath()
+    {
+        // idle if specified
+        if (_data.IdleOnPathEnd)
+        {
+            _stateMachine.ChangeState(_stateMachine.IdleState);
+            return;
+        }
+        // otherwise turn and continue
+        else
+        {
+            _movement.Flip();
+            _movement.MoveX(_data.MovementSpeed
+                * _movement.FacingDirection, true);
+            // immediately detect new direction
+            _groundInFrontDetector.Detect();
+            _wallDetector.Detect();
         }
     }
 

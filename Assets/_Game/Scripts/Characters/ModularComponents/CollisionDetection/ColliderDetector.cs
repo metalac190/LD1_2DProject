@@ -20,7 +20,7 @@ public abstract class ColliderDetector : MonoBehaviour
     [SerializeField]
     private bool _autoDetect = false;
     [SerializeField]
-    private float _detectPlayerFrequency = .2f;
+    private float _detectFrequency = .2f;
 
     private Collider2D _lastDetectedCollider;
 
@@ -32,7 +32,7 @@ public abstract class ColliderDetector : MonoBehaviour
         protected set => _lastDetectedCollider = value;
     }
 
-    public float DetectPlayerFrequency => _detectPlayerFrequency;
+    public float DetectFrequency => _detectFrequency;
 
     public float DetectedDuration { get; private set; }
 
@@ -65,14 +65,16 @@ public abstract class ColliderDetector : MonoBehaviour
 
     public void StartDetecting()
     {
+        IsDetected = false;
         _detectRoutine = StartCoroutine
-            (DetectRoutine(_detectPlayerFrequency));
+            (DetectRoutine(_detectFrequency));
     }
 
     public void StopDetecting()
     {
         if (_detectRoutine != null)
             StopCoroutine(_detectRoutine);
+        IsDetected = false;
     }
 
     private void OnEnable()

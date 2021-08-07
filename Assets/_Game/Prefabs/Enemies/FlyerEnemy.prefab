@@ -78,8 +78,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   _autoDetect: 0
-  _detectPlayerFrequency: 0.2
-  _detectRadius: 0.3
+  _detectFrequency: 0.2
+  _detectRadius: 10
 --- !u!1 &8548787141632558540
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,20 +31,23 @@ public class FlyerReturningState : State
     {
         base.FixedUpdate();
 
+        // move back towards start
         Vector2 direction = (_flyer.StartPosition
             - _flyer.transform.position).normalized;
         _movement.Move(direction * _flyer.ReturnSpeed, true);
+
+        // check if we've returned to start
+        if (Vector2.Distance(_flyer.StartPosition, _flyer.transform.position)
+            <= .1f)
+        {
+            // we've returned to our starting point
+            _stateMachine.ChangeState(_stateMachine.IdleState);
+            return;
+        }
     }
 
     public override void Update()
     {
         base.Update();
-
-        if(Vector2.Distance(_flyer.StartPosition, _flyer.transform.position)
-            <= .1f)
-        {
-            // we've returned to our starting point
-            _stateMachine.ChangeState(_stateMachine.IdleState);
-        }
     }
 }

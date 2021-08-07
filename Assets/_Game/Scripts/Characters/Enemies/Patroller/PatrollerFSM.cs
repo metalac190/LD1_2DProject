@@ -11,7 +11,7 @@ public class PatrollerFSM : StateMachineMB
     public Patroller_ChargeState ChargeState { get; private set; }
     public Patroller_SearchState SearchState { get; private set; }
     public Patroller_AttackState AttackState { get; private set; }
-    public Patroller_StunState StunState { get; private set; }
+    public Patroller_HitState HitState { get; private set; }
     public Patroller_DeadState DeadState { get; private set; }
 
     private Patroller _patroller;
@@ -31,7 +31,7 @@ public class PatrollerFSM : StateMachineMB
         ChargeState = new Patroller_ChargeState(this, _patroller);
         SearchState = new Patroller_SearchState(this, _patroller);
         AttackState = new Patroller_AttackState(this, _patroller);
-        StunState = new Patroller_StunState(this, _patroller);
+        HitState = new Patroller_HitState(this, _patroller);
         DeadState = new Patroller_DeadState(this, _patroller);
     }
 
@@ -39,18 +39,25 @@ public class PatrollerFSM : StateMachineMB
     {
         // any-state events
         //_patroller.ReceiveKnockback.KnockbackStarted += OnKnockbackStarted;
+        _patroller.ReceiveHit.HitReceived.AddListener(OnHitReceived);
         _patroller.Health.Died.AddListener(OnDied);
     }
 
     protected override void OnDisable()
     {
         //_patroller.ReceiveKnockback.KnockbackStarted -= OnKnockbackStarted;
+        _patroller.ReceiveHit.HitReceived.RemoveListener(OnHitReceived);
         _patroller.Health.Died.RemoveListener(OnDied);
     }
 
     private void Start()
     {
         ChangeState(MoveState);
+    }
+
+    private void OnHitReceived()
+    {
+        ChangeState(HitState);
     }
 
     private void OnDied()
