@@ -9,8 +9,8 @@ public class PlayerGroundedSuperState : State
 
     private GameplayInput _input;
     private PlayerData _data;
-    private GroundDetector _groundDetector;
-    private CeilingDetector _ceilingDetector;
+    private OverlapDetector _groundDetector;
+    private OverlapDetector _ceilingDetector;
     private DashSystem _dashSystem;
 
     public PlayerGroundedSuperState(PlayerFSM stateMachine, Player player)
@@ -20,8 +20,8 @@ public class PlayerGroundedSuperState : State
 
         _input = player.Input;
         _data = player.Data;
-        _groundDetector = player.CollisionDetector.GroundDetector;
-        _ceilingDetector = player.CollisionDetector.CeilingDetector;
+        _groundDetector = player.EnvironmentDetector.GroundDetector;
+        _ceilingDetector = player.EnvironmentDetector.CeilingDetector;
         _dashSystem = player.DashSystem;
     }
 
@@ -32,7 +32,7 @@ public class PlayerGroundedSuperState : State
         _input.JumpPressed += OnJumpPressed;
         _input.DashPressed += OnDashPressed;
         _input.AttackPressed += OnAttackPressed;
-        _groundDetector.LeftGround += OnLeftGround;
+        _groundDetector.LostCollider += OnLostGround;
     }
 
     public override void Exit()
@@ -42,14 +42,14 @@ public class PlayerGroundedSuperState : State
         _input.JumpPressed -= OnJumpPressed;
         _input.DashPressed -= OnDashPressed;
         _input.AttackPressed -= OnAttackPressed;
-        _groundDetector.LeftGround -= OnLeftGround;
+        _groundDetector.LostCollider -= OnLostGround;
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
 
-        _groundDetector.DetectGround();
+        _groundDetector.Detect();
 
     }
 
@@ -61,16 +61,17 @@ public class PlayerGroundedSuperState : State
 
     private void OnAttackPressed()
     {
-        _ceilingDetector.DetectCeiling();
-        if (_ceilingDetector.IsTouchingCeiling) { return; }
+        _ceilingDetector.Detect();
+        if (_ceilingDetector.IsDetected) { return; }
 
         _stateMachine.ChangeState(_stateMachine.GroundAttackState);
     }
 
     private void OnJumpPressed()
     {
-        _ceilingDetector.DetectCeiling();
-        if (_data.AllowJump && !_ceilingDetector.IsTouchingCeiling)
+        _ceilingDetector.Detect();
+
+        if (_data.AllowJump && _ceilingDetector.IsDetected == false)
         {
             _stateMachine.ChangeState(_stateMachine.JumpState);
         }
@@ -78,14 +79,14 @@ public class PlayerGroundedSuperState : State
 
     private void OnDashPressed()
     {
-        _ceilingDetector.DetectCeiling();
-        if (_dashSystem.IsReady && !_ceilingDetector.IsTouchingCeiling)
+        _ceilingDetector.Detect();
+        if (_dashSystem.IsReady && _ceilingDetector.IsDetected == false)
         {
             _stateMachine.ChangeState(_stateMachine.DashState);
         }
     }
 
-    private void OnLeftGround()
+    private void OnLostGround()
     {
         _stateMachine.ChangeState(_stateMachine.FallingState);
     }

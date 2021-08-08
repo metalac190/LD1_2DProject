@@ -10,7 +10,8 @@ public class PlayerWallClimbState : PlayerWallSuperState
     MovementKM _movement;
     PlayerData _data;
     GameplayInput _input;
-    LedgeDetector _ledgeDetector;
+    OverlapDetector _aboveWallDetector;
+    OverlapDetector _wallDetector;
 
     public PlayerWallClimbState(PlayerFSM stateMachine, Player player) : base(stateMachine, player)
     {
@@ -20,7 +21,8 @@ public class PlayerWallClimbState : PlayerWallSuperState
         _movement = player.Movement;
         _data = player.Data;
         _input = player.Input;
-        _ledgeDetector = player.CollisionDetector.LedgeDetector;
+        _aboveWallDetector = player.EnvironmentDetector.AboveWallDetector;
+        _wallDetector = player.EnvironmentDetector.WallDetector;
     }
 
     public override void Enter()
@@ -39,11 +41,18 @@ public class PlayerWallClimbState : PlayerWallSuperState
     {
         base.FixedUpdate();
 
+        _aboveWallDetector.Detect();
+
         _movement.MoveY(_data.WallClimbVelocity);
 
-        if (_ledgeDetector.IsDetectingUpperLedge && _data.AllowLedgeHop)
+        if (_aboveWallDetector.IsDetected == false && _data.AllowLedgeHop)
         {
-            _stateMachine.ChangeState(_stateMachine.LedgeClimbState);
+            // space above wall, if wall in front of us it's an upper ledge!
+            if(_wallDetector.Detect() != null)
+            {
+                _stateMachine.ChangeState(_stateMachine.LedgeClimbState);
+                return;
+            }
         }
     }
 
@@ -55,11 +64,13 @@ public class PlayerWallClimbState : PlayerWallSuperState
         if(_data.AllowWallGrab && _input.YInputRaw == 0)
         {
             _stateMachine.ChangeState(_stateMachine.WallGrabState);
+            return;
         }
         // test for wall slide
         else if(_data.AllowWallSlide && _input.YInputRaw < 0)
         {
             _stateMachine.ChangeState(_stateMachine.WallSlideState);
+            return;
         }
     }
 }

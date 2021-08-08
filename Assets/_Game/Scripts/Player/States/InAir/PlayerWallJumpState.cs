@@ -11,8 +11,8 @@ public class PlayerWallJumpState : State
     MovementKM _movement;
     PlayerData _data;
     GameplayInput _input;
-    GroundDetector _groundDetector;
-    WallDetector _wallDetector;
+    OverlapDetector _groundDetector;
+    OverlapDetector _wallDetector;
     DashSystem _dashSystem;
     PlayerSFXData _sfx;
 
@@ -28,8 +28,8 @@ public class PlayerWallJumpState : State
         _movement = player.Movement;
         _data = player.Data;
         _input = player.Input;
-        _groundDetector = player.CollisionDetector.GroundDetector;
-        _wallDetector = player.CollisionDetector.WallDetector;
+        _groundDetector = player.EnvironmentDetector.GroundDetector;
+        _wallDetector = player.EnvironmentDetector.WallDetector;
         _dashSystem = player.DashSystem;
         _sfx = player.SFX;
     }
@@ -69,16 +69,17 @@ public class PlayerWallJumpState : State
     {
         base.FixedUpdate();
 
-        _groundDetector.DetectGround();
-        _wallDetector.DetectWall();
+        _groundDetector.Detect();
+        _wallDetector.Detect();
 
         // if we're not grounded, but began falling, go to fall state
-        if (!_groundDetector.IsGrounded && _movement.Velocity.y < 0)
+        if (_groundDetector.IsDetected == false && _movement.Velocity.y < 0)
         {
             _stateMachine.ChangeState(_stateMachine.FallingState);
             return;
         }
-        else if (_wallDetector.IsWallDetected)
+        // otherwise we're against a wall but not holding input against
+        else if (_wallDetector.IsDetected)
         {
             _stateMachine.ChangeState(_stateMachine.FallingState);
             return;
@@ -115,7 +116,7 @@ public class PlayerWallJumpState : State
     {
         Debug.Log("Jump pressed");
         // if we're detecting another wall immediately do another wall jump
-        if(_wallDetector.IsWallDetected)
+        if(_wallDetector.IsDetected)
         {
             _stateMachine.ChangeState(_stateMachine.WallJumpState);
         }

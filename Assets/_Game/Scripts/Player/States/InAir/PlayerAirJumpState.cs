@@ -11,7 +11,7 @@ public class PlayerAirJumpState : State
     MovementKM _movement;
     GameplayInput _input;
     PlayerData _data;
-    GroundDetector _groundDetector;
+    OverlapDetector _groundDetector;
     DashSystem _dashSystem;
     PlayerSFXData _sfx;
 
@@ -24,7 +24,7 @@ public class PlayerAirJumpState : State
         _movement = player.Movement;
         _input = player.Input;
         _data = player.Data;
-        _groundDetector = player.CollisionDetector.GroundDetector;
+        _groundDetector = player.EnvironmentDetector.GroundDetector;
         _dashSystem = player.DashSystem;
         _sfx = player.SFX;
     }
@@ -61,9 +61,9 @@ public class PlayerAirJumpState : State
     {
         base.FixedUpdate();
 
-        _groundDetector.DetectGround();
+        _groundDetector.Detect();
         // if we're not grounded, but began falling, go to fall state
-        if (!_groundDetector.IsGrounded && _movement.Velocity.y < 0)
+        if (_groundDetector.IsDetected == false && _movement.Velocity.y < 0)
         {
             _stateMachine.ChangeState(_stateMachine.FallingState);
             return;

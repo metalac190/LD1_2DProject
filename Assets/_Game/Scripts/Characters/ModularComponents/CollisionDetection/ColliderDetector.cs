@@ -35,6 +35,7 @@ public abstract class ColliderDetector : MonoBehaviour
     public float DetectFrequency => _detectFrequency;
 
     public float DetectedDuration { get; private set; }
+    public float LostDetectionDuration { get; private set; }
 
     private Coroutine _detectRoutine;
 
@@ -56,6 +57,7 @@ public abstract class ColliderDetector : MonoBehaviour
                 // if we're were previously detected and now we're not, we lost object
                 else if (value == false)
                 {
+                    LostDetectionDuration = 0;
                     LostCollider?.Invoke();
                 }
             }
@@ -88,6 +90,14 @@ public abstract class ColliderDetector : MonoBehaviour
     private void OnDisable()
     {
         StopDetecting();
+    }
+
+    private void Update()
+    {
+        if (IsDetected)
+            DetectedDuration += Time.deltaTime;
+        else
+            LostDetectionDuration += Time.deltaTime;
     }
 
     private IEnumerator DetectRoutine(float frequency)

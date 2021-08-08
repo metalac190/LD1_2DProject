@@ -12,7 +12,7 @@ public class PlayerDashState : State
     private PlayerData _data;
     private DashSystem _dashSystem;
     private GameplayInput _input;
-    private GroundDetector _groundDetector;
+    private OverlapDetector _groundDetector;
     private PlayerSFXData _sfx;
     private ReceiveHit _receiveHit;
 
@@ -28,7 +28,7 @@ public class PlayerDashState : State
         _data = player.Data;
         _dashSystem = player.DashSystem;
         _input = player.Input;
-        _groundDetector = player.CollisionDetector.GroundDetector;
+        _groundDetector = player.EnvironmentDetector.GroundDetector;
         _sfx = player.SFX;
         _receiveHit = player.ReceiveHit;
     }
@@ -72,7 +72,7 @@ public class PlayerDashState : State
     {
         base.FixedUpdate();
         // using the dash in update so that we don't trigger a state change while we're still entering
-        _groundDetector.DetectGround();
+        _groundDetector.Detect();
 
         // otherwise use dash values
         _movement.Move(_dashDirection * _data.DashVelocity, false);
@@ -88,13 +88,15 @@ public class PlayerDashState : State
     {
         if (!_data.AllowAttack) { return; }
 
-        if (!_groundDetector.IsGrounded)
+        if (_groundDetector.IsDetected == false)
         {
             _stateMachine.ChangeState(_stateMachine.AirAttackState);
+            return;
         }
         else
         {
             _stateMachine.ChangeState(_stateMachine.GroundAttackState);
+            return;
         }
     }
 
@@ -115,12 +117,12 @@ public class PlayerDashState : State
     private void OnDashCompleted()
     {
         // completed dash. Decide where to transition from here
-        if (_groundDetector.IsGrounded && _input.XInputRaw != 0)
+        if (_groundDetector.IsDetected && _input.XInputRaw != 0)
         {
             _stateMachine.ChangeState(_stateMachine.MoveState);
             return;
         }
-        else if(_groundDetector.IsGrounded && _input.XInputRaw == 0)
+        else if(_groundDetector.IsDetected && _input.XInputRaw == 0)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
             return;

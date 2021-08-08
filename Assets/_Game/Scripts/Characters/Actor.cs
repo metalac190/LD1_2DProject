@@ -8,8 +8,8 @@ public class Actor : MonoBehaviour
     [SerializeField]
     private MovementKM _movement;
     [SerializeField]
-    private CollisionDetector _collisionDetector;
+    private EnvironmentDetector _environmentDetector;
 
     public MovementKM Movement => _movement;
-    public CollisionDetector CollisionDetector => _collisionDetector;
+    public EnvironmentDetector EnvironmentDetector => _environmentDetector;
 }

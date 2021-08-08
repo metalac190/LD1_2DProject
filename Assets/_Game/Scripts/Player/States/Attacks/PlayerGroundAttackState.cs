@@ -13,7 +13,7 @@ public class PlayerGroundAttackState : State
     private WeaponSystem _weaponSystem;
     private DashSystem _dashSystem;
     private WeaponData _weaponData;
-    private GroundDetector _groundDetector;
+    private OverlapDetector _groundDetector;
 
     bool _attackInputBuffer = false;
     private bool _isInitialAttack = true;
@@ -29,7 +29,7 @@ public class PlayerGroundAttackState : State
         _weaponSystem = player.WeaponSystem;
         _dashSystem = player.DashSystem;
         _weaponData = player.WeaponSystem.EquippedWeapon;
-        _groundDetector = player.CollisionDetector.GroundDetector;
+        _groundDetector = player.EnvironmentDetector.GroundDetector;
     }
 
     public override void Enter()
@@ -42,7 +42,7 @@ public class PlayerGroundAttackState : State
         _input.JumpPressed += OnJumpPressed;
         _input.DashPressed += OnDashPressed;
         _input.AttackPressed += OnAttackPressed;
-        _groundDetector.LeftGround += OnLeftGround;
+        _groundDetector.LostCollider += OnLostGround;
 
         // it's possible we could cancel dash with a ground attack. make sure we refresh it
 
@@ -59,7 +59,7 @@ public class PlayerGroundAttackState : State
         _input.JumpPressed -= OnJumpPressed;
         _input.DashPressed -= OnDashPressed;
         _input.AttackPressed -= OnAttackPressed;
-        _groundDetector.LeftGround -= OnLeftGround;
+        _groundDetector.LostCollider -= OnLostGround;
 
         _weaponSystem.StopAttack();
     }
@@ -68,7 +68,7 @@ public class PlayerGroundAttackState : State
     {
         base.FixedUpdate();
 
-        _groundDetector.DetectGround();
+        _groundDetector.Detect();
 
         // if attack is active, propel forward based on weapon data forward amount
         if (_weaponSystem.MeleeAttackState == MeleeAttackState.DuringAttack)
@@ -186,7 +186,7 @@ public class PlayerGroundAttackState : State
         }
     }
 
-    private void OnLeftGround()
+    private void OnLostGround()
     {
         _stateMachine.ChangeState(_stateMachine.FallingState);
     }

@@ -79,7 +79,6 @@ public class Patroller_MoveState : State
         // otherwise, keep moving
         else
         {
-            Debug.Log("Move");
             _movement.MoveX(_data.MovementSpeed
                 * _movement.FacingDirection, true);
         }

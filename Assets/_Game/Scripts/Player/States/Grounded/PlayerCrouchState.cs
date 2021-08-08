@@ -11,7 +11,7 @@ public class PlayerCrouchState : PlayerGroundedSuperState
     private GameplayInput _input;
     private PlayerData _data;
     private PlayerAnimator _playerAnimator;
-    private CeilingDetector _ceilingDetector;
+    private OverlapDetector _ceilingDetector;
 
     public PlayerCrouchState(PlayerFSM stateMachine, Player player) : base(stateMachine, player)
     {
@@ -22,7 +22,7 @@ public class PlayerCrouchState : PlayerGroundedSuperState
         _input = player.Input;
         _data = player.Data;
         _playerAnimator = player.PlayerAnimator;
-        _ceilingDetector = player.CollisionDetector.CeilingDetector;
+        _ceilingDetector = player.EnvironmentDetector.CeilingDetector;
     }
 
     public override void Enter()
@@ -36,8 +36,7 @@ public class PlayerCrouchState : PlayerGroundedSuperState
         _playerAnimator.ShowCrouchVisual(true);
 
         _movement.SetVelocityZero();
-        _ceilingDetector.DetectCeiling(); 
-        Debug.Log("Detect ceiling: " + _ceilingDetector.IsTouchingCeiling);
+        _ceilingDetector.Detect(); 
     }
 
     public override void Exit()
@@ -52,18 +51,18 @@ public class PlayerCrouchState : PlayerGroundedSuperState
     {
         base.FixedUpdate();
 
-        _ceilingDetector.DetectCeiling();
+        _ceilingDetector.Detect();
 
         // if we're moving sideways, and not touching ceiling
         if (_input.YInputRaw >= 0 && _input.XInputRaw != 0
-            && !_ceilingDetector.IsTouchingCeiling)
+            && _ceilingDetector.IsDetected == false)
         {
             _stateMachine.ChangeState(_stateMachine.MoveState);
             return;
         }
         // if we're not holding down or side directions, and not touching ceiling
         else if (_input.YInputRaw != -1 && _input.XInputRaw == 0
-            && !_ceilingDetector.IsTouchingCeiling)
+            && _ceilingDetector.IsDetected == false)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
             return;

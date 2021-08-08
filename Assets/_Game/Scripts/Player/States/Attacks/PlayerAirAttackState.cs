@@ -13,7 +13,7 @@ public class PlayerAirAttackState : State
     private WeaponSystem _weaponSystem;
     private DashSystem _dashSystem;
     private WeaponData _weaponData;
-    private GroundDetector _groundDetector;
+    private OverlapDetector _groundDetector;
 
     bool _attackInputBuffer = false;
     bool _hitDamageable = false;
@@ -31,7 +31,7 @@ public class PlayerAirAttackState : State
         _dashSystem = player.DashSystem;
 
         _weaponData = player.WeaponSystem.EquippedWeapon;
-        _groundDetector = player.CollisionDetector.GroundDetector;
+        _groundDetector = player.EnvironmentDetector.GroundDetector;
     }
 
     public override void Enter()
@@ -44,7 +44,7 @@ public class PlayerAirAttackState : State
         _input.JumpPressed += OnJumpPressed;
         _input.DashPressed += OnDashPressed;
         _input.AttackPressed += OnAttackPressed;
-        _groundDetector.FoundGround += OnFoundGround;
+        _groundDetector.FoundCollider += OnFoundGround;
         _weaponSystem.HitOther += OnHitOther;
 
         _hitDamageable = false;
@@ -65,7 +65,7 @@ public class PlayerAirAttackState : State
         _input.JumpPressed -= OnJumpPressed;
         _input.DashPressed -= OnDashPressed;
         _input.AttackPressed -= OnAttackPressed;
-        _groundDetector.FoundGround -= OnFoundGround;
+        _groundDetector.FoundCollider -= OnFoundGround;
         _weaponSystem.HitOther -= OnHitOther;
 
         // resume
@@ -78,7 +78,7 @@ public class PlayerAirAttackState : State
     {
         base.FixedUpdate();
 
-        _groundDetector.DetectGround();
+        _groundDetector.Detect();
 
         // if attack is active propel forward, if it's in wepaon data
         if (_weaponSystem.MeleeAttackState == MeleeAttackState.DuringAttack

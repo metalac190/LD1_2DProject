@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class PlayerJumpState : State
 {
-    PlayerFSM _stateMachine;
-    Player _player;
-    PlayerAnimator _animator;
+    private PlayerFSM _stateMachine;
+    private Player _player;
+    private PlayerAnimator _animator;
 
-    MovementKM _movement;
-    GameplayInput _input;
-    PlayerData _data;
-    GroundDetector _groundDetector;
-    DashSystem _dashSystem;
-    PlayerSFXData _sfx;
+    private MovementKM _movement;
+    private GameplayInput _input;
+    private PlayerData _data;
+    private OverlapDetector _groundDetector;
+    private DashSystem _dashSystem;
+    private PlayerSFXData _sfx;
 
     public PlayerJumpState(PlayerFSM stateMachine, Player player)
     {
@@ -24,7 +24,7 @@ public class PlayerJumpState : State
         _movement = player.Movement;
         _input = player.Input;
         _data = player.Data;
-        _groundDetector = player.CollisionDetector.GroundDetector;
+        _groundDetector = player.EnvironmentDetector.GroundDetector;
         _dashSystem = player.DashSystem;
         _sfx = player.SFX;
     }
@@ -59,7 +59,7 @@ public class PlayerJumpState : State
     {
         base.FixedUpdate();
 
-        _groundDetector.DetectGround();
+        _groundDetector.Detect();
         // if we're not grounded, but began falling, go to fall state
         if(_movement.Velocity.y <= 0)
         {

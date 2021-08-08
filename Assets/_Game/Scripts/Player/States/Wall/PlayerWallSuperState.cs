@@ -10,8 +10,8 @@ public class PlayerWallSuperState : State
     PlayerData _data;
     MovementKM _movement;
     GameplayInput _input;
-    GroundDetector _groundDetector;
-    WallDetector _wallDetector;
+    OverlapDetector _groundDetector;
+    OverlapDetector _wallDetector;
     DashSystem _dashSystem;
 
     public PlayerWallSuperState(PlayerFSM stateMachine, Player player)
@@ -22,8 +22,8 @@ public class PlayerWallSuperState : State
         _data = player.Data;
         _movement = player.Movement;
         _input = player.Input;
-        _groundDetector = player.CollisionDetector.GroundDetector;
-        _wallDetector = player.CollisionDetector.WallDetector;
+        _groundDetector = player.EnvironmentDetector.GroundDetector;
+        _wallDetector = player.EnvironmentDetector.WallDetector;
         _dashSystem = player.DashSystem;
     }
 
@@ -51,10 +51,10 @@ public class PlayerWallSuperState : State
     {
         base.FixedUpdate();
 
-        _groundDetector.DetectGround();
-        _wallDetector.DetectWall();
+        _groundDetector.Detect();
+        _wallDetector.Detect();
 
-        if (!_wallDetector.IsWallDetected)
+        if (_wallDetector.IsDetected == false)
         {
             OnLostWall();
         }
@@ -80,13 +80,15 @@ public class PlayerWallSuperState : State
 
     private void OnLostWall()
     {
-        if (_groundDetector.IsGrounded)
+        if (_groundDetector.IsDetected)
         {
             _stateMachine.ChangeState(_stateMachine.LandState);
+            return;
         }
         else
         {
             _stateMachine.ChangeState(_stateMachine.FallingState);
+            return;
         }
     }
 
@@ -100,6 +102,7 @@ public class PlayerWallSuperState : State
         if (_dashSystem.IsReady && _data.AllowDash)
         {
             _stateMachine.ChangeState(_stateMachine.DashState);
+            return;
         }
     }
 }

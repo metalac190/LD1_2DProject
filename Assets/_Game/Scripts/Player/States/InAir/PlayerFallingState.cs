@@ -11,9 +11,9 @@ public class PlayerFallingState : State
     MovementKM _movement;
     PlayerData _data;
     GameplayInput _input;
-    GroundDetector _groundDetector;
-    WallDetector _wallDetector;
-    LedgeDetector _ledgeDetector;
+    OverlapDetector _groundDetector;
+    OverlapDetector _wallDetector;
+    OverlapDetector _aboveWallDetector;
 
     DashSystem _dashSystem;
 
@@ -29,9 +29,9 @@ public class PlayerFallingState : State
         _movement = player.Movement;
         _data = player.Data;
         _input = player.Input;
-        _groundDetector = player.CollisionDetector.GroundDetector;
-        _wallDetector = player.CollisionDetector.WallDetector;
-        _ledgeDetector = player.CollisionDetector.LedgeDetector;
+        _groundDetector = player.EnvironmentDetector.GroundDetector;
+        _wallDetector = player.EnvironmentDetector.WallDetector;
+        _aboveWallDetector = player.EnvironmentDetector.AboveWallDetector;
 
         _dashSystem = player.DashSystem;
     }
@@ -47,15 +47,16 @@ public class PlayerFallingState : State
         _input.DashPressed += OnDashPressed;
         _input.AttackPressed += OnAttackPressed;
         // reset our physics checks just in case we haven't updated since last frame
-        _wallDetector.DetectWall();
-        _ledgeDetector.DetectUpperLedge();
-        _groundDetector.DetectGround();
+        _wallDetector.Detect();
+        _aboveWallDetector.Detect();
+        _groundDetector.Detect();
         // alow the player a free jump if they've recently left ground (Coyote time)
-        if(_groundDetector.TimeInAir <= _data.JumpAfterFallDuration)
+        if(_groundDetector.LostDetectionDuration <= _data.JumpAfterFallDuration)
         {
             _lateJumpAllowed = true;
         }
-        if(_wallDetector.TimeOffWall <= _data.WallJumpAfterFallDuration)
+        // or if they've recently left the wall
+        if(_wallDetector.LostDetectionDuration <= _data.WallJumpAfterFallDuration)
         {
             _lateWallJumpAllowed = true;
         }
@@ -77,14 +78,14 @@ public class PlayerFallingState : State
     {
         base.FixedUpdate();
 
-        _groundDetector.DetectGround();
-        _wallDetector.DetectWall();
-        _ledgeDetector.DetectUpperLedge();
+        _groundDetector.Detect();
+        _wallDetector.Detect();
+        _aboveWallDetector.Detect();
 
         _movement.MoveX(_input.XInputRaw * _data.MoveSpeed, true);
 
         // otherwise, check for wall grab
-        if (_wallDetector.IsWallDetected
+        if (_wallDetector.IsDetected
             && _input.XInputRaw == _movement.FacingDirection)
         {
             // determine if we can enter any of our wall states
@@ -106,7 +107,7 @@ public class PlayerFallingState : State
         }
 
         // check for grounded
-        else if (_groundDetector.IsGrounded && _movement.Velocity.y < 0.01f)
+        else if (_groundDetector.IsDetected && _movement.Velocity.y < 0.01f)
         {
             _stateMachine.ChangeState(_stateMachine.LandState);
             return;
@@ -127,7 +128,8 @@ public class PlayerFallingState : State
     private void CheckLateWallJump()
     {
         if (_lateWallJumpAllowed
-                    && _wallDetector.TimeOffWall >= _data.WallJumpAfterFallDuration)
+                    && _wallDetector.LostDetectionDuration 
+                    >= _data.WallJumpAfterFallDuration)
         {
             _lateWallJumpAllowed = false;
         }
@@ -136,7 +138,8 @@ public class PlayerFallingState : State
     private void CheckLateJump()
     {
         if (_lateJumpAllowed
-                    && _groundDetector.TimeInAir >= _data.JumpAfterFallDuration)
+                    && _groundDetector.LostDetectionDuration 
+                    >= _data.JumpAfterFallDuration)
         {
             _lateJumpAllowed = false;
         }
@@ -147,23 +150,25 @@ public class PlayerFallingState : State
         if(_input.YInputRaw == -1)
         {
             _stateMachine.ChangeState(_stateMachine.BounceAttackState);
+            return;
         }
         else
         {
             _stateMachine.ChangeState(_stateMachine.AirAttackState);
+            return;
         }
         
     }
 
     private void OnJumpPressed()
     {
-        if (_wallDetector.IsWallDetected)
+        if (_wallDetector.IsDetected)
         {
             _stateMachine.ChangeState(_stateMachine.WallJumpState);
             return;
         }
         // test for wall jump
-        else if (!_wallDetector.IsWallDetected && _lateWallJumpAllowed)
+        else if (_wallDetector.IsDetected == false && _lateWallJumpAllowed)
         {
             // if we're facing away from the wall, flip before wall jumping
             _movement.Flip();

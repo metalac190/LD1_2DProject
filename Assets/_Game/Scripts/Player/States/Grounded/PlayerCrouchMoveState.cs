@@ -11,7 +11,7 @@ public class PlayerCrouchMoveState : PlayerGroundedSuperState
     private GameplayInput _input;
     private PlayerData _data;
     private PlayerAnimator _playerAnimator;
-    private CeilingDetector _ceilingDetector;
+    private OverlapDetector _ceilingDetector;
 
     public PlayerCrouchMoveState(PlayerFSM stateMachine, Player player) 
         : base(stateMachine, player)
@@ -23,7 +23,7 @@ public class PlayerCrouchMoveState : PlayerGroundedSuperState
         _input = player.Input;
         _data = player.Data;
         _playerAnimator = player.PlayerAnimator;
-        _ceilingDetector = player.CollisionDetector.CeilingDetector;
+        _ceilingDetector = player.EnvironmentDetector.CeilingDetector;
     }
 
     public override void Enter()
@@ -34,7 +34,7 @@ public class PlayerCrouchMoveState : PlayerGroundedSuperState
         _player.SetColliderHeight(_data.CrouchColliderHeight);
         _playerAnimator.ShowCrouchVisual(true);
 
-        _ceilingDetector.DetectCeiling();
+        _ceilingDetector.Detect();
     }
 
     public override void Exit()
@@ -49,19 +49,20 @@ public class PlayerCrouchMoveState : PlayerGroundedSuperState
     {
         base.FixedUpdate();
 
+        _ceilingDetector.Detect();
+
         _movement.MoveX(_data.CrouchMoveVelocity * _input.XInputRaw, true);
-        _ceilingDetector.DetectCeiling();
         // if we're not holding down and holding either direction
         // AND we're not touching the ceiling
         if (_input.YInputRaw != -1 && _input.XInputRaw != 0
-            && !_ceilingDetector.IsTouchingCeiling)
+            && _ceilingDetector.IsDetected == false)
         {
             _stateMachine.ChangeState(_stateMachine.MoveState);
             return;
         }
         // if we're not holding down or side directions, and not touching the ceiling
         else if (_input.YInputRaw >= 0 && _input.XInputRaw == 0
-            && !_ceilingDetector.IsTouchingCeiling)
+            && _ceilingDetector.IsDetected == false) 
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
             return;
@@ -72,6 +73,7 @@ public class PlayerCrouchMoveState : PlayerGroundedSuperState
     public override void Update()
     {
         base.Update();
+
         _movement.CheckIfShouldFlip(_input.XInputRaw);
         // if we're holding downwards
         if (_input.YInputRaw <= 0 && _input.XInputRaw == 0)
