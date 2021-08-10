@@ -8,7 +8,7 @@ public class Player : Actor
     [SerializeField]
     private GameplayInput _gameplayInput;
     [SerializeField]
-    private PlayerData _data;
+    private PlayerMoveData _data;
     [SerializeField]
     private PlayerAnimator _playerAnimator;
     [SerializeField]
@@ -43,7 +43,7 @@ public class Player : Actor
         }
     }
 
-    public PlayerData Data => _data;
+    public PlayerMoveData Data => _data;
     public PlayerAnimator PlayerAnimator => _playerAnimator;
     public BoxCollider2D BoxCollider => _boxCollider;
     public PlayerSFXData SFX => _playerSFX;

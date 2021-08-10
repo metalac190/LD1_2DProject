@@ -9,7 +9,7 @@ public class PlayerWallSlideState : PlayerWallSuperState
     PlayerAnimator _animator;
 
     MovementKM _movement;
-    PlayerData _data;
+    PlayerMoveData _data;
     GameplayInput _input;
 
     private float _accelerationAmount = 0;

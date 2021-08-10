@@ -8,7 +8,7 @@ public class PlayerWallClimbState : PlayerWallSuperState
     Player _player;
 
     MovementKM _movement;
-    PlayerData _data;
+    PlayerMoveData _data;
     GameplayInput _input;
     OverlapDetector _aboveWallDetector;
     OverlapDetector _wallDetector;

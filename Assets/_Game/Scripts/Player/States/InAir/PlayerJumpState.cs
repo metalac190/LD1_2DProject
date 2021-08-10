@@ -10,10 +10,12 @@ public class PlayerJumpState : State
 
     private MovementKM _movement;
     private GameplayInput _input;
-    private PlayerData _data;
+    private PlayerMoveData _data;
     private OverlapDetector _groundDetector;
     private DashSystem _dashSystem;
     private PlayerSFXData _sfx;
+
+    private bool _isJumpLocked = true;
 
     public PlayerJumpState(PlayerFSM stateMachine, Player player)
     {
@@ -33,13 +35,15 @@ public class PlayerJumpState : State
     {
         base.Enter();
 
-        //Debug.Log("STATE: Jump");
+        Debug.Log("STATE: Jump");
         _animator.PlayAnimation(PlayerAnimator.JumpName);
 
         _input.JumpPressed += OnJumpPressed;
         _input.JumpReleased += OnJumpReleased;
         _input.DashPressed += OnDashPressed;
         _input.AttackPressed += OnAttackPressed;
+
+        _isJumpLocked = true;
 
         _movement.MoveY(_data.JumpVelocity);
         _sfx.JumpSFX?.PlayOneShot(_player.transform.position);
@@ -61,8 +65,9 @@ public class PlayerJumpState : State
 
         _groundDetector.Detect();
         // if we're not grounded, but began falling, go to fall state
-        if(_movement.Velocity.y <= 0)
+        if(_movement.Velocity.y <= 0 && _isJumpLocked == false)
         {
+            Debug.Log("Falling: " + _movement.Velocity.y);
             _stateMachine.ChangeState(_stateMachine.FallingState);
             return;
         }
@@ -73,6 +78,13 @@ public class PlayerJumpState : State
     public override void Update()
     {
         base.Update();
+
+        Debug.Log("Fall Velocity: " + _movement.Velocity.y);
+
+        if(StateDuration >= _data.MinJumpTime)
+        {
+            _isJumpLocked = false;
+        }
     }
 
     private void OnAttackPressed()

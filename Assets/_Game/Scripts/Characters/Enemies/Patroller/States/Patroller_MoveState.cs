@@ -29,7 +29,7 @@ public class Patroller_MoveState : State
 
     public override void Enter()
     {
-        Debug.Log("PATROLLER: Move State");
+        //Debug.Log("PATROLLER: Move State");
         _movement.MoveX(_data.MovementSpeed * _movement.FacingDirection, true);
 
         _playerLOS.StartDetecting();

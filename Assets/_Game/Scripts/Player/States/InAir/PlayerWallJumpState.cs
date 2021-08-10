@@ -9,7 +9,7 @@ public class PlayerWallJumpState : State
     PlayerAnimator _animator;
 
     MovementKM _movement;
-    PlayerData _data;
+    PlayerMoveData _data;
     GameplayInput _input;
     OverlapDetector _groundDetector;
     OverlapDetector _wallDetector;

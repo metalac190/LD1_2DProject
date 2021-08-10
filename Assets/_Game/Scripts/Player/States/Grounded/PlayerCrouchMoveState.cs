@@ -9,7 +9,7 @@ public class PlayerCrouchMoveState : PlayerGroundedSuperState
 
     private MovementKM _movement;
     private GameplayInput _input;
-    private PlayerData _data;
+    private PlayerMoveData _data;
     private PlayerAnimator _playerAnimator;
     private OverlapDetector _ceilingDetector;
 

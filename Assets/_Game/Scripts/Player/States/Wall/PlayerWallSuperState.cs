@@ -7,7 +7,7 @@ public class PlayerWallSuperState : State
     PlayerFSM _stateMachine;
     Player _player;
 
-    PlayerData _data;
+    PlayerMoveData _data;
     MovementKM _movement;
     GameplayInput _input;
     OverlapDetector _groundDetector;

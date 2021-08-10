@@ -20,7 +20,7 @@ public class FlyerIdleState : State
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("FLYER: Idle State");
+        //Debug.Log("FLYER: Idle State");
 
         _playerInRange.StartDetecting();
     }

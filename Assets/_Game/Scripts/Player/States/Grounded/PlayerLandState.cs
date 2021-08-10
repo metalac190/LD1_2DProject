@@ -9,7 +9,7 @@ public class PlayerLandState : PlayerGroundedSuperState
     PlayerAnimator _animator;
 
     GameplayInput _input;
-    PlayerData _data;
+    PlayerMoveData _data;
     PlayerSFXData _sfx;
     DashSystem _dashSystem;
 
@@ -27,7 +27,7 @@ public class PlayerLandState : PlayerGroundedSuperState
 
     public override void Enter()
     {
-        //Debug.Log("STATE: Land");
+        Debug.Log("STATE: Land");
         base.Enter();
 
         _animator.PlayAnimation(PlayerAnimator.LandName);

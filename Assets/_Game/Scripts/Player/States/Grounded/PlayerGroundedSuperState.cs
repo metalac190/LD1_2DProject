@@ -8,7 +8,7 @@ public class PlayerGroundedSuperState : State
     private Player _player;
 
     private GameplayInput _input;
-    private PlayerData _data;
+    private PlayerMoveData _data;
     private OverlapDetector _groundDetector;
     private OverlapDetector _ceilingDetector;
     private DashSystem _dashSystem;

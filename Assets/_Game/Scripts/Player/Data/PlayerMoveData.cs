@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerMoveData", menuName = "Data/Player/Player Movement")]
-public class PlayerData : ScriptableObject
+public class PlayerMoveData : ScriptableObject
 {
     [Header("Movement")]
     [SerializeField]
@@ -20,6 +20,8 @@ public class PlayerData : ScriptableObject
     private bool _allowJump = true;
     [SerializeField]
     private float _jumpVelocity = 25;
+    [SerializeField][Tooltip("Guarantees jump state briefly before going to fall")]
+    private float _minJumpTime = .1f;
     [SerializeField][Range(0,1)][Tooltip("Short jump height compared to full jump")]
     private float _shortJumpHeightScale = 0.5f;
     [SerializeField][Tooltip("Allow a brief buffer for jumping right after falling")]
@@ -122,6 +124,7 @@ public class PlayerData : ScriptableObject
     // jumping
     public bool AllowJump => _allowJump;
     public float JumpVelocity => _jumpVelocity;
+    public float MinJumpTime => _minJumpTime;
     public float ShortJumpHeightScale => _shortJumpHeightScale;
     public float JumpAfterFallDuration => _jumpAfterFallDuration;
     // air jump

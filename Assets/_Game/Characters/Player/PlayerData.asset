@@ -17,6 +17,7 @@ MonoBehaviour:
   _groundDecelToZero: 0.1
   _allowJump: 1
   _jumpVelocity: 28
+  _minJumpTime: 0.1
   _shortJumpHeightScale: 0.5
   _jumpAfterFallDuration: 0.1
   _amountOfAirJumps: 0

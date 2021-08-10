@@ -8,7 +8,7 @@ public class PlayerBounceAttackState : State
     PlayerAnimator _animator;
 
     MovementKM _movement;
-    PlayerData _data;
+    PlayerMoveData _data;
     WeaponSystem _weaponSystem;
     GameplayInput _input;
     // this prevents us from getting mutliple calls in a single bounce attack

@@ -9,7 +9,7 @@ public class PlayerFallingState : State
     PlayerAnimator _animator;
 
     MovementKM _movement;
-    PlayerData _data;
+    PlayerMoveData _data;
     GameplayInput _input;
     OverlapDetector _groundDetector;
     OverlapDetector _wallDetector;
@@ -39,7 +39,7 @@ public class PlayerFallingState : State
     public override void Enter()
     {
         base.Enter();
-        //Debug.Log("STATE: Falling");
+        Debug.Log("STATE: Falling");
 
         _animator.PlayAnimation(PlayerAnimator.FallName);
 

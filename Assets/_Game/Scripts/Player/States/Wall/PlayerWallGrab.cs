@@ -9,7 +9,7 @@ public class PlayerWallGrab : PlayerWallSuperState
     PlayerAnimator _animator;
 
     MovementKM _movement;
-    PlayerData _data;
+    PlayerMoveData _data;
     GameplayInput _input;
     PlayerSFXData _sfx;
 

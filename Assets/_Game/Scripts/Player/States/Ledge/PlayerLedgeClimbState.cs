@@ -7,7 +7,7 @@ public class PlayerLedgeClimbState : State
     PlayerFSM _stateMachine;
 
     MovementKM _movement;
-    PlayerData _data;
+    PlayerMoveData _data;
     PlayerSFXData _sfx;
 
     float _hopDuration = .25f;

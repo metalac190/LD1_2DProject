@@ -10,7 +10,7 @@ public class PlayerAirJumpState : State
 
     MovementKM _movement;
     GameplayInput _input;
-    PlayerData _data;
+    PlayerMoveData _data;
     OverlapDetector _groundDetector;
     DashSystem _dashSystem;
     PlayerSFXData _sfx;

@@ -59,7 +59,5 @@ public class FlyerChasingState : State
     public override void Update()
     {
         base.Update();
-
-        Debug.Log("Chase object: " + _objectToChase.gameObject.name);
     }
 }

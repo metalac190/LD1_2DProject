@@ -8,7 +8,7 @@ public class PlayerGroundAttackState : State
     private PlayerAnimator _animator;
 
     private MovementKM _movement;
-    private PlayerData _data;
+    private PlayerMoveData _data;
     private GameplayInput _input;
     private WeaponSystem _weaponSystem;
     private DashSystem _dashSystem;

@@ -8,7 +8,7 @@ public class PlayerIdleState : PlayerGroundedSuperState
     PlayerFSM _stateMachine;
     Player _player;
     PlayerAnimator _animator;
-    PlayerData _data;
+    PlayerMoveData _data;
 
     MovementKM _movement;
     GameplayInput _input;

@@ -7,7 +7,7 @@ public class PlayerMoveState : PlayerGroundedSuperState
     PlayerFSM _stateMachine;
 
     MovementKM _movement;
-    PlayerData _data;
+    PlayerMoveData _data;
     GameplayInput _input;
     PlayerAnimator _animator;
 
@@ -24,7 +24,7 @@ public class PlayerMoveState : PlayerGroundedSuperState
     public override void Enter()
     {
         base.Enter();
-        //Debug.Log("STATE: Move");
+        Debug.Log("STATE: Move");
 
         _animator.PlayAnimation(PlayerAnimator.RunName);
     }

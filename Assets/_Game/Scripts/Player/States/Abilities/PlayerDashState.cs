@@ -9,7 +9,7 @@ public class PlayerDashState : State
     private PlayerAnimator _animator;
 
     private MovementKM _movement;
-    private PlayerData _data;
+    private PlayerMoveData _data;
     private DashSystem _dashSystem;
     private GameplayInput _input;
     private OverlapDetector _groundDetector;
