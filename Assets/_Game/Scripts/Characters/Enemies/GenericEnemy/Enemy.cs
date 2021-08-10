@@ -2,29 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Actor
 {
-    [Header("Enemy Base")]
+    [Header("Enemy Dependencies")]
     [SerializeField]
-    private EnemyData _enemyData;
+    private PlayerDetector _playerDetector;
     [SerializeField]
-    private Health _health;
-    [SerializeField]
-    private ReceiveHit _receiveHit;
+    private HitVolume _hitVolume;
 
-    public EnemyData EnemyData => _enemyData;
-    public Health Health => _health;
-    public ReceiveHit ReceiveHit => _receiveHit;
-
-    private void Awake()
-    {
-        Initialize();
-    }
-
-    protected virtual void Initialize()
-    {
-        _health.Max = _enemyData.Health;
-        _health.Current = _enemyData.Health;
-        _health.IsDamageable = _enemyData.IsDamageable;
-    }
+    public PlayerDetector PlayerDetector => _playerDetector;
+    public HitVolume HitVolume => _hitVolume;
 }

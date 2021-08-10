@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Patroller_SearchState : State
 {
-    PatrollerFSM _stateMachine;
-    Patroller _patroller;
-    PatrollerData _data;
+    private PatrollerFSM _stateMachine;
+    private Patroller _patroller;
+    private PatrollerData _data;
 
     private MovementKM _movement;
-    RayDetector _playerDetector;
+    private RayDetector _playerLOS;
 
     private float _lastTurnTime;
     private int _turnsCompleted;
@@ -21,7 +21,7 @@ public class Patroller_SearchState : State
         _data = patroller.Data;
 
         _movement = patroller.Movement;
-        _playerDetector = patroller.AggroDetector;
+        _playerLOS = patroller.PlayerDetector.PlayerLOS;
     }
 
     public override void Enter()
@@ -39,21 +39,21 @@ public class Patroller_SearchState : State
             Turn();
         }
 
-        _playerDetector.StartDetecting();
+        _playerLOS.StartDetecting();
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        _playerDetector.StopDetecting();
+        _playerLOS.StopDetecting();
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
 
-        if (_playerDetector.IsDetected)
+        if (_playerLOS.IsDetected)
         {
             _stateMachine.ChangeState(_stateMachine.PlayerDetectedState);
             return;

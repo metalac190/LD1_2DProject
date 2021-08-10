@@ -8,7 +8,7 @@ public class Patroller_HitState : State
     Patroller _patroller;
 
     private MovementKM _movement;
-    private RayDetector _playerDetector;
+    private RayDetector _playerLOS;
     private ReceiveHit _receiveHit;
 
     public Patroller_HitState(PatrollerFSM stateMachine, Patroller patroller)
@@ -17,7 +17,7 @@ public class Patroller_HitState : State
         _patroller = patroller;
 
         _movement = patroller.Movement;
-        _playerDetector = patroller.AggroDetector;
+        _playerLOS = patroller.PlayerDetector.PlayerLOS;
         _receiveHit = patroller.ReceiveHit;
     }
 

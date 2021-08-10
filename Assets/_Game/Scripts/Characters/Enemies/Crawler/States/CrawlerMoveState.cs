@@ -18,9 +18,9 @@ public class CrawlerMoveState : State
         _crawler = crawler;
 
         _kinematicObject = crawler.Movement;
-        _wallDetector = crawler.WallDetector;
-        _groundDetector = crawler.GroundDetector;
-        _groundInFrontDetector = crawler.GroundInFrontDetector;
+        _wallDetector = crawler.EnvironmentDetector.WallDetector;
+        _groundDetector = crawler.EnvironmentDetector.GroundDetector;
+        _groundInFrontDetector = crawler.EnvironmentDetector.GroundInFrontDetector;
     }
 
     public override void Enter()

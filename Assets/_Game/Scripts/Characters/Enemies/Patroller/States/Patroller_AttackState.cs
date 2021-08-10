@@ -9,7 +9,7 @@ public class Patroller_AttackState : State
     private PatrollerData _data;
 
     private MovementKM _movement;
-    private RayDetector _aggroDetector;
+    private RayDetector _playerLOS;
     private HitVolume _hitVolume;
     private GameObject _detectedGraphic;
 
@@ -26,7 +26,7 @@ public class Patroller_AttackState : State
         _data = patroller.Data;
 
         _movement = patroller.Movement;
-        _aggroDetector = patroller.AggroDetector;
+        _playerLOS = patroller.PlayerDetector.PlayerLOS;
         _hitVolume = patroller.HitVolume;
         _detectedGraphic = patroller.DetectedGraphic;
     }
@@ -78,7 +78,7 @@ public class Patroller_AttackState : State
         // if our attack is active and has exceeded the attack duration
         if (_isAttackSequenceComplete)
         {
-            if (_aggroDetector.Detect() != null)
+            if (_playerLOS.Detect() != null)
             {
                 _stateMachine.ChangeState(_stateMachine.PlayerDetectedState);
                 return;

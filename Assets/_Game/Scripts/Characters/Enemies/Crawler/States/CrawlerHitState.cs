@@ -6,7 +6,7 @@ public class CrawlerHitState : State
 {
     private CrawlerFSM _stateMachine;
 
-    private HitVolume _damageZone;
+    private HitVolume _hitVolume;
     private ReceiveHit _receiveHit;
 
     public CrawlerHitState(CrawlerFSM stateMachine, Crawler crawler)
@@ -14,7 +14,7 @@ public class CrawlerHitState : State
         _stateMachine = stateMachine;
 
         _receiveHit = crawler.ReceiveHit;
-        _damageZone = crawler.DamageZone;
+        _hitVolume = crawler.HitVolume;
     }
 
     public override void Enter()
@@ -22,7 +22,7 @@ public class CrawlerHitState : State
         base.Enter();
 
         _receiveHit.HitRecovered += OnHitRecovered;
-        _damageZone.enabled = false;
+        _hitVolume.enabled = false;
     }
 
     public override void Exit()
@@ -30,7 +30,7 @@ public class CrawlerHitState : State
         base.Exit();
 
         _receiveHit.HitRecovered -= OnHitRecovered;
-        _damageZone.enabled = true;
+        _hitVolume.enabled = true;
     }
 
     public override void FixedUpdate()

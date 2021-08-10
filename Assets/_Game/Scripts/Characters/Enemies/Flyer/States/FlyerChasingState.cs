@@ -7,7 +7,7 @@ public class FlyerChasingState : State
     private FlyerFSM _stateMachine;
     private Flyer _flyer;
 
-    private OverlapDetector _playerDetector;
+    private OverlapDetector _playerInRange;
     private MovementKM _movement;
 
     private Transform _objectToChase;
@@ -17,7 +17,7 @@ public class FlyerChasingState : State
         _stateMachine = stateMachine;
         _flyer = flyer;
 
-        _playerDetector = flyer.PlayerDetector;
+        _playerInRange = flyer.PlayerDetector.PlayerInRange;
         _movement = flyer.Movement;
     }
 
@@ -25,16 +25,16 @@ public class FlyerChasingState : State
     {
         base.Enter();
 
-        _objectToChase = _playerDetector.LastDetectedCollider.transform;
+        _objectToChase = _playerInRange.LastDetectedCollider.transform;
 
-        _playerDetector.StartDetecting();
+        _playerInRange.StartDetecting();
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        _playerDetector.StopDetecting();
+        _playerInRange.StopDetecting();
     }
 
     public override void FixedUpdate()
@@ -42,7 +42,7 @@ public class FlyerChasingState : State
         base.FixedUpdate();
 
         // if there is an object to chase, chase it
-        if(_playerDetector.IsDetected && _objectToChase != null)
+        if(_playerInRange.IsDetected && _objectToChase != null)
         {
             Vector2 direction = (_objectToChase.position
                 - _flyer.transform.position).normalized;
@@ -59,5 +59,7 @@ public class FlyerChasingState : State
     public override void Update()
     {
         base.Update();
+
+        Debug.Log("Chase object: " + _objectToChase.gameObject.name);
     }
 }

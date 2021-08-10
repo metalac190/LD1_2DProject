@@ -12,8 +12,8 @@ public class Patroller_ChargeState : State
     private ColliderDetector _groundDetector;
     private ColliderDetector _wallDetector;
     private ColliderDetector _groundInFrontDetector;
-    private ColliderDetector _closeRangeDetector;
-    private RayDetector _aggroDetector;
+    private ColliderDetector _playerClose;
+    private RayDetector _playerLOS;
     GameObject _detectedGraphic;
 
     public Patroller_ChargeState(PatrollerFSM stateMachine, Patroller patroller)
@@ -23,11 +23,11 @@ public class Patroller_ChargeState : State
         _data = patroller.Data;
 
         _movement = patroller.Movement;
-        _groundDetector = patroller.GroundDetector;
-        _wallDetector = patroller.WallDetector;
-        _groundInFrontDetector = patroller.GroundInFrontDetector;
-        _closeRangeDetector = patroller.CloseRangeDetector;
-        _aggroDetector = patroller.AggroDetector;
+        _groundDetector = patroller.EnvironmentDetector.GroundDetector;
+        _wallDetector = patroller.EnvironmentDetector.WallDetector;
+        _groundInFrontDetector = patroller.EnvironmentDetector.GroundInFrontDetector;
+        _playerClose = patroller.PlayerDetector.PlayerClose;
+        _playerLOS = patroller.PlayerDetector.PlayerLOS;
         _detectedGraphic = patroller.DetectedGraphic;
     }
 
@@ -37,8 +37,8 @@ public class Patroller_ChargeState : State
 
         _wallDetector.StartDetecting();
         _groundInFrontDetector.StartDetecting();
-        _aggroDetector.StartDetecting();
-        _closeRangeDetector.StartDetecting();
+        _playerLOS.StartDetecting();
+        _playerClose.StartDetecting();
 
         _detectedGraphic.SetActive(true);
     }
@@ -49,8 +49,8 @@ public class Patroller_ChargeState : State
 
         _wallDetector.StopDetecting();
         _groundInFrontDetector.StopDetecting();
-        _aggroDetector.StopDetecting();
-        _closeRangeDetector.StopDetecting();
+        _playerLOS.StopDetecting();
+        _playerClose.StopDetecting();
 
         _detectedGraphic.SetActive(false);
     }
@@ -78,7 +78,7 @@ public class Patroller_ChargeState : State
             }
         }
         // or if the player is in close range, attack!
-        else if (_closeRangeDetector.IsDetected)
+        else if (_playerClose.IsDetected)
         {
             _stateMachine.ChangeState(_stateMachine.AttackState);
             return;
@@ -88,7 +88,7 @@ public class Patroller_ChargeState : State
         if (StateDuration >= _data.ChargeDuration)
         {
             // if player still detected, do it again
-            if (_aggroDetector.IsDetected)
+            if (_playerLOS.IsDetected)
             {
                 _stateMachine.ChangeState(_stateMachine.PlayerDetectedState);
                 return;

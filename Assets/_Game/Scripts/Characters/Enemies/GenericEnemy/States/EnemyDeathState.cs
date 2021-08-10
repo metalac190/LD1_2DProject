@@ -5,12 +5,12 @@ using UnityEngine;
 public class EnemyDeathState : State
 {
     private EnemyFSM _stateMachine;
-    private EnemyData _data;
+    private Enemy _enemy;
 
     public EnemyDeathState(EnemyFSM stateMachine, Enemy enemy)
     {
         _stateMachine = stateMachine;
-        _data = enemy.EnemyData;
+        _enemy = enemy;
     }
 
     public override void Enter()

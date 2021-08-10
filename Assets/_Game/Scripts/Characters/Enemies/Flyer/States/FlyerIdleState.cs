@@ -7,14 +7,14 @@ public class FlyerIdleState : State
     private FlyerFSM _stateMachine;
     private Flyer _flyer;
 
-    private OverlapDetector _playerDetector;
+    private OverlapDetector _playerInRange;
 
     public FlyerIdleState(FlyerFSM stateMachine, Flyer flyer)
     {
         _stateMachine = stateMachine;
         _flyer = flyer;
 
-        _playerDetector = flyer.PlayerDetector;
+        _playerInRange = flyer.PlayerDetector.PlayerInRange;
     }
 
     public override void Enter()
@@ -22,14 +22,14 @@ public class FlyerIdleState : State
         base.Enter();
         Debug.Log("FLYER: Idle State");
 
-        _playerDetector.StartDetecting();
+        _playerInRange.StartDetecting();
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        _playerDetector.StopDetecting();
+        _playerInRange.StopDetecting();
     }
 
     public override void FixedUpdate()
@@ -41,7 +41,7 @@ public class FlyerIdleState : State
     {
         base.Update();
 
-        if (_playerDetector.IsDetected)
+        if (_playerInRange.IsDetected)
         {
             _stateMachine.ChangeState(_stateMachine.ChasingState);
             return;

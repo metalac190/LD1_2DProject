@@ -8,7 +8,7 @@ public class Patroller_PlayerDetectedState : State
     private Patroller _patroller;
     private PatrollerData _data;
 
-    private RayDetector _aggroDetector;
+    private RayDetector _playerLOS;
     private OverlapDetector _closeRangeDetector;
     private GameObject _detectedGraphic;    // graphic icon that communicates detect state
 
@@ -18,8 +18,8 @@ public class Patroller_PlayerDetectedState : State
         _patroller = patroller;
         _data = patroller.Data;
 
-        _aggroDetector = patroller.AggroDetector;
-        _closeRangeDetector = patroller.CloseRangeDetector;
+        _playerLOS = patroller.PlayerDetector.PlayerLOS;
+        _closeRangeDetector = patroller.PlayerDetector.PlayerClose;
         _detectedGraphic = patroller.DetectedGraphic;
     }
 
@@ -29,7 +29,7 @@ public class Patroller_PlayerDetectedState : State
 
         _detectedGraphic.SetActive(true);
 
-        _aggroDetector.StartDetecting();
+        _playerLOS.StartDetecting();
         _closeRangeDetector.StartDetecting();
     }
 
@@ -39,7 +39,7 @@ public class Patroller_PlayerDetectedState : State
 
         _detectedGraphic.SetActive(false);
 
-        _aggroDetector.StopDetecting();
+        _playerLOS.StopDetecting();
         _closeRangeDetector.StopDetecting();
     }
 
@@ -57,7 +57,7 @@ public class Patroller_PlayerDetectedState : State
                 return;
             }
             // otherwise if player is still detected, charge
-            else if (_aggroDetector.IsDetected)
+            else if (_playerLOS.IsDetected)
             {
                 _stateMachine.ChangeState(_stateMachine.ChargeState);
                 return;

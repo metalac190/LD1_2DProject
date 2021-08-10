@@ -11,7 +11,7 @@ public class Patroller_IdleState : State
     private PatrollerData _data;
 
     private MovementKM _movement;
-    private RayDetector _playerDetector;
+    private RayDetector _playerInRange;
     private OverlapDetector _wallDetector;
     private OverlapDetector _groundDetector;
     private OverlapDetector _groundInFrontDetector;
@@ -23,10 +23,10 @@ public class Patroller_IdleState : State
         _data = patroller.Data;
 
         _movement = patroller.Movement;
-        _playerDetector = patroller.AggroDetector;
-        _wallDetector = patroller.WallDetector;
-        _groundDetector = patroller.GroundDetector;
-        _groundInFrontDetector = patroller.GroundInFrontDetector;
+        _playerInRange = patroller.PlayerDetector.PlayerLOS;
+        _wallDetector = patroller.EnvironmentDetector.WallDetector;
+        _groundDetector = patroller.EnvironmentDetector.GroundDetector;
+        _groundInFrontDetector = patroller.EnvironmentDetector.GroundInFrontDetector;
     }
 
     public override void Enter()
@@ -36,7 +36,7 @@ public class Patroller_IdleState : State
         _movement.MoveX(0, false);
         SetRandomIdleTime();
 
-        _playerDetector.StartDetecting();
+        _playerInRange.StartDetecting();
         _wallDetector.StartDetecting();
         _groundDetector.StartDetecting();
         _groundInFrontDetector.StartDetecting();
@@ -46,7 +46,7 @@ public class Patroller_IdleState : State
     {
         base.Exit();
 
-        _playerDetector.StopDetecting();
+        _playerInRange.StopDetecting();
         _wallDetector.StopDetecting();
         _groundDetector.StopDetecting();
         _groundInFrontDetector.StopDetecting();
@@ -68,7 +68,7 @@ public class Patroller_IdleState : State
             _stateMachine.ChangeState(_stateMachine.MoveState);
         }
 
-        if (_playerDetector.IsDetected)
+        if (_playerInRange.IsDetected)
         {
             _stateMachine.ChangeState(_stateMachine.PlayerDetectedState);
         }

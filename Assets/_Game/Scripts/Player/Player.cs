@@ -17,10 +17,6 @@ public class Player : Actor
     private PlayerSFXData _playerSFX;
     [SerializeField]
     private PlayerVisuals _visuals;
-    [SerializeField]
-    private Health _health;
-    [SerializeField]
-    private ReceiveHit _receiveHit;
 
     [Header("Ability Systems")]
     [SerializeField]
@@ -52,8 +48,6 @@ public class Player : Actor
     public BoxCollider2D BoxCollider => _boxCollider;
     public PlayerSFXData SFX => _playerSFX;
     public PlayerVisuals Visuals => _visuals;
-    public Health Health => _health;
-    public ReceiveHit ReceiveHit => _receiveHit;
 
     public WeaponSystem WeaponSystem => _weaponSystem;
     public DashSystem DashSystem => _dashSystem;

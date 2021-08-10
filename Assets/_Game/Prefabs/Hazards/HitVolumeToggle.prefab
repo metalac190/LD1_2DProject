@@ -87,8 +87,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _startOffsetDuration: 0
-  _aDuration: 1
-  _bDuration: 1
+  _aDuration: 1.5
+  _bDuration: 1.5
 --- !u!1001 &7380972155729414718
 PrefabInstance:
   m_ObjectHideFlags: 0
