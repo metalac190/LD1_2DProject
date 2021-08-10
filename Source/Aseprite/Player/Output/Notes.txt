@@ -1,0 +1,3 @@
+16 x 16 = 1 unit
+Char Collider = 2u x 3u
+Weapon Visuals = 4u x 4u
