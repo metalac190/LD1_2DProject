@@ -308,7 +308,8 @@ public class MovementKM : MonoBehaviour
                     }
                 }
 
-                // if we're grounded, adjust velocity based on slope
+
+                // adjust velocity based on slop
                 if (IsGrounded)
                 {
                     // cut velocity based on our slope
@@ -319,12 +320,15 @@ public class MovementKM : MonoBehaviour
                         _velocity -= (projection * currentNormal);
                     }
                 }
-                // otherwise we're airborn, cancel vertical velocity if there's a ceiling
-                else
+
+                bool isTouchingCeiling = currentNormal.y < 0;
+                if (isTouchingCeiling)
                 {
-                    //_velocity.x = 0;
+                    //collision was from below
+                    Debug.Log("CEILING");
                     _velocity.y = Mathf.Min(_velocity.y, 0);
                 }
+
                 // if we're close to a collider, only move up to our skinwidth
                 float modifiedDistance = _hitBuffer[i].distance - _skinWidth;
                 if (modifiedDistance < distance)

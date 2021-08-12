@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Player))]
 public class PlayerFSM : StateMachineMB
 {
-    [SerializeField]
     private Player _player;
     // grounded
     public PlayerIdleState IdleState { get; private set; }
@@ -33,6 +33,7 @@ public class PlayerFSM : StateMachineMB
 
     private void Awake()
     {
+        _player = GetComponent<Player>();
         // grounded
         IdleState = new PlayerIdleState(this, _player);
         MoveState = new PlayerMoveState(this, _player);

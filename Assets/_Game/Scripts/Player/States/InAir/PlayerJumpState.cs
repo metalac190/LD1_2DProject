@@ -79,7 +79,7 @@ public class PlayerJumpState : State
     {
         base.Update();
 
-        Debug.Log("Fall Velocity: " + _movement.Velocity.y);
+        //Debug.Log("Fall Velocity: " + _movement.Velocity.y);
 
         if(StateDuration >= _data.MinJumpTime)
         {

@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _downMultiplier: 1
-  _minGroundNormalY: 1
+  _minGroundNormalY: 0
   _useGravity: 1
   _gravityScale: 1
   _useCollisions: 1
@@ -191,7 +191,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d80a7f0dde56b8049bea77ab91b570a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 3785802564446309388}
 --- !u!114 &2310930631278062135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1572,7 +1571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
-  m_ReferencePixelsPerUnit: 32
+  m_ReferencePixelsPerUnit: 16
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0

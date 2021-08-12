@@ -55,24 +55,20 @@ public class Patroller_MoveState : State
         // look for wall
         if (_wallDetector.IsDetected)
         {
-            Debug.Log("Wall");
             HandleEndOfPath();
         }
         // look for ledge
         else if (!_groundInFrontDetector.IsDetected)
         {
-            Debug.Log("Ground in front: " + _groundInFrontDetector.IsDetected);
             // if there's nothing in front but we're grounded, it's a ledge
             if (_groundDetector.Detect() != null)
             {
-                Debug.Log("Ledge");
                 HandleEndOfPath();
             }
         }
         // look for player
         else if (_playerLOS.IsDetected)
         {
-            Debug.Log("Player");
             _stateMachine.ChangeState(_stateMachine.PlayerDetectedState);
             return;
         }
