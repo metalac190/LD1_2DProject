@@ -26,32 +26,6 @@ public class PlayerSpawner : MonoBehaviour
     public Player ActivePlayer => _player;
     public Transform StartSpawnLocation => _startSpawnLocation;
 
-    /*
-    /// <summary>
-    /// Respawn player at designated location
-    /// </summary>
-    /// <param name="respawnPosition"></param>
-    public Player RespawnPlayer(Vector3 respawnPosition)
-    {
-        // if there's already a player, remove it
-        if (_player != null)
-        {
-            RemoveExistingPlayer();
-        }
-
-        _player = Instantiate(_playerPrefab, respawnPosition, Quaternion.identity);
-        //TODO look into a way to pass this information before instantiating (it calls awake before initialize)
-        _player.Initialize(_levelController.GameplayInput);
-        _player.Health.Died.AddListener(OnPlayerDied);
-
-        PlayerSpawned?.Invoke(_player);
-
-        _levelController.MainCamera.Follow = _player.transform;
-
-        return _player;
-    }
-    */
-
     /// <summary>
     /// Spawn a new player at start position
     /// </summary>

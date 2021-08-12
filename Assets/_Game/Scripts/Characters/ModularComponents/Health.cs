@@ -73,5 +73,10 @@ public class Health : MonoBehaviour, IDamageable
     public virtual void Kill()
     {
         Died?.Invoke();
+        // extra assurance to make sure we clean up events
+        Damaged?.RemoveAllListeners();
+        Died?.RemoveAllListeners();
+
+        Destroy(gameObject);
     }
 }
