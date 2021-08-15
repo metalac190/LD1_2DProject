@@ -25,9 +25,11 @@ public class FlyerChasingState : State
     {
         base.Enter();
 
+        _playerInRange.StartDetecting();
+        // ensure we detect right before assigning to avoid a frame skip
+        _playerInRange.Detect();
         _objectToChase = _playerInRange.LastDetectedCollider.transform;
 
-        _playerInRange.StartDetecting();
     }
 
     public override void Exit()
