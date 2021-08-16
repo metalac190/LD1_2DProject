@@ -28,7 +28,7 @@ public class LevelActiveState : State
     public override void Enter()
     {
         base.Enter();
-
+        Debug.Log("LEVEL: Active");
         _winTrigger.PlayerEntered += OnPlayerEnteredWin;
         _playerSpawner.PlayerRemoved += OnPlayerDied;
 

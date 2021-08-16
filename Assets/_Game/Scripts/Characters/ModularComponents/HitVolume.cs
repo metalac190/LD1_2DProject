@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 
 /// <summary>
 /// This script can be attached to a GameObject with a Trigger Volume to consistently apply damage
@@ -11,6 +11,8 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class HitVolume : MonoBehaviour
 {
+    public Action<GameObject> Hit;
+
     [SerializeField]
     private int _damageAmount = 1;
     [SerializeField]
@@ -59,11 +61,17 @@ public class HitVolume : MonoBehaviour
         ReceiveHit hitable = collision.GetComponent<ReceiveHit>();
         if(hitable != null)
         {
-            Vector2 reverseVector = PhysicsHelper.ReverseVector(transform.position, collision.transform.position);
-            HitData hitData = new HitData(hitable.transform, 
-                _damageAmount, reverseVector, _knockbackAmount, _knockbackDuration);
-            hitable.Hit(hitData);
+            HitObject(collision, hitable);
         }
+    }
+
+    private void HitObject(Collider2D collision, ReceiveHit hitable)
+    {
+        Vector2 reverseVector = PhysicsHelper.ReverseVector(transform.position, collision.transform.position);
+        HitData hitData = new HitData(hitable.transform,
+            _damageAmount, reverseVector, _knockbackAmount, _knockbackDuration);
+        hitable.Hit(hitData);
+        Hit?.Invoke(hitable.gameObject);
         // temporarily disable hit damage
         if (_hitRoutine != null)
             StopCoroutine(_hitRoutine);

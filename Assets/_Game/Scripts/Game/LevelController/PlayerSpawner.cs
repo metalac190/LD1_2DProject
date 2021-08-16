@@ -31,6 +31,7 @@ public class PlayerSpawner : MonoBehaviour
     /// </summary>
     public Player SpawnPlayer(Vector3 spawnPosition)
     {
+        //Debug.Log("Spawn Player");
         // if there's already a player, remove it
         if(_player != null)
         {

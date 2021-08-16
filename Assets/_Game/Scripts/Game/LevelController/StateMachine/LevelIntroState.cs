@@ -27,7 +27,7 @@ public class LevelIntroState : State
     public override void Enter()
     {
         base.Enter();
-
+        //Debug.Log("LEVEL: Intro");
         _input.SubmitPressed += OnSubmitPressed;
 
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SoundSystem;
 
 /// <summary>
 /// For this solution we're not going to use Unity Physics, and instead attempt to
@@ -8,79 +9,69 @@ using UnityEngine;
 /// and because our projectiles shoudln't need to interact with colliders much apart
 /// from applying damage and occasionally being destroyed by things
 /// </summary>
+
 public abstract class ProjectileBase : MonoBehaviour
 {
-    public abstract void Move(float moveSpeed);
+    public abstract void Move(MovementKM movement);
 
+    [Header("Dependencies")]
     [SerializeField]
-    private float _moveSpeed = 5;
+    private MovementKM _movement;
     [SerializeField]
-    private float _detectRadius = 0.5f;
-    [SerializeField]
-    private LayerMask _layersToDamage;
-    [SerializeField]
-    private float _hitFrequency = .2f;
+    private HitVolume _hitVolume;
 
-    [Header("Hit Info")]
+    [Header("Properties")]
     [SerializeField]
-    private int _damage = 1;
-    [SerializeField]
-    private float _pushbackStrength = 20;
-    [SerializeField]
-    private float _pushbackDuration = .5f;
+    private bool _destroyOnImpact = true;
 
-    private Coroutine _hitRoutine;
+    [Header("FX")]
+    [SerializeField]
+    private ParticleSystem _impactVFX;
+    [SerializeField]
+    private SFXOneShot _impactSFX;
 
     private void OnEnable()
     {
-        if(_hitRoutine != null)
-            StopCoroutine(_hitRoutine);
-        _hitRoutine = StartCoroutine(HitRoutine(_hitFrequency));
+        _hitVolume.Hit += OnHit;
     }
 
     private void OnDisable()
     {
-        if (_hitRoutine != null)
-            StopCoroutine(_hitRoutine);
+        _hitVolume.Hit -= OnHit;
+
     }
 
     private void FixedUpdate()
     {
-        Move(_moveSpeed);
+        // since this object does not 'own' a collider, we can move in Update
+        Move(_movement);
     }
 
-    private IEnumerator HitRoutine(float damageFrequency)
+    private void OnHit(GameObject gameObject)
     {
-        while (true)
+        PlayFX();
+        Impact();
+    }
+
+    protected virtual void PlayFX()
+    {
+        if(_impactVFX != null)
         {
-            HitOverlap();
-            yield return new WaitForSeconds(damageFrequency);
+            ParticleSystem vfx = Instantiate(_impactVFX, 
+                transform.position, Quaternion.identity);
+            vfx.Play();
+        }
+        if(_impactSFX != null)
+        {
+            _impactSFX.PlayOneShot(transform.position);
         }
     }
 
-    private void HitOverlap()
+    protected virtual void Impact()
     {
-        // detect nearby
-        Collider2D colliderToHit = Physics2D.OverlapCircle(transform.position, 
-            _detectRadius, _layersToDamage);
-        // damage
-        if(colliderToHit != null)
+        if (_destroyOnImpact)
         {
-            ApplyHit(colliderToHit);
-        }
-    }
-
-    private void ApplyHit(Collider2D colliderToDamage)
-    {
-        ReceiveHit hitable = colliderToDamage.GetComponent<ReceiveHit>();
-        if (hitable != null)
-        {
-            Vector2 direction = PhysicsHelper.ReverseVector
-                (transform.position, hitable.transform.position);
-            HitData hitData = new HitData
-                (hitable.transform, _damage, 
-                direction, _pushbackStrength, _pushbackDuration);
-            hitable.Hit(hitData);
+            Destroy(gameObject);
         }
     }
 }

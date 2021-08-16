@@ -67,7 +67,6 @@ public class PlayerJumpState : State
         // if we're not grounded, but began falling, go to fall state
         if(_movement.Velocity.y <= 0 && _isJumpLocked == false)
         {
-            Debug.Log("Falling: " + _movement.Velocity.y);
             _stateMachine.ChangeState(_stateMachine.FallingState);
             return;
         }

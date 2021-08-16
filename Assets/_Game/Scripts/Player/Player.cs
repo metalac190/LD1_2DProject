@@ -32,6 +32,7 @@ public class Player : Actor
         {
             if (_gameplayInput == null)
             {
+                //Debug.Log("Player Search for input");
                 _gameplayInput = FindObjectOfType<GameplayInput>();
                 if(_gameplayInput == null)
                 {
@@ -61,6 +62,7 @@ public class Player : Actor
 
     public void Initialize(GameplayInput gameplayInput)
     {
+        //Debug.Log("Initialize input");
         //TODO currently Initialize gets called AFTER this object States are created. This causes
         // null references for input. Determine how to send input properly when this player is spawned
         _gameplayInput = gameplayInput;
