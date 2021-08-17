@@ -24,8 +24,6 @@ public class ReceiveHit : MonoBehaviour, IHitable
     [Tooltip("0 = no knockback, 1 = full knockback")]
     [SerializeField] float _knockbackDampener = 1;
 
-
-
     [Header("Hit Effects")]
     [SerializeField]
     private Color _flashColor = Color.red;
@@ -69,7 +67,7 @@ public class ReceiveHit : MonoBehaviour, IHitable
     {
         if(_isImmune) { return; }
         // if we're recovering from previous hit, don't receive this one yet
-        if (IsRecovering && !_receiveHitsWhileRecovering) { return; }
+        //if (IsRecovering && !_receiveHitsWhileRecovering) { return; }
 
         // apply damage if we have health
         if (_health != null)
@@ -98,11 +96,19 @@ public class ReceiveHit : MonoBehaviour, IHitable
     IEnumerator HitRecoverRoutine(float duration)
     {
         IsRecovering = true;
+        if (_receiveHitsWhileRecovering == false)
+        {
+            IsImmune = true;
+        }
         PlayFX();
 
         yield return new WaitForSeconds(duration);
 
         IsRecovering = false;
+        if (_receiveHitsWhileRecovering == false)
+        {
+            IsImmune = false;
+        }
         HitRecovered?.Invoke();
     }
 

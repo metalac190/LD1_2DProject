@@ -59,7 +59,7 @@ public class HitVolume : MonoBehaviour
         if (!PhysicsHelper.IsInLayerMask(collision.gameObject, _layersToHit)) { return; }
 
         ReceiveHit hitable = collision.GetComponent<ReceiveHit>();
-        if(hitable != null)
+        if(hitable != null && hitable.IsImmune == false)
         {
             HitObject(collision, hitable);
         }

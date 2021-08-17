@@ -23,7 +23,7 @@ public class MovementKM : MonoBehaviour
     [SerializeField]
     private float _gravityScale = 1;
     [SerializeField]
-    private bool _useCollisions = true;
+    private bool _collideWithEnvironment = true;
 
     protected Vector2 _groundNormal = new Vector2(0,1);
     protected const float _minMoveDistance = 0.001f;
@@ -289,7 +289,7 @@ public class MovementKM : MonoBehaviour
         // if we're moving at all substantially, check colliders
         float distance = move.magnitude;
         // if we're moving a significant amount
-        if(distance > _minMoveDistance && _useCollisions)
+        if(distance > _minMoveDistance && _collideWithEnvironment)
         {
             // find nearby colliders and store them
             int hitCount = _collider.Cast(move, _contactFilter, _hitBuffer, distance + _skinWidth);
