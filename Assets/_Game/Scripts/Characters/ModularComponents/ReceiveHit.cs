@@ -7,7 +7,7 @@ using System;
 
 /// <summary>
 /// Receive hits from the player's weapon
-/// </summary>
+/// </summary>S
 public class ReceiveHit : MonoBehaviour, IHitable
 {
     public UnityEvent HitReceived;
