@@ -605,6 +605,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaponSystem: {fileID: 4194310894939148657}
   _damageCollider: {fileID: 4194310893566299690}
+  _hitParticle: {fileID: 653273450618745292, guid: 34ad83eca9c511b43826278fbb471d16, type: 3}
   _ignoreColliders:
   - {fileID: 2310930631278062157}
 --- !u!1 &4194310893709982353
@@ -1137,6 +1138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaponSystem: {fileID: 4194310894939148657}
   _damageCollider: {fileID: 4194310893862191568}
+  _hitParticle: {fileID: 653273450618745292, guid: 34ad83eca9c511b43826278fbb471d16, type: 3}
   _ignoreColliders:
   - {fileID: 2310930631278062157}
 --- !u!1 &4194310893921291377

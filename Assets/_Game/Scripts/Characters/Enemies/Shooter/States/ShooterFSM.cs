@@ -19,4 +19,28 @@ public class ShooterFSM : StateMachineMB
         AggroState = new ShooterAggroState(this, _shooter);
         HitStunState = new ShooterHitStunState(this, _shooter);
     }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        _shooter.ReceiveHit.HitReceived.AddListener(OnHitReceived);
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+
+        _shooter.ReceiveHit.HitReceived.RemoveListener(OnHitReceived);
+    }
+
+    private void Start()
+    {
+        ChangeState(IdleState);
+    }
+
+    private void OnHitReceived()
+    {
+        ChangeState(HitStunState);
+    }
 }

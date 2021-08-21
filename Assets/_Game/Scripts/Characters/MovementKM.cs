@@ -325,7 +325,7 @@ public class MovementKM : MonoBehaviour
                 if (isTouchingCeiling)
                 {
                     //collision was from below
-                    Debug.Log("CEILING");
+                    //Debug.Log("CEILING");
                     _velocity.y = Mathf.Min(_velocity.y, 0);
                 }
 

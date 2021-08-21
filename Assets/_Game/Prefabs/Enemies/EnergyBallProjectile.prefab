@@ -95,8 +95,9 @@ GameObject:
   - component: {fileID: 2378621596706013830}
   - component: {fileID: 2378621596706013826}
   - component: {fileID: 2378621596706013825}
+  - component: {fileID: 5694309125386081278}
   m_Layer: 10
-  m_Name: Projectile
+  m_Name: EnergyBallProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -170,9 +171,9 @@ MonoBehaviour:
   _movement: {fileID: 2378621596706013825}
   _hitVolume: {fileID: 4799971670594664504}
   _destroyOnImpact: 1
-  _impactVFX: {fileID: 0}
-  _impactSFX: {fileID: 0}
-  _moveSpeed: 5
+  _impactVFX: {fileID: 2010415367784037018, guid: 1bf67136a26c0da419c918f18c29d45b, type: 3}
+  _impactSFX: {fileID: 11400000, guid: 0b323807f7fc75c4b832964d207ab06e, type: 2}
+  _moveSpeed: 7
 --- !u!114 &2378621596706013825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,6 +191,19 @@ MonoBehaviour:
   _useGravity: 1
   _gravityScale: 1
   _collideWithEnvironment: 1
+--- !u!114 &5694309125386081278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2378621596706013837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c9d958379abd849a4e4d0742d62f0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lifeTime: 4
 --- !u!1 &4799971670594664507
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,13 +249,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageAmount: 1
-  _knockbackAmount: 35
+  _knockbackAmount: 20
   _knockbackDuration: 0.25
   _hitFrequency: 0.5
   _layersToHit:
     serializedVersion: 2
     m_Bits: 512
-  _ignoreColliders: []
+  _ignoreColliders:
+  - {fileID: 2378621596706013824}
 --- !u!58 &4799971670594664505
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -10,6 +10,8 @@ public class WeaponCollision : MonoBehaviour
     [SerializeField]
     private Collider2D _damageCollider;
     [SerializeField]
+    private ParticleSystem _hitParticle;
+    [SerializeField]
     private Collider2D[] _ignoreColliders;
 
     private void Awake()
@@ -47,6 +49,11 @@ public class WeaponCollision : MonoBehaviour
         Vector2 direction = CalculateDirection(other);
 
         //pushable.Push(direction, amount, duration);
+        if(_hitParticle != null)
+        {
+            ParticleSystem hitParticle = Instantiate(_hitParticle, hitable.transform);
+            hitParticle.Play();
+        }
         HitData hitData = new HitData(other.transform, damage, direction, amount, duration);
         hitable.Hit(hitData);
     }
