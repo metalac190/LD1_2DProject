@@ -14,6 +14,7 @@ public class PlayerAirJumpState : State
     OverlapDetector _groundDetector;
     DashSystem _dashSystem;
     PlayerSFXData _sfx;
+    ParticleSystem _jumpDust;
 
     public PlayerAirJumpState(PlayerFSM stateMachine, Player player)
     {
@@ -27,6 +28,7 @@ public class PlayerAirJumpState : State
         _groundDetector = player.EnvironmentDetector.GroundDetector;
         _dashSystem = player.DashSystem;
         _sfx = player.SFX;
+        _jumpDust = player.Visuals.JumpDust;
     }
 
     public override void Enter()
@@ -46,6 +48,7 @@ public class PlayerAirJumpState : State
         _movement.MoveY(_data.AirJumpVelocity);
 
         _sfx.AirJumpSFX?.PlayOneShot(_player.transform.position);
+        _jumpDust?.Play();
     }
 
     public override void Exit()

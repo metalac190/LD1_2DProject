@@ -778,7 +778,7 @@ MonoBehaviour:
   _minGroundNormalY: 0.65
   _useGravity: 1
   _gravityScale: 1
-  _useCollisions: 1
+  _collideWithEnvironment: 1
 --- !u!114 &4047701039734664395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -820,7 +820,7 @@ MonoBehaviour:
   _receiveHitsWhileRecovering: 1
   _knockbackDampener: 1
   _flashColor: {r: 1, g: 0, b: 0, a: 1}
-  _renderer: {fileID: 4047701038548981358}
+  _renderer: {fileID: 4047701040037586929}
   _hitSFX: {fileID: 11400000, guid: 5678337ce5ae3304dab8de0589de4117, type: 2}
 --- !u!114 &1705054040
 MonoBehaviour:
@@ -834,7 +834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43c1158f14f5f7b4398045312c440740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _killParticlesPrefab: {fileID: 2010415367784037018, guid: 1bf67136a26c0da419c918f18c29d45b, type: 3}
+  _killParticlesPrefab: {fileID: 653273450618745292, guid: 561f581097942f6428be88d42381bca0, type: 3}
   _killSFX: {fileID: 11400000, guid: 5678337ce5ae3304dab8de0589de4117, type: 2}
   _spawnPrefabOnDeath: {fileID: 0}
 --- !u!1 &4047701040003310298

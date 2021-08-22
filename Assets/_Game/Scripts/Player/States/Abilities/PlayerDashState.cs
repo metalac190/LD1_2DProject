@@ -15,6 +15,7 @@ public class PlayerDashState : State
     private OverlapDetector _groundDetector;
     private PlayerSFXData _sfx;
     private ReceiveHit _receiveHit;
+    private ParticleSystem _jumpDust;
 
     private Vector2 _dashDirection;
 
@@ -31,6 +32,7 @@ public class PlayerDashState : State
         _groundDetector = player.EnvironmentDetector.GroundDetector;
         _sfx = player.SFX;
         _receiveHit = player.ReceiveHit;
+        _jumpDust = player.Visuals.JumpDust;
     }
 
     public override void Enter()
@@ -51,6 +53,7 @@ public class PlayerDashState : State
         _movement.SetVelocityZero();
         _movement.SetGravityScale(_data.DashingGravityScale);
         _sfx.DashReleaseSFX?.PlayOneShot(_player.transform.position);
+        _jumpDust?.Play();
     }
 
     public override void Exit()

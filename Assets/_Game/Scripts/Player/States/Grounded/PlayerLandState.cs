@@ -12,6 +12,7 @@ public class PlayerLandState : PlayerGroundedSuperState
     PlayerMoveData _data;
     PlayerSFXData _sfx;
     DashSystem _dashSystem;
+    ParticleSystem _jumpDust;
 
     public PlayerLandState(PlayerFSM stateMachine, Player player) : base(stateMachine, player)
     {
@@ -23,6 +24,7 @@ public class PlayerLandState : PlayerGroundedSuperState
         _data = player.Data;
         _sfx = player.SFX;
         _dashSystem = player.DashSystem;
+        _jumpDust = player.Visuals.JumpDust;
     }
 
     public override void Enter()
@@ -34,6 +36,7 @@ public class PlayerLandState : PlayerGroundedSuperState
         _player.ResetJumps();
 
         _sfx.LandSFX.PlayOneShot(_player.transform.position);
+        _jumpDust?.Play();
     }
 
     public override void Exit()

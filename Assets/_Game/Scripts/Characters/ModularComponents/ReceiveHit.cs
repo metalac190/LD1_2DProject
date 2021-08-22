@@ -60,7 +60,7 @@ public class ReceiveHit : MonoBehaviour, IHitable
     void OnDisable()
     {
         IsRecovering = false;
-        _hitFlash?.StopFlash();
+        //_hitFlash?.StopFlash();
     }
 
     public void Hit(HitData hitData)

@@ -15,6 +15,7 @@ public class PlayerWallJumpState : State
     OverlapDetector _wallDetector;
     DashSystem _dashSystem;
     PlayerSFXData _sfx;
+    ParticleSystem _jumpDust;
 
     // this prevents player from immediately moving back into wall while wall jumping
     bool _isMoveInputAllowed = false;
@@ -32,6 +33,7 @@ public class PlayerWallJumpState : State
         _wallDetector = player.EnvironmentDetector.WallDetector;
         _dashSystem = player.DashSystem;
         _sfx = player.SFX;
+        _jumpDust = player.Visuals.JumpDust;
     }
 
     public override void Enter()
@@ -54,6 +56,7 @@ public class PlayerWallJumpState : State
         _movement.Move(_data.WallJumpVelocity, _data.WallJumpAngle, _movement.FacingDirection, false);
 
         _sfx.JumpSFX?.PlayOneShot(_player.transform.position);
+        _jumpDust?.Play();
     }
 
     public override void Exit()

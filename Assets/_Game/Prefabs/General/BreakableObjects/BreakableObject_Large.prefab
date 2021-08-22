@@ -76,11 +76,10 @@ MonoBehaviour:
   HitReceived:
     m_PersistentCalls:
       m_Calls: []
+  _isImmune: 0
   _hitRecoverTime: 0.1
   _receiveHitsWhileRecovering: 1
   _knockbackDampener: 1
-  _movement: {fileID: 0}
-  _health: {fileID: 2270063874650972145}
   _flashColor: {r: 1, g: 0, b: 0, a: 1}
   _renderer: {fileID: 2270063876005381657}
   _hitSFX: {fileID: 11400000, guid: 5678337ce5ae3304dab8de0589de4117, type: 2}
@@ -117,9 +116,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43c1158f14f5f7b4398045312c440740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: {fileID: 2270063874650972145}
-  _killParticlesPrefab: {fileID: 2010415367784037018, guid: 1bf67136a26c0da419c918f18c29d45b, type: 3}
-  _killSFX: {fileID: 0}
+  _killParticlesPrefab: {fileID: 653273450618745292, guid: 561f581097942f6428be88d42381bca0, type: 3}
+  _killSFX: {fileID: 11400000, guid: d012d9980ada14f43a0956f89216a8ab, type: 2}
   _spawnPrefabOnDeath: {fileID: 0}
 --- !u!1 &2270063876005381656
 GameObject:

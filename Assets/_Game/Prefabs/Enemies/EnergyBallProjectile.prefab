@@ -171,7 +171,7 @@ MonoBehaviour:
   _movement: {fileID: 2378621596706013825}
   _hitVolume: {fileID: 4799971670594664504}
   _destroyOnImpact: 1
-  _impactVFX: {fileID: 2010415367784037018, guid: 1bf67136a26c0da419c918f18c29d45b, type: 3}
+  _impactVFX: {fileID: 653273450618745292, guid: 561f581097942f6428be88d42381bca0, type: 3}
   _impactSFX: {fileID: 11400000, guid: 0b323807f7fc75c4b832964d207ab06e, type: 2}
   _moveSpeed: 7
 --- !u!114 &2378621596706013825

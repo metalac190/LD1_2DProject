@@ -29,7 +29,10 @@ public abstract class ColliderDetector : MonoBehaviour
     public Collider2D LastDetectedCollider
     {
         get => _lastDetectedCollider;
-        protected set => _lastDetectedCollider = value;
+        protected set
+        {
+            _lastDetectedCollider = value;
+        } 
     }
 
     public float DetectFrequency => _detectFrequency;

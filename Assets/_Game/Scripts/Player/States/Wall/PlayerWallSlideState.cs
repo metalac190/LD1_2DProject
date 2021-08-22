@@ -11,6 +11,7 @@ public class PlayerWallSlideState : PlayerWallSuperState
     MovementKM _movement;
     PlayerMoveData _data;
     GameplayInput _input;
+    ParticleSystem _jumpDust;
 
     private float _accelerationAmount = 0;
 
@@ -23,6 +24,7 @@ public class PlayerWallSlideState : PlayerWallSuperState
         _movement = player.Movement;
         _data = player.Data;
         _input = player.Input;
+        _jumpDust = player.Visuals.JumpDust;
     }
 
     public override void Enter()
@@ -32,6 +34,8 @@ public class PlayerWallSlideState : PlayerWallSuperState
         Debug.Log("STATE: Wall Slide");
         _animator.PlayAnimation(PlayerAnimator.WallSlideName);
         _accelerationAmount = 0;
+
+        _jumpDust?.Play();
     }
 
     public override void Exit()

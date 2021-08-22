@@ -14,6 +14,7 @@ public class PlayerJumpState : State
     private OverlapDetector _groundDetector;
     private DashSystem _dashSystem;
     private PlayerSFXData _sfx;
+    private ParticleSystem _jumpDust;
 
     private bool _isJumpLocked = true;
 
@@ -29,6 +30,7 @@ public class PlayerJumpState : State
         _groundDetector = player.EnvironmentDetector.GroundDetector;
         _dashSystem = player.DashSystem;
         _sfx = player.SFX;
+        _jumpDust = player.Visuals.JumpDust;
     }
 
     public override void Enter()
@@ -47,6 +49,7 @@ public class PlayerJumpState : State
 
         _movement.MoveY(_data.JumpVelocity);
         _sfx.JumpSFX?.PlayOneShot(_player.transform.position);
+        _jumpDust?.Play();
     }
 
     public override void Exit()

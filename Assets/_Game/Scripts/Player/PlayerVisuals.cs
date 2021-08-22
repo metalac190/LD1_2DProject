@@ -6,6 +6,9 @@ public class PlayerVisuals : MonoBehaviour
 {
     [SerializeField]
     private GameObject _ledgeHangVisual;
+    [SerializeField]
+    private ParticleSystem _jumpDust;
 
     public GameObject LedgeHangVisual => _ledgeHangVisual;
+    public ParticleSystem JumpDust => _jumpDust;
 }
