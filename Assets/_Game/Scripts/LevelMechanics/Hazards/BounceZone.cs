@@ -3,24 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using SoundSystem;
 
-public class BounceZone : MonoBehaviour
+public class BounceZone : TriggerVolume
 {
+    [Header("Bounce Settings")]
     [SerializeField]
     private float _bounceAmount = 20;
     [SerializeField]
     private float _bounceDuration = .5f;
-    [SerializeField]
-    private SFXOneShot _bounceSFX;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public override void TriggerEntered(Collider2D otherCollider)
     {
         // if it's the player, do player specific things
-        MovementKM movement = collision.gameObject.GetComponent<MovementKM>();
+        MovementKM movement = otherCollider.gameObject.GetComponent<MovementKM>();
         if (movement != null)
         {
             movement.Push(transform.up, _bounceAmount, _bounceDuration);
-            _bounceSFX?.PlayOneShot(transform.position);
         }
-
-    }
+   }
 }

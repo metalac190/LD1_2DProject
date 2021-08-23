@@ -45,7 +45,6 @@ public abstract class TriggerVolume : MonoBehaviour
 
     public virtual void TriggerExited(Collider2D otherCollider)
     {
-        if (!PhysicsHelper.IsInLayerMask(otherCollider.gameObject, _layersDetected)) { return; }
 
     }
 

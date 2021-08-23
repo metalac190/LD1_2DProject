@@ -38,9 +38,10 @@ public class FlyerReturningState : State
 
         // check if we've returned to start
         if (Vector2.Distance(_flyer.StartPosition, _flyer.transform.position)
-            <= .1f)
+            <= 1)
         {
             // we've returned to our starting point
+            _flyer.Movement.MovePositionInstant(_flyer.transform.position);
             _stateMachine.ChangeState(_stateMachine.IdleState);
             return;
         }

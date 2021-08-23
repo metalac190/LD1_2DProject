@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 3199097969713858127}
   - component: {fileID: 3199097969713858160}
   m_Layer: 0
-  m_Name: BounceZone
+  m_Name: Bumper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -257,6 +257,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b7afafd4ed6e0d4384d36f3f8143ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _layersDetected:
+    serializedVersion: 2
+    m_Bits: 1536
+  _enteredSFX: {fileID: 11400000, guid: 6d6a393c582ac1940889cb37f21858a2, type: 2}
+  _enteredParticles: {fileID: 2010415367784037018, guid: 1bf67136a26c0da419c918f18c29d45b, type: 3}
   _bounceAmount: 30
   _bounceDuration: 0.5
-  _bounceSFX: {fileID: 11400000, guid: 6d6a393c582ac1940889cb37f21858a2, type: 2}

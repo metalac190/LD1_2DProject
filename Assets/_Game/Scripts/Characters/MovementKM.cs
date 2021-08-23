@@ -227,9 +227,15 @@ public class MovementKM : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        MoveOutOfCollider(collision.collider);
+    }
+
     // remove this collider OUT of other collider
     public void MoveOutOfCollider(Collider2D overlappingCollider)
     {
+        
         // if we're supposed to be ignoring this layer, don't do anything
         if (_contactFilter.IsFilteringLayerMask(overlappingCollider.gameObject))
         {
@@ -300,15 +306,13 @@ public class MovementKM : MonoBehaviour
                 if (currentNormal.y > _minGroundNormalY)
                 {
                     IsGrounded = true;
-                    // if the normal fits within our slope, save it as our current ground normal
+                    // if the normal 5its within our slope, save it as our current ground normal
                     if (isVertical)
                     {
                         _groundNormal = currentNormal;
                         currentNormal.x = 0;
                     }
                 }
-
-
                 // adjust velocity based on slop
                 if (IsGrounded)
                 {

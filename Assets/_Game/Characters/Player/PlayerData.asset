@@ -43,7 +43,7 @@ MonoBehaviour:
   _allowDirectionInput: 1
   _dashCooldown: 1
   _dashDuration: 0.2
-  _dashVelocity: 45
+  _dashVelocity: 40
   _dashingGravityScale: 0
   _dashEndScale: 0.2
   _allowCrouch: 0
