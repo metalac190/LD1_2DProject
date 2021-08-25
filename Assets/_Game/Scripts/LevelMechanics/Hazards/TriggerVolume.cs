@@ -19,7 +19,7 @@ public abstract class TriggerVolume : MonoBehaviour
 
     private Collider2D _collider;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         // ensure it's marked as trigger
         _collider = GetComponent<Collider2D>();
@@ -43,7 +43,7 @@ public abstract class TriggerVolume : MonoBehaviour
         TriggerExited(otherCollider);
     }
 
-    public virtual void TriggerExited(Collider2D otherCollider)
+    protected virtual void TriggerExited(Collider2D otherCollider)
     {
 
     }

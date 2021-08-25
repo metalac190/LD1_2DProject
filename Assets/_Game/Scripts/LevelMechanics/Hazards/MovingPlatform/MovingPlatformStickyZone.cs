@@ -11,19 +11,19 @@ public class MovingPlatformStickyZone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Player player = collision.gameObject.GetComponent<Player>();
-        if (player != null)
+        MovementKM movement = collision.gameObject.GetComponent<MovementKM>();
+        if (movement != null)
         {
-            _passengers.Add(player.Movement);
+            _passengers.Add(movement);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Player player = collision.gameObject.GetComponent<Player>();
-        if (player != null)
+        MovementKM movement = collision.gameObject.GetComponent<MovementKM>();
+        if (movement != null)
         {
-            _passengers.Remove(player.Movement);
+            _passengers.Remove(movement);
         }
     }
 
@@ -34,7 +34,6 @@ public class MovingPlatformStickyZone : MonoBehaviour
             foreach(MovementKM moveable in _passengers)
             {
                 moveable.Move(_movingObject.Velocity, false);
-                //moveable.RB.position += _movingPlatform.Velocity;
             }
         }
     }
