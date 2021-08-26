@@ -8,7 +8,10 @@ public class PlayerVisuals : MonoBehaviour
     private GameObject _ledgeHangVisual;
     [SerializeField]
     private ParticleSystem _jumpDust;
+    [SerializeField]
+    private ParticleSystem _deathParticlePrefab;
 
     public GameObject LedgeHangVisual => _ledgeHangVisual;
     public ParticleSystem JumpDust => _jumpDust;
+    public ParticleSystem DeathParticlePrefab => _deathParticlePrefab;
 }

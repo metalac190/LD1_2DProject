@@ -82,12 +82,12 @@ public class PlayerFallingState : State
         _wallDetector.Detect();
         _aboveWallDetector.Detect();
 
-        _movement.MoveX(_input.XInputRaw * _data.MoveSpeed, true);
 
-        // otherwise, check for wall grab
+        // check for wall grab
         if (_wallDetector.IsDetected
             && _input.XInputRaw == _movement.FacingDirection)
         {
+            Debug.Log("Wall detected!");
             // determine if we can enter any of our wall states
             if (_data.AllowWallClimb)
             {
@@ -112,6 +112,8 @@ public class PlayerFallingState : State
             _stateMachine.ChangeState(_stateMachine.LandState);
             return;
         }
+
+        _movement.MoveX(_input.XInputRaw * _data.MoveSpeed, true);
     }
 
     public override void Update()

@@ -80,6 +80,7 @@ public class PlayerWallSuperState : State
 
     private void OnLostWall()
     {
+        _groundDetector.Detect();
         if (_groundDetector.IsDetected)
         {
             _stateMachine.ChangeState(_stateMachine.LandState);
@@ -87,6 +88,7 @@ public class PlayerWallSuperState : State
         }
         else
         {
+            Debug.Log("WALLSUPER: Transition to Falling");
             _stateMachine.ChangeState(_stateMachine.FallingState);
             return;
         }

@@ -62,6 +62,7 @@ public class LevelActiveState : State
     private void OnPlayerDied(Player player)
     {
         Debug.Log("Player DIED!");
+        player.PlayDeathFX();
         _gameSession.DeathCount++;
         _stateMachine.ChangeState(_stateMachine.LoseState);
     }

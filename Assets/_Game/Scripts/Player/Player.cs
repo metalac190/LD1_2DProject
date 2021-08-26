@@ -86,4 +86,15 @@ public class Player : Actor
         BoxCollider.size = newSize;
         BoxCollider.offset = center;
     }
+
+    // because our game system needs to control existence, we want to be able to play
+    // this externally
+    public void PlayDeathFX()
+    {
+        ParticleSystem deathParticle = Instantiate
+            (Visuals.DeathParticlePrefab, transform.position, Quaternion.identity);
+        deathParticle.Play();
+
+        SFX.DeathSFX.PlayOneShot(transform.position);
+    }
 }

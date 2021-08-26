@@ -46,6 +46,7 @@ public class PlayerWallSlideState : PlayerWallSuperState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+
         float newSlideVelocity = -(_data.WallSlideVelocity + _accelerationAmount);
         _movement.MoveY(newSlideVelocity);
         _accelerationAmount += _data.WallSlideAcceleration;
@@ -58,11 +59,13 @@ public class PlayerWallSlideState : PlayerWallSuperState
         if (_data.AllowWallClimb && _input.YInputRaw > 0)
         {
             _stateMachine.ChangeState(_stateMachine.WallClimbState);
+            return;
         }
         // if the player is allowed to grab the wall, test input and grab
         else if(_data.AllowWallGrab && _input.YInputRaw == 0)
         {
             _stateMachine.ChangeState(_stateMachine.WallGrabState);
+            return;
         }
         
     }
