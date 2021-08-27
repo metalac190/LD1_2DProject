@@ -14,6 +14,7 @@ public class LevelSetupState : State
     private GameSession _gameSession;
     private PlayerSpawner _playerSpawner;
     private IntroScreen _introScreen;
+    private PlaytimeScreen _playtimeScreen;
 
     public LevelSetupState(LevelFSM stateMachine, LevelController controller)
     {
@@ -22,6 +23,7 @@ public class LevelSetupState : State
         _playerSpawner = controller.PlayerSpawner;
         _gameSession = GameSession.Instance;
         _introScreen = controller.LevelHUD.IntroScreen;
+        _playtimeScreen = controller.LevelHUD.PlaytimeScreen;
     }
 
     public override void Enter()
@@ -29,6 +31,7 @@ public class LevelSetupState : State
         base.Enter();
 
         _introScreen.Display();
+        _playtimeScreen.Display();
     }
 
     public override void Exit()

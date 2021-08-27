@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HUDScreen : MonoBehaviour
 {
+    [Header("HUD Screen")]
     [SerializeField]
     private Canvas _canvas;
 

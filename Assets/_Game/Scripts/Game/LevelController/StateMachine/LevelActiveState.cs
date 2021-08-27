@@ -11,8 +11,12 @@ public class LevelActiveState : State
 
     private Player _activePlayer;
     private GameSession _gameSession;
+    private PlaytimeScreen _playtimeScreen;
 
     private MenuInput _menuInput;
+
+    private float _elapsedTime;
+
 
     public LevelActiveState(LevelFSM stateMachine, LevelController levelController)
     {
@@ -21,6 +25,7 @@ public class LevelActiveState : State
         _winTrigger = levelController.WinTrigger;
         _playerSpawner = levelController.PlayerSpawner;
         _gameSession = GameSession.Instance;
+        _playtimeScreen = levelController.LevelHUD.PlaytimeScreen;
 
         _menuInput = levelController.MenuInput;
     }
@@ -28,11 +33,14 @@ public class LevelActiveState : State
     public override void Enter()
     {
         base.Enter();
+
         Debug.Log("LEVEL: Active");
         _winTrigger.PlayerEntered += OnPlayerEnteredWin;
         _playerSpawner.PlayerRemoved += OnPlayerDied;
 
         _menuInput.CancelPressed += OnCancelPressed;
+        // load elapsed time from data
+        _elapsedTime = _gameSession.ElapsedTime;
     }
 
     public override void Exit()
@@ -42,6 +50,8 @@ public class LevelActiveState : State
         _winTrigger.PlayerEntered -= OnPlayerEnteredWin;
         _playerSpawner.PlayerRemoved -= OnPlayerDied;
         _menuInput.CancelPressed -= OnCancelPressed;
+        // save elapsed time to data
+        _gameSession.ElapsedTime = _elapsedTime;
     }
 
     public override void FixedUpdate()
@@ -52,7 +62,12 @@ public class LevelActiveState : State
     public override void Update()
     {
         base.Update();
+
+        _elapsedTime += Time.deltaTime;
+        _playtimeScreen.IncrementPlaytimeDisplay(_elapsedTime);
     }
+
+
 
     private void OnPlayerEnteredWin()
     {
