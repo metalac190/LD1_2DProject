@@ -18,23 +18,23 @@ public class HitFlash
 
     private Color _flashColor;
 
-    private float _flashInDuration = .05f;
-    private float _flashHoldDuration;
-    private float _flashOutDuration = .05f;
+    private float _flashBlendDuration = .02f;
+    private float _flashHoldDuration = .08f;
 
     private Color _startingColor;
     private Coroutine _flashRoutine = null;
 
-    public HitFlash(MonoBehaviour monobehaviour, SpriteRenderer renderer, Color flashColor, float flashDuration)
+    public HitFlash(MonoBehaviour monobehaviour, SpriteRenderer renderer, Color flashColor)
     {
         _monobehaviour = monobehaviour;
         _renderer = renderer;
         _flashColor = flashColor;
         _startingColor = _renderer.color;
 
-        CalculateFlashBlends(flashDuration);
+        //CalculateFlashBlends(flashDuration);
     }
 
+    /*
     private void CalculateFlashBlends(float flashDuration)
     {
         // if our flash isn't valid, don't do it
@@ -55,18 +55,18 @@ public class HitFlash
         {
             _flashHoldDuration = flashDuration - (_flashInDuration + _flashOutDuration);
         }
-    }
+    }*/
 
     #region Public Functions
 
-    public void Flash()
+    public void Flash(float duration)
     {
-        if (_flashInDuration <= 0) { return; }    // 0 speed wouldn't make sense
+        Debug.Log("Flash");
+        if (duration <= 0) { return; }    // 0 speed wouldn't make sense
 
         if (_flashRoutine != null)
             StopFlash();
-        _flashRoutine = _monobehaviour.StartCoroutine(FlashRoutine(_flashColor, _flashInDuration, 
-            _flashHoldDuration, _flashOutDuration));
+        _flashRoutine = _monobehaviour.StartCoroutine(FlashRoutine(_flashColor, duration));
     }
 
     public void StopFlash()
@@ -79,23 +79,40 @@ public class HitFlash
     #endregion
 
     #region Private Functions
-    IEnumerator FlashRoutine(Color flashColor, float flashInDuration, 
-        float flashHoldDuration, float flashOutDuration)
+    IEnumerator FlashRoutine(Color flashColor, float duration)
     {
-        // flash in
-        for (float elapsed = 0; elapsed <= flashInDuration; elapsed += Time.deltaTime)
+        float numberOfFlashes = duration /
+            ((_flashBlendDuration*2) + _flashHoldDuration);
+
+        // guarantee at least 1 flash
+        numberOfFlashes = Mathf.CeilToInt(numberOfFlashes);
+        Debug.Log("Number of flashes: " + numberOfFlashes);
+        // start sequence
+        for (int i = 0; i < numberOfFlashes; i++)
         {
-            _renderer.color = Color.Lerp(_startingColor, flashColor, elapsed / flashInDuration);
-            yield return null;
+            Debug.Log("Flash: " + i);
+            // flash in
+            for (float elapsed = 0; elapsed <= _flashBlendDuration; elapsed += Time.deltaTime)
+            {
+                Debug.Log("Elapsed in: " + elapsed);
+                _renderer.color = Color.Lerp(_startingColor, flashColor, elapsed / _flashBlendDuration);
+                yield return null;
+            }
+            _renderer.color = flashColor;
+            // hold
+            yield return new WaitForSeconds(_flashHoldDuration);
+            // flash out
+            for (float elapsed = 0; elapsed <= _flashBlendDuration; elapsed += Time.deltaTime)
+            {
+                Debug.Log("Elapsed out: " + elapsed);
+                _renderer.color = Color.Lerp(flashColor, _startingColor, elapsed / _flashBlendDuration);
+                yield return null;
+            }
+            _renderer.color = _startingColor;
+
+            yield return new WaitForSeconds(_flashHoldDuration);
         }
-        // hold
-        yield return new WaitForSeconds(_flashHoldDuration);
-        // flash out
-        for (float elapsed = 0; elapsed <= flashOutDuration; elapsed += Time.deltaTime)
-        {
-            _renderer.color = Color.Lerp(flashColor, _startingColor, elapsed / flashOutDuration);
-            yield return null;
-        }
+
         _renderer.color = _startingColor;
     }
 

@@ -50,7 +50,7 @@ public class ReceiveHit : MonoBehaviour, IHitable
         _health = GetComponent<Health>();   // if we have health, use it
 
         if (_renderer != null)
-            _hitFlash = new HitFlash(this, _renderer, _flashColor, _hitRecoverTime);
+            _hitFlash = new HitFlash(this, _renderer, _flashColor);
         else
             Debug.LogError("No renderer assigned to Health component");
 
@@ -87,10 +87,10 @@ public class ReceiveHit : MonoBehaviour, IHitable
         _hitRecoverRoutine = StartCoroutine(HitRecoverRoutine(_hitRecoverTime));
     }
 
-    private void PlayFX()
+    private void PlayFX(float duration)
     {
         _hitSFX?.PlayOneShot(transform.position);
-        _hitFlash?.Flash();
+        _hitFlash?.Flash(duration);
     }
 
     IEnumerator HitRecoverRoutine(float duration)
@@ -100,7 +100,7 @@ public class ReceiveHit : MonoBehaviour, IHitable
         {
             IsImmune = true;
         }
-        PlayFX();
+        PlayFX(duration);
 
         yield return new WaitForSeconds(duration);
 

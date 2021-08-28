@@ -25,6 +25,12 @@ public class PlayerSpawner : MonoBehaviour
     public float RespawnDelay => _respawnDelay;
     public Player ActivePlayer => _player;
     public Transform StartSpawnLocation => _startSpawnLocation;
+    private CameraController _cameraController;
+
+    private void Awake()
+    {
+        _cameraController = _levelController.CameraController;
+    }
 
     /// <summary>
     /// Spawn a new player at start position
@@ -45,7 +51,7 @@ public class PlayerSpawner : MonoBehaviour
 
         PlayerSpawned?.Invoke(_player);
 
-        _levelController.MainCamera.Follow = _player.transform;
+        _cameraController.PlayerCamera.Follow = _player.transform;
 
         return _player;
     }

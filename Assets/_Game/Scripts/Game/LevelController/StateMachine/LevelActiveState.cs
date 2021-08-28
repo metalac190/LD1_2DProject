@@ -12,11 +12,11 @@ public class LevelActiveState : State
     private Player _activePlayer;
     private GameSession _gameSession;
     private PlaytimeScreen _playtimeScreen;
+    private CameraController _cameraController;
 
     private MenuInput _menuInput;
 
     private float _elapsedTime;
-
 
     public LevelActiveState(LevelFSM stateMachine, LevelController levelController)
     {
@@ -26,6 +26,7 @@ public class LevelActiveState : State
         _playerSpawner = levelController.PlayerSpawner;
         _gameSession = GameSession.Instance;
         _playtimeScreen = levelController.LevelHUD.PlaytimeScreen;
+        _cameraController = levelController.CameraController;
 
         _menuInput = levelController.MenuInput;
     }
@@ -35,7 +36,11 @@ public class LevelActiveState : State
         base.Enter();
 
         Debug.Log("LEVEL: Active");
+        _activePlayer = _playerSpawner.ActivePlayer;
+
+        _activePlayer.Health.Damaged.AddListener(OnPlayerDamaged);
         _winTrigger.PlayerEntered += OnPlayerEnteredWin;
+
         _playerSpawner.PlayerRemoved += OnPlayerDied;
 
         _menuInput.CancelPressed += OnCancelPressed;
@@ -46,6 +51,8 @@ public class LevelActiveState : State
     public override void Exit()
     {
         base.Exit();
+
+        _activePlayer.Health.Damaged.RemoveListener(OnPlayerDamaged);
 
         _winTrigger.PlayerEntered -= OnPlayerEnteredWin;
         _playerSpawner.PlayerRemoved -= OnPlayerDied;
@@ -72,6 +79,11 @@ public class LevelActiveState : State
     private void OnPlayerEnteredWin()
     {
         _stateMachine.ChangeState(_stateMachine.WinState);
+    }
+
+    private void OnPlayerDamaged(int damage)
+    {
+        _cameraController.StartCameraShake(15, .4f);
     }
 
     private void OnPlayerDied(Player player)

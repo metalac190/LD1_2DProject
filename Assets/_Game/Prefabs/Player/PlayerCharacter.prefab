@@ -210,7 +210,7 @@ MonoBehaviour:
   _hitRecoverTime: 1
   _receiveHitsWhileRecovering: 0
   _knockbackDampener: 1
-  _flashColor: {r: 1, g: 0.25, b: 0.25, a: 0.49019608}
+  _flashColor: {r: 1, g: 0, b: 0, a: 0.25490198}
   _renderer: {fileID: 2310930631334526485}
   _hitSFX: {fileID: 11400000, guid: 1c0ff3b0c80355442a4336ac13f67e4b, type: 2}
 --- !u!114 &2310930631278062133
