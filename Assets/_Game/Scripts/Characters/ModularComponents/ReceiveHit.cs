@@ -13,16 +13,16 @@ public class ReceiveHit : MonoBehaviour, IHitable
     public UnityEvent HitReceived;
     public event Action HitRecovered;  // this event is called after recovery from knocbkac
 
-    [Header("Main")]
+    [Header("Receive Hit")]
     [SerializeField]
     private bool _isImmune = false;
     [SerializeField]
-    private float _hitRecoverTime = .5f;
+    private float _hitRecoverTime = .5f;    // time until being hit again
     [SerializeField]
     private bool _receiveHitsWhileRecovering = true;
     [Range(0, 1)]
     [Tooltip("0 = no knockback, 1 = full knockback")]
-    [SerializeField] float _knockbackDampener = 1;
+    [SerializeField] float _knockbackDampener = 1;  // diminishes knockback effect 
 
     [Header("Hit Effects")]
     [SerializeField]

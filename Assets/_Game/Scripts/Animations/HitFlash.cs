@@ -61,7 +61,6 @@ public class HitFlash
 
     public void Flash(float duration)
     {
-        Debug.Log("Flash");
         if (duration <= 0) { return; }    // 0 speed wouldn't make sense
 
         if (_flashRoutine != null)
@@ -86,15 +85,12 @@ public class HitFlash
 
         // guarantee at least 1 flash
         numberOfFlashes = Mathf.CeilToInt(numberOfFlashes);
-        Debug.Log("Number of flashes: " + numberOfFlashes);
         // start sequence
         for (int i = 0; i < numberOfFlashes; i++)
         {
-            Debug.Log("Flash: " + i);
             // flash in
             for (float elapsed = 0; elapsed <= _flashBlendDuration; elapsed += Time.deltaTime)
             {
-                Debug.Log("Elapsed in: " + elapsed);
                 _renderer.color = Color.Lerp(_startingColor, flashColor, elapsed / _flashBlendDuration);
                 yield return null;
             }
@@ -104,7 +100,6 @@ public class HitFlash
             // flash out
             for (float elapsed = 0; elapsed <= _flashBlendDuration; elapsed += Time.deltaTime)
             {
-                Debug.Log("Elapsed out: " + elapsed);
                 _renderer.color = Color.Lerp(flashColor, _startingColor, elapsed / _flashBlendDuration);
                 yield return null;
             }

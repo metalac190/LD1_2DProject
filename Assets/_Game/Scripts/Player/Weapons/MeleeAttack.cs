@@ -21,8 +21,6 @@ public class MeleeAttack
     [SerializeField]
     private Vector2 _knockbackForceModifier = new Vector2(0, 1);
     [SerializeField]
-    private bool _addReverseDirection = true;
-    [SerializeField]
     private float _knockbackDuration = .25f;
     [SerializeField]
     [Range(0, 1)]
@@ -36,7 +34,6 @@ public class MeleeAttack
     public float PlayerForwardAmount => _playerForwardAmount;
     public float KnockbackAmount => _knockbackAmount;
     public Vector2 KnockbackForceModifier => _knockbackForceModifier;
-    public bool AddReverseDirection => _addReverseDirection;
     public float KnockbackDuration => _knockbackDuration;
     public float MovementReductionRatio => _movementReductionRatio;
 }

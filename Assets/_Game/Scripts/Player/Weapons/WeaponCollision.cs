@@ -60,8 +60,13 @@ public class WeaponCollision : MonoBehaviour
 
     private Vector2 CalculateDirection(Collider2D otherCollision)
     {
-        Vector2 direction = new Vector2(_weaponSystem.CurrentMeleeAttack.KnockbackForceModifier.x * transform.right.x,
+        // make sure knockback is relative to both colliders
+        float relativeDirection = PhysicsHelper.RelativeDirection
+            (transform.position, otherCollision.transform.position);
+        Vector2 direction = new Vector2
+            (_weaponSystem.CurrentMeleeAttack.KnockbackForceModifier.x * relativeDirection,
                     _weaponSystem.CurrentMeleeAttack.KnockbackForceModifier.y);
+        /*
         if (_weaponSystem.CurrentMeleeAttack.AddReverseDirection)
         {
             Vector2 reverseForce = (transform.position - otherCollision.transform.position) * -1;
@@ -70,6 +75,7 @@ public class WeaponCollision : MonoBehaviour
             // combine with original force adjustment
             direction += reverseForce;
         }
+        */
         // ensure direction can be modified with strength later
         direction.Normalize();
         return direction;

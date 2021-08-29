@@ -46,7 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageAmount: 1
-  _knockbackAmount: 35
+  _knockbackAmount: 25
+  _knockbackDirection: {x: 1, y: 0.5}
   _knockbackDuration: 0.25
   _hitFrequency: 0.5
   _layersToHit:

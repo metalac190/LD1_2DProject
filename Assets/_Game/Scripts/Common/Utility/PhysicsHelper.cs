@@ -51,4 +51,43 @@ public static class PhysicsHelper
 
         return reverseVector;
     }
+
+    //returns -1 when to the left, 1 to the right, and 0 for forward/backward
+    public static float RelativeDirection(Vector3 fwd, Vector3 targetDir, Vector3 up)
+    {
+        Vector3 perp = Vector3.Cross(fwd, targetDir);
+        float dir = Vector3.Dot(perp, up);
+
+        if (dir > 0.0f)
+        {
+            return 1.0f;
+        }
+        else if (dir < 0.0f)
+        {
+            return -1.0f;
+        }
+        else
+        {
+            return 0.0f;
+        }
+    }
+
+    // returns 1 if relative is to the right of original, -1 if it's to the left
+    public static float RelativeDirection(Vector2 originalposition, Vector2 relativePosition)
+    {
+        if (originalposition.x <= relativePosition.x)
+        {
+            return 1.0f;
+        }
+        else
+        {
+            return -1.0f;
+        }
+    }
+
+    // returns -1 when left, 1 when right, 0 when aligned
+    public static float AngleDir(Vector2 A, Vector2 B)
+    {
+        return -A.x * B.y + A.y * B.x;
+    }
 }

@@ -23,7 +23,6 @@ MonoBehaviour:
     _playerForwardAmount: 0
     _knockbackAmount: 0
     _knockbackForceModifier: {x: 0.5, y: 1}
-    _addReverseDirection: 1
     _knockbackDuration: 0.5
     _movementReductionRatio: 0.1
   _groundFinisher:
@@ -32,10 +31,9 @@ MonoBehaviour:
     _activeDuration: 0.15
     _endDelay: 0.05
     _playerForwardAmount: 3
-    _knockbackAmount: 10
-    _knockbackForceModifier: {x: 0.5, y: 1}
-    _addReverseDirection: 1
-    _knockbackDuration: 0.5
+    _knockbackAmount: 20
+    _knockbackForceModifier: {x: 1, y: 0.5}
+    _knockbackDuration: 0.25
     _movementReductionRatio: 0.3
   _airAttack:
     _damage: 1
@@ -45,7 +43,6 @@ MonoBehaviour:
     _playerForwardAmount: 0
     _knockbackAmount: 0
     _knockbackForceModifier: {x: 1, y: 0}
-    _addReverseDirection: 1
     _knockbackDuration: 0.5
     _movementReductionRatio: 0.2
   _airFinisher:
@@ -54,10 +51,9 @@ MonoBehaviour:
     _activeDuration: 0.15
     _endDelay: 0.2
     _playerForwardAmount: 0
-    _knockbackAmount: 5
+    _knockbackAmount: 15
     _knockbackForceModifier: {x: 1, y: 1}
-    _addReverseDirection: 1
-    _knockbackDuration: 0.5
+    _knockbackDuration: 0.25
     _movementReductionRatio: 0.4
   _wallAttack:
     _damage: 1
@@ -67,7 +63,6 @@ MonoBehaviour:
     _playerForwardAmount: 0
     _knockbackAmount: 5
     _knockbackForceModifier: {x: 0.5, y: 1}
-    _addReverseDirection: 1
     _knockbackDuration: 0.5
     _movementReductionRatio: 0.5
   _wallFinisher:
@@ -78,7 +73,6 @@ MonoBehaviour:
     _playerForwardAmount: 0
     _knockbackAmount: 5
     _knockbackForceModifier: {x: 0, y: 1}
-    _addReverseDirection: 1
     _knockbackDuration: 0.5
     _movementReductionRatio: 0.5
   _bounceAttack:
@@ -87,8 +81,7 @@ MonoBehaviour:
     _activeDuration: 0.1
     _endDelay: 0.1
     _playerForwardAmount: 5
-    _knockbackAmount: 5
-    _knockbackForceModifier: {x: 0, y: 1}
-    _addReverseDirection: 1
+    _knockbackAmount: 10
+    _knockbackForceModifier: {x: 1, y: 1}
     _knockbackDuration: 0.5
     _movementReductionRatio: 0.2

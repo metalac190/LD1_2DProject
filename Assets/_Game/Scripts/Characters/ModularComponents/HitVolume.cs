@@ -16,7 +16,9 @@ public class HitVolume : MonoBehaviour
     [SerializeField]
     private int _damageAmount = 1;
     [SerializeField]
-    private float _knockbackAmount = 10;
+    private float _knockbackAmount = 5;
+    [SerializeField]
+    private Vector2 _knockbackDirection = new Vector2(1, 1); // note, direction relative to received being to the right
     [SerializeField]
     private float _knockbackDuration = .2f;
     [SerializeField]
@@ -51,6 +53,8 @@ public class HitVolume : MonoBehaviour
         {
             Physics2D.IgnoreCollision(collider, _hitCollider);
         }
+
+        _knockbackDirection.Normalize();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -67,9 +71,15 @@ public class HitVolume : MonoBehaviour
 
     private void HitObject(Collider2D collision, ReceiveHit hitable)
     {
-        Vector2 reverseVector = PhysicsHelper.ReverseVector(transform.position, collision.transform.position);
+        float relativeDirection = PhysicsHelper.RelativeDirection
+            (transform.position, collision.transform.position);
+        Debug.Log("Relative Direction: " + relativeDirection);
+        Vector2 knockbackDirection = new Vector2
+            (_knockbackDirection.x * relativeDirection, _knockbackDirection.y);
+        Debug.Log("Knockback Direction: " + knockbackDirection);
+        //Vector2 reverseVector = PhysicsHelper.ReverseVector(transform.position, collision.transform.position);
         HitData hitData = new HitData(hitable.transform,
-            _damageAmount, reverseVector, _knockbackAmount, _knockbackDuration);
+            _damageAmount, knockbackDirection, _knockbackAmount, _knockbackDuration);
         hitable.Hit(hitData);
         Hit?.Invoke(hitable.gameObject);
         // temporarily disable hit damage
